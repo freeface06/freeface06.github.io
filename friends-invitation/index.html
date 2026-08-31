@@ -32,8 +32,23 @@
       --spring-ease: cubic-bezier(0.175, 0.885, 0.32, 1.275);
       --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    * { 
+      box-sizing: border-box; margin: 0; padding: 0;
+      scrollbar-width: none !important; /* Firefox */
+      -ms-overflow-style: none !important; /* IE/Edge */
+    }
+    *::-webkit-scrollbar {
+      display: none !important; /* Chrome, Safari, Opera */
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+    html { 
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -44,6 +59,8 @@
       position: relative;
       -webkit-font-smoothing: antialiased;
       padding-bottom: 58px;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
     }
     a { text-decoration: none; color: inherit; }
     button { background: none; border: none; color: inherit; font: inherit; cursor: pointer; }

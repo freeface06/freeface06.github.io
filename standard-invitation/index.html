@@ -26,6 +26,21 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+html {
+  overflow-x: hidden;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 body {
@@ -37,6 +52,8 @@ body {
   word-break: keep-all;
   max-width: 480px;
   margin: 0 auto;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .en { font-family: 'Pretendard', sans-serif; letter-spacing: 2px; }
