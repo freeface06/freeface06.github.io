@@ -1239,12 +1239,12 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     }
     /* ============================================ */
-    /* CINEMATIC 3D DOOR WALK-THROUGH OPENING       */
+    /* RESPONSIVE GRAND OPAQUE 3D WEDDING DOORS     */
     /* ============================================ */
     .doors-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
       z-index: 99999999; display: flex; justify-content: center; align-items: center;
-      background: #000000;
+      background: #0d0b09;
       perspective: 1200px;
       overflow: hidden;
       cursor: pointer;
@@ -1254,7 +1254,7 @@
       opacity: 0; visibility: hidden; pointer-events: none;
     }
     
-    /* 3D Camera Stage (Dolly Zoom-In Effect) */
+    /* 3D Camera Stage (Constrained to max-width 480px for standard mobile viewport) */
     .doors-stage {
       position: relative; width: 100%; max-width: 480px; height: 100%;
       perspective: 1000px;
@@ -1314,13 +1314,16 @@
       z-index: 3;
     }
 
-    /* Left & Right Door Leaves (Using labinium arched gold glass doors) */
+    /* Left & Right Door Leaves (100% Responsive Texture Alignment) */
     .door-leaf {
       position: absolute; top: 0; width: 50%; height: 100%;
       background-image: url('images/door_panels.jpg');
       background-size: 200% 100%;
       background-repeat: no-repeat;
       transform-style: preserve-3d;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      will-change: transform;
       transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1), filter 1.4s ease;
       box-shadow: 0 0 40px rgba(0,0,0,0.5);
     }
@@ -1328,13 +1331,13 @@
       left: 0;
       background-position: left center;
       transform-origin: 0% 50%;
-      border-right: 1px solid rgba(212, 175, 120, 0.5);
+      border-right: 1px solid rgba(180, 140, 90, 0.4);
     }
     .door-leaf.right {
       right: 0;
       background-position: right center;
       transform-origin: 100% 50%;
-      border-left: 1px solid rgba(212, 175, 120, 0.5);
+      border-left: 1px solid rgba(180, 140, 90, 0.4);
     }
 
     /* 3D Door Swing Animation */
