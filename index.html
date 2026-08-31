@@ -2488,14 +2488,14 @@
       <span class="story-label">우리 스토리</span>
     </div>
     <!-- Story 2: Hojeong (Groom) -->
-    <div class="story-bubble" onclick="scrollToSection('post-invitation')">
+    <div class="story-bubble" onclick="openProfileModal('groom')" title="신랑 이호정 프로필">
       <div class="story-avatar-wrap">
         <img src="images/gallery_1.jpg" alt="hojeong">
       </div>
       <span class="story-label">신랑 이호정</span>
     </div>
     <!-- Story 3: Dasol (Bride) -->
-    <div class="story-bubble" onclick="scrollToSection('post-invitation')">
+    <div class="story-bubble" onclick="openProfileModal('bride')" title="신부 전다솔 프로필">
       <div class="story-avatar-wrap">
         <img src="images/gallery_2.jpg" alt="dasol">
       </div>
@@ -3516,7 +3516,7 @@
       </div>
       <div class="profile-sheet-body">
         <!-- Groom Profile Card -->
-        <div class="profile-detail-card">
+        <div class="profile-detail-card" id="profile-card-groom">
           <div class="profile-detail-photo-wrap">
             <img src="images/gallery_1.jpg" alt="신랑 이호정" class="profile-detail-img">
             <div class="profile-role-tag groom">GROOM · 신랑</div>
@@ -3542,7 +3542,7 @@
         </div>
 
         <!-- Bride Profile Card -->
-        <div class="profile-detail-card">
+        <div class="profile-detail-card" id="profile-card-bride">
           <div class="profile-detail-photo-wrap">
             <img src="images/gallery_2.jpg" alt="신부 전다솔" class="profile-detail-img">
             <div class="profile-role-tag bride">BRIDE · 신부</div>
@@ -4703,10 +4703,21 @@
     }
 
     /* Groom & Bride Profile Modal Handlers */
-    function openProfileModal() {
+    function openProfileModal(focusType = 'all') {
       const overlay = document.getElementById('groom-bride-profile-modal-overlay');
       if (overlay) {
         overlay.classList.add('active');
+        if (focusType === 'groom') {
+          setTimeout(() => {
+            const groomCard = document.getElementById('profile-card-groom');
+            if (groomCard) groomCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        } else if (focusType === 'bride') {
+          setTimeout(() => {
+            const brideCard = document.getElementById('profile-card-bride');
+            if (brideCard) brideCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        }
         pushModalToHistory('profile-modal', (fromHistory) => {
           overlay.classList.remove('active');
         });
