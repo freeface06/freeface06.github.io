@@ -1228,29 +1228,60 @@
     let mapInitialized = false;
     function tryInitMap() {
       if (mapInitialized) return;
-      if (window.naver && window.naver.maps) {
-        mapInitialized = true;
-        initInteractiveMap();
+      if (window.naver && window.naver.maps && !window.naver.maps._authFailed) {
+        try {
+          mapInitialized = true;
+          initInteractiveMap();
+        } catch(e) {
+          console.log('Naver Maps init error:', e);
+          showFallbackMap();
+        }
       } else {
         let attempts = 0;
         const checkTimer = setInterval(() => {
           attempts++;
-          if (window.naver && window.naver.maps) {
+          if (window.naver && window.naver.maps && !window.naver.maps._authFailed) {
             clearInterval(checkTimer);
             if (!mapInitialized) {
-              mapInitialized = true;
-              initInteractiveMap();
+              try {
+                mapInitialized = true;
+                initInteractiveMap();
+              } catch(e) {
+                showFallbackMap();
+              }
             }
-          } else if (attempts > 15) {
+          } else if (attempts > 20) {
             clearInterval(checkTimer);
+            showFallbackMap();
           }
-        }, 300);
+        }, 500);
       }
+    }
+
+    function showFallbackMap() {
+      const mapEl = document.getElementById('interactiveMap');
+      if (!mapEl) return;
+      mapEl.innerHTML = `
+        <a href="https://map.naver.com/v5/search/%EB%9D%BC%EB%B9%84%EB%8B%88%EC%9B%80" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;position:relative;text-decoration:none;cursor:pointer;">
+          <img src="https://naveropenapi.apigw.ntruss.com/map-static/v2/raster-cors?w=600&h=300&center=127.12354,37.53856&level=16&scale=2&markers=type:d|size:mid|pos:127.12354 37.53856|label:라비니움&X-NCP-APIGW-API-KEY-ID=lstn6qo079"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+               style="width:100%;height:100%;object-fit:cover;" alt="라비니움 위치">
+          <div style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f8f9fa,#e9ecef);gap:12px;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <div style="font-weight:700;font-size:1rem;color:#333;">라비니움 (LABINIUM)</div>
+            <div style="font-size:0.82rem;color:#666;">서울 강동구 천호대로 1026-1</div>
+            <div style="font-size:0.78rem;color:#0095f6;font-weight:600;margin-top:4px;">네이버 지도에서 보기 ></div>
+          </div>
+          <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;font-size:0.78rem;font-weight:600;padding:6px 16px;border-radius:20px;white-space:nowrap;pointer-events:none;">
+            라비니움 (천호역 6번 출구 앞) - 터치하여 열기
+          </div>
+        </a>
+      `;
     }
 
     function initInteractiveMap() {
       const mapEl = document.getElementById('interactiveMap');
-      if (!mapEl || !window.naver || !window.naver.maps) return;
+      if (!mapEl || !window.naver || !window.naver.maps) { showFallbackMap(); return; }
 
       const lat = 37.53856;
       const lng = 127.12354;
