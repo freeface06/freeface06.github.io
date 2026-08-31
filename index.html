@@ -1267,34 +1267,31 @@
       transform: scale(2.6);
     }
 
-    /* Behind Door: Wedding Hall with Depth & Flare */
+    /* Pure White Radiant Light Behind Doors */
     .doors-interior-view {
-      position: absolute; inset: -20px;
-      background: url('images/wedding_hall.jpg') center center/cover no-repeat;
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, #ffffff 20%, #fffbf2 60%, #faefe0 100%);
       transform: scale(1);
-      filter: brightness(0.6) blur(1.5px);
-      transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.6s ease;
       z-index: 1;
     }
     .doors-overlay.opening .doors-interior-view {
-      transform: scale(1.15);
-      filter: brightness(1.15) blur(0px);
+      transform: scale(1.2);
     }
 
-    /* Radiant Light Burst (Spilling from behind opening doors) */
+    /* Radiant Light Burst (Spilling from behind opening doors from the start) */
     .doors-light-burst {
       position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 245, 1) 0%, rgba(255, 235, 190, 0.9) 25%, rgba(255, 220, 160, 0.4) 55%, transparent 75%);
-      opacity: 0;
-      transform: scale(0.6);
-      transition: opacity 1.1s cubic-bezier(0.2, 0.8, 0.4, 1) 0.3s, transform 1.8s ease 0.2s;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 248, 220, 0.95) 30%, rgba(255, 235, 190, 0.6) 60%, rgba(255, 255, 255, 0.2) 80%);
+      opacity: 0.7;
+      transform: scale(0.8);
+      transition: opacity 1.2s ease, transform 1.8s ease;
       pointer-events: none;
       z-index: 4;
       mix-blend-mode: screen;
     }
     .doors-overlay.opening .doors-light-burst {
       opacity: 1;
-      transform: scale(2.2);
+      transform: scale(2.4);
     }
 
     /* Full Flash Transition to Main Feed */
@@ -1307,7 +1304,7 @@
       z-index: 10;
     }
     .doors-overlay.opening .doors-white-flash {
-      opacity: 0.95;
+      opacity: 0.98;
     }
 
     /* Door Panels Container */
@@ -1350,13 +1347,14 @@
       filter: brightness(1.25) drop-shadow(-15px 0 30px rgba(0,0,0,0.6));
     }
 
-    /* Door Center Seam Line */
+    /* Center Door Light Seam (Glowing light slit between doors) */
     .doors-center-shadow {
       position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 4px; height: 100%;
-      background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(212,175,120,0.6) 50%, rgba(0,0,0,0.4) 100%);
+      width: 2px; height: 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,245,210,0.95) 50%, rgba(255,255,255,0.4) 100%);
+      box-shadow: 0 0 10px rgba(255, 240, 200, 0.8);
       z-index: 5;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.25s ease;
     }
     .doors-overlay.opening .doors-center-shadow {
       opacity: 0;
