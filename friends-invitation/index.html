@@ -402,13 +402,13 @@
     .tt-info .tt-title { font-weight: 700; font-size: 0.9rem; color: var(--text-main); margin-bottom: 2px; }
     .tt-info .tt-desc { font-size: 0.78rem; color: var(--text-dim); }
 
-    /* RSVP Poll Sticker Card with Confetti Explosion */
+    /* RSVP Poll Feed Post Card */
     .rsvp-poll-card {
-      background: #fafafa; border: 1px solid var(--border); border-radius: 16px;
-      margin: 14px; padding: 22px 18px; text-align: center; position: relative; overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+      background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 14px;
+      margin: 0 14px 12px; padding: 22px 16px; text-align: center; position: relative; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
-    .rsvp-poll-title { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .rsvp-poll-title { font-size: 1.08rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
     .rsvp-poll-sub { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 16px; }
     .rsvp-choices { display: flex; flex-direction: column; gap: 10px; }
     .rsvp-choice-btn {
@@ -447,11 +447,12 @@
       pointer-events: none; z-index: 9999999; display: none;
     }
 
-    /* Bank Section with Slide Transitions */
+    /* Bank Feed Post Card */
     .bank-card-wrap {
-      background: #fafafa; border: 1px solid var(--border); border-radius: 16px;
-      margin: 14px; padding: 20px 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 14px;
+      margin: 0 14px 12px; padding: 20px 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
+    .bank-card-title { text-align: center; margin-bottom: 14px; font-weight: 700; font-size: 1.05rem; color: #000; }
     .bank-tab-header { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 14px; position: relative; }
     .bank-tab-btn {
       flex: 1; text-align: center; padding: 11px; font-weight: 600; font-size: 0.92rem;
@@ -471,8 +472,11 @@
     }
     .copy-chip:active { transform: scale(0.9); background: #e0e0e0; }
 
-    /* Comments Section */
-    .comments-sec-wrap { padding: 0 14px; margin-top: 10px; }
+    /* Comments Feed Post Box */
+    .comments-feed-box {
+      background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 14px;
+      margin: 0 14px 12px; padding: 16px 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
     .view-all-comments-link {
       color: var(--text-dim); margin-bottom: 12px; font-size: 0.82rem; font-weight: 600;
       cursor: pointer; display: inline-block; transition: color 0.15s;
@@ -918,71 +922,189 @@
     </div>
   </article>
 
-  <!-- RSVP Poll Sticker Section with Confetti -->
-  <section id="rsvp-sec" class="rsvp-poll-card reveal">
-    <div class="rsvp-poll-title">참석 여부 투표</div>
-    <div class="rsvp-poll-sub">소중한 발걸음을 미리 알려주시면 큰 도움이 됩니다.</div>
-    <div class="rsvp-choices">
-      <button class="rsvp-choice-btn tap-spring" onclick="selectPoll(true, this)">YES! 참석할게요</button>
-      <button class="rsvp-choice-btn tap-spring" onclick="selectPoll(false, this)">NO, 마음으로 축하할게요</button>
+  <!-- Feed Post 4: RSVP Poll (참석 여부 투표) -->
+  <article class="feed-post reveal" id="rsvp-sec">
+    <div class="post-header">
+      <div class="post-header-avatar"><img src="../images/profile.jpg" alt="avatar"></div>
+      <div class="post-header-info">
+        <div class="post-user-row"><span class="post-username">hojeong_x_dasol</span><svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <div class="post-location-tag">Wedding RSVP Poll</div>
+      </div>
+      <svg class="post-header-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     </div>
-    <div id="rsvp-form" class="rsvp-form-drawer">
-      <input type="text" placeholder="성함" class="rsvp-input" id="rsvpName">
-      <input type="number" placeholder="동행 인원 (본인 포함)" class="rsvp-input" id="rsvpCount" value="1">
-      <button class="rsvp-submit-btn tap-spring" onclick="submitRSVP()">참석 정보 제출</button>
+    
+    <div class="rsvp-poll-card">
+      <div class="rsvp-poll-title">참석 여부 투표</div>
+      <div class="rsvp-poll-sub">소중한 발걸음을 미리 알려주시면 큰 도움이 됩니다.</div>
+      <div class="rsvp-choices">
+        <button class="rsvp-choice-btn tap-spring" onclick="selectPoll(true, this)">YES! 참석할게요</button>
+        <button class="rsvp-choice-btn tap-spring" onclick="selectPoll(false, this)">NO, 마음으로 축하할게요</button>
+      </div>
+      <div id="rsvp-form" class="rsvp-form-drawer">
+        <input type="text" placeholder="성함" class="rsvp-input" id="rsvpName">
+        <input type="number" placeholder="동행 인원 (본인 포함)" class="rsvp-input" id="rsvpCount" value="1">
+        <button class="rsvp-submit-btn tap-spring" onclick="submitRSVP()">참석 정보 제출</button>
+      </div>
     </div>
-  </section>
 
-  <!-- Bank Section -->
-  <section id="bank-sec" class="bank-card-wrap reveal">
-    <div style="text-align:center; margin-bottom: 12px; font-weight: 700; font-size: 0.98rem; color: #000;">마음 전하실 곳</div>
-    <div class="bank-tab-header">
-      <div class="bank-tab-btn active" onclick="switchBankTab('groom', this)">신랑측</div>
-      <div class="bank-tab-btn" onclick="switchBankTab('bride', this)">신부측</div>
-    </div>
-    <div id="bank-groom">
-      <div class="bank-row-item">
-        <div>
-          <div style="font-weight:600; font-size:0.88rem; color:#000;">국민은행 123456-00-123456</div>
-          <div style="font-size:0.78rem; color:var(--text-dim); margin-top:2px;">예금주: 이호정</div>
+    <!-- Action Bar -->
+    <div class="post-action-bar">
+      <div class="action-group-left">
+        <div class="action-btn-item tap-spring" onclick="toggleLike(this)">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M12 21.05l-1.45-1.32C5.4 15.03 2 11.95 2 8.15 2 5.07 4.42 2.65 7.5 2.65c1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.8-3.4 6.88-8.55 11.58L12 21.05z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="like-count">1,024</span>
         </div>
-        <button class="copy-chip tap-spring" onclick="copyText('123456-00-123456')">복사</button>
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button class="loc-btn tap-spring" style="background:#fee500; color:#000; border:none;" onclick="alert('카카오페이로 연결됩니다.')">카카오페이</button>
-        <button class="loc-btn tap-spring" style="background:#3182f6; color:#fff; border:none;" onclick="alert('토스로 연결됩니다.')">토스</button>
-      </div>
-    </div>
-    <div id="bank-bride" style="display:none;">
-      <div class="bank-row-item">
-        <div>
-          <div style="font-weight:600; font-size:0.88rem; color:#000;">신한은행 110-123-456789</div>
-          <div style="font-size:0.78rem; color:var(--text-dim); margin-top:2px;">예금주: 전다솔</div>
+        <div class="action-btn-item tap-spring" onclick="openCommentsSheet()">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>89</span>
         </div>
-        <button class="copy-chip tap-spring" onclick="copyText('110-123-456789')">복사</button>
+        <div class="action-btn-item tap-spring" onclick="openStoryViewer()">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M19 8l-4-4m4 4l-4 4m4-4H8a4 4 0 0 0-4 4v2m1 6l4 4m-4-4l4-4m-4 4h11a4 4 0 0 0 4-4v-2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>31</span>
+        </div>
+        <div class="action-btn-item tap-spring" onclick="copyText('https://wedding-invitation.com/hojeong-dasol')">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M22 2L2 9.2l8.8 3.5 3.5 8.8L22 2z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="10.8" y1="12.7" x2="21.5" y2="2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>114</span>
+        </div>
       </div>
-      <div style="display:flex; gap:8px;">
-        <button class="loc-btn tap-spring" style="background:#fee500; color:#000; border:none;" onclick="alert('카카오페이로 연결됩니다.')">카카오페이</button>
-        <button class="loc-btn tap-spring" style="background:#3182f6; color:#fff; border:none;" onclick="alert('토스로 연결됩니다.')">토스</button>
+      <svg class="action-svg tap-spring" viewBox="0 0 24 24" onclick="this.classList.toggle('saved')"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <!-- Caption -->
+    <div class="post-caption-wrap">
+      <span class="author">hojeong_x_dasol</span>소중한 발걸음을 미리 알려주시면 식사 및 좌석 준비에 큰 도움이 됩니다.
+      <div class="hashtags">#참석투표 #웨딩RSVP #축제에초대합니다</div>
+    </div>
+  </article>
+
+  <!-- Feed Post 5: Gift Account (마음 전하실 곳) -->
+  <article class="feed-post reveal" id="bank-sec">
+    <div class="post-header">
+      <div class="post-header-avatar"><img src="../images/profile.jpg" alt="avatar"></div>
+      <div class="post-header-info">
+        <div class="post-user-row"><span class="post-username">hojeong_x_dasol</span><svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <div class="post-location-tag">마음 전하실 곳 (신랑측 · 신부측)</div>
+      </div>
+      <svg class="post-header-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
+    </div>
+
+    <div class="bank-card-wrap">
+      <div class="bank-card-title">마음 전하실 곳</div>
+      <div class="bank-tab-header">
+        <div class="bank-tab-btn active" onclick="switchBankTab('groom', this)">신랑측</div>
+        <div class="bank-tab-btn" onclick="switchBankTab('bride', this)">신부측</div>
+      </div>
+      <div id="bank-groom">
+        <div class="bank-row-item">
+          <div>
+            <div style="font-weight:600; font-size:0.88rem; color:#000;">국민은행 123456-00-123456</div>
+            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:2px;">예금주: 이호정</div>
+          </div>
+          <button class="copy-chip tap-spring" onclick="copyText('123456-00-123456')">복사</button>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="loc-btn tap-spring" style="background:#fee500; color:#000; border:none;" onclick="alert('카카오페이로 연결됩니다.')">카카오페이</button>
+          <button class="loc-btn tap-spring" style="background:#3182f6; color:#fff; border:none;" onclick="alert('토스로 연결됩니다.')">토스</button>
+        </div>
+      </div>
+      <div id="bank-bride" style="display:none;">
+        <div class="bank-row-item">
+          <div>
+            <div style="font-weight:600; font-size:0.88rem; color:#000;">신한은행 110-123-456789</div>
+            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:2px;">예금주: 전다솔</div>
+          </div>
+          <button class="copy-chip tap-spring" onclick="copyText('110-123-456789')">복사</button>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="loc-btn tap-spring" style="background:#fee500; color:#000; border:none;" onclick="alert('카카오페이로 연결됩니다.')">카카오페이</button>
+          <button class="loc-btn tap-spring" style="background:#3182f6; color:#fff; border:none;" onclick="alert('토스로 연결됩니다.')">토스</button>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- Comments / Guestbook Section -->
-  <section id="comments-sec" class="comments-sec-wrap reveal">
-    <div id="view-all-comments-btn" class="view-all-comments-link tap-spring" onclick="openCommentsSheet()">
-      댓글 <span id="comments-count-badge">12</span>개 모두 보기
+    <!-- Action Bar -->
+    <div class="post-action-bar">
+      <div class="action-group-left">
+        <div class="action-btn-item tap-spring" onclick="toggleLike(this)">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M12 21.05l-1.45-1.32C5.4 15.03 2 11.95 2 8.15 2 5.07 4.42 2.65 7.5 2.65c1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.8-3.4 6.88-8.55 11.58L12 21.05z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="like-count">777</span>
+        </div>
+        <div class="action-btn-item tap-spring" onclick="openCommentsSheet()">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>52</span>
+        </div>
+        <div class="action-btn-item tap-spring" onclick="openStoryViewer()">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M19 8l-4-4m4 4l-4 4m4-4H8a4 4 0 0 0-4 4v2m1 6l4 4m-4-4l4-4m-4 4h11a4 4 0 0 0 4-4v-2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>19</span>
+        </div>
+        <div class="action-btn-item tap-spring" onclick="copyText('https://wedding-invitation.com/hojeong-dasol')">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M22 2L2 9.2l8.8 3.5 3.5 8.8L22 2z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="10.8" y1="12.7" x2="21.5" y2="2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>98</span>
+        </div>
+      </div>
+      <svg class="action-svg tap-spring" viewBox="0 0 24 24" onclick="this.classList.toggle('saved')"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <div id="comments-list">
-      <!-- Dynamically populated by JS with latest 2 preview comments -->
-    </div>
-  </section>
 
-  <!-- Sticky Comment Input Dock -->
-  <div class="comment-bar-dock">
-    <input type="text" id="comment-input-field" placeholder="축하 메시지 남기기..." onkeypress="if(event.key==='Enter')postComment()">
-    <button class="comment-submit-link" onclick="postComment()">게시</button>
-  </div>
+    <!-- Caption -->
+    <div class="post-caption-wrap">
+      <span class="author">hojeong_x_dasol</span>멀리서도 축복해 주시는 따뜻한 마음에 깊이 감사드립니다.
+      <div class="hashtags">#마음전하는곳 #축하감사합니다 #행복하게살겠습니다</div>
+    </div>
+  </article>
+
+  <!-- Feed Post 6: Guestbook & Comments (방명록) -->
+  <article class="feed-post reveal" id="comments-sec">
+    <div class="post-header">
+      <div class="post-header-avatar"><img src="../images/profile.jpg" alt="avatar"></div>
+      <div class="post-header-info">
+        <div class="post-user-row"><span class="post-username">hojeong_x_dasol</span><svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <div class="post-location-tag">축하 메시지 방명록</div>
+      </div>
+      <svg class="post-header-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
+    </div>
+
+    <div class="comments-feed-box">
+      <div id="view-all-comments-btn" class="view-all-comments-link tap-spring" onclick="openCommentsSheet()">
+        댓글 <span id="comments-count-badge">12</span>개 모두 보기
+      </div>
+      <div id="comments-list">
+        <!-- Dynamically populated by JS with latest 2 preview comments -->
+      </div>
+      <div class="comment-bar-dock" style="margin-top: 10px; border-top: 1px solid var(--border-subtle); padding: 10px 0 0; background: transparent;">
+        <input type="text" id="comment-input-field" placeholder="축하 메시지 남기기..." onkeypress="if(event.key==='Enter')postComment()">
+        <button class="comment-submit-link" onclick="postComment()">게시</button>
+      </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="post-action-bar">
+      <div class="action-group-left">
+        <div class="action-btn-item tap-spring" onclick="toggleLike(this)">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M12 21.05l-1.45-1.32C5.4 15.03 2 11.95 2 8.15 2 5.07 4.42 2.65 7.5 2.65c1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.8-3.4 6.88-8.55 11.58L12 21.05z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="like-count">2,026</span>
+        </div>
+        <div class="action-btn-item tap-spring" onclick="openCommentsSheet()">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>12</span>
+        </div>
+        <div class="action-btn-item tap-spring" onclick="openStoryViewer()">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M19 8l-4-4m4 4l-4 4m4-4H8a4 4 0 0 0-4 4v2m1 6l4 4m-4-4l4-4m-4 4h11a4 4 0 0 0 4-4v-2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>45</span>
+        </div>
+        <div class="action-btn-item tap-spring" onclick="copyText('https://wedding-invitation.com/hojeong-dasol')">
+          <svg class="action-svg" viewBox="0 0 24 24"><path d="M22 2L2 9.2l8.8 3.5 3.5 8.8L22 2z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="10.8" y1="12.7" x2="21.5" y2="2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>203</span>
+        </div>
+      </div>
+      <svg class="action-svg tap-spring" viewBox="0 0 24 24" onclick="this.classList.toggle('saved')"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <!-- Caption -->
+    <div class="post-caption-wrap">
+      <span class="author">hojeong_x_dasol</span>남겨주신 소중한 축하 메시지 하나하나 마음 깊이 간직하겠습니다.
+      <div class="hashtags">#방명록 #축하메시지 #감사합니다</div>
+    </div>
+  </article>
 
   <!-- ==================================================== -->
   <!-- REAL INSTAGRAM LIGHT THEME BOTTOM NAVIGATION BAR      -->
