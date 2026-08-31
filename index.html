@@ -753,21 +753,15 @@
     }
     .copy-chip:active { transform: scale(0.9); background: #e0e0e0; }
 
-    /* Comments Feed Post Box */
-    .comments-feed-box {
-      background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 14px;
-      margin: 0 14px 12px; padding: 16px 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-    }
-    .view-all-comments-link {
     /* ==================================================== */
     /* REAL INSTAGRAM COMMENTS UI (SCREENSHOT IMAGE 2 STYLE) */
     /* ==================================================== */
     .ig-comment-sheet-card {
       background: #ffffff;
       border: 1px solid #e8e8e8;
-      border-radius: 18px 18px 14px 14px;
+      border-radius: 18px;
       margin: 0 12px 14px;
-      padding: 10px 14px 12px;
+      padding: 12px 14px 14px;
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
       overflow: hidden;
     }
@@ -776,7 +770,7 @@
       height: 4px;
       background: #dbdbdb;
       border-radius: 2px;
-      margin: 2px auto 8px;
+      margin: 0 auto 10px;
     }
     .ig-sheet-title-bar {
       text-align: center;
@@ -806,17 +800,18 @@
       100% { opacity: 1; transform: translateY(0); }
     }
     .ig-comment-avatar {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
       background: #f0f0f0;
       border: 1px solid #e5e5e5;
+      display: block;
     }
     .ig-comment-avatar.nested-avatar {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
     }
     .ig-comment-main {
       flex: 1;
@@ -828,6 +823,7 @@
       gap: 6px;
       flex-wrap: wrap;
       margin-bottom: 2px;
+      line-height: 1.2;
     }
     .ig-comment-uname {
       font-weight: 700;
@@ -840,10 +836,10 @@
       color: #8e8e8e;
     }
     .ig-author-badge {
-      font-size: 0.70rem;
+      font-size: 0.68rem;
       color: #737373;
       font-weight: 600;
-      background: #f2f2f2;
+      background: #f0f0f0;
       padding: 1px 5px;
       border-radius: 4px;
     }
@@ -851,10 +847,12 @@
       width: 12px;
       height: 12px;
       fill: #8e8e8e;
+      display: inline-block;
+      vertical-align: middle;
     }
     .ig-comment-text {
       font-size: 0.86rem;
-      line-height: 1.42;
+      line-height: 1.4;
       color: #262626;
       word-break: break-word;
     }
@@ -885,7 +883,7 @@
     }
     .ig-reply-thread {
       margin-top: 8px;
-      margin-left: 8px;
+      margin-left: 6px;
       padding-left: 10px;
       border-left: 1.5px solid #efefef;
       display: flex;
@@ -901,10 +899,11 @@
       flex-shrink: 0;
       cursor: pointer;
       padding: 0 4px;
+      user-select: none;
     }
     .ig-comment-like-col svg {
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       fill: none;
       stroke: #8e8e8e;
       stroke-width: 1.8;
@@ -928,7 +927,7 @@
       font-weight: 600;
       color: #8e8e8e;
       cursor: pointer;
-      margin: 10px 0 2px;
+      margin: 10px 0 4px;
       display: inline-block;
       transition: color 0.15s;
     }
@@ -941,17 +940,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 4px 6px;
+      padding: 10px 2px 6px;
       border-top: 1px solid #f0f0f0;
       margin-top: 10px;
     }
     .ig-emoji-btn {
       background: none;
       border: none;
-      font-size: 1.32rem;
-      line-height: 1;
       cursor: pointer;
-      padding: 4px 5px;
+      padding: 3px;
       border-radius: 50%;
       transition: transform 0.18s var(--spring-ease);
       display: flex;
@@ -959,12 +956,13 @@
       justify-content: center;
     }
     .ig-emoji-btn:active {
-      transform: scale(1.4);
+      transform: scale(1.35);
     }
     .ig-emoji-svg {
       width: 22px;
       height: 22px;
       display: block;
+      pointer-events: none;
     }
 
     /* Real Instagram Comment Input Dock */
@@ -972,8 +970,8 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 6px;
-      padding: 4px 0 0;
+      margin-top: 8px;
+      padding: 2px 0 0;
     }
     .ig-input-avatar {
       width: 32px;
@@ -987,6 +985,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
     .ig-input-box-wrap {
       flex: 1;
@@ -994,9 +993,10 @@
       align-items: center;
       background: #fafafa;
       border: 1px solid #dbdbdb;
-      border-radius: 22px;
-      padding: 6px 12px;
-      gap: 8px;
+      border-radius: 20px;
+      padding: 6px 10px 6px 12px;
+      gap: 6px;
+      min-width: 0;
       transition: border-color 0.2s, background 0.2s;
     }
     .ig-input-box-wrap:focus-within {
@@ -1007,10 +1007,10 @@
       flex: 1;
       border: none;
       background: transparent;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       color: #262626;
       outline: none;
-      padding: 3px 0;
+      padding: 2px 0;
       min-width: 0;
       font-family: inherit;
     }
@@ -1020,12 +1020,12 @@
     .ig-input-tools {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-shrink: 0;
     }
     .ig-tool-svg {
-      width: 19px;
-      height: 19px;
+      width: 18px;
+      height: 18px;
       color: #8e8e8e;
       cursor: pointer;
       transition: color 0.15s;
@@ -1035,15 +1035,15 @@
       color: #262626;
     }
     .ig-tool-gif {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 800;
-      border: 1.5px solid #8e8e8e;
+      border: 1.2px solid #8e8e8e;
       color: #8e8e8e;
-      border-radius: 4px;
-      padding: 1px 3.5px;
+      border-radius: 3px;
+      padding: 0.5px 3px;
       cursor: pointer;
       letter-spacing: -0.4px;
-      line-height: 1;
+      line-height: 1.1;
       transition: color 0.15s, border-color 0.15s;
       user-select: none;
     }
@@ -1056,10 +1056,10 @@
       border: none;
       color: #0095f6;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       cursor: pointer;
       padding: 4px 6px;
-      opacity: 0.4;
+      opacity: 0.35;
       pointer-events: none;
       transition: opacity 0.2s, transform 0.15s;
       flex-shrink: 0;
@@ -2723,20 +2723,10 @@
     }
 
     function quickReact(type, btn) {
-      const phrases = {
-        heart: '축하해요!',
-        clap: '행복하세요!',
-        fire: '최고의 결혼식!',
-        party: '꽃길만 걸으세요!',
-        plead: '너무 감동적이에요',
-        heart_eyes: '선남선녀 비주얼!',
-        wow: '눈이 부셔요',
-        joy: '항상 웃음 가득하길'
-      };
-      const text = phrases[type] || '축하합니다!';
+      const emoji = emojiMap[type] || '\u2764\uFE0F';
       const input = document.getElementById('comment-input-field');
       if (input) {
-        input.value += (input.value ? ' ' : '') + text;
+        input.value += (input.value ? ' ' : '') + emoji;
         handleCommentInputChange(input, 'comment-post-btn');
         input.focus();
       }
@@ -2747,20 +2737,10 @@
     }
 
     function quickReactSheet(type, btn) {
-      const phrases = {
-        heart: '축하해요!',
-        clap: '행복하세요!',
-        fire: '최고의 결혼식!',
-        party: '꽃길만 걸으세요!',
-        plead: '너무 감동적이에요',
-        heart_eyes: '선남선녀 비주얼!',
-        wow: '눈이 부셔요',
-        joy: '항상 웃음 가득하길'
-      };
-      const text = phrases[type] || '축하합니다!';
+      const emoji = emojiMap[type] || '\u2764\uFE0F';
       const input = document.getElementById('sheet-comment-input');
       if (input) {
-        input.value += (input.value ? ' ' : '') + text;
+        input.value += (input.value ? ' ' : '') + emoji;
         handleCommentInputChange(input, 'sheet-post-btn');
         input.focus();
       }
