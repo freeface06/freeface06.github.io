@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Pure Black Background with Subtle Border -->
+  <rect width="64" height="64" rx="16" fill="#000000" />
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#262626" stroke-width="1.5" />
+  
+  <!-- D & H Modern White Monogram -->
+  <g fill="#ffffff">
+    <!-- Letter D (Dasol) -->
+    <path d="M10 16 h8.5 c7.5 0 12.5 5.5 12.5 16 s-5 16 -12.5 16 h-8.5 v-32 z m4.5 4.2 v23.6 h4 c4.8 0 7.8 -3.8 7.8 -11.8 s-3 -11.8 -7.8 -11.8 h-4 z" />
+    
+    <!-- Letter H (Hojeong) -->
+    <path d="M35 16 h4.5 v13.5 h9 v-13.5 h4.5 v32 h-4.5 v-14.5 h-9 v14.5 h-4.5 v-32 z" />
+  </g>
+</svg>

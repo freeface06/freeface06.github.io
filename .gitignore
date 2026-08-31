@@ -1,0 +1,16 @@
+# Workspace temp files
+_workspace/
+
+# Agent system files
+.agents/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HOJEONG & DASOL - Wedding Invitation</title>
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=lstn6qo079"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+:root {
+  --bg-dark: #1a1a2e;
+  --bg-darker: #0f1626;
+  --gold: #d4a373;
+  --gold-dim: #f4a261;
+  --text-main: #f9f9f9;
+  --text-dim: #cccccc;
+  --film-bg: #111111;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+  word-break: keep-all;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.en { font-family: 'Pretendard', sans-serif; letter-spacing: 2px; }
+.gold { color: var(--gold); }
+.text-center { text-align: center; }
+
+/* Film Grain */
+.grain {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none; z-index: 9999;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.06"/></svg>');
+}
+
+/* Layout */
+.section {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* [0] Opening */
+#s0 {
+  background: #000;
+  padding: 20px;
+}
+.rating-box {
+  border: 2px solid var(--gold);
+  padding: 40px 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+  background: var(--bg-darker);
+}
+.rating-box h1 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 10px;
+}
+.rating-box p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+  color: var(--text-dim);
+}
+
+/* [1] Title Sequence */
+#s1 {
+  background: url('../images/wedding_main.jpg') center/cover no-repeat;
+}
+#s1::before {
+  content: '';
+  position: absolute;
+  top:0; left:0; width:100%; height:100%;
+  background: linear-gradient(to bottom, rgba(26,26,46,0.3), rgba(26,26,46,0.9));
+}
+.title-wrapper {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.main-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+.sub-title {
+  font-size: 1.2rem;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+}
+
+/* [2] Synopsis */
+.synopsis-text {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.synopsis-text p {
+  margin-bottom: 15px;
+}
+.parents-info {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+}
+.parent-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+.relation {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin: 0 10px;
+}
+.contact-btn {
+  background: none;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-family: inherit;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.contact-btn:hover {
+  background: var(--gold);
+  color: var(--bg-dark);
+}
+
+/* [3] Calendar */
+.calendar-wrapper {
+  background: var(--bg-darker);
+  border: 1px solid var(--gold);
+  padding: 30px 20px;
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+.cal-head { color: var(--gold); font-size: 0.9rem; }
+.cal-day { font-size: 1rem; color: var(--text-dim); }
+.cal-day.d-day {
+  color: var(--bg-darker);
+  background: var(--gold);
+  border-radius: 50%;
+  font-weight: bold;
+}
+.dday-text {
+  margin-top: 30px;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+/* [4] Gallery (Film Strip) */
+#s4 {
+  padding: 80px 0;
+}
+.gallery-title {
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+.film-strip {
+  width: 100%;
+  background: var(--film-bg);
+  padding: 20px 0;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  position: relative;
+}
+.film-strip::-webkit-scrollbar { display: none; }
+.film-strip::before, .film-strip::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 12px;
+  background-image: radial-gradient(circle at 10px 6px, var(--bg-dark) 4px, transparent 4.5px);
+  background-size: 20px 12px;
+  background-repeat: repeat-x;
+  z-index: 1;
+}
+.film-strip::before { top: 0; }
+.film-strip::after { bottom: 0; }
+
+.film-frame {
+  flex: 0 0 80vw;
+  max-width: 300px;
+  height: 400px;
+  margin: 0 10px;
+  background: #fff;
+  padding: 2px;
+  scroll-snap-align: center;
+}
+.film-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* [5] Location */
+.map-area {
+  width: 100%;
+  max-width: 400px;
+  height: 220px;
+  background: #111;
+  margin: 18px 0 16px;
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid #444;
+  overflow: hidden;
+}
+.map-badge-gold {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(17, 17, 17, 0.85);
+  backdrop-filter: blur(6px);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 4px;
+  border: 1px solid var(--gold);
+  z-index: 10;
+  pointer-events: none;
+}
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 24px;
+}
+.nav-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: 1px solid rgba(212, 163, 115, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s;
+}
+.nav-btn:hover { background: rgba(212, 163, 115, 0.15); border-color: var(--gold); }
+.nav-btn:active { transform: scale(0.96); }
+.nav-btn.primary-gold {
+  background: var(--gold);
+  color: #111111;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+.nav-btn.primary-gold:hover { background: #e0b080; }
+.accordion {
+  width: 100%;
+  max-width: 400px;
+  border-top: 1px solid #444;
+}
+.acc-item {
+  border-bottom: 1px solid #444;
+}
+.acc-title {
+  padding: 15px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.acc-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+.acc-item.active .acc-content {
+  max-height: 200px;
+  padding-bottom: 15px;
+}
+
+/* [6] RSVP */
+.rsvp-form {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-darker);
+  padding: 30px 20px;
+  border: 1px solid var(--gold);
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--gold-dim);
+}
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid #444;
+  color: var(--text-main);
+  font-family: inherit;
+}
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--gold);
+  color: var(--bg-dark);
+  border: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* [7] Account */
+.account-box {
+  width: 100%;
+  max-width: 400px;
+}
+.acc-bank {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+.copy-btn {
+  background: #333;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+
+/* [8] Guestbook */
+.review-section {
+  width: 100%;
+  max-width: 400px;
+}
+.review-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.stars {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.star-icon {
+  width: 24px; height: 24px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  cursor: pointer;
+}
+.star-icon.active { fill: var(--gold); }
+.review-input {
+  padding: 12px;
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+}
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.review-item {
+  padding: 15px;
+  background: var(--bg-darker);
+  border-left: 2px solid var(--gold);
+}
+.review-item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: var(--gold-dim);
+}
+
+/* [9] Ending Credits */
+#s9 {
+  text-align: center;
+  padding-bottom: 100px;
+}
+.credits-roll {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 40px;
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+.credits-content {
+  position: absolute;
+  width: 100%;
+  animation: scrollUp 15s linear infinite;
+}
+@keyframes scrollUp {
+  0% { top: 100%; }
+  100% { top: -150%; }
+}
+.credit-row {
+  margin-bottom: 15px;
+}
+.credit-role { font-size: 0.9rem; color: var(--gold-dim); }
+.credit-name { font-size: 1.1rem; }
+.footer-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+.the-end {
+  margin-top: 50px;
+  font-size: 2rem;
+  letter-spacing: 5px;
+}
+
+/* BGM Player */
+.bgm-player {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: rgba(26,26,46,0.8);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+.bgm-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--gold);
+}
+.rotating {
+  animation: rotate 4s linear infinite;
+}
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--gold);
+  color: var(--bg-dark);
+  padding: 10px 20px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: 0.3s;
+  pointer-events: none;
+  z-index: 9999;
+  font-weight: bold;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- BGM Player -->
+<div class="bgm-player" id="bgmToggle">
+  <svg class="bgm-icon" viewBox="0 0 24 24">
+    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+  </svg>
+</div>
+<audio id="bgmAudio" loop></audio>
+
+<!-- Toast -->
+<div class="toast" id="toastMsg">복사되었습니다.</div>
+
+<!-- [0] Opening -->
+<section id="s0" class="section">
+  <div class="rating-box">
+    <h1 class="gold">전체관람가</h1>
+    <p>제작연도: 2027</p>
+    <p>장르: 로맨스 / 드라마</p>
+    <p>상영시간: 평생</p>
+    <p>주연: 이호정, 전다솔</p>
+  </div>
+</section>
+
+<!-- [1] Title Sequence -->
+<section id="s1" class="section">
+  <div class="title-wrapper">
+    <div class="main-title en gold">HOJEONG & DASOL</div>
+    <div class="sub-title en">2027. 06. 19 SAT PM 2:00</div>
+    <div style="margin-top: 15px; font-size: 0.9rem;">라비니움 (LABINIUM)</div>
+  </div>
+</section>
+
+<!-- [2] Synopsis -->
+<section id="s2" class="section">
+  <h2 class="en gold" style="margin-bottom:30px;">Synopsis</h2>
+  <div class="synopsis-text">
+    <p>서로 다른 두 사람의 세계가 만나<br>하나의 결말을 향해 달려갑니다.</p>
+    <p>따뜻한 봄날 시작된 우리의 이야기가<br>이제 가장 아름다운 클라이맥스를 맞이하려 합니다.</p>
+    <p>이 특별한 영화의 프리미어 시사회에<br>소중한 당신을 초대합니다.</p>
+  </div>
+  <div class="parents-info">
+    <div class="parent-row">
+      <span>신랑 부모님</span>
+      <span class="relation">의 장남</span>
+      <span class="gold">이호정</span>
+    </div>
+    <div class="parent-row">
+      <span>신부 부모님</span>
+      <span class="relation">의 장녀</span>
+      <span class="gold">전다솔</span>
+    </div>
+  </div>
+  <button class="contact-btn">혼주에게 연락하기</button>
+</section>
+
+<!-- [3] Calendar (2027년 6월 19일) -->
+<section id="s3" class="section">
+  <h2 class="en gold" style="margin-bottom:30px;">Premiere Date</h2>
+  <div class="calendar-wrapper">
+    <h3 class="en" style="margin-bottom:10px;">June 2027</h3>
+    <div class="cal-grid">
+      <div class="cal-head">S</div><div class="cal-head">M</div><div class="cal-head">T</div><div class="cal-head">W</div><div class="cal-head">T</div><div class="cal-head">F</div><div class="cal-head">S</div>
+      <div></div><div></div><div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div>
+      <div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div>
+      <div class="cal-day">13</div><div class="cal-day">14</div><div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day d-day">19</div>
+      <div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div>
+      <div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div></div><div></div><div></div>
+    </div>
+    <div class="dday-text en gold" id="standardDDay">Coming Soon...</div>
+  </div>
+</section>
+
+<!-- [4] Gallery -->
+<section id="s4" class="section">
+  <h2 class="en gold gallery-title">Stills</h2>
+  <div class="film-strip">
+    <div class="film-frame"><img src="../images/gallery_1.jpg" alt="still"></div>
+    <div class="film-frame"><img src="../images/gallery_2.jpg" alt="still"></div>
+    <div class="film-frame"><img src="../images/gallery_3.jpg" alt="still"></div>
+    <div class="film-frame"><img src="../images/gallery_4.jpg" alt="still"></div>
+  </div>
+  <p style="margin-top:20px; font-size:0.8rem; color:var(--text-dim);">가로로 스와이프하여 감상하세요</p>
+</section>
+
+<!-- [5] Location -->
+<section id="s5" class="section">
+  <h2 class="en gold" style="margin-bottom:10px;">Location</h2>
+  <p style="color:var(--text-dim); margin-bottom:15px;">촬영 장소 안내</p>
+  <div style="font-weight:700; font-size:1.2rem; color:var(--gold); margin-bottom:4px;">라비니움 (LABINIUM)</div>
+  <p style="margin-bottom:16px; font-size:0.9rem;">서울시 강동구 천호대로 1026-1 (천호동) · 02-472-7004</p>
+  
+  <!-- Real Interactive Map Screen with Gold Pin & Controls -->
+  <div class="map-area">
+    <div id="standardMap" style="width:100%;height:100%;z-index:1;"></div>
+    <div class="map-badge-gold">라비니움 · 천호역 6번 출구</div>
+  </div>
+
+  <!-- 3 Balanced Navigation Action Buttons (Native App Direct Navigation) -->
+  <div class="nav-buttons">
+    <button class="nav-btn primary-gold" onclick="openNaverNavi()">네이버 지도</button>
+    <button class="nav-btn" onclick="openTmapNavi()">티맵</button>
+    <button class="nav-btn" onclick="openKakaoNavi()">카카오내비</button>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-item">
+      <div class="acc-title">지하철 이용시 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="acc-content">지하철 5호선 · 8호선 <strong>천호역 6번 출구</strong> 바로 앞 (도보 1분)</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-title">버스 이용시 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="acc-content">천호역 정류장 하차 (간선 130, 340, 341, 370 / 지선 3214, 3316 등)</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-title">주차 및 셔틀 안내 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="acc-content">천호역 지하공영주차장 지하 1·2층 이용<br>기둥번호 A~D 20~60번 사이 전용 셔틀/카트 상시 운행</div>
+    </div>
+  </div>
+</section>
+
+<!-- [6] RSVP -->
+<section id="s6" class="section">
+  <h2 class="en gold" style="margin-bottom:10px;">RSVP</h2>
+  <p style="margin-bottom:30px; text-align:center;">이 영화의 관객이 되어주세요.<br>참석 여부를 알려주시면 감사하겠습니다.</p>
+  <div class="rsvp-form">
+    <div class="form-group">
+      <label>성함</label>
+      <input type="text" placeholder="이름을 입력하세요">
+    </div>
+    <div class="form-group">
+      <label>참석 여부</label>
+      <select>
+        <option>참석하겠습니다</option>
+        <option>마음으로 축하하겠습니다</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>동행 인원</label>
+      <select>
+        <option>본인 외 0명</option>
+        <option>본인 외 1명</option>
+        <option>본인 외 2명</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>식사 여부</label>
+      <select>
+        <option>식사 예정</option>
+        <option>식사 안함</option>
+      </select>
+    </div>
+    <button class="submit-btn" onclick="alert('예약이 완료되었습니다. 감사합니다!');">관람 예약하기</button>
+  </div>
+</section>
+
+<!-- [7] Accounts -->
+<section id="s7" class="section">
+  <h2 class="en gold" style="margin-bottom:10px;">Sponsorship</h2>
+  <p style="margin-bottom:30px;">이 작품을 후원해 주세요</p>
+  <div class="account-box accordion">
+    <div class="acc-item">
+      <div class="acc-title">신랑측 마음 전하실 곳 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="acc-content">
+        <div class="acc-bank">
+          <div>국민 123-456-789012<br><small>예금주: 이호정</small></div>
+          <button class="copy-btn" onclick="copyText('123456789012')">복사</button>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-title">신부측 마음 전하실 곳 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="acc-content">
+        <div class="acc-bank">
+          <div>신한 098-765-432109<br><small>예금주: 전다솔</small></div>
+          <button class="copy-btn" onclick="copyText('098765432109')">복사</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- [8] Guestbook (Review) -->
+<section id="s8" class="section">
+  <h2 class="en gold" style="margin-bottom:10px;">Reviews</h2>
+  <p style="margin-bottom:30px;">관람평을 남겨주세요</p>
+  <div class="review-section">
+    <div class="review-input-area">
+      <div class="stars">
+        <svg class="star-icon active" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg class="star-icon active" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg class="star-icon active" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg class="star-icon active" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg class="star-icon active" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+      </div>
+      <input type="text" class="review-input" placeholder="이름" id="rName">
+      <input type="text" class="review-input" placeholder="한줄평을 남겨주세요" id="rText">
+      <button class="submit-btn" onclick="addReview()">등록하기</button>
+    </div>
+    <div class="review-list" id="rList">
+      <div class="review-item">
+        <div class="review-item-header">
+          <span>홍길동</span>
+          <span style="display:flex;gap:2px;">
+            <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </span>
+        </div>
+        <div>두 분의 앞날을 축복합니다! 멋진 영화네요.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- [9] Ending Credits -->
+<section id="s9" class="section">
+  <h2 class="en gold" style="margin-bottom:40px;">Credits</h2>
+  <div class="credits-roll">
+    <div class="credits-content">
+      <div class="credit-row"><div class="credit-role">Directed by</div><div class="credit-name">Hojeong & Dasol</div></div>
+      <div class="credit-row"><div class="credit-role">Starring</div><div class="credit-name">Hojeong<br>Dasol</div></div>
+      <div class="credit-row"><div class="credit-role">Produced by</div><div class="credit-name">Groom's Parents<br>Bride's Parents</div></div>
+      <div class="credit-row"><div class="credit-role">Music by</div><div class="credit-name">Wedding March</div></div>
+      <div class="credit-row"><div class="credit-role">Special Thanks to</div><div class="credit-name">All our Guests</div></div>
+    </div>
+  </div>
+  
+  <div class="footer-actions">
+    <button class="nav-btn">카카오톡 공유</button>
+    <button class="nav-btn" onclick="copyText('https://wedding-invitation.link')">링크 복사</button>
+  </div>
+  
+  <div class="the-end en gold">THE END</div>
+  <svg style="width:30px; margin-top:20px; fill:var(--gold);" viewBox="0 0 24 24">
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+  </svg>
+</section>
+
+<script>
+// 1. Intersection Observer for Fade-in & D-Day
+function updateStandardDDay() {
+  const target = new Date('2027-06-19T14:00:00+09:00');
+  const now = new Date();
+  const diff = target - now;
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  const el = document.getElementById('standardDDay');
+  if (el) {
+    el.textContent = days > 0 ? `Coming Soon... D-${days}` : (days === 0 ? 'Premiere Today! D-DAY' : `Premiered D+${Math.abs(days)}`);
+  }
+}
+updateStandardDDay();
+
+function initStandardMap() {
+  const mapEl = document.getElementById('standardMap');
+  if (!mapEl || !window.naver || !window.naver.maps) return;
+  const lat = 37.53856;
+  const lng = 127.12354;
+
+  const map = new naver.maps.Map('standardMap', {
+    center: new naver.maps.LatLng(lat, lng),
+    zoom: 16,
+    zoomControl: true,
+    zoomControlOptions: {
+      style: naver.maps.ZoomControlStyle.SMALL,
+      position: naver.maps.Position.TOP_RIGHT
+    },
+    mapTypeControl: false,
+    scaleControl: false,
+    logoControl: false,
+    mapDataControl: false
+  });
+
+  const marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(lat, lng),
+    map: map,
+    title: '라비니움',
+    icon: {
+      content: `<div style="display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.45));cursor:pointer;">
+        <div style="background:#111;color:#d4a373;font-weight:700;font-size:11.5px;padding:4px 9px;border-radius:6px;border:1.5px solid #d4a373;white-space:nowrap;margin-bottom:3px;">
+          라비니움
+        </div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#d4a373"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      </div>`,
+      size: new naver.maps.Size(50, 50),
+      anchor: new naver.maps.Point(25, 50)
+    }
+  });
+
+  naver.maps.Event.addListener(marker, 'click', () => openNaverNavi());
+}
+initStandardMap();
+
+/* Native App Deep Link & Route Navigation */
+function openNaverNavi() {
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const name = encodeURIComponent('라비니움');
+  const lat = '37.53856';
+  const lng = '127.12354';
+  if (isMobile) {
+    const appUrl = `nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${name}&appname=wedding.invitation`;
+    const webUrl = `https://map.naver.com/v5/search/${name}`;
+    const start = Date.now();
+    window.location.href = appUrl;
+    setTimeout(() => {
+      if (Date.now() - start < 2000) {
+        window.open(webUrl, '_blank');
+      }
+    }, 1200);
+  } else {
+    window.open(`https://map.naver.com/v5/search/${name}`, '_blank');
+  }
+}
+
+function openTmapNavi() {
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const name = encodeURIComponent('라비니움');
+  const lat = '37.53856';
+  const lng = '127.12354';
+  if (isMobile) {
+    const appUrl = `tmap://route?goalname=${name}&goallat=${lat}&goallng=${lng}`;
+    const webUrl = `https://tmap.life/search?name=${name}`;
+    const start = Date.now();
+    window.location.href = appUrl;
+    setTimeout(() => {
+      if (Date.now() - start < 2000) {
+        window.open(webUrl, '_blank');
+      }
+    }, 1200);
+  } else {
+    window.open(`https://tmap.life/search?name=${name}`, '_blank');
+  }
+}
+
+function openKakaoNavi() {
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const name = encodeURIComponent('라비니움');
+  const lat = '37.53856';
+  const lng = '127.12354';
+  if (isMobile) {
+    const appUrl = `kakaonavi://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${name}`;
+    const webUrl = `https://kko.to/DHljdO7Wlw`;
+    const start = Date.now();
+    window.location.href = appUrl;
+    setTimeout(() => {
+      if (Date.now() - start < 2000) {
+        window.open(webUrl, '_blank');
+      }
+    }, 1200);
+  } else {
+    window.open(`https://kko.to/DHljdO7Wlw`, '_blank');
+  }
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.section').forEach(sec => observer.observe(sec));
+
+// 2. Accordion
+document.querySelectorAll('.acc-title').forEach(title => {
+  title.addEventListener('click', () => {
+    const item = title.parentElement;
+    item.classList.toggle('active');
+  });
+});
+
+// 3. Copy to Clipboard & Toast
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast();
+    }).catch(() => {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); showToast(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+function showToast() {
+  const toast = document.getElementById('toastMsg');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// 4. BGM Toggle (Web Audio Synthesizer & Audio Fallback)
+const bgmToggle = document.getElementById('bgmToggle');
+const bgmAudio = document.getElementById('bgmAudio');
+let isPlaying = false;
+let audioCtx = null;
+let synthTimer = null;
+const melodyNotes = [
+  [293.66, 369.99, 440.00, 587.33],
+  [220.00, 277.18, 329.63, 440.00],
+  [246.94, 293.66, 369.99, 493.88],
+  [185.00, 220.00, 277.18, 369.99],
+  [196.00, 246.94, 293.66, 392.00],
+  [146.83, 220.00, 293.66, 440.00],
+  [196.00, 246.94, 293.66, 392.00],
+  [220.00, 277.18, 329.63, 440.00]
+];
+let chordIndex = 0;
+
+function playNote(freq, time, duration) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, time);
+  gain.gain.setValueAtTime(0.0001, time);
+  gain.gain.exponentialRampToValueAtTime(0.06, time + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(time);
+  osc.stop(time + duration);
+}
+
+function playMelodyLoop() {
+  if (!isPlaying || !audioCtx || audioCtx.state !== 'running') return;
+  const now = audioCtx.currentTime;
+  const chord = melodyNotes[chordIndex % melodyNotes.length];
+  chord.forEach((freq, idx) => {
+    playNote(freq, now + (idx * 0.4), 1.5);
+  });
+  chordIndex++;
+  synthTimer = setTimeout(playMelodyLoop, 1600);
+}
+
+function startBGM() {
+  if (bgmAudio && bgmAudio.src && bgmAudio.src !== window.location.href) {
+    bgmAudio.play().catch(e => console.log('Audio playback blocked:', e));
+  } else {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    chordIndex = 0;
+    playMelodyLoop();
+  }
+}
+
+function stopBGM() {
+  if (bgmAudio && bgmAudio.src && bgmAudio.src !== window.location.href) {
+    bgmAudio.pause();
+  }
+  if (synthTimer) {
+    clearTimeout(synthTimer);
+    synthTimer = null;
+  }
+  if (audioCtx && audioCtx.state === 'running') {
+    audioCtx.suspend();
+  }
+}
+
+bgmToggle.addEventListener('click', () => {
+  if (isPlaying) {
+    stopBGM();
+    bgmToggle.querySelector('.bgm-icon').classList.remove('rotating');
+  } else {
+    startBGM();
+    bgmToggle.querySelector('.bgm-icon').classList.add('rotating');
+  }
+  isPlaying = !isPlaying;
+});
+
+// 5. Add Review
+function addReview() {
+  const name = document.getElementById('rName').value;
+  const text = document.getElementById('rText').value;
+  if(!name || !text) return alert('이름과 내용을 입력해주세요.');
+  const list = document.getElementById('rList');
+  const item = document.createElement('div');
+  item.className = 'review-item';
+  item.innerHTML = `
+    <div class="review-item-header">
+      <span>${name}</span>
+      <span style="display:flex;gap:2px;">
+        <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <svg style="width:14px;height:14px;fill:var(--gold);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+      </span>
+    </div>
+    <div>${text}</div>
+  `;
+  list.prepend(item);
+  document.getElementById('rName').value = '';
+  document.getElementById('rText').value = '';
+}
+
+// 6. Rating Stars Interactive
+document.querySelectorAll('.star-icon').forEach((star, index, arr) => {
+  star.addEventListener('click', () => {
+    arr.forEach((s, i) => {
+      if(i <= index) s.classList.add('active');
+      else s.classList.remove('active');
+    });
+  });
+});
+</script>
+</body>
+</html>
