@@ -3781,8 +3781,12 @@
               <polygon points="-6,-7 6,-7 0,0" fill="#1a1a1a"/>
               <!-- Pin Circle Badge -->
               <circle cx="0" cy="-25" r="18" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
-              <!-- Wedding Ring PNG inside -->
-              <image href="images/wedding-ring.png" x="-12" y="-37" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
+              <!-- Wedding Ring Vector SVG inside -->
+              <g transform="translate(-11, -36)">
+                <path d="M5 7 L7.5 4 L10 7 L7.5 8.5 Z" fill="#ff3040" stroke="#ff3040" stroke-width="0.8" stroke-linejoin="round"/>
+                <circle cx="7.5" cy="13" r="4.8" stroke="#ff3040" stroke-width="1.8" fill="none"/>
+                <circle cx="13.5" cy="13" r="4.8" stroke="#1a1a1a" stroke-width="1.8" fill="none"/>
+              </g>
             </g>
           </svg>
 
@@ -3827,7 +3831,11 @@
           icon: {
             content: `<div style="width:44px;height:50px;display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.25));box-sizing:border-box;">
               <div style="width:44px;height:44px;border-radius:50%;background:#ffffff;border:2px solid #1a1a1a;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.12);box-sizing:border-box;position:relative;">
-                <img src="images/wedding-ring.png" alt="웨딩링" style="width:26px;height:26px;object-fit:contain;display:block;">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" style="display:block;">
+                  <path d="M5.5 7.5 L8 4.5 L10.5 7.5 L8 9 Z" fill="#ff3040" stroke="#ff3040" stroke-width="1" stroke-linejoin="round"/>
+                  <circle cx="8" cy="14" r="5" stroke="#ff3040" stroke-width="2" fill="none"/>
+                  <circle cx="14.5" cy="14" r="5" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+                </svg>
               </div>
               <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #1a1a1a;margin-top:-1px;"></div>
             </div>`,
