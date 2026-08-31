@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -473,6 +473,11 @@
 
     /* Comments Section */
     .comments-sec-wrap { padding: 0 14px; margin-top: 10px; }
+    .view-all-comments-link {
+      color: var(--text-dim); margin-bottom: 12px; font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; display: inline-block; transition: color 0.15s;
+    }
+    .view-all-comments-link:hover { color: var(--text-main); }
     .comment-row {
       display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;
       animation: commentFadeIn 0.4s var(--smooth-ease);
@@ -490,8 +495,9 @@
     .comment-body .time { font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
     .comment-like-icon {
       width: 14px; height: 14px; fill: none; stroke: var(--text-dim); stroke-width: 2;
-      margin-top: 4px; cursor: pointer; transition: transform 0.2s var(--spring-ease);
+      margin-top: 4px; cursor: pointer; transition: transform 0.2s var(--spring-ease), fill 0.2s, stroke 0.2s;
     }
+    .comment-like-icon.liked { fill: #ff3040; stroke: #ff3040; transform: scale(1.15); }
     .comment-like-icon:active { transform: scale(1.4); }
 
     /* Sticky Comment Input Dock */
@@ -507,8 +513,92 @@
     .comment-bar-dock input:focus { border-color: #aaa; }
     .comment-submit-link {
       color: var(--ig-blue); font-weight: 600; font-size: 0.9rem; transition: transform 0.15s;
+      background: none; border: none; cursor: pointer; padding: 4px;
     }
     .comment-submit-link:active { transform: scale(0.9); }
+
+    /* Instagram Comments Bottom Sheet Modal */
+    .comments-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
+      z-index: 2000; display: none; justify-content: center; align-items: flex-end;
+      opacity: 0; transition: opacity 0.3s var(--smooth-ease);
+    }
+    .comments-modal-overlay.active {
+      display: flex; opacity: 1;
+    }
+    .comments-sheet {
+      background: #ffffff; width: 100%; max-width: 480px;
+      max-height: 82vh; height: 75vh;
+      border-radius: 20px 20px 0 0;
+      display: flex; flex-direction: column;
+      transform: translateY(100%); transition: transform 0.35s var(--smooth-ease);
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+    }
+    .comments-modal-overlay.active .comments-sheet {
+      transform: translateY(0);
+    }
+    .sheet-handle-bar {
+      width: 40px; height: 4px; background: #dbdbdb; border-radius: 2px;
+      margin: 10px auto 4px; flex-shrink: 0;
+    }
+    .sheet-header {
+      padding: 8px 16px 12px; border-bottom: 1px solid var(--border-subtle);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .sheet-title {
+      font-size: 0.96rem; font-weight: 700; color: var(--text-main);
+      text-align: center; flex: 1; margin-left: 24px;
+    }
+    .sheet-close-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-main); padding: 4px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sheet-comments-body {
+      flex: 1; overflow-y: auto; padding: 14px 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sheet-comment-item {
+      display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;
+      animation: commentFadeIn 0.3s var(--smooth-ease);
+    }
+    .sheet-comment-avatar {
+      width: 34px; height: 34px; border-radius: 50%; background: #f0f0f0;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sheet-comment-content {
+      flex: 1; font-size: 0.86rem; line-height: 1.45; color: var(--text);
+    }
+    .sheet-comment-content .uname {
+      font-weight: 700; color: var(--text-main); margin-right: 6px;
+    }
+    .sheet-comment-meta {
+      display: flex; align-items: center; gap: 14px; margin-top: 4px;
+      font-size: 0.72rem; color: var(--text-dim); font-weight: 600;
+    }
+    .sheet-comment-meta span { cursor: pointer; }
+    .sheet-comment-heart {
+      width: 15px; height: 15px; fill: none; stroke: var(--text-dim); stroke-width: 2;
+      margin-top: 4px; cursor: pointer; transition: transform 0.2s, stroke 0.2s, fill 0.2s; flex-shrink: 0;
+    }
+    .sheet-comment-heart.liked {
+      fill: #ff3040; stroke: #ff3040; transform: scale(1.15);
+    }
+    .sheet-comment-heart:active { transform: scale(1.4); }
+    .sheet-input-dock {
+      padding: 10px 14px; border-top: 1px solid var(--border-subtle);
+      background: #ffffff; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .sheet-input-dock input {
+      flex: 1; background: #fafafa; border: 1px solid var(--border);
+      padding: 10px 14px; border-radius: 20px; font-size: 0.88rem; outline: none;
+      color: var(--text-main);
+    }
+    .sheet-input-dock input:focus { border-color: #999; }
+    .sheet-submit-btn {
+      background: none; border: none; color: var(--ig-blue); font-weight: 700;
+      font-size: 0.9rem; cursor: pointer; padding: 6px;
+    }
 
     /* ==================================================== */
     /* REAL INSTAGRAM LIGHT THEME BOTTOM NAVIGATION BAR      */
@@ -715,9 +805,9 @@
           <span class="like-count">2,026</span>
         </div>
         <!-- Comment + Count -->
-        <div class="action-btn-item tap-spring" onclick="scrollToSection('comments-sec')">
+        <div class="action-btn-item tap-spring" onclick="openCommentsSheet()">
           <svg class="action-svg" viewBox="0 0 24 24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>828</span>
+          <span id="post-comments-count">12</span>
         </div>
         <!-- Repost + Count -->
         <div class="action-btn-item tap-spring" onclick="openStoryViewer()">
@@ -880,28 +970,11 @@
 
   <!-- Comments / Guestbook Section -->
   <section id="comments-sec" class="comments-sec-wrap reveal">
-    <div style="color:var(--text-dim); margin-bottom: 12px; font-size: 0.82rem; font-weight: 600;">댓글 12개 모두 보기</div>
+    <div id="view-all-comments-btn" class="view-all-comments-link tap-spring" onclick="openCommentsSheet()">
+      댓글 <span id="comments-count-badge">12</span>개 모두 보기
+    </div>
     <div id="comments-list">
-      <div class="comment-row">
-        <div class="comment-thumb">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div class="comment-body">
-          <div><span class="uname">friend_sujin</span>결혼 진심으로 축하해! 축제 즐기러 갈게</div>
-          <div class="time">1시간 전</div>
-        </div>
-        <svg class="comment-like-icon" viewBox="0 0 24 24" onclick="toggleCommentLike(this)"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-      </div>
-      <div class="comment-row">
-        <div class="comment-thumb">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div class="comment-body">
-          <div><span class="uname">jungho_k</span>호정아 다솔아 행복하게 잘 살아라!</div>
-          <div class="time">30분 전</div>
-        </div>
-        <svg class="comment-like-icon" viewBox="0 0 24 24" onclick="toggleCommentLike(this)"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-      </div>
+      <!-- Dynamically populated by JS with latest 2 preview comments -->
     </div>
   </section>
 
@@ -986,6 +1059,26 @@
     </div>
   </div>
 
+  <!-- Instagram Comments Full Bottom Sheet Modal (댓글 전체보기 바텀시트) -->
+  <div id="comments-modal-overlay" class="comments-modal-overlay" onclick="handleCommentsOverlayClick(event)">
+    <div class="comments-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">댓글 (<span id="sheet-comments-count">12</span>)</div>
+        <button class="sheet-close-btn" onclick="closeCommentsSheet()" aria-label="닫기">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div id="sheet-comments-body" class="sheet-comments-body">
+        <!-- Rendered dynamically by JS -->
+      </div>
+      <div class="sheet-input-dock">
+        <input type="text" id="sheet-comment-input" placeholder="축하 메시지 남기기..." onkeypress="if(event.key==='Enter')postCommentFromSheet()">
+        <button class="sheet-submit-btn" onclick="postCommentFromSheet()">게시</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     /* ==================================================== */
     /* INTERSECTION OBSERVER SCROLL REVEAL ENGINE           */
@@ -993,6 +1086,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       updateDDay();
       tryInitMap();
+      renderComments();
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -1312,26 +1406,143 @@
       setTimeout(() => toast.classList.remove('show'), 2200);
     }
 
+    /* ==================================================== */
+    /* INSTAGRAM COMMENTS ENGINE & FULL BOTTOM SHEET        */
+    /* ==================================================== */
+    const commentsData = [
+      { id: 1, uname: 'friend_sujin', text: '결혼 진심으로 축하해! 축제 즐기러 갈게', time: '1시간 전', liked: false },
+      { id: 2, uname: 'jungho_k', text: '호정아 다솔아 행복하게 잘 살아라!', time: '30분 전', liked: false },
+      { id: 3, uname: 'min_ji_92', text: '선남선녀 커플 드디어 결혼하는구나 축하해', time: '2시간 전', liked: false },
+      { id: 4, uname: 'taewon_lee', text: '두 사람 앞날에 행복만 가득하길 바랍니다!', time: '3시간 전', liked: false },
+      { id: 5, uname: 'dasol_bestie', text: '우리 다솔이 세상에서 제일 예쁜 신부 축하해', time: '4시간 전', liked: false },
+      { id: 6, uname: 'yujin_unnie', text: '사진 너무 예쁘게 잘 나왔다! 결혼식날 봐요', time: '5시간 전', liked: false },
+      { id: 7, uname: 'hojeong_crew', text: '호정아 품절남 합류 축하한다 웰컴투유부월드', time: '6시간 전', liked: false },
+      { id: 8, uname: 'wedding_guest_77', text: '청첩장 디자인 감각 대박이네요! 본식 기대돼요', time: '7시간 전', liked: false },
+      { id: 9, uname: 'jinsol_p', text: '너무 잘 어울리는 한 쌍! 축하드려요', time: '8시간 전', liked: false },
+      { id: 10, uname: 'chulsoo_kim', text: '결혼 진심으로 축하드립니다. 행복한 가정 이루세요', time: '9시간 전', liked: false },
+      { id: 11, uname: 'hyejin_v', text: '두 분 행복 가득한 날들만 있기를 응원할게요!', time: '10시간 전', liked: false },
+      { id: 12, uname: 'dongwook_s', text: '천호역 라비니움에서 멋진 날 함께 축하하겠습니다!', time: '12시간 전', liked: false }
+    ];
+
+    function renderComments() {
+      const totalCount = commentsData.length;
+      const badge = document.getElementById('comments-count-badge');
+      if (badge) badge.textContent = totalCount;
+      const sheetBadge = document.getElementById('sheet-comments-count');
+      if (sheetBadge) sheetBadge.textContent = totalCount;
+      const postCommentCount = document.getElementById('post-comments-count');
+      if (postCommentCount) postCommentCount.textContent = totalCount;
+
+      // 1. Render Preview Comments on main page (latest 2)
+      const listEl = document.getElementById('comments-list');
+      if (listEl) {
+        const previewItems = commentsData.slice(0, 2);
+        listEl.innerHTML = previewItems.map(c => `
+          <div class="comment-row">
+            <div class="comment-thumb">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="comment-body">
+              <div><span class="uname">${c.uname}</span>${c.text}</div>
+              <div class="time">${c.time}</div>
+            </div>
+            <svg class="comment-like-icon ${c.liked ? 'liked' : ''}" viewBox="0 0 24 24" onclick="toggleCommentDataLike(${c.id})"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </div>
+        `).join('');
+      }
+
+      // 2. Render Full Modal Sheet List (all comments)
+      const sheetBody = document.getElementById('sheet-comments-body');
+      if (sheetBody) {
+        sheetBody.innerHTML = commentsData.map(c => `
+          <div class="sheet-comment-item">
+            <div class="sheet-comment-avatar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="sheet-comment-content">
+              <div><span class="uname">${c.uname}</span>${c.text}</div>
+              <div class="sheet-comment-meta">
+                <span>${c.time}</span>
+                <span onclick="replyToComment('${c.uname}')">답글 달기</span>
+              </div>
+            </div>
+            <svg class="sheet-comment-heart ${c.liked ? 'liked' : ''}" viewBox="0 0 24 24" onclick="toggleCommentDataLike(${c.id})">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+        `).join('');
+      }
+    }
+
+    function openCommentsSheet() {
+      renderComments();
+      const overlay = document.getElementById('comments-modal-overlay');
+      if (overlay) {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeCommentsSheet() {
+      const overlay = document.getElementById('comments-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function handleCommentsOverlayClick(e) {
+      if (e.target.id === 'comments-modal-overlay') {
+        closeCommentsSheet();
+      }
+    }
+
+    function toggleCommentDataLike(id) {
+      const comment = commentsData.find(c => c.id === id);
+      if (comment) {
+        comment.liked = !comment.liked;
+        renderComments();
+      }
+    }
+
+    function replyToComment(uname) {
+      const input = document.getElementById('sheet-comment-input');
+      if (input) {
+        input.value = `@${uname} `;
+        input.focus();
+      }
+    }
+
+    function addCommentRecord(val) {
+      const newComment = {
+        id: Date.now(),
+        uname: 'guest_' + Math.floor(100 + Math.random() * 900),
+        text: val,
+        time: '방금 전',
+        liked: false
+      };
+      commentsData.unshift(newComment);
+      renderComments();
+      showToastMsg('축하 메시지가 등록되었습니다.');
+    }
+
     function postComment() {
       const input = document.getElementById('comment-input-field');
-      const val = input.value.trim();
+      const val = input ? input.value.trim() : '';
       if (!val) return;
-      const list = document.getElementById('comments-list');
-      const newItem = document.createElement('div');
-      newItem.className = 'comment-row';
-      newItem.innerHTML = `
-        <div class="comment-thumb">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div class="comment-body">
-          <div><span class="uname">guest</span>${val}</div>
-          <div class="time">방금 전</div>
-        </div>
-        <svg class="comment-like-icon" viewBox="0 0 24 24" onclick="toggleCommentLike(this)"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-      `;
-      list.appendChild(newItem);
-      input.value = '';
-      newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      addCommentRecord(val);
+      if (input) input.value = '';
+      openCommentsSheet();
+    }
+
+    function postCommentFromSheet() {
+      const input = document.getElementById('sheet-comment-input');
+      const val = input ? input.value.trim() : '';
+      if (!val) return;
+      addCommentRecord(val);
+      if (input) input.value = '';
+      const body = document.getElementById('sheet-comments-body');
+      if (body) body.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     /* Web Audio BGM Synthesizer */
