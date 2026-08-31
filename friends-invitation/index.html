@@ -479,15 +479,16 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      background: #fafafa;
-      padding: 9px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
+      background: transparent;
+      padding: 6px 0 10px;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 14px;
     }
     .loc-address-text {
-      font-size: 0.8rem;
-      color: #555555;
-      line-height: 1.4;
+      font-size: 0.84rem;
+      color: #333333;
+      line-height: 1.45;
       flex: 1;
       word-break: keep-all;
     }
@@ -495,35 +496,34 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      background: #ffffff;
+      background: #f4f4f4;
       border: 1px solid var(--border);
-      padding: 5px 9px;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 700;
+      font-size: 0.74rem;
+      font-weight: 600;
       color: #111111;
       cursor: pointer;
       flex-shrink: 0;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
       transition: all 0.2s;
     }
     .loc-copy-chip:active {
       transform: scale(0.93);
-      background: #f0f0f0;
+      background: #e5e5e5;
     }
 
-    /* 3-Brand Navigation Buttons Grid */
+    /* 3-Brand Navigation Buttons Grid (No Card Boxes, Clean Flat App Icons) */
     .loc-nav-heading {
       font-size: 0.82rem;
       font-weight: 700;
       color: #333333;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .loc-nav-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
     .loc-app-btn {
       display: flex;
@@ -531,38 +531,39 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 12px 6px 10px;
-      border-radius: 12px;
-      background: #fafafa;
-      border: 1px solid var(--border);
+      padding: 4px 0;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
       cursor: pointer;
-      transition: all 0.2s var(--smooth-ease);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      transition: transform 0.15s;
     }
     .loc-app-btn:hover {
-      background: #f0f2f5;
-      transform: translateY(-1px);
+      background: transparent;
+      transform: translateY(-2px);
     }
     .loc-app-btn:active {
-      transform: scale(0.95);
-      background: #e9ecef;
+      transform: scale(0.92);
+      background: transparent;
     }
     .remit-nav-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 12px;
       margin-top: 10px;
     }
     .app-icon-wrap {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
       overflow: hidden;
       flex-shrink: 0;
+      background: #fff;
     }
     .app-icon-wrap img {
       width: 100%;
@@ -572,29 +573,31 @@
     }
     .loc-app-btn .app-name {
       font-size: 0.78rem;
-      font-weight: 700;
-      color: #1a1a1a;
+      font-weight: 600;
+      color: #222222;
       letter-spacing: -0.3px;
     }
 
-    /* Transit Details List */
+    /* Transit Details List (No Card Boxes, Clean Flat Timeline / List Layout) */
     .loc-transit-container {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 14px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
     }
     .transit-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      background: #fafafa;
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 12px 14px;
-      transition: background-color 0.2s;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      box-shadow: none;
     }
     .transit-item:hover {
-      background: #f7f7f8;
+      background: transparent;
     }
     .transit-icon-col {
       flex-shrink: 0;
@@ -786,15 +789,15 @@
     .bank-tab-btn.active { color: var(--text-main); border-bottom-color: var(--text-main); }
     .bank-row-item {
       display: flex; justify-content: space-between; align-items: center;
-      background: #fafafa; border: 1px solid var(--border-subtle); padding: 13px 14px; border-radius: 10px; margin-bottom: 10px;
+      background: transparent; border: none; border-bottom: 1px solid var(--border-subtle); padding: 10px 0 12px; border-radius: 0; margin-bottom: 8px;
       transition: transform 0.2s;
     }
     .copy-chip {
-      background: #efefef; border: 1px solid var(--border); color: var(--text-main);
+      background: #f4f4f4; border: 1px solid var(--border); color: var(--text-main);
       padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
       transition: all 0.15s;
     }
-    .copy-chip:active { transform: scale(0.9); background: #e0e0e0; }
+    .copy-chip:active { transform: scale(0.9); background: #e5e5e5; }
 
     /* ==================================================== */
     /* REAL INSTAGRAM COMMENTS UI (BOTTOM SECTION & MODAL)  */
