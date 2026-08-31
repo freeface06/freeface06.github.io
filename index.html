@@ -503,20 +503,19 @@
     .loc-copy-chip {
       display: flex;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
       background: #f4f4f4;
       border: 1px solid var(--border);
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 0.74rem;
-      font-weight: 600;
+      border-radius: 8px;
       color: #111111;
       cursor: pointer;
       flex-shrink: 0;
       transition: all 0.2s;
     }
     .loc-copy-chip:active {
-      transform: scale(0.93);
+      transform: scale(0.9);
       background: #e5e5e5;
     }
 
@@ -801,8 +800,10 @@
       transition: transform 0.2s;
     }
     .copy-chip {
+      display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
       background: #f4f4f4; border: 1px solid var(--border); color: var(--text-main);
-      padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+      border-radius: 8px; flex-shrink: 0;
       transition: all 0.15s;
     }
     .copy-chip:active { transform: scale(0.9); background: #e5e5e5; }
@@ -1629,9 +1630,8 @@
         </div>
         <div class="loc-address-row">
           <span class="loc-address-text">서울특별시 강동구 천호대로 1026-1 (천호동 453-19)</span>
-          <button class="loc-copy-chip tap-spring" onclick="copyText('서울특별시 강동구 천호대로 1026-1')">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span>주소 복사</span>
+          <button class="loc-copy-chip tap-spring" onclick="copyText('서울특별시 강동구 천호대로 1026-1', '웨딩홀 주소가 복사되었습니다.')" title="주소 복사">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           </button>
         </div>
       </div>
@@ -1808,7 +1808,9 @@
             <div style="font-weight:700; font-size:0.92rem; color:#000;">국민은행 123456-00-123456</div>
             <div style="font-size:0.8rem; color:var(--text-dim); margin-top:2px;">예금주: 이호정 (신랑)</div>
           </div>
-          <button class="copy-chip tap-spring" onclick="copyText('123456-00-123456', '신랑 이호정 계좌번호가 복사되었습니다.')">복사</button>
+          <button class="copy-chip tap-spring" onclick="copyText('123456-00-123456', '신랑 이호정 계좌번호가 복사되었습니다.')" title="계좌번호 복사">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
         </div>
         <div class="remit-nav-grid">
           <button class="loc-app-btn tap-spring" onclick="sendKakaoPay('국민은행', '123456-00-123456')">
@@ -1831,7 +1833,9 @@
             <div style="font-weight:700; font-size:0.92rem; color:#000;">신한은행 110-123-456789</div>
             <div style="font-size:0.8rem; color:var(--text-dim); margin-top:2px;">예금주: 전다솔 (신부)</div>
           </div>
-          <button class="copy-chip tap-spring" onclick="copyText('110-123-456789', '신부 전다솔 계좌번호가 복사되었습니다.')">복사</button>
+          <button class="copy-chip tap-spring" onclick="copyText('110-123-456789', '신부 전다솔 계좌번호가 복사되었습니다.')" title="계좌번호 복사">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
         </div>
         <div class="remit-nav-grid">
           <button class="loc-app-btn tap-spring" onclick="sendKakaoPay('신한은행', '110-123-456789')">
