@@ -2181,7 +2181,7 @@
     /* INTERSECTION OBSERVER SCROLL REVEAL ENGINE           */
     /* ==================================================== */
     document.addEventListener('DOMContentLoaded', () => {
-      updateDDay();
+      updateCountdownTimer();
       tryInitMap();
       renderComments();
       const observer = new IntersectionObserver((entries) => {
@@ -2465,6 +2465,10 @@
     }
     setInterval(updateCountdownTimer, 1000);
     updateCountdownTimer();
+
+    function updateDDay() {
+      updateCountdownTimer();
+    }
 
     function scrollToSection(id) {
       const el = document.getElementById(id);
