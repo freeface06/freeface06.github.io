@@ -2427,23 +2427,19 @@
     }
 
     /* ==================================================== */
-    /* INSTAGRAM COMMENTS ENGINE & FULL BOTTOM SHEET        */
-    /* ==================================================== */
-    const commentsData = [
-      { id: 1, uname: 'friend_sujin', text: '결혼 진심으로 축하해! 축제 즐기러 갈게', time: '1시간 전', liked: false },
-      { id: 2, uname: 'jungho_k', text: '호정아 다솔아 행복하게 잘 살아라!', time: '30분 전', liked: false },
-      { id: 3, uname: 'min_ji_92', text: '선남선녀 커플 드디어 결혼하는구나 축하해', time: '2시간 전', liked: false },
-      { id: 4, uname: 'taewon_lee', text: '두 사람 앞날에 행복만 가득하길 바랍니다!', time: '3시간 전', liked: false },
-      { id: 5, uname: 'dasol_bestie', text: '우리 다솔이 세상에서 제일 예쁜 신부 축하해', time: '4시간 전', liked: false },
-      { id: 6, uname: 'yujin_unnie', text: '사진 너무 예쁘게 잘 나왔다! 결혼식날 봐요', time: '5시간 전', liked: false },
-      { id: 7, uname: 'hojeong_crew', text: '호정아 품절남 합류 축하한다 웰컴투유부월드', time: '6시간 전', liked: false },
-      { id: 8, uname: 'wedding_guest_77', text: '청첩장 디자인 감각 대박이네요! 본식 기대돼요', time: '7시간 전', liked: false },
-      { id: 9, uname: 'jinsol_p', text: '너무 잘 어울리는 한 쌍! 축하드려요', time: '8시간 전', liked: false },
-      { id: 10, uname: 'chulsoo_kim', text: '결혼 진심으로 축하드립니다. 행복한 가정 이루세요', time: '9시간 전', liked: false },
-      { id: 11, uname: 'hyejin_v', text: '두 분 행복 가득한 날들만 있기를 응원할게요!', time: '10시간 전', liked: false },
-    /* ==================================================== */
     /* INSTAGRAM COMMENTS ENGINE & FULL BOTTOM SHEET (IMAGE 2) */
     /* ==================================================== */
+    const emojiMap = {
+      'heart': '\u2764\uFE0F',
+      'clap': '\uD83D\uDC4F',
+      'fire': '\uD83D\uDD25',
+      'party': '\uD83C\uDF89',
+      'plead': '\uD83E\uDD7A',
+      'heart_eyes': '\uD83D\uDE0D',
+      'wow': '\uD83D\uDE2E',
+      'joy': '\uD83D\uDE02'
+    };
+
     const commentsData = [
       {
         id: 1,
