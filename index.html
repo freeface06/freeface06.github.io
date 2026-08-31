@@ -3802,8 +3802,8 @@
       const mapEl = document.getElementById('interactiveMap');
       if (!mapEl || !window.naver || !window.naver.maps) { showFallbackMap(); return; }
 
-      const lat = 37.53856;
-      const lng = 127.12354;
+      const lat = 37.5384438;
+      const lng = 127.1224221;
 
       try {
         const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -3896,8 +3896,8 @@
 
       const venueName = '천호 라비니움';
       const encodedName = encodeURIComponent(venueName);
-      const lat = '37.53856';
-      const lng = '127.12354';
+      const lat = '37.5384438';
+      const lng = '127.1224221';
 
       // Desktop PC: Direct Web Browser Navigation in New Tab
       if (!isMobile) {
@@ -3910,22 +3910,25 @@
       }
 
       if (app === 'naver') {
+        const naverWebUrl = `https://map.naver.com/p/search/${encodedName}`;
         if (isAndroid) {
-          openUrlOrScheme(`intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`);
+          openAppWithFallback(`intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`, naverWebUrl);
         } else {
-          openAppWithFallback(`nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`, `https://map.naver.com/p/search/${encodedName}`);
+          openAppWithFallback(`nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`, naverWebUrl);
         }
       } else if (app === 'tmap') {
+        const tmapWebUrl = `https://map.naver.com/p/search/${encodedName}`;
         if (isAndroid) {
-          openUrlOrScheme(`intent://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`);
+          openAppWithFallback(`intent://route?rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`, tmapWebUrl);
         } else {
-          openAppWithFallback(`tmap://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}`, `https://map.naver.com/p/search/${encodedName}`);
+          openAppWithFallback(`tmap://route?rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}`, tmapWebUrl);
         }
       } else if (app === 'kakao') {
+        const kakaoWebUrl = `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`;
         if (isAndroid) {
-          openUrlOrScheme(`intent://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}#Intent;scheme=kakaonavi;package=com.locnall.KimGiSa;end`);
+          openAppWithFallback(`intent://route?ep=${lat},${lng}&by=car#Intent;scheme=kakaomap;package=net.daum.android.map;end`, kakaoWebUrl);
         } else {
-          openAppWithFallback(`kakaonavi://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}`, `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`);
+          openAppWithFallback(`kakaomap://route?ep=${lat},${lng}&by=car`, kakaoWebUrl);
         }
       }
     }
