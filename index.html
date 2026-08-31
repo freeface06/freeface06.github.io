@@ -1104,50 +1104,328 @@
       word-break: keep-all;
     }
 
-    /* RSVP Poll Feed Post Content */
+    /* RSVP Poll Feed Post Content (Luxury Respectful UI/UX) */
     .rsvp-poll-card {
       background: #ffffff;
       border: none;
       border-radius: 0;
       margin: 0;
       padding: 0;
-      text-align: center;
+      text-align: left;
       position: relative;
       overflow: hidden;
       box-shadow: none;
     }
-    .rsvp-poll-title { font-size: 1.08rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
-    .rsvp-poll-sub { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 16px; }
-    .rsvp-choices { display: flex; flex-direction: column; gap: 10px; }
+    .rsvp-choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
     .rsvp-choice-btn {
-      width: 100%; padding: 13px 14px; background: #fafafa; border: 1.5px solid var(--border);
-      color: var(--text-main); border-radius: 12px; font-weight: 600; font-size: clamp(0.84rem, 2.8vw, 0.92rem);
-      transition: all 0.25s var(--smooth-ease);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 16px 8px 14px;
+      background: #ffffff;
+      border: 1.5px solid #e2e5e8;
+      border-radius: 14px;
+      color: #333333;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.22s var(--smooth-ease);
     }
-    .rsvp-choice-btn:active { transform: scale(0.97); }
-    .rsvp-choice-btn.active {
-      background: var(--ig-blue); border-color: var(--ig-blue); color: #fff;
-      box-shadow: 0 4px 14px rgba(0, 149, 246, 0.35);
+    .rsvp-choice-btn:hover {
+      border-color: #cbd2d9;
+      background: #fbfbfc;
     }
+    .rsvp-choice-btn .choice-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f4f6f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555555;
+      transition: all 0.22s var(--smooth-ease);
+    }
+    .rsvp-choice-btn .choice-title {
+      font-size: clamp(0.9rem, 3vw, 0.98rem);
+      font-weight: 800;
+      color: #111111;
+      line-height: 1.2;
+    }
+    .rsvp-choice-btn .choice-desc {
+      font-size: clamp(0.66rem, 2.1vw, 0.72rem);
+      color: #888888;
+      line-height: 1.25;
+      font-weight: 400;
+      word-break: keep-all;
+    }
+    .rsvp-choice-btn.active.yes {
+      background: #f2f8ff;
+      border-color: #0095f6;
+      box-shadow: 0 4px 16px rgba(0, 149, 246, 0.15);
+    }
+    .rsvp-choice-btn.active.yes .choice-icon-wrap {
+      background: #0095f6;
+      color: #ffffff;
+      transform: scale(1.06);
+    }
+    .rsvp-choice-btn.active.yes .choice-title {
+      color: #0095f6;
+    }
+    .rsvp-choice-btn.active.no {
+      background: #fff5f6;
+      border-color: #ff3040;
+      box-shadow: 0 4px 16px rgba(255, 48, 64, 0.15);
+    }
+    .rsvp-choice-btn.active.no .choice-icon-wrap {
+      background: #ff3040;
+      color: #ffffff;
+      transform: scale(1.06);
+    }
+    .rsvp-choice-btn.active.no .choice-title {
+      color: #ff3040;
+    }
+
+    /* RSVP Form Drawer */
     .rsvp-form-drawer {
-      display: none; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border-subtle);
-      animation: drawerSlideDown 0.4s var(--smooth-ease) forwards;
+      display: none;
+      margin-top: 12px;
+      padding: 16px 14px 18px;
+      background: #fafbfc;
+      border: 1px solid #eef0f3;
+      border-radius: 14px;
+      animation: drawerSlideDown 0.35s var(--smooth-ease) forwards;
     }
     @keyframes drawerSlideDown {
-      0% { opacity: 0; transform: translateY(-10px); }
+      0% { opacity: 0; transform: translateY(-8px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+
+    /* Side / Group Segmented Pill Selector */
+    .rsvp-field-group {
+      margin-bottom: 13px;
+    }
+    .rsvp-field-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #333333;
+      margin-bottom: 6px;
+    }
+    .rsvp-field-label .sub-guide {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: #8e8e8e;
+    }
+    .rsvp-pill-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .rsvp-pill-btn {
+      padding: 9px 10px;
+      background: #ffffff;
+      border: 1.5px solid #e2e5e8;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #555555;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s var(--smooth-ease);
+    }
+    .rsvp-pill-btn.active {
+      background: #111111;
+      border-color: #111111;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Standardized Input */
     .rsvp-input {
-      width: 100%; background: #fafafa; border: 1.5px solid var(--border);
-      color: var(--text-main); padding: 12px 14px; border-radius: 8px; font-size: 16px;
-      font-family: inherit; margin-bottom: 10px; outline: none; transition: border-color 0.2s;
+      width: 100%;
+      background: #ffffff;
+      border: 1.5px solid #e2e5e8;
+      color: #111111;
+      padding: 11px 13px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .rsvp-input:focus { border-color: var(--ig-blue); background: #ffffff; }
+    .rsvp-input:focus {
+      border-color: var(--ig-blue);
+      box-shadow: 0 0 0 3px rgba(0, 149, 246, 0.12);
+    }
+    .rsvp-input::placeholder {
+      color: #aaaaaa;
+      font-size: 0.84rem;
+    }
+
+    /* Stepper & Preset Count UX */
+    .rsvp-stepper-box {
+      display: flex;
+      align-items: center;
+      background: #ffffff;
+      border: 1.5px solid #e2e5e8;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 7px;
+    }
+    .rsvp-stepper-btn {
+      width: 44px;
+      height: 42px;
+      background: #f8f9fa;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #222222;
+      cursor: pointer;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .rsvp-stepper-btn:active {
+      background: #e9ecef;
+    }
+    .rsvp-stepper-display {
+      flex: 1;
+      text-align: center;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #111111;
+      user-select: none;
+    }
+    .rsvp-count-presets {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .rsvp-count-chip {
+      padding: 6px 4px;
+      background: #ffffff;
+      border: 1px solid #e2e5e8;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #555555;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .rsvp-count-chip:active {
+      transform: scale(0.95);
+    }
+    .rsvp-count-chip.active {
+      background: #0095f6;
+      border-color: #0095f6;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Meal Options (3 columns) */
+    .rsvp-meal-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    /* Submit Button */
     .rsvp-submit-btn {
-      width: 100%; background: var(--ig-blue); color: #fff; font-weight: 600;
-      padding: 13px; border-radius: 8px; font-size: 0.92rem; transition: transform 0.15s;
+      width: 100%;
+      background: #0095f6;
+      color: #ffffff;
+      font-weight: 700;
+      padding: 13px 14px;
+      border-radius: 10px;
+      font-size: 0.94rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(0, 149, 246, 0.25);
+      margin-top: 6px;
+      border: none;
+      transition: transform 0.15s, background 0.2s;
     }
-    .rsvp-submit-btn:active { transform: scale(0.96); }
+    .rsvp-submit-btn:active {
+      transform: scale(0.97);
+      background: #0081d6;
+    }
+
+    /* Polite Non-Attendance Card */
+    .rsvp-declined-card {
+      display: none;
+      margin-top: 12px;
+      padding: 18px 16px;
+      background: #fafbfc;
+      border: 1px solid #eef0f3;
+      border-radius: 14px;
+      text-align: center;
+      animation: drawerSlideDown 0.35s var(--smooth-ease) forwards;
+    }
+    .rsvp-declined-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff0f2;
+      color: #ff3040;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+    }
+    .rsvp-declined-msg {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #222222;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .rsvp-declined-sub {
+      font-size: 0.78rem;
+      color: #737373;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      word-break: keep-all;
+    }
+    .rsvp-declined-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .rsvp-sub-action-btn {
+      width: 100%;
+      padding: 10px;
+      background: #ffffff;
+      border: 1px solid #dcdfe3;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #333333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .rsvp-sub-action-btn:active {
+      transform: scale(0.97);
+      background: #f4f4f4;
+    }
 
     /* Confetti Canvas */
     #confettiCanvas {
@@ -2578,7 +2856,7 @@
       <div class="story-avatar-wrap">
         <img src="images/wedding_main.jpg" alt="rsvp">
       </div>
-      <span class="story-label">참석투표</span>
+      <span class="story-label">참석의사</span>
     </div>
     <!-- Story 6: Bank -->
     <div class="story-bubble" onclick="scrollToSection('bank-sec')">
@@ -2991,23 +3269,125 @@
   </div>
 
   <div class="wedding-info-zone">
-    <!-- Section 4: RSVP Poll (참석 여부 전달) -->
+    <!-- Section 4: RSVP Poll (참석 의사 전달) -->
     <section class="wedding-clean-card reveal" id="rsvp-sec">
       <div class="clean-section-header">
         <div class="clean-section-badge">RSVP</div>
-        <h3 class="clean-section-title">참석 여부 전달</h3>
-        <p class="clean-section-desc">소중한 발걸음을 미리 알려주시면 식사 및 좌석 준비에 큰 도움이 됩니다.</p>
+        <h3 class="clean-section-title">참석 의사 전달</h3>
+        <p class="clean-section-desc">소중한 분들을 정성껏 모실 수 있도록,<br>참석 여부를 미리 알려주시면 식사 및 좌석 준비에 큰 도움이 됩니다.</p>
       </div>
       
       <div class="rsvp-poll-card">
+        <!-- 1. Polite Choice Cards (2-Grid) -->
         <div class="rsvp-choices">
-          <button class="rsvp-choice-btn tap-spring" onclick="selectPoll(true, this)">YES! 참석할게요</button>
-          <button class="rsvp-choice-btn tap-spring" onclick="selectPoll(false, this)">NO, 마음으로 축하할게요</button>
+          <button type="button" class="rsvp-choice-btn tap-spring" id="rsvpChoiceYes" onclick="selectPoll(true, this)">
+            <div class="choice-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="choice-title">참석합니다</span>
+            <span class="choice-desc">축하의 자리에 함께할게요</span>
+          </button>
+
+          <button type="button" class="rsvp-choice-btn tap-spring" id="rsvpChoiceNo" onclick="selectPoll(false, this)">
+            <div class="choice-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <span class="choice-title">마음으로 축하</span>
+            <span class="choice-desc">멀리서 축복을 보낼게요</span>
+          </button>
         </div>
+
+        <!-- 2. Attendance Detailed Form (When "참석합니다" selected) -->
         <div id="rsvp-form" class="rsvp-form-drawer">
-          <input type="text" placeholder="성함" class="rsvp-input" id="rsvpName">
-          <input type="number" placeholder="동행 인원 (본인 포함)" class="rsvp-input" id="rsvpCount" value="1">
-          <button class="rsvp-submit-btn tap-spring" onclick="submitRSVP()">참석 정보 제출</button>
+          <!-- Side Selection (신랑측 / 신부측) -->
+          <div class="rsvp-field-group">
+            <div class="rsvp-field-label">
+              <span>구분</span>
+            </div>
+            <div class="rsvp-pill-group">
+              <button type="button" class="rsvp-pill-btn active tap-spring" onclick="selectRsvpSide('groom', this)">신랑측 손님</button>
+              <button type="button" class="rsvp-pill-btn tap-spring" onclick="selectRsvpSide('bride', this)">신부측 손님</button>
+            </div>
+          </div>
+
+          <!-- Name Field -->
+          <div class="rsvp-field-group">
+            <div class="rsvp-field-label">
+              <span>성함 <span style="color:#ff3040;">*</span></span>
+              <span class="sub-guide">대표 1인</span>
+            </div>
+            <input type="text" placeholder="성함을 입력해 주세요 (예: 홍길동)" class="rsvp-input" id="rsvpName" autocomplete="name">
+          </div>
+
+          <!-- Attendee Count Stepper + Quick Preset Chips UX -->
+          <div class="rsvp-field-group">
+            <div class="rsvp-field-label">
+              <span>참석 인원</span>
+              <span class="sub-guide">본인 포함 총 인원</span>
+            </div>
+            <!-- Stepper Box -->
+            <div class="rsvp-stepper-box">
+              <button type="button" class="rsvp-stepper-btn tap-spring" onclick="adjustRsvpCount(-1)" title="1명 감소">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <div class="rsvp-stepper-display" id="rsvpCountDisplay">1명 (본인)</div>
+              <button type="button" class="rsvp-stepper-btn tap-spring" onclick="adjustRsvpCount(1)" title="1명 증가">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <!-- Quick Preset Chips -->
+            <div class="rsvp-count-presets">
+              <button type="button" class="rsvp-count-chip active tap-spring" onclick="setRsvpCount(1, this)">1명 (본인)</button>
+              <button type="button" class="rsvp-count-chip tap-spring" onclick="setRsvpCount(2, this)">2명</button>
+              <button type="button" class="rsvp-count-chip tap-spring" onclick="setRsvpCount(3, this)">3명</button>
+              <button type="button" class="rsvp-count-chip tap-spring" onclick="setRsvpCount(4, this)">4명 이상</button>
+            </div>
+          </div>
+
+          <!-- Meal Preference -->
+          <div class="rsvp-field-group">
+            <div class="rsvp-field-label">
+              <span>식사 여부</span>
+            </div>
+            <div class="rsvp-meal-group">
+              <button type="button" class="rsvp-pill-btn active tap-spring" onclick="selectRsvpMeal('yes', this)">식사 예정</button>
+              <button type="button" class="rsvp-pill-btn tap-spring" onclick="selectRsvpMeal('no', this)">식사 안 함</button>
+              <button type="button" class="rsvp-pill-btn tap-spring" onclick="selectRsvpMeal('undecided', this)">미정</button>
+            </div>
+          </div>
+
+          <!-- Optional Message -->
+          <div class="rsvp-field-group" style="margin-bottom:10px;">
+            <div class="rsvp-field-label">
+              <span>전달하실 말씀</span>
+              <span class="sub-guide">선택</span>
+            </div>
+            <input type="text" placeholder="신랑·신부에게 전할 축하 한마디" class="rsvp-input" id="rsvpNote">
+          </div>
+
+          <button type="button" class="rsvp-submit-btn tap-spring" onclick="submitRSVP()">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>참석 의사 전달하기</span>
+          </button>
+        </div>
+
+        <!-- 3. Respectful Non-Attendance Card (When "마음으로 축하" selected) -->
+        <div id="rsvp-declined" class="rsvp-declined-card">
+          <div class="rsvp-declined-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="rsvp-declined-msg">따뜻한 축하의 마음에 감사드립니다</div>
+          <p class="rsvp-declined-sub">비록 함께하지 못하시더라도 보내주신 소중한 축복과 사랑 오래도록 간직하며 행복하게 살겠습니다.</p>
+          <div class="rsvp-declined-actions">
+            <button type="button" class="rsvp-sub-action-btn tap-spring" onclick="openCommentsModal()">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>방명록에 축하 메시지 남기기</span>
+            </button>
+            <button type="button" class="rsvp-sub-action-btn tap-spring" onclick="scrollToSection('bank-sec')">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              <span>마음 전하실 곳(계좌) 보기</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -4318,26 +4698,108 @@
       requestAnimationFrame(animateConfetti);
     }
 
-    function selectPoll(isYes, btn) {
-      document.querySelectorAll('.rsvp-choice-btn').forEach(b => b.classList.remove('active'));
+    let currentRsvpCount = 1;
+    let currentRsvpSide = '신랑측';
+    let currentRsvpMeal = '식사 예정';
+
+    function selectRsvpSide(side, btn) {
+      document.querySelectorAll('.rsvp-pill-group .rsvp-pill-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      currentRsvpSide = (side === 'groom') ? '신랑측' : '신부측';
+    }
+
+    function selectRsvpMeal(meal, btn) {
+      document.querySelectorAll('.rsvp-meal-group .rsvp-pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (meal === 'yes') currentRsvpMeal = '식사 예정';
+      else if (meal === 'no') currentRsvpMeal = '식사 안 함';
+      else currentRsvpMeal = '미정';
+    }
+
+    function updateRsvpCountUI() {
+      const display = document.getElementById('rsvpCountDisplay');
+      if (display) {
+        if (currentRsvpCount === 1) {
+          display.textContent = '1명 (본인)';
+        } else {
+          display.textContent = `${currentRsvpCount}명 (동반 ${currentRsvpCount - 1}인)`;
+        }
+      }
+
+      // Update preset chips active state
+      document.querySelectorAll('.rsvp-count-chip').forEach((chip, index) => {
+        chip.classList.remove('active');
+        if (index === 0 && currentRsvpCount === 1) chip.classList.add('active');
+        else if (index === 1 && currentRsvpCount === 2) chip.classList.add('active');
+        else if (index === 2 && currentRsvpCount === 3) chip.classList.add('active');
+        else if (index === 3 && currentRsvpCount >= 4) chip.classList.add('active');
+      });
+    }
+
+    function adjustRsvpCount(delta) {
+      currentRsvpCount = Math.max(1, Math.min(10, currentRsvpCount + delta));
+      updateRsvpCountUI();
+    }
+
+    function setRsvpCount(count, btn) {
+      currentRsvpCount = count;
+      updateRsvpCountUI();
+    }
+
+    function selectPoll(isYes, btn) {
+      const choiceYes = document.getElementById('rsvpChoiceYes');
+      const choiceNo = document.getElementById('rsvpChoiceNo');
       const form = document.getElementById('rsvp-form');
+      const declined = document.getElementById('rsvp-declined');
+
+      if (choiceYes) choiceYes.classList.remove('active', 'yes', 'no');
+      if (choiceNo) choiceNo.classList.remove('active', 'yes', 'no');
+
       if (isYes) {
-        launchConfetti();
-        form.style.display = 'block';
-        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (choiceYes) choiceYes.classList.add('active', 'yes');
+        if (declined) declined.style.display = 'none';
+        if (form) {
+          form.style.display = 'block';
+          launchConfetti();
+          setTimeout(() => {
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 120);
+        }
       } else {
-        form.style.display = 'none';
-        showToastMsg('마음으로 축하해 주셔서 감사합니다!');
+        if (choiceNo) choiceNo.classList.add('active', 'no');
+        if (form) form.style.display = 'none';
+        if (declined) {
+          declined.style.display = 'block';
+          setTimeout(() => {
+            declined.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 120);
+        }
       }
     }
 
     function submitRSVP() {
-      const name = document.getElementById('rsvpName').value.trim();
-      if (!name) return alert('성함을 입력해 주세요.');
+      const nameInput = document.getElementById('rsvpName');
+      const name = nameInput ? nameInput.value.trim() : '';
+      if (!name) {
+        alert('성함을 입력해 주세요.');
+        if (nameInput) nameInput.focus();
+        return;
+      }
       launchConfetti();
-      showToastMsg('참석 정보가 전달되었습니다. 감사합니다!');
-      document.getElementById('rsvp-form').style.display = 'none';
+      showToastMsg(`${name}님의 소중한 참석 의사가 전달되었습니다. 감사합니다!`);
+      const form = document.getElementById('rsvp-form');
+      if (form) form.style.display = 'none';
+      const choiceYes = document.getElementById('rsvpChoiceYes');
+      if (choiceYes) {
+        const companionText = (currentRsvpCount > 1) ? ` 외 ${currentRsvpCount - 1}인` : '';
+        choiceYes.innerHTML = `
+          <div class="choice-icon-wrap" style="background:#0095f6;color:#fff;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="choice-title" style="color:#0095f6;">참석 전달 완료</span>
+          <span class="choice-desc">${currentRsvpSide} · ${name}님${companionText}</span>
+        `;
+      }
     }
 
     function switchBankTab(side, tabBtn) {
