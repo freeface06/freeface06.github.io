@@ -2237,11 +2237,15 @@
     /* ==================================================== */
     .ig-bottom-footer {
       position: fixed; bottom: 0; left: 0; right: 0;
-      width: 100%; max-width: 100%; margin: 0 auto; height: 50px;
-      background: #ffffff; border-top: 1px solid #dbdbdb;
+      width: 100%; max-width: 100%; margin: 0 auto; height: 54px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
       display: flex; justify-content: space-around; align-items: center;
-      z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
+      z-index: 1000; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
       transition: transform 0.3s var(--smooth-ease), opacity 0.25s ease;
+      padding: 0 4px;
     }
     body.modal-open .ig-bottom-footer,
     .ig-bottom-footer.hidden {
@@ -2258,21 +2262,43 @@
     }
     .footer-nav-item {
       position: relative; display: flex; align-items: center; justify-content: center;
-      width: clamp(38px, 18vw, 48px); height: 48px; cursor: pointer; transition: transform 0.2s var(--spring-ease);
+      width: clamp(40px, 18vw, 50px); height: 44px; cursor: pointer;
+      border-radius: 12px;
+      transition: transform 0.2s var(--spring-ease), opacity 0.2s ease;
     }
-    .footer-nav-item:active { transform: scale(0.85); }
-    .footer-nav-item svg { width: clamp(22px, 6.5vw, 25px); height: clamp(22px, 6.5vw, 25px); fill: none; stroke: #000000; stroke-width: 2; transition: all 0.2s; }
-    .footer-nav-item.active svg { fill: #000000; stroke-width: 0; }
+    .footer-nav-item:active { transform: scale(0.88); }
+    .footer-nav-item svg {
+      width: 24px; height: 24px;
+      fill: none;
+      stroke: #1a1a1a;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.2s ease, stroke-width 0.2s ease, transform 0.2s var(--spring-ease);
+    }
+    .footer-nav-item .ig-flash-dot {
+      fill: #1a1a1a;
+      stroke: none;
+    }
+    .footer-nav-item.active svg {
+      stroke: #000000;
+      stroke-width: 2.1;
+    }
     .footer-badge-dot {
-      position: absolute; top: 8px; right: 10px; width: 16px; height: 16px;
+      position: absolute; top: 6px; right: 8px; width: 15px; height: 15px;
       background: var(--ig-badge); color: #fff; font-size: 0.65rem; font-weight: 700;
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
       border: 1.5px solid #fff; animation: badgePop 1s ease-in-out infinite alternate;
     }
     @keyframes badgePop { 0% { transform: scale(1); } 100% { transform: scale(1.12); } }
     .footer-avatar-icon {
-      width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #000; object-fit: cover;
-      transition: transform 0.2s var(--spring-ease);
+      width: 25px; height: 25px; border-radius: 50%;
+      border: 1.6px solid #1a1a1a; object-fit: cover;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s var(--spring-ease), border-color 0.2s ease;
+    }
+    .footer-nav-item.active .footer-avatar-icon {
+      border: 2px solid #000000;
     }
 
     /* Fullscreen Story Viewer Modal with Ken Burns Effect */
@@ -3047,29 +3073,35 @@
   <!-- REAL INSTAGRAM LIGHT THEME BOTTOM NAVIGATION BAR      -->
   <!-- ==================================================== -->
   <nav class="ig-bottom-footer">
-    <!-- 1. Home Icon (Filled Pentagon Home) -> 최상단 이동 -->
+    <!-- 1. Home Icon -> 최상단 이동 -->
     <div class="footer-nav-item active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="최상단 이동">
-      <svg viewBox="0 0 24 24" width="24" height="24"><path d="M22 10.5V20a2 2 0 0 1-2 2h-4.5a1.5 1.5 0 0 1-1.5-1.5v-5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v5a1.5 1.5 0 0 1-1.5 1.5H4a2 2 0 0 1-2-2v-9.5a2 2 0 0 1 .63-1.45l8-7.2a2 2 0 0 1 2.74 0l8 7.2A2 2 0 0 1 22 10.5z" fill="#000"/></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path d="M3 10.5L12 3l9 7.5V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10.5z" />
+        <polyline points="9 22 9 12.5 15 12.5 15 22" />
+      </svg>
     </div>
     <!-- 2. Instagram Camera/Story Icon -> 스토리 릴스 보기 -->
     <div class="footer-nav-item" onclick="openStoryViewer()" title="스토리 릴스 보기">
-      <svg viewBox="0 0 24 24" width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="5.5" fill="none" stroke="#000" stroke-width="2.2"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="#000" stroke-width="2.2"/></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+        <circle cx="12" cy="12" r="4.2" />
+        <circle cx="17.5" cy="6.5" r="1.1" class="ig-flash-dot" />
+      </svg>
     </div>
     <!-- 3. Location Pin Icon -> 오시는 길 -->
     <div class="footer-nav-item" onclick="scrollToSection('location-sec')" title="오시는 길">
       <svg viewBox="0 0 24 24" width="24" height="24">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="none" stroke="#000" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="12" cy="9" r="2.5" fill="none" stroke="#000" stroke-width="2.1"/>
+        <path d="M12 21.5C12 21.5 19 14.5 19 9.5a7 7 0 0 0-14 0c0 5 7 12 7 12z" />
+        <circle cx="12" cy="9.5" r="2.5" />
       </svg>
     </div>
     <!-- 4. Gift / Heart Envelope Icon -> 마음 전하기 -->
     <div class="footer-nav-item" onclick="scrollToSection('bank-sec')" title="마음 전하기">
       <svg viewBox="0 0 24 24" width="24" height="24">
-        <polyline points="20 12 20 22 4 22 4 12" fill="none" stroke="#000" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
-        <rect x="2" y="7" width="20" height="5" rx="1.5" fill="none" stroke="#000" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
-        <line x1="12" y1="22" x2="12" y2="7" stroke="#000" stroke-width="2.1"/>
-        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" fill="none" stroke="#000" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" fill="none" stroke="#000" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="3" y="8" width="18" height="4" rx="1" />
+        <path d="M12 8v13" />
+        <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" />
+        <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" />
       </svg>
     </div>
     <!-- 5. Profile Avatar Icon -> 신랑 & 신부 프로필 바텀시트 -->
