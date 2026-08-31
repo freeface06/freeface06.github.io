@@ -368,18 +368,21 @@
     .map-frame-wrapper {
       position: relative;
       width: 100%;
-      height: 230px;
-      border-radius: 14px;
+      height: 270px;
+      border-radius: 0;
       overflow: hidden;
-      margin-bottom: 16px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin: 0;
+      border: none;
+      box-shadow: none;
       background: #f4f6f8;
     }
     #interactiveMap {
       width: 100%;
       height: 100%;
       z-index: 1;
+    }
+    .loc-body-content {
+      padding: 14px 14px 6px;
     }
     .map-tag-pill {
       position: absolute;
@@ -1419,16 +1422,16 @@
       <svg class="post-header-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     </div>
 
-    <div class="loc-card-box">
-      <!-- 1. Map Viewport with interactive fallback & status pill -->
-      <div class="map-frame-wrapper" id="mapFrameWrapper">
-        <div id="interactiveMap"></div>
-        <div class="map-tag-pill">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          라비니움 (천호역 6번 출구)
-        </div>
+    <!-- 1. Full-width Edge-to-Edge Map (Instagram Media Style) -->
+    <div class="map-frame-wrapper" id="mapFrameWrapper">
+      <div id="interactiveMap"></div>
+      <div class="map-tag-pill">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        라비니움 (천호역 6번 출구)
       </div>
+    </div>
 
+    <div class="loc-body-content">
       <!-- 2. Venue Title & Quick Action Chips -->
       <div class="loc-venue-header">
         <div class="loc-venue-title-row">
