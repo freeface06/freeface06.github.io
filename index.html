@@ -10,7 +10,7 @@
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Playfair+Display:ital,wght@0,600;1,600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Grand+Hotel&family=Playfair+Display:ital,wght@0,600;1,600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=lstn6qo079"></script>
   <style>
@@ -342,20 +342,15 @@
       text-align: center;
       box-shadow: none;
     }
-    .cal-badge {
-      display: inline-block; position: relative; overflow: hidden;
-      background: linear-gradient(135deg, #ff3040, #fd1d1d); color: #fff;
-      font-weight: 700; font-size: 1.25rem; padding: 6px 20px; border-radius: 24px;
-      margin-bottom: 14px; box-shadow: 0 4px 14px rgba(255, 48, 64, 0.28);
+    .cal-date-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #111111;
+      letter-spacing: -0.2px;
+      margin-bottom: 18px;
     }
-    .cal-badge::after {
-      content: ''; position: absolute; top: 0; left: 0; width: 60%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      animation: shimmerSweep 2.6s infinite ease-in-out;
-    }
-    @keyframes shimmerSweep { 0% { transform: translateX(-150%); } 100% { transform: translateX(250%); } }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; font-size: 0.88rem; max-width: 320px; margin: 0 auto; }
-    .cal-head { color: var(--text-dim); font-size: 0.76rem; font-weight: 600; padding-bottom: 6px; }
+    .cal-head { color: var(--text-dim); font-size: 0.76rem; font-weight: 600; padding-bottom: 8px; }
     .cal-head.sun { color: var(--ig-red); }
     .cal-day { padding: 7px 0; color: #333; font-weight: 500; transition: transform 0.2s; }
     .cal-day.sun { color: var(--ig-red); }
@@ -366,6 +361,61 @@
     @keyframes targetGlow {
       0% { transform: scale(1); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
       100% { transform: scale(1.08); box-shadow: 0 4px 14px rgba(0,0,0,0.5); }
+    }
+
+    /* Elegant Serif Countdown Timer Component (Matching User's Reference) */
+    .countdown-container {
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+    .countdown-labels {
+      display: grid;
+      grid-template-columns: 1fr 14px 1fr 14px 1fr 14px 1fr;
+      font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #8e8e8e;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+      max-width: 290px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .countdown-labels span:nth-child(1) { grid-column: 1; }
+    .countdown-labels span:nth-child(2) { grid-column: 3; }
+    .countdown-labels span:nth-child(3) { grid-column: 5; }
+    .countdown-labels span:nth-child(4) { grid-column: 7; }
+
+    .countdown-digits {
+      display: grid;
+      grid-template-columns: 1fr 14px 1fr 14px 1fr 14px 1fr;
+      align-items: center;
+      font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+      font-size: 2.1rem;
+      font-weight: 400;
+      color: #111111;
+      letter-spacing: 1px;
+      line-height: 1;
+      max-width: 290px;
+      margin: 0 auto 16px;
+    }
+    .countdown-colon {
+      font-size: 1.5rem;
+      color: #a0a0a0;
+      font-weight: 300;
+      transform: translateY(-2px);
+    }
+    .countdown-notice {
+      font-size: 0.88rem;
+      color: #333333;
+      line-height: 1.5;
+      letter-spacing: -0.3px;
+    }
+    .countdown-notice strong {
+      color: #111111;
+      font-weight: 700;
     }
 
     /* ==================================================== */
@@ -1568,8 +1618,7 @@
       </div>
     </div>
     <div class="cal-card-box">
-      <div class="cal-badge" id="ddayBadge">D-Day 계산중...</div>
-      <h3 style="margin-bottom: 14px; font-weight: 700; font-size: 1.05rem; color: #000;">2027. 06. 19 SAT PM 2:00</h3>
+      <div class="cal-date-title">2027. 06. 19 SAT PM 2:00</div>
       <div class="cal-grid">
         <div class="cal-head sun">일</div><div class="cal-head">월</div><div class="cal-head">화</div><div class="cal-head">수</div><div class="cal-head">목</div><div class="cal-head">금</div><div class="cal-head">토</div>
         <div></div><div></div><div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div>
@@ -1577,6 +1626,28 @@
         <div class="cal-day sun">13</div><div class="cal-day">14</div><div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day target">19</div>
         <div class="cal-day sun">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div>
         <div class="cal-day sun">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div></div><div></div><div></div>
+      </div>
+
+      <!-- Elegant Real-Time Countdown Timer -->
+      <div class="countdown-container">
+        <div class="countdown-labels">
+          <span>DAYS</span>
+          <span>HOUR</span>
+          <span>MIN</span>
+          <span>SEC</span>
+        </div>
+        <div class="countdown-digits">
+          <span id="timer-days">00</span>
+          <span class="countdown-colon">:</span>
+          <span id="timer-hours">00</span>
+          <span class="countdown-colon">:</span>
+          <span id="timer-mins">00</span>
+          <span class="countdown-colon">:</span>
+          <span id="timer-secs">00</span>
+        </div>
+        <div class="countdown-notice" id="countdownNotice">
+          호정, 다솔의 결혼식이 <strong>292일</strong> 남았습니다.
+        </div>
       </div>
     </div>
     <div class="post-action-bar">
@@ -2366,16 +2437,44 @@
       }
     }
 
-    function updateDDay() {
+    function updateCountdownTimer() {
       const target = new Date('2027-06-19T14:00:00+09:00');
       const now = new Date();
       const diff = target - now;
-      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-      const badge = document.getElementById('ddayBadge');
-      if (badge) {
-        badge.textContent = days > 0 ? `D-${days}` : (days === 0 ? 'D-DAY' : `D+${Math.abs(days)}`);
+
+      const daysEl = document.getElementById('timer-days');
+      const hoursEl = document.getElementById('timer-hours');
+      const minsEl = document.getElementById('timer-mins');
+      const secsEl = document.getElementById('timer-secs');
+      const noticeEl = document.getElementById('countdownNotice');
+
+      if (diff <= 0) {
+        if (daysEl) daysEl.textContent = '00';
+        if (hoursEl) hoursEl.textContent = '00';
+        if (minsEl) minsEl.textContent = '00';
+        if (secsEl) secsEl.textContent = '00';
+        if (noticeEl) {
+          noticeEl.innerHTML = '오늘은 <strong>호정, 다솔</strong>의 결혼식 당일입니다. 축하해 주세요!';
+        }
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+      if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
+      if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
+
+      if (noticeEl) {
+        noticeEl.innerHTML = `호정, 다솔의 결혼식이 <strong>${days}일</strong> 남았습니다.`;
       }
     }
+    setInterval(updateCountdownTimer, 1000);
+    updateCountdownTimer();
 
     function scrollToSection(id) {
       const el = document.getElementById(id);
