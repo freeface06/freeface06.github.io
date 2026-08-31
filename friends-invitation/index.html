@@ -1239,13 +1239,13 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     }
     /* ============================================ */
-    /* GRAND WEDDING HALL DOORS OPENING ANIMATION   */
+    /* REALISTIC 3D WEDDING HALL DOORS OPENING      */
     /* ============================================ */
     .doors-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       z-index: 99999999; display: flex; justify-content: center; align-items: center;
-      background: #0f0e13;
-      perspective: 1200px;
+      background: #000000;
+      perspective: 1400px;
       overflow: hidden;
       cursor: pointer;
       transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s ease;
@@ -1253,117 +1253,140 @@
     .doors-overlay.hidden {
       opacity: 0; visibility: hidden; pointer-events: none;
     }
-    /* Radiant backlight glowing from behind the opening doors */
-    .doors-back-glow {
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 245, 225, 0.98) 0%, rgba(245, 225, 195, 0.8) 35%, rgba(15, 14, 19, 0.95) 100%);
-      opacity: 0;
-      transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 1;
-    }
-    .doors-overlay.opening .doors-back-glow {
-      opacity: 1;
-    }
-    /* Main Door Stage Container (Constrained to max-width 480px on desktop) */
+    /* Stage Container (Mobile width 480px) */
     .doors-stage {
       position: relative; width: 100%; max-width: 480px; height: 100%;
-      display: flex; justify-content: center; align-items: center;
+      perspective: 1400px;
       transform-style: preserve-3d;
+      overflow: hidden;
+      box-shadow: 0 0 80px rgba(0,0,0,0.8);
+    }
+    /* Grand Wedding Hall Interior View Behind the Doors */
+    .doors-interior-view {
+      position: absolute; inset: 0;
+      background: url('../images/wedding_hall.jpg') center center/cover no-repeat;
+      transform: scale(1);
+      filter: brightness(0.65) blur(2px);
+      transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1), filter 1.8s ease;
+      z-index: 1;
+    }
+    .doors-overlay.opening .doors-interior-view {
+      transform: scale(1.12);
+      filter: brightness(1.05) blur(0px);
+    }
+    /* Romantic Sunlight / Chandelier Glow Effect */
+    .doors-radiant-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 35%, rgba(255, 245, 220, 0.85) 0%, rgba(255, 230, 180, 0.3) 50%, transparent 80%);
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
       z-index: 2;
     }
-    /* Left & Right Door Leaves */
+    .doors-overlay.opening .doors-radiant-glow {
+      opacity: 1;
+    }
+    /* Door Frame Container */
+    .doors-frame-wrap {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d;
+      z-index: 3;
+    }
+    /* Individual Door Leaves (Left & Right) */
     .door-leaf {
       position: absolute; top: 0; width: 50%; height: 100%;
-      background-image: url('../images/wedding_doors.jpg');
+      background-image: url('../images/door_panels.jpg');
       background-size: 200% 100%;
       background-repeat: no-repeat;
       transform-style: preserve-3d;
-      transition: transform 1.5s cubic-bezier(0.25, 1, 0.35, 1), filter 1.5s ease;
-      box-shadow: inset 0 0 50px rgba(0,0,0,0.35);
+      transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1), filter 1.4s ease;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
     }
     .door-leaf.left {
       left: 0;
       background-position: left center;
       transform-origin: left center;
+      border-right: 1px solid rgba(0,0,0,0.25);
     }
     .door-leaf.right {
       right: 0;
       background-position: right center;
       transform-origin: right center;
+      border-left: 1px solid rgba(0,0,0,0.25);
     }
-    /* 3D Grand Opening Motion */
+    /* 3D Realistic Door Swing Open */
     .doors-overlay.opening .door-leaf.left {
-      transform: rotateY(-88deg);
-      filter: brightness(1.2);
+      transform: rotateY(-95deg);
+      filter: brightness(1.2) drop-shadow(10px 0 25px rgba(0,0,0,0.5));
     }
     .doors-overlay.opening .door-leaf.right {
-      transform: rotateY(88deg);
-      filter: brightness(1.2);
+      transform: rotateY(95deg);
+      filter: brightness(1.2) drop-shadow(-10px 0 25px rgba(0,0,0,0.5));
     }
-    /* Center Seam Line */
-    .doors-center-seam {
+    /* Center Meeting Seam Shadow */
+    .doors-center-shadow {
       position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 2px; height: 100%;
-      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(212,163,115,0.7) 50%, rgba(0,0,0,0.5) 100%);
+      width: 4px; height: 100%;
+      background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(212,175,120,0.6) 50%, rgba(0,0,0,0.5) 100%);
       z-index: 5;
       transition: opacity 0.4s ease;
     }
-    .doors-overlay.opening .doors-center-seam {
+    .doors-overlay.opening .doors-center-shadow {
       opacity: 0;
     }
-    /* Luxury Welcome Plaque / Emblem on the Doors */
+    /* Elegant Gold Plaque in Center of Doors */
     .doors-emblem {
       position: absolute; top: 48%; left: 50%;
       transform: translate(-50%, -50%);
       display: flex; flex-direction: column; align-items: center; text-align: center;
-      background: rgba(20, 18, 16, 0.82);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(212, 175, 120, 0.45);
-      border-radius: 8px;
-      padding: 16px 24px;
+      background: rgba(18, 16, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(220, 185, 130, 0.55);
+      border-radius: 10px;
+      padding: 18px 28px;
       z-index: 6;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.5), inset 0 0 20px rgba(212, 175, 120, 0.12);
-      transition: opacity 0.6s ease 0.1s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 0 25px rgba(212, 175, 120, 0.15);
+      transition: opacity 0.5s ease 0.1s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
     }
     .doors-overlay.opening .doors-emblem {
       opacity: 0;
-      transform: translate(-50%, -50%) scale(1.12);
+      transform: translate(-50%, -50%) scale(1.15);
     }
     .doors-emblem-sub {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 4px;
-      color: #d4a373;
+      font-size: 0.64rem;
+      letter-spacing: 4.5px;
+      color: #e5b982;
       text-transform: uppercase;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
     .doors-emblem-title {
       font-family: 'Playfair Display', 'Nanum Myeongjo', serif;
-      font-size: 1.18rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: #ffffff;
       letter-spacing: 2px;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     .doors-emblem-divider {
-      width: 28px; height: 1px;
-      background: linear-gradient(90deg, transparent, #d4a373, transparent);
-      margin-bottom: 5px;
+      width: 32px; height: 1px;
+      background: linear-gradient(90deg, transparent, #e5b982, transparent);
+      margin-bottom: 6px;
     }
     .doors-emblem-date {
-      font-size: 0.68rem;
-      color: rgba(255, 255, 255, 0.8);
-      letter-spacing: 1.5px;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 1.8px;
     }
     .doors-skip-hint {
       position: absolute; bottom: 32px; left: 50%;
       transform: translateX(-50%);
       font-size: 0.72rem;
-      letter-spacing: 1.2px;
-      color: rgba(255, 255, 255, 0.65);
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.7);
       font-weight: 400;
       pointer-events: none;
       z-index: 10;
@@ -1378,26 +1401,30 @@
 </head>
 <body>
 
-  <!-- Grand Wedding Hall Doors Opening Animation (Auto-play) -->
+  <!-- Realistic 3D Wedding Hall Doors Opening Animation (Auto-play) -->
   <div class="doors-overlay" id="doorsOverlay" onclick="skipDoors()">
-    <div class="doors-back-glow"></div>
     <div class="doors-stage">
-      <!-- Left Door Leaf -->
-      <div class="door-leaf left"></div>
-      <!-- Right Door Leaf -->
-      <div class="door-leaf right"></div>
-      <!-- Center Seam Shadow Line -->
-      <div class="doors-center-seam"></div>
+      <!-- Grand Wedding Hall Interior Behind Doors -->
+      <div class="doors-interior-view"></div>
+      <div class="doors-radiant-glow"></div>
+      
+      <!-- Door Leaves & Frame -->
+      <div class="doors-frame-wrap">
+        <div class="door-leaf left"></div>
+        <div class="door-leaf right"></div>
+        <div class="doors-center-shadow"></div>
+      </div>
+      
       <!-- Center Wedding Welcome Emblem -->
       <div class="doors-emblem">
         <div class="doors-emblem-sub">Wedding Invitation</div>
         <div class="doors-emblem-title">이호정 & 전다솔</div>
         <div class="doors-emblem-divider"></div>
         <div class="doors-emblem-date">2027. 06. 19 SAT PM 02:00</div>
-        <div style="font-size: 0.64rem; margin-top: 3px; color: #d4a373; letter-spacing: 1px;">라비니움 LABINIUM</div>
+        <div style="font-size: 0.66rem; margin-top: 4px; color: #e5b982; letter-spacing: 1.2px;">라비니움 LABINIUM</div>
       </div>
+      <div class="doors-skip-hint">화면을 터치하면 바로 입장합니다</div>
     </div>
-    <div class="doors-skip-hint">화면을 터치하면 바로 입장합니다</div>
   </div>
 
   <!-- Canvas for Confetti Fireworks Animation -->
