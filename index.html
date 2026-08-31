@@ -168,18 +168,6 @@
       -webkit-user-drag: none;
       transition: transform 0.4s var(--smooth-ease);
     }
-    .carousel-arrow {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-      display: flex; align-items: center; justify-content: center; z-index: 6;
-      border: none; cursor: pointer; transition: opacity 0.2s, transform 0.2s;
-    }
-    .carousel-arrow:active { transform: translateY(-50%) scale(0.9); }
-    .carousel-arrow.prev { left: 10px; display: none; }
-    .carousel-arrow.next { right: 10px; }
-    .carousel-arrow svg { width: 16px; height: 16px; stroke: #000; fill: none; stroke-width: 2.5; }
 
     /* Carousel Dots Pagination - Rock Solid & Fixed */
     .carousel-dots {
@@ -236,38 +224,56 @@
       display: block;
     }
 
-    /* Fullscreen Photo Lightbox Modal */
+    /* Fullscreen Photo Lightbox Modal (Swipe + Zoom & Pan) */
     #photo-lightbox {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.96); z-index: 999999; display: none;
       flex-direction: column; justify-content: space-between;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      user-select: none; -webkit-user-select: none;
+      touch-action: none;
       animation: modalFadeIn 0.25s ease-out;
     }
     .lightbox-header {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 20px; color: #fff; z-index: 10;
+      padding: 14px 18px; color: #fff; z-index: 20;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 100%);
     }
-    .lightbox-counter { font-size: 0.95rem; font-weight: 600; }
-    .lightbox-close { cursor: pointer; padding: 6px; }
-    .lightbox-close svg { width: 26px; height: 26px; stroke: #fff; stroke-width: 2; }
+    .lightbox-counter { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px; }
+    .lightbox-close {
+      background: rgba(255, 255, 255, 0.15); border: none; color: #fff;
+      width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; transition: all 0.2s;
+    }
+    .lightbox-close:active { transform: scale(0.88); }
     .lightbox-body {
       flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
-      overflow: hidden; padding: 10px 0;
+      overflow: hidden; touch-action: none; width: 100%; height: 100%;
+    }
+    .lightbox-img-wrapper {
+      position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      overflow: hidden; touch-action: none;
     }
     .lightbox-img {
-      max-width: 100%; max-height: 82vh; object-fit: contain;
-      border-radius: 4px; transition: transform 0.3s var(--smooth-ease);
+      max-width: 100%; max-height: 84vh; object-fit: contain;
+      border-radius: 4px; will-change: transform;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: grab;
+      -webkit-user-drag: none;
     }
-    .lightbox-nav-btn {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 44px; height: 44px; border-radius: 50%; background: rgba(30,30,30,0.65);
-      display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer;
+    .lightbox-img:active { cursor: grabbing; }
+    .lightbox-dots {
+      display: flex; justify-content: center; align-items: center; gap: 6px;
+      padding: 12px 0 18px; z-index: 20;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
     }
-    .lightbox-nav-btn.prev { left: 14px; }
-    .lightbox-nav-btn.next { right: 14px; }
-    .lightbox-nav-btn svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2.5; }
-    .lightbox-nav-btn:active { transform: translateY(-50%) scale(0.9); }
+    .lightbox-dots .dot {
+      width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.35);
+      transition: background 0.2s, transform 0.2s; cursor: pointer;
+    }
+    .lightbox-dots .dot.active {
+      background: #ffffff; transform: scale(1.3);
+    }
 
     /* Instagram 3D Double Tap Heart Burst */
     .double-tap-heart {
@@ -343,53 +349,324 @@
       100% { transform: scale(1.08); box-shadow: 0 4px 14px rgba(0,0,0,0.5); }
     }
 
-    /* Instagram Native Location Card */
+    /* ==================================================== */
+    /* LUXURY INSTAGRAM LOCATION SECTION & TRANSPORTATION   */
+    /* ==================================================== */
     .loc-card-box {
-      background: #ffffff; border: 1px solid var(--border-subtle); border-radius: 16px;
-      margin: 0 14px 12px; padding: 18px 14px; text-align: left;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      margin: 0 14px 12px;
+      padding: 16px 14px;
+      text-align: left;
+      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
     }
     .map-frame-wrapper {
-      position: relative; width: 100%; height: 230px; border-radius: 12px;
-      overflow: hidden; margin-bottom: 16px;
-      border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      position: relative;
+      width: 100%;
+      height: 230px;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #f4f6f8;
     }
-    #interactiveMap { width: 100%; height: 100%; z-index: 1; }
+    #interactiveMap {
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
     .map-tag-pill {
-      position: absolute; top: 10px; left: 10px;
-      background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
-      padding: 5px 10px; border-radius: 20px;
-      font-size: 0.74rem; font-weight: 600; color: #000000;
-      border: 1px solid #dbdbdb; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      z-index: 10; display: flex; align-items: center; gap: 4px; pointer-events: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 5px 11px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #111111;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      pointer-events: none;
     }
-    .map-tag-pill svg { width: 12px; height: 12px; fill: #000000; }
-    .loc-info-header { margin-bottom: 12px; }
-    .loc-info-title { font-weight: 700; font-size: 1.08rem; color: #000000; margin-bottom: 3px; }
-    .loc-info-addr { font-size: 0.82rem; color: var(--text-dim); }
-    .loc-transit-box {
-      background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 12px;
-      padding: 12px 14px; font-size: 0.82rem; line-height: 1.6; margin-bottom: 14px;
+    .map-tag-pill svg {
+      width: 13px;
+      height: 13px;
+      fill: #ff3040;
     }
-    .loc-transit-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
-    .loc-transit-row:last-child { margin-bottom: 0; }
-    .loc-transit-tag {
-      background: #efefef; color: #000000; font-weight: 700; font-size: 0.72rem;
-      padding: 2px 6px; border-radius: 4px; flex-shrink: 0; margin-top: 2px;
+
+    /* Venue Title & Contact Row */
+    .loc-venue-header {
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
     }
-    .loc-nav-btns { display: flex; gap: 8px; }
-    .loc-btn {
-      flex: 1; background: #efefef; color: #000000; font-weight: 600; font-size: 0.85rem;
-      padding: 10px 0; border-radius: 8px; border: 1px solid transparent; text-align: center;
-      transition: all 0.2s var(--smooth-ease); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    .loc-venue-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
     }
-    .loc-btn:hover { background: #e5e5e5; }
-    .loc-btn:active { transform: scale(0.96); background: #dbdbdb; }
-    .loc-btn.primary-ig {
-      background: #000000; color: #ffffff;
+    .loc-venue-name {
+      font-weight: 800;
+      font-size: 1.18rem;
+      color: #000000;
+      letter-spacing: -0.3px;
+      line-height: 1.3;
     }
-    .loc-btn.primary-ig:hover { background: #262626; }
-    .loc-btn.primary-ig:active { background: #333333; }
+    .loc-hall-badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #0095f6;
+      background: rgba(0, 149, 246, 0.08);
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-top: 3px;
+    }
+    .loc-phone-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #262626;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .loc-phone-btn:active {
+      transform: scale(0.94);
+      background: #efefef;
+    }
+    .loc-address-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: #fafafa;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+    .loc-address-text {
+      font-size: 0.8rem;
+      color: #555555;
+      line-height: 1.4;
+      flex: 1;
+      word-break: keep-all;
+    }
+    .loc-copy-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #111111;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s;
+    }
+    .loc-copy-chip:active {
+      transform: scale(0.93);
+      background: #f0f0f0;
+    }
+
+    /* 3-Brand Navigation Buttons Grid */
+    .loc-nav-heading {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #333333;
+      margin-bottom: 8px;
+    }
+    .loc-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .loc-app-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 6px 10px;
+      border-radius: 12px;
+      background: #fafafa;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s var(--smooth-ease);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+    .loc-app-btn:hover {
+      background: #f0f2f5;
+      transform: translateY(-1px);
+    }
+    .loc-app-btn:active {
+      transform: scale(0.95);
+      background: #e9ecef;
+    }
+    .remit-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .app-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .loc-app-btn .app-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.3px;
+    }
+
+    /* Transit Details List */
+    .loc-transit-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .transit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #fafafa;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: background-color 0.2s;
+    }
+    .transit-item:hover {
+      background: #f7f7f8;
+    }
+    .transit-icon-col {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .transit-icon-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .transit-icon-badge.subway {
+      background: rgba(139, 80, 164, 0.12);
+      color: #8B50A4;
+    }
+    .transit-icon-badge.bus {
+      background: rgba(0, 149, 246, 0.12);
+      color: #0095f6;
+    }
+    .transit-icon-badge.parking {
+      background: rgba(255, 140, 0, 0.12);
+      color: #e6683c;
+    }
+    .transit-content {
+      flex: 1;
+    }
+    .transit-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .transit-title {
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #111111;
+    }
+    .subway-lines {
+      display: flex;
+      gap: 4px;
+    }
+    .subway-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #ffffff;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .subway-pill.line-5 {
+      background: #8B50A4;
+    }
+    .subway-pill.line-8 {
+      background: #E61E8C;
+    }
+    .station-code {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+    .parking-shuttle-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #e6683c;
+      background: rgba(230, 104, 60, 0.12);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .transit-desc {
+      font-size: 0.8rem;
+      color: #444444;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+    .transit-desc strong {
+      color: #000000;
+    }
+    .bus-route-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 3px;
+      font-size: 0.76rem;
+      color: #555555;
+    }
+    .bus-tag {
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .bus-tag.blue { background: #2b78e4; }
+    .bus-tag.green { background: #3ab54a; }
+    .bus-tag.red { background: #e03b3b; }
+    .sub-tip {
+      display: inline-block;
+      margin-top: 3px;
+      font-size: 0.75rem;
+      color: #777777;
+    }
 
     /* Timetable Card */
     .tt-card-box { padding: 0 14px 8px; }
@@ -482,50 +759,320 @@
       margin: 0 14px 12px; padding: 16px 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
     .view-all-comments-link {
-      color: var(--text-dim); margin-bottom: 12px; font-size: 0.82rem; font-weight: 600;
-      cursor: pointer; display: inline-block; transition: color 0.15s;
+    /* ==================================================== */
+    /* REAL INSTAGRAM COMMENTS UI (SCREENSHOT IMAGE 2 STYLE) */
+    /* ==================================================== */
+    .ig-comment-sheet-card {
+      background: #ffffff;
+      border: 1px solid #e8e8e8;
+      border-radius: 18px 18px 14px 14px;
+      margin: 0 12px 14px;
+      padding: 10px 14px 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
     }
-    .view-all-comments-link:hover { color: var(--text-main); }
-    .comment-row {
-      display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;
-      animation: commentFadeIn 0.4s var(--smooth-ease);
+    .ig-sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: #dbdbdb;
+      border-radius: 2px;
+      margin: 2px auto 8px;
+    }
+    .ig-sheet-title-bar {
+      text-align: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 8px;
+    }
+    .ig-sheet-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #262626;
+      letter-spacing: -0.3px;
+    }
+    .ig-comments-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ig-comment-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      animation: commentFadeIn 0.3s var(--smooth-ease);
     }
     @keyframes commentFadeIn {
       0% { opacity: 0; transform: translateY(8px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-    .comment-thumb {
-      width: 32px; height: 32px; border-radius: 50%; background: #efefef;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .ig-comment-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #f0f0f0;
+      border: 1px solid #e5e5e5;
     }
-    .comment-body { flex: 1; font-size: 0.85rem; line-height: 1.4; color: var(--text); }
-    .comment-body .uname { font-weight: 700; color: var(--text-main); margin-right: 6px; }
-    .comment-body .time { font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
-    .comment-like-icon {
-      width: 14px; height: 14px; fill: none; stroke: var(--text-dim); stroke-width: 2;
-      margin-top: 4px; cursor: pointer; transition: transform 0.2s var(--spring-ease), fill 0.2s, stroke 0.2s;
+    .ig-comment-avatar.nested-avatar {
+      width: 26px;
+      height: 26px;
     }
-    .comment-like-icon.liked { fill: #ff3040; stroke: #ff3040; transform: scale(1.15); }
-    .comment-like-icon:active { transform: scale(1.4); }
+    .ig-comment-main {
+      flex: 1;
+      min-width: 0;
+    }
+    .ig-comment-header-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+    }
+    .ig-comment-uname {
+      font-weight: 700;
+      font-size: 0.84rem;
+      color: #262626;
+      cursor: pointer;
+    }
+    .ig-comment-time {
+      font-size: 0.72rem;
+      color: #8e8e8e;
+    }
+    .ig-author-badge {
+      font-size: 0.70rem;
+      color: #737373;
+      font-weight: 600;
+      background: #f2f2f2;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .ig-pin-svg {
+      width: 12px;
+      height: 12px;
+      fill: #8e8e8e;
+    }
+    .ig-comment-text {
+      font-size: 0.86rem;
+      line-height: 1.42;
+      color: #262626;
+      word-break: break-word;
+    }
+    .ig-mention {
+      color: #0095f6;
+      font-weight: 600;
+      margin-right: 4px;
+      cursor: pointer;
+    }
+    .ig-mention:hover {
+      text-decoration: underline;
+    }
+    .ig-comment-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .ig-comment-reply-btn {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #8e8e8e;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .ig-comment-reply-btn:hover {
+      color: #262626;
+    }
+    .ig-reply-thread {
+      margin-top: 8px;
+      margin-left: 8px;
+      padding-left: 10px;
+      border-left: 1.5px solid #efefef;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ig-comment-like-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    .ig-comment-like-col svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: #8e8e8e;
+      stroke-width: 1.8;
+      transition: transform 0.2s var(--spring-ease), fill 0.2s, stroke 0.2s;
+    }
+    .ig-comment-like-col.liked svg {
+      fill: #ff3040;
+      stroke: #ff3040;
+      transform: scale(1.18);
+    }
+    .ig-comment-like-col:active svg {
+      transform: scale(1.4);
+    }
+    .ig-comment-like-count {
+      font-size: 0.68rem;
+      color: #8e8e8e;
+      font-weight: 600;
+    }
+    .ig-view-all-link {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #8e8e8e;
+      cursor: pointer;
+      margin: 10px 0 2px;
+      display: inline-block;
+      transition: color 0.15s;
+    }
+    .ig-view-all-link:hover {
+      color: #262626;
+    }
 
-    /* Sticky Comment Input Dock */
-    .comment-bar-dock {
-      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-      border-top: 1px solid var(--border-subtle); background: var(--bg);
+    /* Real Instagram Quick Emoji Reaction Bar */
+    .ig-quick-emoji-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 4px 6px;
+      border-top: 1px solid #f0f0f0;
+      margin-top: 10px;
     }
-    .comment-bar-dock input {
-      flex: 1; background: #fafafa; border: 1.5px solid var(--border);
-      padding: 10px 14px; border-radius: 20px; color: var(--text-main); font-size: 0.88rem; outline: none;
-      transition: border-color 0.2s;
+    .ig-emoji-btn {
+      background: none;
+      border: none;
+      font-size: 1.32rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 5px;
+      border-radius: 50%;
+      transition: transform 0.18s var(--spring-ease);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .comment-bar-dock input:focus { border-color: #aaa; }
-    .comment-submit-link {
-      color: var(--ig-blue); font-weight: 600; font-size: 0.9rem; transition: transform 0.15s;
-      background: none; border: none; cursor: pointer; padding: 4px;
+    .ig-emoji-btn:active {
+      transform: scale(1.4);
     }
-    .comment-submit-link:active { transform: scale(0.9); }
+    .ig-emoji-svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
 
-    /* Instagram Comments Bottom Sheet Modal */
+    /* Real Instagram Comment Input Dock */
+    .ig-comment-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      padding: 4px 0 0;
+    }
+    .ig-input-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid #e0e0e0;
+    }
+    .ig-input-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ig-input-box-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #fafafa;
+      border: 1px solid #dbdbdb;
+      border-radius: 22px;
+      padding: 6px 12px;
+      gap: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .ig-input-box-wrap:focus-within {
+      border-color: #a8a8a8;
+      background: #ffffff;
+    }
+    .ig-input-field {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 0.86rem;
+      color: #262626;
+      outline: none;
+      padding: 3px 0;
+      min-width: 0;
+      font-family: inherit;
+    }
+    .ig-input-field::placeholder {
+      color: #8e8e8e;
+    }
+    .ig-input-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .ig-tool-svg {
+      width: 19px;
+      height: 19px;
+      color: #8e8e8e;
+      cursor: pointer;
+      transition: color 0.15s;
+      display: block;
+    }
+    .ig-tool-svg:hover {
+      color: #262626;
+    }
+    .ig-tool-gif {
+      font-size: 0.65rem;
+      font-weight: 800;
+      border: 1.5px solid #8e8e8e;
+      color: #8e8e8e;
+      border-radius: 4px;
+      padding: 1px 3.5px;
+      cursor: pointer;
+      letter-spacing: -0.4px;
+      line-height: 1;
+      transition: color 0.15s, border-color 0.15s;
+      user-select: none;
+    }
+    .ig-tool-gif:hover {
+      color: #262626;
+      border-color: #262626;
+    }
+    .ig-post-btn {
+      background: none;
+      border: none;
+      color: #0095f6;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      padding: 4px 6px;
+      opacity: 0.4;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+    .ig-post-btn.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .ig-post-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Modal Sheet Styling Extensions */
     .comments-modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
       z-index: 2000; display: none; justify-content: center; align-items: flex-end;
@@ -536,76 +1083,48 @@
     }
     .comments-sheet {
       background: #ffffff; width: 100%; max-width: 480px;
-      max-height: 82vh; height: 75vh;
+      max-height: 84vh; height: 80vh;
       border-radius: 20px 20px 0 0;
       display: flex; flex-direction: column;
       transform: translateY(100%); transition: transform 0.35s var(--smooth-ease);
-      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25);
     }
     .comments-modal-overlay.active .comments-sheet {
       transform: translateY(0);
     }
     .sheet-handle-bar {
-      width: 40px; height: 4px; background: #dbdbdb; border-radius: 2px;
+      width: 36px; height: 4px; background: #dbdbdb; border-radius: 2px;
       margin: 10px auto 4px; flex-shrink: 0;
     }
     .sheet-header {
-      padding: 8px 16px 12px; border-bottom: 1px solid var(--border-subtle);
+      padding: 6px 16px 10px; border-bottom: 1px solid #f0f0f0;
       display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
     }
     .sheet-title {
-      font-size: 0.96rem; font-weight: 700; color: var(--text-main);
+      font-size: 0.96rem; font-weight: 700; color: #262626;
       text-align: center; flex: 1; margin-left: 24px;
     }
     .sheet-close-btn {
       background: none; border: none; cursor: pointer;
-      color: var(--text-main); padding: 4px; line-height: 1;
+      color: #262626; padding: 4px; line-height: 1;
       display: flex; align-items: center; justify-content: center;
     }
     .sheet-comments-body {
       flex: 1; overflow-y: auto; padding: 14px 16px;
       -webkit-overflow-scrolling: touch;
     }
-    .sheet-comment-item {
-      display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;
-      animation: commentFadeIn 0.3s var(--smooth-ease);
+    .sheet-emoji-bar {
+      border-top: 1px solid #f0f0f0;
+      margin-top: 0;
+      padding: 8px 16px 4px;
+      background: #ffffff;
+      flex-shrink: 0;
     }
-    .sheet-comment-avatar {
-      width: 34px; height: 34px; border-radius: 50%; background: #f0f0f0;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .sheet-comment-content {
-      flex: 1; font-size: 0.86rem; line-height: 1.45; color: var(--text);
-    }
-    .sheet-comment-content .uname {
-      font-weight: 700; color: var(--text-main); margin-right: 6px;
-    }
-    .sheet-comment-meta {
-      display: flex; align-items: center; gap: 14px; margin-top: 4px;
-      font-size: 0.72rem; color: var(--text-dim); font-weight: 600;
-    }
-    .sheet-comment-meta span { cursor: pointer; }
-    .sheet-comment-heart {
-      width: 15px; height: 15px; fill: none; stroke: var(--text-dim); stroke-width: 2;
-      margin-top: 4px; cursor: pointer; transition: transform 0.2s, stroke 0.2s, fill 0.2s; flex-shrink: 0;
-    }
-    .sheet-comment-heart.liked {
-      fill: #ff3040; stroke: #ff3040; transform: scale(1.15);
-    }
-    .sheet-comment-heart:active { transform: scale(1.4); }
     .sheet-input-dock {
-      padding: 10px 14px; border-top: 1px solid var(--border-subtle);
-      background: #ffffff; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
-    }
-    .sheet-input-dock input {
-      flex: 1; background: #fafafa; border: 1px solid var(--border);
-      padding: 10px 14px; border-radius: 20px; font-size: 0.88rem; outline: none;
-      color: var(--text-main);
-    }
-    .sheet-input-dock input:focus { border-color: #999; }
-    .sheet-submit-btn {
-      background: none; border: none; color: var(--ig-blue); font-weight: 700;
-      font-size: 0.9rem; cursor: pointer; padding: 6px;
+      padding: 6px 14px 14px;
+      border-top: none;
+      background: #ffffff;
+      flex-shrink: 0;
     }
 
     /* ==================================================== */
@@ -788,13 +1307,6 @@
           <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </div>
       </div>
-      <!-- Carousel Arrow Buttons -->
-      <button class="carousel-arrow prev" id="carouselPrevBtn" onclick="scrollCarousel(-1)" aria-label="이전 사진">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-      </button>
-      <button class="carousel-arrow next" id="carouselNextBtn" onclick="scrollCarousel(1)" aria-label="다음 사진">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </button>
     </div>
     <!-- Carousel Dots Pagination -->
     <div class="carousel-dots" id="carouselDots">
@@ -881,10 +1393,12 @@
         <div class="post-user-row"><span class="post-username">hojeong_x_dasol</span><svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
         <div class="post-location-tag">라비니움 (LABINIUM)</div>
       </div>
+      <svg class="post-header-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     </div>
+
     <div class="loc-card-box">
-      <!-- Instagram Style Map Frame -->
-      <div class="map-frame-wrapper">
+      <!-- 1. Map Viewport with interactive fallback & status pill -->
+      <div class="map-frame-wrapper" id="mapFrameWrapper">
         <div id="interactiveMap"></div>
         <div class="map-tag-pill">
           <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -892,33 +1406,151 @@
         </div>
       </div>
 
-      <div class="loc-info-header">
-        <div class="loc-info-title">라비니움 (LABINIUM)</div>
-        <div class="loc-info-addr">서울특별시 강동구 천호대로 1026-1 (천호동) · 02-472-7004</div>
-      </div>
-      
-      <div class="loc-transit-box">
-        <div class="loc-transit-row">
-          <span class="loc-transit-tag">지하철</span>
-          <span>5호선 · 8호선 <strong>천호역 6번 출구</strong> 바로 앞 (도보 1분)</span>
+      <!-- 2. Venue Title & Quick Action Chips -->
+      <div class="loc-venue-header">
+        <div class="loc-venue-title-row">
+          <div>
+            <div class="loc-venue-name">라비니움 (LABINIUM)</div>
+            <div class="loc-hall-badge">2층 페스티벌홀</div>
+          </div>
+          <a href="tel:02-472-7004" class="loc-phone-btn tap-spring" title="전화 걸기">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>02-472-7004</span>
+          </a>
         </div>
-        <div class="loc-transit-row">
-          <span class="loc-transit-tag">주차</span>
-          <span>천호역 지하공영주차장 지하 1·2층 (기둥 A~D 20~60번 셔틀 상시 운행)</span>
+        <div class="loc-address-row">
+          <span class="loc-address-text">서울특별시 강동구 천호대로 1026-1 (천호동 453-19)</span>
+          <button class="loc-copy-chip tap-spring" onclick="copyText('서울특별시 강동구 천호대로 1026-1')">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>주소 복사</span>
+          </button>
         </div>
       </div>
 
-      <!-- Instagram Style 3 Navigation Action Buttons (Native App Direct Navigation) -->
-      <div class="loc-nav-btns">
-        <button class="loc-btn primary-ig tap-spring" onclick="openNaverNavi()">
-          네이버 지도
+      <div class="loc-nav-heading">빠른 길찾기</div>
+      <div class="loc-nav-grid">
+        <!-- Naver Map Button -->
+        <button class="loc-app-btn naver tap-spring" onclick="openNaverNavi()">
+          <div class="app-icon-wrap">
+            <svg viewBox="0 0 34 34" width="34" height="34">
+              <rect width="34" height="34" rx="8" fill="#03C75A"/>
+              <!-- Naver Map Pin -->
+              <path d="M17 5.5 C12.6 5.5 9 9.1 9 13.5 C9 18.8 17 28 17 28 C17 28 25 18.8 25 13.5 C25 9.1 21.4 5.5 17 5.5 Z" fill="#ffffff"/>
+              <!-- Green N inside Pin -->
+              <path d="M14.2 10.2 V16.8 H15.8 L18.4 12.8 V16.8 H19.8 V10.2 H18.2 L15.6 14.2 V10.2 Z" fill="#03C75A"/>
+            </svg>
+          </div>
+          <span class="app-name">네이버 지도</span>
         </button>
-        <button class="loc-btn tap-spring" onclick="openTmapNavi()">
-          티맵
+
+        <!-- TMAP Button -->
+        <button class="loc-app-btn tmap tap-spring" onclick="openTmapNavi()">
+          <div class="app-icon-wrap">
+            <svg viewBox="0 0 34 34" width="34" height="34">
+              <rect width="34" height="34" rx="8" fill="#181D2A"/>
+              <g transform="translate(17,17) scale(0.92) translate(-17,-17)">
+                <!-- Cyan Left Wing -->
+                <polygon points="7,25.5 17,17 9.5,12.5" fill="#00E5FF"/>
+                <!-- Blue Upper Wing -->
+                <polygon points="9.5,12.5 17,17 27.5,6.5 17,11.5" fill="#1B59F8"/>
+                <!-- Coral/Red Accent Fold -->
+                <polygon points="17,11.5 27.5,6.5 21,23.5" fill="#FF334B"/>
+                <!-- Shadow Crease -->
+                <polygon points="17,17 17,11.5 21,23.5" fill="#D91438"/>
+              </g>
+            </svg>
+          </div>
+          <span class="app-name">티맵</span>
         </button>
-        <button class="loc-btn tap-spring" onclick="openKakaoNavi()">
-          카카오내비
+
+        <!-- Kakao Navi Button -->
+        <button class="loc-app-btn kakao tap-spring" onclick="openKakaoNavi()">
+          <div class="app-icon-wrap">
+            <svg viewBox="0 0 34 34" width="34" height="34">
+              <rect width="34" height="34" rx="8" fill="#FEE500"/>
+              <g transform="translate(17,17) scale(0.92) translate(-17,-17)">
+                <!-- Car Body -->
+                <rect x="7.5" y="14" width="19" height="11.5" rx="4.5" fill="#1E1E1E"/>
+                <!-- Car Cabin Roof -->
+                <path d="M10 14.5 L12.5 8.2 C12.9 7.2 13.9 6.5 15 6.5 H19 C20.1 6.5 21.1 7.2 21.5 8.2 L24 14.5 Z" fill="#1E1E1E"/>
+                <!-- Windshield -->
+                <path d="M11.8 13.8 L13.5 9.5 C13.7 9 14.2 8.6 14.8 8.6 H19.2 C19.8 8.6 20.3 9 20.5 9.5 L22.2 13.8 Z" fill="#62B6FF"/>
+                <!-- Headlights -->
+                <circle cx="10.5" cy="19.5" r="2" fill="#FFF143"/>
+                <circle cx="23.5" cy="19.5" r="2" fill="#FFF143"/>
+                <!-- Bumper / Plate -->
+                <rect x="14" y="20" width="6" height="1.5" rx="0.75" fill="#FFFFFF"/>
+                <!-- Wheels Bottom -->
+                <rect x="8" y="23.5" width="4" height="2" rx="1" fill="#000000"/>
+                <rect x="22" y="23.5" width="4" height="2" rx="1" fill="#000000"/>
+              </g>
+            </svg>
+          </div>
+          <span class="app-name">카카오내비</span>
         </button>
+      </div>
+
+      <!-- 4. Modern Transit Information Cards -->
+      <div class="loc-transit-container">
+        <!-- Subway -->
+        <div class="transit-item">
+          <div class="transit-icon-col">
+            <div class="transit-icon-badge subway">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16"/><circle cx="8" cy="15" r="1" fill="currentColor"/><circle cx="16" cy="15" r="1" fill="currentColor"/><path d="M7 21l2-3m6 0l2 3"/></svg>
+            </div>
+          </div>
+          <div class="transit-content">
+            <div class="transit-header">
+              <span class="transit-title">지하철</span>
+              <div class="subway-lines">
+                <span class="subway-pill line-5">5호선</span>
+                <span class="subway-pill line-8">8호선</span>
+              </div>
+            </div>
+            <div class="transit-desc">
+              <strong>천호역 6번 출구</strong> 바로 앞 (도보 1분 거리)
+            </div>
+          </div>
+        </div>
+
+        <!-- Bus -->
+        <div class="transit-item">
+          <div class="transit-icon-col">
+            <div class="transit-icon-badge bus">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1H9v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><circle cx="7.5" cy="14.5" r="1" fill="currentColor"/><circle cx="16.5" cy="14.5" r="1" fill="currentColor"/><path d="M4 9h16"/></svg>
+            </div>
+          </div>
+          <div class="transit-content">
+            <div class="transit-header">
+              <span class="transit-title">버스</span>
+              <span class="station-code">천호역 정류장 하차</span>
+            </div>
+            <div class="transit-desc">
+              <div class="bus-route-row"><span class="bus-tag blue">간선</span> 130, 340, 341, 370</div>
+              <div class="bus-route-row"><span class="bus-tag green">지선</span> 3214, 3316, 3411, 4318</div>
+              <div class="bus-route-row"><span class="bus-tag red">광역</span> 9301, 1113, 1113-1, 1113-2</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parking & Shuttle -->
+        <div class="transit-item">
+          <div class="transit-icon-col">
+            <div class="transit-icon-badge parking">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+            </div>
+          </div>
+          <div class="transit-content">
+            <div class="transit-header">
+              <span class="transit-title">자가용 / 주차</span>
+              <span class="parking-shuttle-pill">셔틀 상시 운행</span>
+            </div>
+            <div class="transit-desc">
+              <strong>천호역 지하공영주차장</strong> 지하 1층 · 지하 2층<br>
+              <span class="sub-tip">기둥번호 <strong>A~D 20~60번</strong> 사이 전용 셔틀카트 상시 운행</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="post-caption-wrap">
@@ -1001,27 +1633,69 @@
       <div id="bank-groom">
         <div class="bank-row-item">
           <div>
-            <div style="font-weight:600; font-size:0.88rem; color:#000;">국민은행 123456-00-123456</div>
-            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:2px;">예금주: 이호정</div>
+            <div style="font-weight:700; font-size:0.92rem; color:#000;">국민은행 123456-00-123456</div>
+            <div style="font-size:0.8rem; color:var(--text-dim); margin-top:2px;">예금주: 이호정 (신랑)</div>
           </div>
-          <button class="copy-chip tap-spring" onclick="copyText('123456-00-123456')">복사</button>
+          <button class="copy-chip tap-spring" onclick="copyText('123456-00-123456', '신랑 이호정 계좌번호가 복사되었습니다.')">복사</button>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="loc-btn tap-spring" style="background:#fee500; color:#000; border:none;" onclick="alert('카카오페이로 연결됩니다.')">카카오페이</button>
-          <button class="loc-btn tap-spring" style="background:#3182f6; color:#fff; border:none;" onclick="alert('토스로 연결됩니다.')">토스</button>
+        <div class="remit-nav-grid">
+          <button class="loc-app-btn tap-spring" onclick="sendKakaoPay('국민은행', '123456-00-123456')">
+            <div class="app-icon-wrap">
+              <svg viewBox="0 0 34 34" width="34" height="34">
+                <rect width="34" height="34" rx="8" fill="#FEE500"/>
+                <g transform="translate(17,17) scale(0.9) translate(-17,-17)">
+                  <path d="M7 13 C7 10 9 8 12.5 8 C16 8 18 10 18 13 C18 16 16 18 12.5 18 H9.5 V24 H7 V13 Z M9.5 10.5 V15.5 H12.5 C14.5 15.5 15.5 14.5 15.5 13 C15.5 11.5 14.5 10.5 12.5 10.5 H9.5 Z" fill="#1E1E1E"/>
+                  <path d="M19.5 12 H22 V14 C22.5 12.8 23.8 11.8 25.2 11.8 C27.5 11.8 28.5 13.5 28.5 16 V24 H26 V16.5 C26 14.8 25.2 14 24 14 C22.5 14 22 15.2 22 16.8 V24 H19.5 V12 Z" fill="#1E1E1E"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">카카오페이 송금</span>
+          </button>
+          <button class="loc-app-btn tap-spring" onclick="sendToss('국민', '123456-00-123456')">
+            <div class="app-icon-wrap">
+              <svg viewBox="0 0 34 34" width="34" height="34">
+                <rect width="34" height="34" rx="8" fill="#3182F6"/>
+                <g transform="translate(17,17) scale(0.95) translate(-17,-17)">
+                  <path d="M11 20.5 C8.5 18 8.5 13.8 11 11.2 C13.5 8.7 17.5 8.7 20 11.2 L23 14.2 C24.5 15.7 24.5 18.2 23 19.7 C21.5 21.2 19 21.2 17.5 19.7 L15.5 17.7 C14.8 17 14.8 15.8 15.5 15.1 C16.2 14.4 17.3 14.4 18 15.1 L19.2 16.3 C19.6 16.7 20.3 16.7 20.7 16.3 C21.1 15.9 21.1 15.2 20.7 14.8 L18.5 12.6 C16.9 11 14.3 11 12.7 12.6 C11.1 14.2 11.1 16.8 12.7 18.4 L14.5 20.2 C16.5 22.2 19.8 22.2 21.8 20.2 C23.8 18.2 23.8 15 21.8 13 L19.5 10.7 C16.2 7.4 11 7.4 7.7 10.7 C4.4 14 4.4 19.3 7.7 22.6 L10 24.8 C10.6 25.4 11.5 25.4 12.1 24.8 C12.7 24.2 12.7 23.3 12.1 22.7 Z" fill="#ffffff"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">토스 간편송금</span>
+          </button>
         </div>
       </div>
       <div id="bank-bride" style="display:none;">
         <div class="bank-row-item">
           <div>
-            <div style="font-weight:600; font-size:0.88rem; color:#000;">신한은행 110-123-456789</div>
-            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:2px;">예금주: 전다솔</div>
+            <div style="font-weight:700; font-size:0.92rem; color:#000;">신한은행 110-123-456789</div>
+            <div style="font-size:0.8rem; color:var(--text-dim); margin-top:2px;">예금주: 전다솔 (신부)</div>
           </div>
-          <button class="copy-chip tap-spring" onclick="copyText('110-123-456789')">복사</button>
+          <button class="copy-chip tap-spring" onclick="copyText('110-123-456789', '신부 전다솔 계좌번호가 복사되었습니다.')">복사</button>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="loc-btn tap-spring" style="background:#fee500; color:#000; border:none;" onclick="alert('카카오페이로 연결됩니다.')">카카오페이</button>
-          <button class="loc-btn tap-spring" style="background:#3182f6; color:#fff; border:none;" onclick="alert('토스로 연결됩니다.')">토스</button>
+        <div class="remit-nav-grid">
+          <button class="loc-app-btn tap-spring" onclick="sendKakaoPay('신한은행', '110-123-456789')">
+            <div class="app-icon-wrap">
+              <svg viewBox="0 0 34 34" width="34" height="34">
+                <rect width="34" height="34" rx="8" fill="#FEE500"/>
+                <g transform="translate(17,17) scale(0.9) translate(-17,-17)">
+                  <path d="M7 13 C7 10 9 8 12.5 8 C16 8 18 10 18 13 C18 16 16 18 12.5 18 H9.5 V24 H7 V13 Z M9.5 10.5 V15.5 H12.5 C14.5 15.5 15.5 14.5 15.5 13 C15.5 11.5 14.5 10.5 12.5 10.5 H9.5 Z" fill="#1E1E1E"/>
+                  <path d="M19.5 12 H22 V14 C22.5 12.8 23.8 11.8 25.2 11.8 C27.5 11.8 28.5 13.5 28.5 16 V24 H26 V16.5 C26 14.8 25.2 14 24 14 C22.5 14 22 15.2 22 16.8 V24 H19.5 V12 Z" fill="#1E1E1E"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">카카오페이 송금</span>
+          </button>
+          <button class="loc-app-btn tap-spring" onclick="sendToss('신한', '110-123-456789')">
+            <div class="app-icon-wrap">
+              <svg viewBox="0 0 34 34" width="34" height="34">
+                <rect width="34" height="34" rx="8" fill="#3182F6"/>
+                <g transform="translate(17,17) scale(0.95) translate(-17,-17)">
+                  <path d="M11 20.5 C8.5 18 8.5 13.8 11 11.2 C13.5 8.7 17.5 8.7 20 11.2 L23 14.2 C24.5 15.7 24.5 18.2 23 19.7 C21.5 21.2 19 21.2 17.5 19.7 L15.5 17.7 C14.8 17 14.8 15.8 15.5 15.1 C16.2 14.4 17.3 14.4 18 15.1 L19.2 16.3 C19.6 16.7 20.3 16.7 20.7 16.3 C21.1 15.9 21.1 15.2 20.7 14.8 L18.5 12.6 C16.9 11 14.3 11 12.7 12.6 C11.1 14.2 11.1 16.8 12.7 18.4 L14.5 20.2 C16.5 22.2 19.8 22.2 21.8 20.2 C23.8 18.2 23.8 15 21.8 13 L19.5 10.7 C16.2 7.4 11 7.4 7.7 10.7 C4.4 14 4.4 19.3 7.7 22.6 L10 24.8 C10.6 25.4 11.5 25.4 12.1 24.8 C12.7 24.2 12.7 23.3 12.1 22.7 Z" fill="#ffffff"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">토스 간편송금</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1056,7 +1730,7 @@
     </div>
   </article>
 
-  <!-- Feed Post 6: Guestbook & Comments (방명록) -->
+  <!-- Feed Post 6: Guestbook & Comments (방명록 - Instagram Real Comment UI) -->
   <article class="feed-post reveal" id="comments-sec">
     <div class="post-header">
       <div class="post-header-avatar"><img src="images/profile.jpg" alt="avatar"></div>
@@ -1067,16 +1741,64 @@
       <svg class="post-header-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     </div>
 
-    <div class="comments-feed-box">
-      <div id="view-all-comments-btn" class="view-all-comments-link tap-spring" onclick="openCommentsSheet()">
+    <!-- Instagram Comment Sheet Style Card (Image 2 Replica) -->
+    <div class="ig-comment-sheet-card">
+      <div class="ig-sheet-handle"></div>
+      <div class="ig-sheet-title-bar">
+        <span class="ig-sheet-title">댓글</span>
+      </div>
+
+      <!-- Comments Stream (Dynamic Instagram format) -->
+      <div id="comments-list" class="ig-comments-stream">
+        <!-- Dynamically populated by JS with Instagram comment cards -->
+      </div>
+
+      <!-- View All Comments Button -->
+      <div id="view-all-comments-btn" class="ig-view-all-link tap-spring" onclick="openCommentsSheet()">
         댓글 <span id="comments-count-badge">12</span>개 모두 보기
       </div>
-      <div id="comments-list">
-        <!-- Dynamically populated by JS with latest 2 preview comments -->
+
+      <!-- Real Instagram Quick Emoji Reaction Bar -->
+      <div class="ig-quick-emoji-bar">
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('heart', this)" title="사랑">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff3040"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('clap', this)" title="박수">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M19 14.5c0 .83-.67 1.5-1.5 1.5H16l-3.3 3.3a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4l5.3-5.3a2 2 0 0 1 2.8 0L17.5 10.7c.93.93 1.5 2.2 1.5 3.8z" fill="#ffc83b"/><path d="M14.5 5.5l-3.3 3.3a2 2 0 0 0 0 2.8l2 2" stroke="#d49200" stroke-width="1.5" fill="none"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('fire', this)" title="불꽃">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M12 23c-4.97 0-9-4.03-9-9 0-3.53 2.07-6.84 4.58-9.05a1 1 0 0 1 1.62.62c.16 2.07 1.25 3.93 2.8 5.16 1.1-2.15 1.34-4.72.63-7.06a1 1 0 0 1 1.52-1.07C17.26 4.67 21 9.07 21 14c0 4.97-4.03 9-9 9z" fill="url(#fire-grad-fr)"/><defs><linearGradient id="fire-grad-fr" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ff3b30"/><stop offset="100%" stop-color="#ffcc00"/></linearGradient></defs></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('party', this)" title="축하">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M3 21l3.5-11 7.5 7.5L3 21z" fill="#ff2d55"/><path d="M6.5 10l2-2 3.5 3.5-2 2-3.5-3.5z" fill="#ffcc00"/><circle cx="16" cy="5" r="2" fill="#5856d6"/><circle cx="20" cy="11" r="1.5" fill="#34c759"/><circle cx="12" cy="3" r="1.5" fill="#ff9500"/><path d="M17 15l2 3m-7-9l3-3m5 4l2-1" stroke="#ff9500" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('plead', this)" title="감동">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><circle cx="8.5" cy="10" r="3" fill="#1c1c1e"/><circle cx="7.5" cy="9" r="1.2" fill="#ffffff"/><circle cx="9.5" cy="11" r="0.6" fill="#ffffff"/><circle cx="15.5" cy="10" r="3" fill="#1c1c1e"/><circle cx="14.5" cy="9" r="1.2" fill="#ffffff"/><circle cx="16.5" cy="11" r="0.6" fill="#ffffff"/><path d="M9.5 17c.8-1 1.6-1.5 2.5-1.5s1.7.5 2.5 1.5" stroke="#7a4b00" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('heart_eyes', this)" title="반함">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><path d="M8.5 7c-1.1 0-2 .9-2 2 0 1.5 2 3.2 2 3.2s2-1.7 2-3.2c0-1.1-.9-2-2-2z" fill="#ff2d55"/><path d="M15.5 7c-1.1 0-2 .9-2 2 0 1.5 2 3.2 2 3.2s2-1.7 2-3.2c0-1.1-.9-2-2-2z" fill="#ff2d55"/><path d="M8 15.5c1.2 1.5 2.5 2.2 4 2.2s2.8-.7 4-2.2" stroke="#7a4b00" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('wow', this)" title="감탄">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><circle cx="8.5" cy="9.5" r="1.8" fill="#1c1c1e"/><circle cx="15.5" cy="9.5" r="1.8" fill="#1c1c1e"/><ellipse cx="12" cy="16" rx="2.5" ry="3.5" fill="#1c1c1e"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReact('joy', this)" title="웃음">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><path d="M7 9.5c.8-1 2-1 2.8 0m4.4 0c.8-1 2-1 2.8 0" stroke="#7a4b00" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M7.5 14c1.2 2.5 2.8 3.5 4.5 3.5s3.3-1 4.5-3.5H7.5z" fill="#1c1c1e"/><path d="M5 11c-.5 1-1.5 1.5-1.5 1.5s1 .5 1.5 0" stroke="#007aff" stroke-width="2" stroke-linecap="round"/><path d="M19 11c.5 1 1.5 1.5 1.5 1.5s-1 .5-1.5 0" stroke="#007aff" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
       </div>
-      <div class="comment-bar-dock" style="margin-top: 10px; border-top: 1px solid var(--border-subtle); padding: 10px 0 0; background: transparent;">
-        <input type="text" id="comment-input-field" placeholder="축하 메시지 남기기..." onkeypress="if(event.key==='Enter')postComment()">
-        <button class="comment-submit-link" onclick="postComment()">게시</button>
+
+      <!-- Real Instagram Comment Input Dock -->
+      <div class="ig-comment-input-row">
+        <div class="ig-input-avatar">
+          <img src="images/profile.jpg" alt="profile">
+        </div>
+        <div class="ig-input-box-wrap">
+          <input type="text" id="comment-input-field" class="ig-input-field" placeholder="대화 참여하기..." oninput="handleCommentInputChange(this, 'comment-post-btn')" onkeypress="if(event.key==='Enter')postComment()">
+          <div class="ig-input-tools">
+            <svg class="ig-tool-svg" viewBox="0 0 24 24" title="사진" onclick="showToastMsg('사진 첨부 기능 준비 중입니다.')"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><path d="M21 15l-5-5L5 21" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <div class="ig-tool-gif" title="GIF" onclick="showToastMsg('GIF 기능 준비 중입니다.')">GIF</div>
+          </div>
+        </div>
+        <button class="ig-post-btn" id="comment-post-btn" onclick="postComment()">게시</button>
       </div>
     </div>
 
@@ -1089,7 +1811,7 @@
         </div>
         <div class="action-btn-item tap-spring" onclick="openCommentsSheet()">
           <svg class="action-svg" viewBox="0 0 24 24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>12</span>
+          <span id="post-comments-count">12</span>
         </div>
         <div class="action-btn-item tap-spring" onclick="openStoryViewer()">
           <svg class="action-svg" viewBox="0 0 24 24"><path d="M19 8l-4-4m4 4l-4 4m4-4H8a4 4 0 0 0-4 4v2m1 6l4 4m-4-4l4-4m-4 4h11a4 4 0 0 0 4-4v-2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1166,31 +1888,27 @@
     </div>
   </div>
 
-  <!-- Fullscreen Photo Lightbox Modal (사진 전체보기) -->
   <div id="photo-lightbox">
     <div class="lightbox-header">
       <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
-      <div class="lightbox-close" onclick="closePhotoLightbox()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      <button class="lightbox-close" onclick="closePhotoLightbox()" aria-label="닫기" title="닫기">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="lightbox-body" id="lightboxBody">
+      <div class="lightbox-img-wrapper" id="lightboxImgWrapper">
+        <img id="lightboxImg" class="lightbox-img" src="images/wedding_main.jpg" alt="Fullscreen Photo">
       </div>
     </div>
-    <div class="lightbox-body">
-      <div class="lightbox-nav-btn prev" onclick="prevLightboxPhoto()">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-      </div>
-      <img id="lightboxImg" class="lightbox-img" src="images/wedding_main.jpg" alt="Fullscreen Photo">
-      <div class="lightbox-nav-btn next" onclick="nextLightboxPhoto()">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </div>
-    </div>
+    <div class="lightbox-dots" id="lightboxDots"></div>
   </div>
 
-  <!-- Instagram Comments Full Bottom Sheet Modal (댓글 전체보기 바텀시트) -->
+  <!-- Instagram Comments Full Bottom Sheet Modal (댓글 전체보기 바텀시트 - Image 2 Style) -->
   <div id="comments-modal-overlay" class="comments-modal-overlay" onclick="handleCommentsOverlayClick(event)">
     <div class="comments-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <div class="sheet-title">댓글 (<span id="sheet-comments-count">12</span>)</div>
+        <div class="sheet-title">댓글</div>
         <button class="sheet-close-btn" onclick="closeCommentsSheet()" aria-label="닫기">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
@@ -1198,9 +1916,48 @@
       <div id="sheet-comments-body" class="sheet-comments-body">
         <!-- Rendered dynamically by JS -->
       </div>
-      <div class="sheet-input-dock">
-        <input type="text" id="sheet-comment-input" placeholder="축하 메시지 남기기..." onkeypress="if(event.key==='Enter')postCommentFromSheet()">
-        <button class="sheet-submit-btn" onclick="postCommentFromSheet()">게시</button>
+      
+      <!-- Quick Emoji Bar inside Modal Sheet -->
+      <div class="ig-quick-emoji-bar sheet-emoji-bar">
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('heart', this)" title="사랑">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff3040"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('clap', this)" title="박수">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M19 14.5c0 .83-.67 1.5-1.5 1.5H16l-3.3 3.3a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4l5.3-5.3a2 2 0 0 1 2.8 0L17.5 10.7c.93.93 1.5 2.2 1.5 3.8z" fill="#ffc83b"/><path d="M14.5 5.5l-3.3 3.3a2 2 0 0 0 0 2.8l2 2" stroke="#d49200" stroke-width="1.5" fill="none"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('fire', this)" title="불꽃">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M12 23c-4.97 0-9-4.03-9-9 0-3.53 2.07-6.84 4.58-9.05a1 1 0 0 1 1.62.62c.16 2.07 1.25 3.93 2.8 5.16 1.1-2.15 1.34-4.72.63-7.06a1 1 0 0 1 1.52-1.07C17.26 4.67 21 9.07 21 14c0 4.97-4.03 9-9 9z" fill="url(#fire-grad-fr2)"/><defs><linearGradient id="fire-grad-fr2" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ff3b30"/><stop offset="100%" stop-color="#ffcc00"/></linearGradient></defs></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('party', this)" title="축하">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><path d="M3 21l3.5-11 7.5 7.5L3 21z" fill="#ff2d55"/><path d="M6.5 10l2-2 3.5 3.5-2 2-3.5-3.5z" fill="#ffcc00"/><circle cx="16" cy="5" r="2" fill="#5856d6"/><circle cx="20" cy="11" r="1.5" fill="#34c759"/><circle cx="12" cy="3" r="1.5" fill="#ff9500"/><path d="M17 15l2 3m-7-9l3-3m5 4l2-1" stroke="#ff9500" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('plead', this)" title="감동">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><circle cx="8.5" cy="10" r="3" fill="#1c1c1e"/><circle cx="7.5" cy="9" r="1.2" fill="#ffffff"/><circle cx="9.5" cy="11" r="0.6" fill="#ffffff"/><circle cx="15.5" cy="10" r="3" fill="#1c1c1e"/><circle cx="14.5" cy="9" r="1.2" fill="#ffffff"/><circle cx="16.5" cy="11" r="0.6" fill="#ffffff"/><path d="M9.5 17c.8-1 1.6-1.5 2.5-1.5s1.7.5 2.5 1.5" stroke="#7a4b00" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('heart_eyes', this)" title="반함">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><path d="M8.5 7c-1.1 0-2 .9-2 2 0 1.5 2 3.2 2 3.2s2-1.7 2-3.2c0-1.1-.9-2-2-2z" fill="#ff2d55"/><path d="M15.5 7c-1.1 0-2 .9-2 2 0 1.5 2 3.2 2 3.2s2-1.7 2-3.2c0-1.1-.9-2-2-2z" fill="#ff2d55"/><path d="M8 15.5c1.2 1.5 2.5 2.2 4 2.2s2.8-.7 4-2.2" stroke="#7a4b00" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('wow', this)" title="감탄">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><circle cx="8.5" cy="9.5" r="1.8" fill="#1c1c1e"/><circle cx="15.5" cy="9.5" r="1.8" fill="#1c1c1e"/><ellipse cx="12" cy="16" rx="2.5" ry="3.5" fill="#1c1c1e"/></svg>
+        </button>
+        <button type="button" class="ig-emoji-btn tap-spring" onclick="quickReactSheet('joy', this)" title="웃음">
+          <svg class="ig-emoji-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffcc00"/><path d="M7 9.5c.8-1 2-1 2.8 0m4.4 0c.8-1 2-1 2.8 0" stroke="#7a4b00" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M7.5 14c1.2 2.5 2.8 3.5 4.5 3.5s3.3-1 4.5-3.5H7.5z" fill="#1c1c1e"/><path d="M5 11c-.5 1-1.5 1.5-1.5 1.5s1 .5 1.5 0" stroke="#007aff" stroke-width="2" stroke-linecap="round"/><path d="M19 11c.5 1 1.5 1.5 1.5 1.5s-1 .5-1.5 0" stroke="#007aff" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <!-- Real Instagram Bottom Input Dock inside Modal Sheet -->
+      <div class="ig-comment-input-row sheet-input-dock">
+        <div class="ig-input-avatar">
+          <img src="images/profile.jpg" alt="profile">
+        </div>
+        <div class="ig-input-box-wrap">
+          <input type="text" id="sheet-comment-input" class="ig-input-field" placeholder="대화 참여하기..." oninput="handleCommentInputChange(this, 'sheet-post-btn')" onkeypress="if(event.key==='Enter')postCommentFromSheet()">
+          <div class="ig-input-tools">
+            <svg class="ig-tool-svg" viewBox="0 0 24 24" title="사진" onclick="showToastMsg('사진 첨부 기능 준비 중입니다.')"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><path d="M21 15l-5-5L5 21" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <div class="ig-tool-gif" title="GIF" onclick="showToastMsg('GIF 기능 준비 중입니다.')">GIF</div>
+          </div>
+        </div>
+        <button class="ig-post-btn" id="sheet-post-btn" onclick="postCommentFromSheet()">게시</button>
       </div>
     </div>
   </div>
@@ -1232,7 +1989,7 @@
     let mapInitialized = false;
     function tryInitMap() {
       if (mapInitialized) return;
-      if (window.naver && window.naver.maps && !window.naver.maps._authFailed) {
+      if (window.naver && window.naver.maps) {
         try {
           mapInitialized = true;
           initInteractiveMap();
@@ -1244,7 +2001,7 @@
         let attempts = 0;
         const checkTimer = setInterval(() => {
           attempts++;
-          if (window.naver && window.naver.maps && !window.naver.maps._authFailed) {
+          if (window.naver && window.naver.maps) {
             clearInterval(checkTimer);
             if (!mapInitialized) {
               try {
@@ -1254,11 +2011,11 @@
                 showFallbackMap();
               }
             }
-          } else if (attempts > 20) {
+          } else if (attempts > 8) {
             clearInterval(checkTimer);
             showFallbackMap();
           }
-        }, 500);
+        }, 300);
       }
     }
 
@@ -1266,15 +2023,78 @@
       const mapEl = document.getElementById('interactiveMap');
       if (!mapEl) return;
       mapEl.innerHTML = `
-        <a href="https://map.naver.com/v5/search/%EB%9D%BC%EB%B9%84%EB%8B%88%EC%9B%80" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;position:relative;text-decoration:none;cursor:pointer;">
-          <div style="display:flex;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f8f9fa,#e9ecef);gap:12px;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-            <div style="font-weight:700;font-size:1rem;color:#333;">라비니움 (LABINIUM)</div>
-            <div style="font-size:0.82rem;color:#666;">서울 강동구 천호대로 1026-1</div>
-            <div style="font-size:0.78rem;color:#0095f6;font-weight:600;margin-top:4px;">네이버 지도에서 보기 ></div>
-          </div>
-          <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;font-size:0.78rem;font-weight:600;padding:6px 16px;border-radius:20px;white-space:nowrap;pointer-events:none;">
-            라비니움 (천호역 6번 출구 앞) - 터치하여 열기
+        <a href="https://map.naver.com/v5/search/%EB%9D%BC%EB%B9%84%EB%8B%88%EC%9B%80" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;position:relative;text-decoration:none;cursor:pointer;background:#eef1f5;overflow:hidden;">
+          <!-- Stylized Schematic Road Map Vector -->
+          <svg width="100%" height="100%" viewBox="0 0 400 230" preserveAspectRatio="xMidYMid slice" style="display:block;">
+            <defs>
+              <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.2"/>
+              </filter>
+            </defs>
+            <!-- Background Map Blocks -->
+            <rect width="400" height="230" fill="#eef2f6"/>
+            <rect x="20" y="20" width="130" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
+            <rect x="20" y="140" width="130" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
+            <rect x="230" y="20" width="150" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
+            <rect x="230" y="140" width="150" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
+
+            <!-- Main Road: Cheonho-daero -->
+            <path d="M-10 115 L410 115" stroke="#ffffff" stroke-width="44"/>
+            <path d="M-10 115 L410 115" stroke="#d5dbe4" stroke-width="2" stroke-dasharray="8 6"/>
+
+            <!-- Cross Road: Olympic-ro -->
+            <path d="M185 -10 L185 240" stroke="#ffffff" stroke-width="36"/>
+            <path d="M185 -10 L185 240" stroke="#d5dbe4" stroke-width="2" stroke-dasharray="8 6"/>
+
+            <!-- Road Labels -->
+            <text x="60" y="119" fill="#8898aa" font-size="10" font-weight="700">천 호 대 로</text>
+            <text x="320" y="119" fill="#8898aa" font-size="10" font-weight="700">강동역 방면</text>
+
+            <!-- Subway Station Hub Badge (Cheonho Stn) -->
+            <g transform="translate(145, 120)" filter="url(#shadowFilter)">
+              <rect x="-42" y="-12" width="84" height="24" rx="12" fill="#222222"/>
+              <circle cx="-28" cy="0" r="5" fill="#8B50A4"/>
+              <text x="-28" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">5</text>
+              <circle cx="-16" cy="0" r="5" fill="#E61E8C"/>
+              <text x="-16" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">8</text>
+              <text x="12" y="3.5" fill="#ffffff" font-size="9.5" font-weight="800">천호역</text>
+            </g>
+
+            <!-- Exit 6 Marker -->
+            <g transform="translate(195, 86)">
+              <rect x="-10" y="-8" width="20" height="16" rx="4" fill="#03C75A"/>
+              <text x="0" y="3.5" fill="#ffffff" font-size="8.5" font-weight="800" text-anchor="middle">6번</text>
+            </g>
+
+            <!-- Dotted Walking Path from Exit 6 to LABINIUM -->
+            <path d="M 205 86 Q 235 86 250 75" fill="none" stroke="#ff3040" stroke-width="2.5" stroke-dasharray="4 3"/>
+
+            <!-- Main Venue Pin (라비니움 LABINIUM) -->
+            <g transform="translate(265, 68)" filter="url(#shadowFilter)">
+              <!-- Outer pulse circle -->
+              <circle cx="0" cy="-20" r="14" fill="#ff3040" opacity="0.25">
+                <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.35;0;0.35" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Pin Shape -->
+              <path d="M0 -34 C-9 -34 -15 -27 -15 -18 C-15 -9 0 0 0 0 C0 0 15 -9 15 -18 C15 -27 9 -34 0 -34 Z" fill="#ff3040"/>
+              <circle cx="0" cy="-20" r="5.5" fill="#ffffff"/>
+              <!-- Venue Callout Box -->
+              <g transform="translate(0, -42)">
+                <rect x="-58" y="-22" width="116" height="22" rx="6" fill="#111111"/>
+                <text x="0" y="-8" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">라비니움 (LABINIUM)</text>
+                <polygon points="-4,0 4,0 0,4" fill="#111111"/>
+              </g>
+            </g>
+          </svg>
+
+          <!-- Floating Bottom Banner -->
+          <div style="position:absolute;bottom:10px;left:12px;right:12px;background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#03C75A;"></span>
+              <span style="font-size:0.75rem;font-weight:700;color:#111;">천호역 6번 출구 도보 1분</span>
+            </div>
+            <span style="font-size:0.74rem;font-weight:700;color:#0095f6;">네이버 지도 열기 &gt;</span>
           </div>
         </a>
       `;
@@ -1287,38 +2107,49 @@
       const lat = 37.53856;
       const lng = 127.12354;
 
-      const map = new naver.maps.Map('interactiveMap', {
-        center: new naver.maps.LatLng(lat, lng),
-        zoom: 16,
-        zoomControl: true,
-        zoomControlOptions: {
-          style: naver.maps.ZoomControlStyle.SMALL,
-          position: naver.maps.Position.TOP_RIGHT
-        },
-        mapTypeControl: false,
-        scaleControl: false,
-        logoControl: false,
-        mapDataControl: false
-      });
+      try {
+        const map = new naver.maps.Map('interactiveMap', {
+          center: new naver.maps.LatLng(lat, lng),
+          zoom: 16,
+          zoomControl: true,
+          zoomControlOptions: {
+            style: naver.maps.ZoomControlStyle.SMALL,
+            position: naver.maps.Position.TOP_RIGHT
+          },
+          mapTypeControl: false,
+          scaleControl: false,
+          logoControl: false,
+          mapDataControl: false
+        });
 
-      const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(lat, lng),
-        map: map,
-        title: '라비니움',
-        icon: {
-          content: `<div style="display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);filter:drop-shadow(0 3px 8px rgba(0,0,0,0.3));cursor:pointer;">
-            <div style="background:#000;color:#fff;font-weight:700;font-size:12px;padding:5px 10px;border-radius:8px;white-space:nowrap;margin-bottom:3px;display:flex;align-items:center;gap:5px;">
-              <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#0095f6;"></span>
-              라비니움
-            </div>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#000"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          </div>`,
-          size: new naver.maps.Size(50, 50),
-          anchor: new naver.maps.Point(25, 50)
-        }
-      });
+        const marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(lat, lng),
+          map: map,
+          title: '라비니움',
+          icon: {
+            content: `<div style="display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);filter:drop-shadow(0 3px 8px rgba(0,0,0,0.3));cursor:pointer;">
+              <div style="background:#000;color:#fff;font-weight:700;font-size:12px;padding:5px 10px;border-radius:8px;white-space:nowrap;margin-bottom:3px;display:flex;align-items:center;gap:5px;">
+                <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#0095f6;"></span>
+                라비니움
+              </div>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#000"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            </div>`,
+            size: new naver.maps.Size(50, 50),
+            anchor: new naver.maps.Point(25, 50)
+          }
+        });
 
-      naver.maps.Event.addListener(marker, 'click', () => openNaverNavi());
+        naver.maps.Event.addListener(marker, 'click', () => openNaverNavi());
+
+        // Check if Naver Maps injected an authentication error banner
+        setTimeout(() => {
+          if (mapEl.innerText.includes('인증이 실패') || mapEl.innerText.includes('Open API')) {
+            showFallbackMap();
+          }
+        }, 400);
+      } catch (err) {
+        showFallbackMap();
+      }
     }
 
     /* Native App Deep Link & Route Navigation */
@@ -1533,24 +2364,59 @@
       }
     }
 
-    function copyText(text) {
+    function copyText(text, customMsg) {
+      const msg = customMsg || '복사되었습니다.';
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
-          showToastMsg('복사되었습니다.');
+          showToastMsg(msg);
         }).catch(() => {
-          fallbackCopy(text);
+          fallbackCopy(text, msg);
         });
       } else {
-        fallbackCopy(text);
+        fallbackCopy(text, msg);
       }
     }
 
-    function fallbackCopy(text) {
+    function fallbackCopy(text, msg = '복사되었습니다.') {
       const ta = document.createElement('textarea');
       ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); showToastMsg('복사되었습니다.'); } catch(e) {}
+      try { document.execCommand('copy'); showToastMsg(msg); } catch(e) {}
       document.body.removeChild(ta);
+    }
+
+    /* Native Easy Remittance (간편송금) App Opener Handlers */
+    function sendKakaoPay(bank, accountNo) {
+      const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+      copyText(cleanAccount, '계좌번호가 복사되었습니다.\n카카오페이로 이동합니다.');
+      setTimeout(() => {
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) {
+          window.location.href = 'kakaotalk://kakaopay/money/to/bank';
+          setTimeout(() => {
+            window.location.href = 'kakaotalk://kakaopay/home';
+          }, 600);
+        } else {
+          window.open('https://pay.kakao.com', '_blank');
+        }
+      }, 300);
+    }
+
+    function sendToss(bank, accountNo) {
+      const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+      const bankName = bank.replace('은행', '').trim();
+      copyText(cleanAccount, '계좌번호가 복사되었습니다.\n토스 앱으로 이동합니다.');
+      setTimeout(() => {
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) {
+          window.location.href = `supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`;
+          setTimeout(() => {
+            window.location.href = 'supertoss://send';
+          }, 600);
+        } else {
+          window.open('https://toss.im', '_blank');
+        }
+      }, 300);
     }
 
     function showToastMsg(msg) {
@@ -1575,56 +2441,225 @@
       { id: 9, uname: 'jinsol_p', text: '너무 잘 어울리는 한 쌍! 축하드려요', time: '8시간 전', liked: false },
       { id: 10, uname: 'chulsoo_kim', text: '결혼 진심으로 축하드립니다. 행복한 가정 이루세요', time: '9시간 전', liked: false },
       { id: 11, uname: 'hyejin_v', text: '두 분 행복 가득한 날들만 있기를 응원할게요!', time: '10시간 전', liked: false },
-      { id: 12, uname: 'dongwook_s', text: '천호역 라비니움에서 멋진 날 함께 축하하겠습니다!', time: '12시간 전', liked: false }
+    /* ==================================================== */
+    /* INSTAGRAM COMMENTS ENGINE & FULL BOTTOM SHEET (IMAGE 2) */
+    /* ==================================================== */
+    const commentsData = [
+      {
+        id: 1,
+        uname: 'friend_sujin',
+        avatar: 'images/profile.jpg',
+        text: '결혼 진심으로 축하해! 축제 즐기러 갈게',
+        time: '1시간 전',
+        likes: 65,
+        liked: false,
+        isAuthor: false,
+        isPinned: true,
+        replies: [
+          {
+            id: 101,
+            uname: 'hojeong_x_dasol',
+            avatar: 'images/profile.jpg',
+            mention: '@friend_sujin',
+            text: '고마워 수진아! 6월 19일 라비니움에서 꼭 보자!',
+            time: '45분 전',
+            likes: 9,
+            liked: false,
+            isAuthor: true
+          }
+        ]
+      },
+      {
+        id: 2,
+        uname: 'jungho_k',
+        avatar: 'images/profile.jpg',
+        text: '호정아 다솔아 행복하게 잘 살아라!',
+        time: '30분 전',
+        likes: 40,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 3,
+        uname: 'min_ji_92',
+        avatar: 'images/profile.jpg',
+        text: '선남선녀 커플 드디어 결혼하는구나 축하해',
+        time: '2시간 전',
+        likes: 265,
+        liked: false,
+        isAuthor: false,
+        replies: [
+          {
+            id: 102,
+            uname: 'hojeong_x_dasol',
+            avatar: 'images/profile.jpg',
+            mention: '@min_ji_92',
+            text: '민지야 축하 고마워! 뷔페 맛있게 준비해둘게',
+            time: '1시간 전',
+            likes: 18,
+            liked: false,
+            isAuthor: true
+          }
+        ]
+      },
+      {
+        id: 4,
+        uname: 'taewon_lee',
+        avatar: 'images/profile.jpg',
+        text: '두 사람 앞날에 행복만 가득하길 바랍니다!',
+        time: '3시간 전',
+        likes: 19,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 5,
+        uname: 'dasol_bestie',
+        avatar: 'images/profile.jpg',
+        text: '우리 다솔이 세상에서 제일 예쁜 6월의 신부 축하해',
+        time: '4시간 전',
+        likes: 88,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 6,
+        uname: 'yujin_unnie',
+        avatar: 'images/profile.jpg',
+        text: '사진 너무 예쁘게 잘 나왔다! 결혼식날 봐요',
+        time: '5시간 전',
+        likes: 12,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 7,
+        uname: 'hojeong_crew',
+        avatar: 'images/profile.jpg',
+        text: '호정아 품절남 합류 축하한다 웰컴투유부월드',
+        time: '6시간 전',
+        likes: 31,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 8,
+        uname: 'wedding_guest_77',
+        avatar: 'images/profile.jpg',
+        text: '청첩장 디자인 감각 대박이네요! 본식 기대돼요',
+        time: '7시간 전',
+        likes: 54,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 9,
+        uname: 'jinsol_p',
+        avatar: 'images/profile.jpg',
+        text: '너무 잘 어울리는 한 쌍! 축하드려요',
+        time: '8시간 전',
+        likes: 15,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 10,
+        uname: 'chulsoo_kim',
+        avatar: 'images/profile.jpg',
+        text: '결혼 진심으로 축하드립니다. 행복한 가정 이루세요',
+        time: '9시간 전',
+        likes: 27,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 11,
+        uname: 'hyejin_v',
+        avatar: 'images/profile.jpg',
+        text: '두 분 행복 가득한 날들만 있기를 응원할게요!',
+        time: '10시간 전',
+        likes: 33,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      },
+      {
+        id: 12,
+        uname: 'dongwook_s',
+        avatar: 'images/profile.jpg',
+        text: '천호역 라비니움에서 멋진 날 함께 축하하겠습니다!',
+        time: '12시간 전',
+        likes: 42,
+        liked: false,
+        isAuthor: false,
+        replies: []
+      }
     ];
+
+    function renderCommentItemHTML(c, isNested = false) {
+      const isAuthorTag = c.isAuthor ? `<span class="ig-author-badge">· 작성자</span>` : '';
+      const isPinnedTag = c.isPinned ? `<svg class="ig-pin-svg" viewBox="0 0 24 24"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/></svg>` : '';
+      const mentionHTML = c.mention ? `<span class="ig-mention">${c.mention}</span>` : '';
+      
+      let repliesHTML = '';
+      if (c.replies && c.replies.length > 0) {
+        repliesHTML = `
+          <div class="ig-reply-thread">
+            ${c.replies.map(r => renderCommentItemHTML(r, true)).join('')}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="ig-comment-item ${isNested ? 'nested' : ''}">
+          <img src="${c.avatar || 'images/profile.jpg'}" class="ig-comment-avatar ${isNested ? 'nested-avatar' : ''}" alt="${c.uname}">
+          <div class="ig-comment-main">
+            <div class="ig-comment-header-row">
+              <span class="ig-comment-uname">${c.uname}</span>
+              <span class="ig-comment-time">${c.time}</span>
+              ${isAuthorTag}
+              ${isPinnedTag}
+            </div>
+            <div class="ig-comment-text">${mentionHTML}${c.text}</div>
+            <div class="ig-comment-meta">
+              <span class="ig-comment-reply-btn" onclick="replyToComment('${c.uname}')">답글 달기</span>
+            </div>
+            ${repliesHTML}
+          </div>
+          <div class="ig-comment-like-col ${c.liked ? 'liked' : ''}" onclick="toggleCommentDataLike(${c.id}, event)">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span class="ig-comment-like-count">${c.likes || 0}</span>
+          </div>
+        </div>
+      `;
+    }
 
     function renderComments() {
       const totalCount = commentsData.length;
       const badge = document.getElementById('comments-count-badge');
       if (badge) badge.textContent = totalCount;
-      const sheetBadge = document.getElementById('sheet-comments-count');
-      if (sheetBadge) sheetBadge.textContent = totalCount;
       const postCommentCount = document.getElementById('post-comments-count');
       if (postCommentCount) postCommentCount.textContent = totalCount;
 
-      // 1. Render Preview Comments on main page (latest 2)
+      // 1. Render Preview Comments on main page (latest 2 top-level comments with their replies)
       const listEl = document.getElementById('comments-list');
       if (listEl) {
         const previewItems = commentsData.slice(0, 2);
-        listEl.innerHTML = previewItems.map(c => `
-          <div class="comment-row">
-            <div class="comment-thumb">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <div class="comment-body">
-              <div><span class="uname">${c.uname}</span>${c.text}</div>
-              <div class="time">${c.time}</div>
-            </div>
-            <svg class="comment-like-icon ${c.liked ? 'liked' : ''}" viewBox="0 0 24 24" onclick="toggleCommentDataLike(${c.id})"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-          </div>
-        `).join('');
+        listEl.innerHTML = previewItems.map(c => renderCommentItemHTML(c, false)).join('');
       }
 
       // 2. Render Full Modal Sheet List (all comments)
       const sheetBody = document.getElementById('sheet-comments-body');
       if (sheetBody) {
-        sheetBody.innerHTML = commentsData.map(c => `
-          <div class="sheet-comment-item">
-            <div class="sheet-comment-avatar">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <div class="sheet-comment-content">
-              <div><span class="uname">${c.uname}</span>${c.text}</div>
-              <div class="sheet-comment-meta">
-                <span>${c.time}</span>
-                <span onclick="replyToComment('${c.uname}')">답글 달기</span>
-              </div>
-            </div>
-            <svg class="sheet-comment-heart ${c.liked ? 'liked' : ''}" viewBox="0 0 24 24" onclick="toggleCommentDataLike(${c.id})">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
-          </div>
-        `).join('');
+        sheetBody.innerHTML = commentsData.map(c => renderCommentItemHTML(c, false)).join('');
       }
     }
 
@@ -1651,19 +2686,91 @@
       }
     }
 
-    function toggleCommentDataLike(id) {
-      const comment = commentsData.find(c => c.id === id);
-      if (comment) {
-        comment.liked = !comment.liked;
-        renderComments();
+    function toggleCommentDataLike(id, e) {
+      if (e) e.stopPropagation();
+      function findAndToggle(list) {
+        for (let c of list) {
+          if (c.id === id) {
+            c.liked = !c.liked;
+            c.likes = (c.likes || 0) + (c.liked ? 1 : -1);
+            if (c.likes < 0) c.likes = 0;
+            return true;
+          }
+          if (c.replies && findAndToggle(c.replies)) return true;
+        }
+        return false;
       }
+      findAndToggle(commentsData);
+      renderComments();
     }
 
     function replyToComment(uname) {
-      const input = document.getElementById('sheet-comment-input');
+      const isSheetOpen = document.getElementById('comments-modal-overlay')?.classList.contains('active');
+      const inputId = isSheetOpen ? 'sheet-comment-input' : 'comment-input-field';
+      const btnId = isSheetOpen ? 'sheet-post-btn' : 'comment-post-btn';
+      const input = document.getElementById(inputId);
       if (input) {
         input.value = `@${uname} `;
+        handleCommentInputChange(input, btnId);
         input.focus();
+      }
+    }
+
+    function handleCommentInputChange(input, btnId) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      if (input.value.trim().length > 0) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+
+    function quickReact(type, btn) {
+      const phrases = {
+        heart: '축하해요!',
+        clap: '행복하세요!',
+        fire: '최고의 결혼식!',
+        party: '꽃길만 걸으세요!',
+        plead: '너무 감동적이에요',
+        heart_eyes: '선남선녀 비주얼!',
+        wow: '눈이 부셔요',
+        joy: '항상 웃음 가득하길'
+      };
+      const text = phrases[type] || '축하합니다!';
+      const input = document.getElementById('comment-input-field');
+      if (input) {
+        input.value += (input.value ? ' ' : '') + text;
+        handleCommentInputChange(input, 'comment-post-btn');
+        input.focus();
+      }
+      if (btn) {
+        btn.style.transform = 'scale(1.35)';
+        setTimeout(() => btn.style.transform = '', 200);
+      }
+    }
+
+    function quickReactSheet(type, btn) {
+      const phrases = {
+        heart: '축하해요!',
+        clap: '행복하세요!',
+        fire: '최고의 결혼식!',
+        party: '꽃길만 걸으세요!',
+        plead: '너무 감동적이에요',
+        heart_eyes: '선남선녀 비주얼!',
+        wow: '눈이 부셔요',
+        joy: '항상 웃음 가득하길'
+      };
+      const text = phrases[type] || '축하합니다!';
+      const input = document.getElementById('sheet-comment-input');
+      if (input) {
+        input.value += (input.value ? ' ' : '') + text;
+        handleCommentInputChange(input, 'sheet-post-btn');
+        input.focus();
+      }
+      if (btn) {
+        btn.style.transform = 'scale(1.35)';
+        setTimeout(() => btn.style.transform = '', 200);
       }
     }
 
@@ -1671,9 +2778,13 @@
       const newComment = {
         id: Date.now(),
         uname: 'guest_' + Math.floor(100 + Math.random() * 900),
+        avatar: 'images/profile.jpg',
         text: val,
         time: '방금 전',
-        liked: false
+        likes: 1,
+        liked: true,
+        isAuthor: false,
+        replies: []
       };
       commentsData.unshift(newComment);
       renderComments();
@@ -1685,7 +2796,10 @@
       const val = input ? input.value.trim() : '';
       if (!val) return;
       addCommentRecord(val);
-      if (input) input.value = '';
+      if (input) {
+        input.value = '';
+        handleCommentInputChange(input, 'comment-post-btn');
+      }
       openCommentsSheet();
     }
 
@@ -1694,7 +2808,10 @@
       const val = input ? input.value.trim() : '';
       if (!val) return;
       addCommentRecord(val);
-      if (input) input.value = '';
+      if (input) {
+        input.value = '';
+        handleCommentInputChange(input, 'sheet-post-btn');
+      }
       const body = document.getElementById('sheet-comments-body');
       if (body) body.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1852,11 +2969,6 @@
       dots.forEach((dot, idx) => {
         dot.classList.toggle('active', idx === currentCarouselIndex);
       });
-
-      const prevBtn = document.getElementById('carouselPrevBtn');
-      const nextBtn = document.getElementById('carouselNextBtn');
-      if (prevBtn) prevBtn.style.display = currentCarouselIndex === 0 ? 'none' : 'flex';
-      if (nextBtn) nextBtn.style.display = currentCarouselIndex === postPhotos.length - 1 ? 'none' : 'flex';
     }
 
     function scrollCarousel(direction) {
@@ -1924,11 +3036,22 @@
             if (e.cancelable) e.preventDefault();
             didSwipeSlide = true;
             
-            // Edge rubber-band damping
+            const width = wrapper.offsetWidth || 375;
             let effectiveDelta = deltaX;
-            if ((currentCarouselIndex === 0 && deltaX > 0) || 
-                (currentCarouselIndex === postPhotos.length - 1 && deltaX < 0)) {
-              effectiveDelta = deltaX * 0.28;
+
+            // Outer boundary rubber-band (First slide right or Last slide left)
+            if (currentCarouselIndex === 0 && deltaX > 0) {
+              effectiveDelta = deltaX * 0.22;
+            } else if (currentCarouselIndex === postPhotos.length - 1 && deltaX < 0) {
+              effectiveDelta = deltaX * 0.22;
+            } else {
+              // Strict 1-slide clamp: Even if dragged all the way across the screen,
+              // maximum movement is restricted to 1 slide width with strong rubber-band damping beyond 1 slide
+              if (deltaX < -width) {
+                effectiveDelta = -width + (deltaX + width) * 0.12;
+              } else if (deltaX > width) {
+                effectiveDelta = width + (deltaX - width) * 0.12;
+              }
             }
             
             const offsetPercent = -currentCarouselIndex * 100;
@@ -1945,10 +3068,10 @@
             const width = wrapper.offsetWidth || 375;
             const velocity = Math.abs(deltaX) / (timeTaken || 1);
 
-            // Exactly 1 slide threshold: 18% width or flick velocity > 0.3
-            if (deltaX < 0 && (Math.abs(deltaX) > width * 0.18 || (velocity > 0.3 && Math.abs(deltaX) > 20))) {
+            // Exactly 1 slide threshold: 12% width or flick velocity > 0.25
+            if (deltaX < 0 && (Math.abs(deltaX) > width * 0.12 || (velocity > 0.25 && Math.abs(deltaX) > 15))) {
               currentCarouselIndex = Math.min(currentCarouselIndex + 1, postPhotos.length - 1);
-            } else if (deltaX > 0 && (Math.abs(deltaX) > width * 0.18 || (velocity > 0.3 && Math.abs(deltaX) > 20))) {
+            } else if (deltaX > 0 && (Math.abs(deltaX) > width * 0.12 || (velocity > 0.25 && Math.abs(deltaX) > 15))) {
               currentCarouselIndex = Math.max(currentCarouselIndex - 1, 0);
             }
 
@@ -1962,6 +3085,22 @@
           }
         }
 
+        // Trackpad / Horizontal Wheel: Strict 1-slide stepping
+        let wheelLocked = false;
+        wrapper.addEventListener('wheel', (e) => {
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 15) {
+            if (e.cancelable) e.preventDefault();
+            if (wheelLocked) return;
+            wheelLocked = true;
+            if (e.deltaX > 15) {
+              scrollCarousel(1);
+            } else if (e.deltaX < -15) {
+              scrollCarousel(-1);
+            }
+            setTimeout(() => { wheelLocked = false; }, 420);
+          }
+        }, { passive: false });
+
         // Touch events
         wrapper.addEventListener('touchstart', onTouchStart, { passive: false });
         wrapper.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -1971,7 +3110,7 @@
         // Mouse drag events (for Desktop preview)
         let isMouseDown = false;
         wrapper.addEventListener('mousedown', (e) => {
-          if (e.target.closest('.carousel-arrow') || e.target.closest('.media-audio-btn')) return;
+          if (e.target.closest('.media-audio-btn')) return;
           isMouseDown = true;
           onTouchStart(e);
         });
@@ -2016,12 +3155,28 @@
     }
 
     /* ==================================================== */
-    /* FULLSCREEN PHOTO LIGHTBOX LOGIC (사진 전체보기)       */
+    /* FULLSCREEN LIGHTBOX ENGINE (SWIPE + PINCH/TAP ZOOM)   */
     /* ==================================================== */
     let currentLightboxIdx = 0;
+    let lbScale = 1;
+    let lbTranslateX = 0;
+    let lbTranslateY = 0;
+    let lbStartScale = 1;
+    let lbStartX = 0;
+    let lbStartY = 0;
+    let lbStartTransX = 0;
+    let lbStartTransY = 0;
+    let lbStartDist = 0;
+    let lbIsTouching = false;
+    let lbIsDragging = false;
+    let lbIsPinching = false;
+    let lbSwipeDeltaX = 0;
+    let lbSwipeStartTime = 0;
+    let lbLastTapTime = 0;
 
     function openPhotoLightbox(index) {
       currentLightboxIdx = index;
+      resetLightboxTransform(false);
       updateLightbox();
       document.getElementById('photo-lightbox').style.display = 'flex';
       document.body.style.overflow = 'hidden';
@@ -2030,22 +3185,301 @@
     function closePhotoLightbox() {
       document.getElementById('photo-lightbox').style.display = 'none';
       document.body.style.overflow = '';
+      resetLightboxTransform(false);
     }
 
-    function updateLightbox() {
-      document.getElementById('lightboxImg').src = postPhotos[currentLightboxIdx];
-      document.getElementById('lightboxCounter').textContent = `${currentLightboxIdx + 1} / ${postPhotos.length}`;
+    function resetLightboxTransform(animate = true) {
+      lbScale = 1;
+      lbTranslateX = 0;
+      lbTranslateY = 0;
+      applyLightboxTransform(animate);
+    }
+
+    function applyLightboxTransform(animate = true) {
+      const img = document.getElementById('lightboxImg');
+      if (!img) return;
+
+      img.style.transition = animate ? 'transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+      img.style.transform = `translate3d(${lbTranslateX}px, ${lbTranslateY}px, 0) scale(${lbScale})`;
+    }
+
+    function updateLightbox(slideDirection = 0) {
+      const img = document.getElementById('lightboxImg');
+      const counter = document.getElementById('lightboxCounter');
+      const dotsContainer = document.getElementById('lightboxDots');
+      if (!img) return;
+
+      if (slideDirection !== 0) {
+        img.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease';
+        img.style.transform = `translate3d(${slideDirection * -50}px, 0, 0) scale(0.94)`;
+        img.style.opacity = '0';
+        setTimeout(() => {
+          img.src = postPhotos[currentLightboxIdx];
+          resetLightboxTransform(false);
+          img.style.transform = `translate3d(${slideDirection * 50}px, 0, 0) scale(0.94)`;
+          img.style.opacity = '0';
+          img.offsetHeight;
+          img.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease';
+          img.style.transform = `translate3d(0, 0, 0) scale(1)`;
+          img.style.opacity = '1';
+        }, 160);
+      } else {
+        img.src = postPhotos[currentLightboxIdx];
+        resetLightboxTransform(false);
+        img.style.opacity = '1';
+      }
+
+      if (counter) counter.textContent = `${currentLightboxIdx + 1} / ${postPhotos.length}`;
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = postPhotos.map((_, i) => 
+          `<div class="dot ${i === currentLightboxIdx ? 'active' : ''}" onclick="goToLightboxPhoto(${i})"></div>`
+        ).join('');
+      }
     }
 
     function nextLightboxPhoto() {
-      currentLightboxIdx = (currentLightboxIdx + 1) % postPhotos.length;
-      updateLightbox();
+      if (currentLightboxIdx < postPhotos.length - 1) {
+        currentLightboxIdx++;
+        updateLightbox(1);
+      }
     }
 
     function prevLightboxPhoto() {
-      currentLightboxIdx = (currentLightboxIdx - 1 + postPhotos.length) % postPhotos.length;
-      updateLightbox();
+      if (currentLightboxIdx > 0) {
+        currentLightboxIdx--;
+        updateLightbox(-1);
+      }
     }
+
+    function goToLightboxPhoto(index) {
+      if (index !== currentLightboxIdx && index >= 0 && index < postPhotos.length) {
+        const dir = index > currentLightboxIdx ? 1 : -1;
+        currentLightboxIdx = index;
+        updateLightbox(dir);
+      }
+    }
+
+    function zoomLightbox(delta) {
+      const newScale = Math.max(1, Math.min(4, lbScale + delta));
+      if (newScale === 1) {
+        resetLightboxTransform(true);
+      } else {
+        lbScale = newScale;
+        clampLightboxTranslate();
+        applyLightboxTransform(true);
+      }
+    }
+
+    function resetLightboxZoom() {
+      if (lbScale !== 1) {
+        resetLightboxTransform(true);
+      } else {
+        zoomLightbox(1.5);
+      }
+    }
+
+    function clampLightboxTranslate() {
+      const wrapper = document.getElementById('lightboxImgWrapper');
+      if (!wrapper) return;
+
+      const maxTransX = (wrapper.offsetWidth * (lbScale - 1)) / 2;
+      const maxTransY = (wrapper.offsetHeight * (lbScale - 1)) / 2;
+
+      lbTranslateX = Math.max(-maxTransX, Math.min(maxTransX, lbTranslateX));
+      lbTranslateY = Math.max(-maxTransY, Math.min(maxTransY, lbTranslateY));
+    }
+
+    // Touch & Pointer Gesture Controller for Lightbox
+    (function initLightboxGestures() {
+      document.addEventListener('DOMContentLoaded', () => {
+        const body = document.getElementById('lightboxBody');
+        const img = document.getElementById('lightboxImg');
+        if (!body || !img) return;
+
+        function getDistance(t1, t2) {
+          return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+        }
+
+        function onTouchStart(e) {
+          if (e.touches.length === 2) {
+            lbIsPinching = true;
+            lbIsDragging = false;
+            lbStartDist = getDistance(e.touches[0], e.touches[1]);
+            lbStartScale = lbScale;
+            img.style.transition = 'none';
+          } else if (e.touches.length === 1) {
+            lbIsTouching = true;
+            lbIsPinching = false;
+            lbIsDragging = true;
+            lbStartX = e.touches[0].clientX;
+            lbStartY = e.touches[0].clientY;
+            lbStartTransX = lbTranslateX;
+            lbStartTransY = lbTranslateY;
+            lbSwipeDeltaX = 0;
+            lbSwipeStartTime = Date.now();
+            img.style.transition = 'none';
+          }
+        }
+
+        function onTouchMove(e) {
+          if (lbIsPinching && e.touches.length === 2) {
+            if (e.cancelable) e.preventDefault();
+            const currentDist = getDistance(e.touches[0], e.touches[1]);
+            if (lbStartDist > 0) {
+              const factor = currentDist / lbStartDist;
+              lbScale = Math.max(1, Math.min(4, lbStartScale * factor));
+              clampLightboxTranslate();
+              applyLightboxTransform(false);
+            }
+          } else if (lbIsTouching && e.touches.length === 1) {
+            const curX = e.touches[0].clientX;
+            const curY = e.touches[0].clientY;
+            const deltaX = curX - lbStartX;
+            const deltaY = curY - lbStartY;
+            lbSwipeDeltaX = deltaX;
+
+            if (lbScale > 1.05) {
+              if (e.cancelable) e.preventDefault();
+              lbTranslateX = lbStartTransX + deltaX;
+              lbTranslateY = lbStartTransY + deltaY;
+              clampLightboxTranslate();
+              applyLightboxTransform(false);
+            } else {
+              if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (e.cancelable) e.preventDefault();
+                let effectiveDelta = deltaX;
+                if ((currentLightboxIdx === 0 && deltaX > 0) || (currentLightboxIdx === postPhotos.length - 1 && deltaX < 0)) {
+                  effectiveDelta = deltaX * 0.25;
+                }
+                img.style.transform = `translate3d(${effectiveDelta}px, 0, 0) scale(1)`;
+              }
+            }
+          }
+        }
+
+        function onTouchEnd(e) {
+          if (lbIsPinching && e.touches.length < 2) {
+            lbIsPinching = false;
+            if (lbScale < 1.05) {
+              resetLightboxTransform(true);
+            } else {
+              clampLightboxTranslate();
+              applyLightboxTransform(true);
+            }
+          } else if (lbIsTouching) {
+            lbIsTouching = false;
+            lbIsDragging = false;
+
+            if (lbScale <= 1.05) {
+              const elapsed = Date.now() - lbSwipeStartTime;
+              const velocity = Math.abs(lbSwipeDeltaX) / (elapsed || 1);
+              const width = body.offsetWidth || 375;
+
+              if (lbSwipeDeltaX < 0 && (Math.abs(lbSwipeDeltaX) > width * 0.15 || (velocity > 0.3 && Math.abs(lbSwipeDeltaX) > 20))) {
+                nextLightboxPhoto();
+              } else if (lbSwipeDeltaX > 0 && (Math.abs(lbSwipeDeltaX) > width * 0.15 || (velocity > 0.3 && Math.abs(lbSwipeDeltaX) > 20))) {
+                prevLightboxPhoto();
+              } else {
+                resetLightboxTransform(true);
+              }
+            } else {
+              clampLightboxTranslate();
+              applyLightboxTransform(true);
+            }
+          }
+        }
+
+        body.addEventListener('touchstart', onTouchStart, { passive: false });
+        body.addEventListener('touchmove', onTouchMove, { passive: false });
+        body.addEventListener('touchend', onTouchEnd, { passive: true });
+        body.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+        body.addEventListener('click', (e) => {
+          if (e.target.closest('.lightbox-tool-btn') || e.target.closest('.lightbox-close')) return;
+          const now = Date.now();
+          if (now - lbLastTapTime < 320) {
+            if (lbScale > 1.05) {
+              resetLightboxTransform(true);
+            } else {
+              lbScale = 2.5;
+              applyLightboxTransform(true);
+            }
+            lbLastTapTime = 0;
+          } else {
+            lbLastTapTime = now;
+          }
+        });
+
+        let isMouseDown = false;
+        body.addEventListener('mousedown', (e) => {
+          if (e.target.closest('.lightbox-header')) return;
+          isMouseDown = true;
+          lbIsTouching = true;
+          lbStartX = e.clientX;
+          lbStartY = e.clientY;
+          lbStartTransX = lbTranslateX;
+          lbStartTransY = lbTranslateY;
+          lbSwipeDeltaX = 0;
+          lbSwipeStartTime = Date.now();
+          img.style.transition = 'none';
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (!isMouseDown) return;
+          const deltaX = e.clientX - lbStartX;
+          const deltaY = e.clientY - lbStartY;
+          lbSwipeDeltaX = deltaX;
+
+          if (lbScale > 1.05) {
+            lbTranslateX = lbStartTransX + deltaX;
+            lbTranslateY = lbStartTransY + deltaY;
+            clampLightboxTranslate();
+            applyLightboxTransform(false);
+          } else {
+            let effectiveDelta = deltaX;
+            if ((currentLightboxIdx === 0 && deltaX > 0) || (currentLightboxIdx === postPhotos.length - 1 && deltaX < 0)) {
+              effectiveDelta = deltaX * 0.25;
+            }
+            img.style.transform = `translate3d(${effectiveDelta}px, 0, 0) scale(1)`;
+          }
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (!isMouseDown) return;
+          isMouseDown = false;
+          lbIsTouching = false;
+          if (lbScale <= 1.05) {
+            const width = body.offsetWidth || 375;
+            if (lbSwipeDeltaX < -width * 0.15 || lbSwipeDeltaX < -40) {
+              nextLightboxPhoto();
+            } else if (lbSwipeDeltaX > width * 0.15 || lbSwipeDeltaX > 40) {
+              prevLightboxPhoto();
+            } else {
+              resetLightboxTransform(true);
+            }
+          } else {
+            clampLightboxTranslate();
+            applyLightboxTransform(true);
+          }
+        });
+
+        let lbWheelLock = false;
+        body.addEventListener('wheel', (e) => {
+          e.preventDefault();
+          if (e.ctrlKey || Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            const delta = e.deltaY < 0 ? 0.25 : -0.25;
+            zoomLightbox(delta);
+          } else if (Math.abs(e.deltaX) > 15 && lbScale <= 1.05) {
+            if (lbWheelLock) return;
+            lbWheelLock = true;
+            if (e.deltaX > 15) nextLightboxPhoto();
+            else if (e.deltaX < -15) prevLightboxPhoto();
+            setTimeout(() => { lbWheelLock = false; }, 400);
+          }
+        }, { passive: false });
+      });
+    })();
   </script>
 </body>
 </html>

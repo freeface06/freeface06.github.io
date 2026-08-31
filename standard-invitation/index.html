@@ -268,34 +268,54 @@ body {
   pointer-events: none;
 }
 .nav-buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   width: 100%;
   max-width: 400px;
   margin-bottom: 24px;
 }
-.nav-btn {
-  flex: 1;
-  padding: 10px 0;
-  border: 1px solid rgba(212, 163, 115, 0.4);
+.remit-buttons-dark {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+}
+.loc-app-btn-dark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 6px 10px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.04);
-  color: var(--text-main);
-  border-radius: 6px;
+  border: 1px solid rgba(212, 163, 115, 0.35);
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-align: center;
   transition: all 0.2s;
+  color: var(--text-main);
 }
-.nav-btn:hover { background: rgba(212, 163, 115, 0.15); border-color: var(--gold); }
-.nav-btn:active { transform: scale(0.96); }
-.nav-btn.primary-gold {
-  background: var(--gold);
-  color: #111111;
+.loc-app-btn-dark:hover {
+  background: rgba(212, 163, 115, 0.12);
   border-color: var(--gold);
-  font-weight: 700;
+  transform: translateY(-1px);
 }
-.nav-btn.primary-gold:hover { background: #e0b080; }
+.loc-app-btn-dark:active { transform: scale(0.95); }
+.loc-app-btn-dark .app-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loc-app-btn-dark .app-name {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
 .accordion {
   width: 100%;
   max-width: 400px;
@@ -513,10 +533,54 @@ body {
   z-index: 9999;
   font-weight: bold;
 }
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+/* Fullscreen Photo Lightbox Modal (Swipe + Zoom & Pan) */
+#photo-lightbox {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.96); z-index: 999999; display: none;
+  flex-direction: column; justify-content: space-between;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  user-select: none; -webkit-user-select: none;
+  touch-action: none;
+  animation: modalFadeIn 0.25s ease-out;
 }
+@keyframes modalFadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+.lightbox-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px; color: #fff; z-index: 20;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 100%);
+}
+.lightbox-counter { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px; }
+.lightbox-close {
+  background: rgba(255, 255, 255, 0.15); border: none; color: #fff;
+  width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; cursor: pointer; transition: all 0.2s;
+}
+.lightbox-close:active { transform: scale(0.88); }
+.lightbox-body {
+  flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; touch-action: none; width: 100%; height: 100%;
+}
+.lightbox-img-wrapper {
+  position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; touch-action: none;
+}
+.lightbox-img {
+  max-width: 100%; max-height: 84vh; object-fit: contain;
+  border-radius: 4px; will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: grab; -webkit-user-drag: none;
+}
+.lightbox-img:active { cursor: grabbing; }
+.lightbox-dots {
+  display: flex; justify-content: center; align-items: center; gap: 6px;
+  padding: 12px 0 18px; z-index: 20;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
+}
+.lightbox-dots .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.35);
+  transition: background 0.2s, transform 0.2s; cursor: pointer;
+}
+.lightbox-dots .dot.active { background: var(--gold); transform: scale(1.3); }
 </style>
 </head>
 <body>
@@ -598,10 +662,10 @@ body {
 <section id="s4" class="section">
   <h2 class="en gold gallery-title">Stills</h2>
   <div class="film-strip">
-    <div class="film-frame"><img src="../images/gallery_1.jpg" alt="still"></div>
-    <div class="film-frame"><img src="../images/gallery_2.jpg" alt="still"></div>
-    <div class="film-frame"><img src="../images/gallery_3.jpg" alt="still"></div>
-    <div class="film-frame"><img src="../images/gallery_4.jpg" alt="still"></div>
+    <div class="film-frame" onclick="openPhotoLightbox(0)" style="cursor:pointer;"><img src="../images/gallery_1.jpg" alt="still"></div>
+    <div class="film-frame" onclick="openPhotoLightbox(1)" style="cursor:pointer;"><img src="../images/gallery_2.jpg" alt="still"></div>
+    <div class="film-frame" onclick="openPhotoLightbox(2)" style="cursor:pointer;"><img src="../images/gallery_3.jpg" alt="still"></div>
+    <div class="film-frame" onclick="openPhotoLightbox(3)" style="cursor:pointer;"><img src="../images/gallery_4.jpg" alt="still"></div>
   </div>
   <p style="margin-top:20px; font-size:0.8rem; color:var(--text-dim);">가로로 스와이프하여 감상하세요</p>
 </section>
@@ -619,11 +683,62 @@ body {
     <div class="map-badge-gold">라비니움 · 천호역 6번 출구</div>
   </div>
 
-  <!-- 3 Balanced Navigation Action Buttons (Native App Direct Navigation) -->
+  <!-- 3 Navigation Action Buttons with Authentic Brand Icons -->
   <div class="nav-buttons">
-    <button class="nav-btn primary-gold" onclick="openNaverNavi()">네이버 지도</button>
-    <button class="nav-btn" onclick="openTmapNavi()">티맵</button>
-    <button class="nav-btn" onclick="openKakaoNavi()">카카오내비</button>
+    <button class="loc-app-btn-dark" onclick="openNaverNavi()">
+      <div class="app-icon-wrap" style="width:36px;height:36px;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+        <svg viewBox="0 0 34 34" width="36" height="36">
+          <rect width="34" height="34" rx="8" fill="#03C75A"/>
+          <!-- Naver Map Pin -->
+          <path d="M17 5.5 C12.6 5.5 9 9.1 9 13.5 C9 18.8 17 28 17 28 C17 28 25 18.8 25 13.5 C25 9.1 21.4 5.5 17 5.5 Z" fill="#ffffff"/>
+          <!-- Green N inside Pin -->
+          <path d="M14.2 10.2 V16.8 H15.8 L18.4 12.8 V16.8 H19.8 V10.2 H18.2 L15.6 14.2 V10.2 Z" fill="#03C75A"/>
+        </svg>
+      </div>
+      <span class="app-name">네이버 지도</span>
+    </button>
+    <button class="loc-app-btn-dark" onclick="openTmapNavi()">
+      <div class="app-icon-wrap" style="width:36px;height:36px;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+        <svg viewBox="0 0 34 34" width="36" height="36">
+          <rect width="34" height="34" rx="8" fill="#181D2A"/>
+          <g transform="translate(17,17) scale(0.92) translate(-17,-17)">
+            <!-- Cyan Left Wing -->
+            <polygon points="7,25.5 17,17 9.5,12.5" fill="#00E5FF"/>
+            <!-- Blue Upper Wing -->
+            <polygon points="9.5,12.5 17,17 27.5,6.5 17,11.5" fill="#1B59F8"/>
+            <!-- Coral/Red Accent Fold -->
+            <polygon points="17,11.5 27.5,6.5 21,23.5" fill="#FF334B"/>
+            <!-- Shadow Crease -->
+            <polygon points="17,17 17,11.5 21,23.5" fill="#D91438"/>
+          </g>
+        </svg>
+      </div>
+      <span class="app-name">티맵</span>
+    </button>
+    <button class="loc-app-btn-dark" onclick="openKakaoNavi()">
+      <div class="app-icon-wrap" style="width:36px;height:36px;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+        <svg viewBox="0 0 34 34" width="36" height="36">
+          <rect width="34" height="34" rx="8" fill="#FEE500"/>
+          <g transform="translate(17,17) scale(0.92) translate(-17,-17)">
+            <!-- Car Body -->
+            <rect x="7.5" y="14" width="19" height="11.5" rx="4.5" fill="#1E1E1E"/>
+            <!-- Car Cabin Roof -->
+            <path d="M10 14.5 L12.5 8.2 C12.9 7.2 13.9 6.5 15 6.5 H19 C20.1 6.5 21.1 7.2 21.5 8.2 L24 14.5 Z" fill="#1E1E1E"/>
+            <!-- Windshield -->
+            <path d="M11.8 13.8 L13.5 9.5 C13.7 9 14.2 8.6 14.8 8.6 H19.2 C19.8 8.6 20.3 9 20.5 9.5 L22.2 13.8 Z" fill="#62B6FF"/>
+            <!-- Headlights -->
+            <circle cx="10.5" cy="19.5" r="2" fill="#FFF143"/>
+            <circle cx="23.5" cy="19.5" r="2" fill="#FFF143"/>
+            <!-- Bumper / Plate -->
+            <rect x="14" y="20" width="6" height="1.5" rx="0.75" fill="#FFFFFF"/>
+            <!-- Wheels Bottom -->
+            <rect x="8" y="23.5" width="4" height="2" rx="1" fill="#000000"/>
+            <rect x="22" y="23.5" width="4" height="2" rx="1" fill="#000000"/>
+          </g>
+        </svg>
+      </div>
+      <span class="app-name">카카오내비</span>
+    </button>
   </div>
 
   <div class="accordion">
@@ -686,8 +801,33 @@ body {
       <div class="acc-title">신랑측 마음 전하실 곳 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
       <div class="acc-content">
         <div class="acc-bank">
-          <div>국민 123-456-789012<br><small>예금주: 이호정</small></div>
-          <button class="copy-btn" onclick="copyText('123456789012')">복사</button>
+          <div>국민은행 123-456-789012<br><small style="color:var(--text-dim);">예금주: 이호정 (신랑)</small></div>
+          <button class="copy-btn" onclick="copyText('123456789012', '신랑 이호정 계좌번호가 복사되었습니다.')">복사</button>
+        </div>
+        <div class="remit-buttons-dark">
+          <button class="loc-app-btn-dark" onclick="sendKakaoPay('국민은행', '123-456-789012')">
+            <div class="app-icon-wrap" style="width:36px;height:36px;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+              <svg viewBox="0 0 34 34" width="36" height="36">
+                <rect width="34" height="34" rx="8" fill="#FEE500"/>
+                <g transform="translate(17,17) scale(0.9) translate(-17,-17)">
+                  <path d="M7 13 C7 10 9 8 12.5 8 C16 8 18 10 18 13 C18 16 16 18 12.5 18 H9.5 V24 H7 V13 Z M9.5 10.5 V15.5 H12.5 C14.5 15.5 15.5 14.5 15.5 13 C15.5 11.5 14.5 10.5 12.5 10.5 H9.5 Z" fill="#1E1E1E"/>
+                  <path d="M19.5 12 H22 V14 C22.5 12.8 23.8 11.8 25.2 11.8 C27.5 11.8 28.5 13.5 28.5 16 V24 H26 V16.5 C26 14.8 25.2 14 24 14 C22.5 14 22 15.2 22 16.8 V24 H19.5 V12 Z" fill="#1E1E1E"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">카카오페이 송금</span>
+          </button>
+          <button class="loc-app-btn-dark" onclick="sendToss('국민', '123-456-789012')">
+            <div class="app-icon-wrap" style="width:36px;height:36px;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+              <svg viewBox="0 0 34 34" width="36" height="36">
+                <rect width="34" height="34" rx="8" fill="#3182F6"/>
+                <g transform="translate(17,17) scale(0.95) translate(-17,-17)">
+                  <path d="M11 20.5 C8.5 18 8.5 13.8 11 11.2 C13.5 8.7 17.5 8.7 20 11.2 L23 14.2 C24.5 15.7 24.5 18.2 23 19.7 C21.5 21.2 19 21.2 17.5 19.7 L15.5 17.7 C14.8 17 14.8 15.8 15.5 15.1 C16.2 14.4 17.3 14.4 18 15.1 L19.2 16.3 C19.6 16.7 20.3 16.7 20.7 16.3 C21.1 15.9 21.1 15.2 20.7 14.8 L18.5 12.6 C16.9 11 14.3 11 12.7 12.6 C11.1 14.2 11.1 16.8 12.7 18.4 L14.5 20.2 C16.5 22.2 19.8 22.2 21.8 20.2 C23.8 18.2 23.8 15 21.8 13 L19.5 10.7 C16.2 7.4 11 7.4 7.7 10.7 C4.4 14 4.4 19.3 7.7 22.6 L10 24.8 C10.6 25.4 11.5 25.4 12.1 24.8 C12.7 24.2 12.7 23.3 12.1 22.7 Z" fill="#ffffff"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">토스 간편송금</span>
+          </button>
         </div>
       </div>
     </div>
@@ -695,8 +835,33 @@ body {
       <div class="acc-title">신부측 마음 전하실 곳 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
       <div class="acc-content">
         <div class="acc-bank">
-          <div>신한 098-765-432109<br><small>예금주: 전다솔</small></div>
-          <button class="copy-btn" onclick="copyText('098765432109')">복사</button>
+          <div>신한은행 098-765-432109<br><small style="color:var(--text-dim);">예금주: 전다솔 (신부)</small></div>
+          <button class="copy-btn" onclick="copyText('098765432109', '신부 전다솔 계좌번호가 복사되었습니다.')">복사</button>
+        </div>
+        <div class="remit-buttons-dark">
+          <button class="loc-app-btn-dark" onclick="sendKakaoPay('신한은행', '098-765-432109')">
+            <div class="app-icon-wrap" style="width:36px;height:36px;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+              <svg viewBox="0 0 34 34" width="36" height="36">
+                <rect width="34" height="34" rx="8" fill="#FEE500"/>
+                <g transform="translate(17,17) scale(0.9) translate(-17,-17)">
+                  <path d="M7 13 C7 10 9 8 12.5 8 C16 8 18 10 18 13 C18 16 16 18 12.5 18 H9.5 V24 H7 V13 Z M9.5 10.5 V15.5 H12.5 C14.5 15.5 15.5 14.5 15.5 13 C15.5 11.5 14.5 10.5 12.5 10.5 H9.5 Z" fill="#1E1E1E"/>
+                  <path d="M19.5 12 H22 V14 C22.5 12.8 23.8 11.8 25.2 11.8 C27.5 11.8 28.5 13.5 28.5 16 V24 H26 V16.5 C26 14.8 25.2 14 24 14 C22.5 14 22 15.2 22 16.8 V24 H19.5 V12 Z" fill="#1E1E1E"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">카카오페이 송금</span>
+          </button>
+          <button class="loc-app-btn-dark" onclick="sendToss('신한', '098-765-432109')">
+            <div class="app-icon-wrap" style="width:36px;height:36px;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+              <svg viewBox="0 0 34 34" width="36" height="36">
+                <rect width="34" height="34" rx="8" fill="#3182F6"/>
+                <g transform="translate(17,17) scale(0.95) translate(-17,-17)">
+                  <path d="M11 20.5 C8.5 18 8.5 13.8 11 11.2 C13.5 8.7 17.5 8.7 20 11.2 L23 14.2 C24.5 15.7 24.5 18.2 23 19.7 C21.5 21.2 19 21.2 17.5 19.7 L15.5 17.7 C14.8 17 14.8 15.8 15.5 15.1 C16.2 14.4 17.3 14.4 18 15.1 L19.2 16.3 C19.6 16.7 20.3 16.7 20.7 16.3 C21.1 15.9 21.1 15.2 20.7 14.8 L18.5 12.6 C16.9 11 14.3 11 12.7 12.6 C11.1 14.2 11.1 16.8 12.7 18.4 L14.5 20.2 C16.5 22.2 19.8 22.2 21.8 20.2 C23.8 18.2 23.8 15 21.8 13 L19.5 10.7 C16.2 7.4 11 7.4 7.7 10.7 C4.4 14 4.4 19.3 7.7 22.6 L10 24.8 C10.6 25.4 11.5 25.4 12.1 24.8 C12.7 24.2 12.7 23.3 12.1 22.7 Z" fill="#ffffff"/>
+                </g>
+              </svg>
+            </div>
+            <span class="app-name">토스 간편송금</span>
+          </button>
         </div>
       </div>
     </div>
@@ -776,43 +941,120 @@ function updateStandardDDay() {
 }
 updateStandardDDay();
 
+function showStandardFallbackMap() {
+  const mapEl = document.getElementById('standardMap');
+  if (!mapEl) return;
+  mapEl.innerHTML = `
+    <a href="https://map.naver.com/v5/search/%EB%9D%BC%EB%B9%84%EB%8B%88%EC%9B%80" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;position:relative;text-decoration:none;cursor:pointer;background:#1a1a1a;overflow:hidden;">
+      <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" style="display:block;">
+        <defs>
+          <filter id="darkShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.6"/>
+          </filter>
+        </defs>
+        <rect width="400" height="220" fill="#181818"/>
+        <rect x="20" y="20" width="130" height="65" rx="6" fill="#242424"/>
+        <rect x="20" y="135" width="130" height="65" rx="6" fill="#242424"/>
+        <rect x="230" y="20" width="150" height="65" rx="6" fill="#242424"/>
+        <rect x="230" y="135" width="150" height="65" rx="6" fill="#242424"/>
+
+        <!-- Roads -->
+        <path d="M-10 110 L410 110" stroke="#2c2c2c" stroke-width="40"/>
+        <path d="M-10 110 L410 110" stroke="#444444" stroke-width="1.5" stroke-dasharray="8 6"/>
+        <path d="M185 -10 L185 230" stroke="#2c2c2c" stroke-width="32"/>
+        <path d="M185 -10 L185 230" stroke="#444444" stroke-width="1.5" stroke-dasharray="8 6"/>
+
+        <text x="60" y="114" fill="#777" font-size="9.5" font-weight="700">천 호 대 로</text>
+        <text x="320" y="114" fill="#777" font-size="9.5" font-weight="700">강동역 방면</text>
+
+        <!-- Cheonho Stn -->
+        <g transform="translate(145, 115)" filter="url(#darkShadow)">
+          <rect x="-42" y="-12" width="84" height="24" rx="12" fill="#111" stroke="#444"/>
+          <circle cx="-28" cy="0" r="5" fill="#8B50A4"/>
+          <text x="-28" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">5</text>
+          <circle cx="-16" cy="0" r="5" fill="#E61E8C"/>
+          <text x="-16" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">8</text>
+          <text x="12" y="3.5" fill="#d4a373" font-size="9.5" font-weight="800">천호역</text>
+        </g>
+
+        <!-- Exit 6 -->
+        <g transform="translate(195, 84)">
+          <rect x="-10" y="-8" width="20" height="16" rx="4" fill="#03C75A"/>
+          <text x="0" y="3.5" fill="#ffffff" font-size="8.5" font-weight="800" text-anchor="middle">6번</text>
+        </g>
+
+        <path d="M 205 84 Q 235 84 250 72" fill="none" stroke="#d4a373" stroke-width="2.5" stroke-dasharray="4 3"/>
+
+        <!-- Venue Pin -->
+        <g transform="translate(265, 66)" filter="url(#darkShadow)">
+          <circle cx="0" cy="-20" r="14" fill="#d4a373" opacity="0.25">
+            <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <path d="M0 -34 C-9 -34 -15 -27 -15 -18 C-15 -9 0 0 0 0 C0 0 15 -9 15 -18 C15 -27 9 -34 0 -34 Z" fill="#d4a373"/>
+          <circle cx="0" cy="-20" r="5.5" fill="#111111"/>
+          <g transform="translate(0, -42)">
+            <rect x="-58" y="-22" width="116" height="22" rx="6" fill="#000" stroke="#d4a373" stroke-width="1.2"/>
+            <text x="0" y="-8" fill="#d4a373" font-size="10" font-weight="800" text-anchor="middle">라비니움 (LABINIUM)</text>
+            <polygon points="-4,0 4,0 0,4" fill="#d4a373"/>
+          </g>
+        </g>
+      </svg>
+      <div style="position:absolute;bottom:8px;left:10px;right:10px;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);border:1px solid rgba(212,163,115,0.4);border-radius:6px;padding:6px 12px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:0.75rem;font-weight:700;color:#d4a373;">천호역 6번 출구 바로 앞 (도보 1분)</span>
+        <span style="font-size:0.74rem;font-weight:700;color:#fff;">네이버 지도 열기 &gt;</span>
+      </div>
+    </a>
+  `;
+}
+
 function initStandardMap() {
   const mapEl = document.getElementById('standardMap');
-  if (!mapEl || !window.naver || !window.naver.maps) return;
+  if (!mapEl || !window.naver || !window.naver.maps) { showStandardFallbackMap(); return; }
   const lat = 37.53856;
   const lng = 127.12354;
 
-  const map = new naver.maps.Map('standardMap', {
-    center: new naver.maps.LatLng(lat, lng),
-    zoom: 16,
-    zoomControl: true,
-    zoomControlOptions: {
-      style: naver.maps.ZoomControlStyle.SMALL,
-      position: naver.maps.Position.TOP_RIGHT
-    },
-    mapTypeControl: false,
-    scaleControl: false,
-    logoControl: false,
-    mapDataControl: false
-  });
+  try {
+    const map = new naver.maps.Map('standardMap', {
+      center: new naver.maps.LatLng(lat, lng),
+      zoom: 16,
+      zoomControl: true,
+      zoomControlOptions: {
+        style: naver.maps.ZoomControlStyle.SMALL,
+        position: naver.maps.Position.TOP_RIGHT
+      },
+      mapTypeControl: false,
+      scaleControl: false,
+      logoControl: false,
+      mapDataControl: false
+    });
 
-  const marker = new naver.maps.Marker({
-    position: new naver.maps.LatLng(lat, lng),
-    map: map,
-    title: '라비니움',
-    icon: {
-      content: `<div style="display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.45));cursor:pointer;">
-        <div style="background:#111;color:#d4a373;font-weight:700;font-size:11.5px;padding:4px 9px;border-radius:6px;border:1.5px solid #d4a373;white-space:nowrap;margin-bottom:3px;">
-          라비니움
-        </div>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#d4a373"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      </div>`,
-      size: new naver.maps.Size(50, 50),
-      anchor: new naver.maps.Point(25, 50)
-    }
-  });
+    const marker = new naver.maps.Marker({
+      position: new naver.maps.LatLng(lat, lng),
+      map: map,
+      title: '라비니움',
+      icon: {
+        content: `<div style="display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.45));cursor:pointer;">
+          <div style="background:#111;color:#d4a373;font-weight:700;font-size:11.5px;padding:4px 9px;border-radius:6px;border:1.5px solid #d4a373;white-space:nowrap;margin-bottom:3px;">
+            라비니움
+          </div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#d4a373"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        </div>`,
+        size: new naver.maps.Size(50, 50),
+        anchor: new naver.maps.Point(25, 50)
+      }
+    });
 
-  naver.maps.Event.addListener(marker, 'click', () => openNaverNavi());
+    naver.maps.Event.addListener(marker, 'click', () => openNaverNavi());
+
+    setTimeout(() => {
+      if (mapEl.innerText.includes('인증이 실패') || mapEl.innerText.includes('Open API')) {
+        showStandardFallbackMap();
+      }
+    }, 400);
+  } catch(e) {
+    showStandardFallbackMap();
+  }
 }
 initStandardMap();
 
@@ -895,28 +1137,66 @@ document.querySelectorAll('.acc-title').forEach(title => {
 });
 
 // 3. Copy to Clipboard & Toast
-function copyText(text) {
+function copyText(text, customMsg) {
+  const msg = customMsg || '복사되었습니다.';
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      showToast();
+      showToast(msg);
     }).catch(() => {
-      fallbackCopy(text);
+      fallbackCopy(text, msg);
     });
   } else {
-    fallbackCopy(text);
+    fallbackCopy(text, msg);
   }
 }
-function fallbackCopy(text) {
+function fallbackCopy(text, msg = '복사되었습니다.') {
   const ta = document.createElement('textarea');
   ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
   document.body.appendChild(ta); ta.select();
-  try { document.execCommand('copy'); showToast(); } catch(e) {}
+  try { document.execCommand('copy'); showToast(msg); } catch(e) {}
   document.body.removeChild(ta);
 }
-function showToast() {
+function showToast(msg = '복사되었습니다.') {
   const toast = document.getElementById('toastMsg');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+  if (toast) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+}
+
+/* Native Easy Remittance (간편송금) App Opener Handlers */
+function sendKakaoPay(bank, accountNo) {
+  const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+  copyText(cleanAccount, '계좌번호가 복사되었습니다.\n카카오페이로 이동합니다.');
+  setTimeout(() => {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = 'kakaotalk://kakaopay/money/to/bank';
+      setTimeout(() => {
+        window.location.href = 'kakaotalk://kakaopay/home';
+      }, 600);
+    } else {
+      window.open('https://pay.kakao.com', '_blank');
+    }
+  }, 300);
+}
+
+function sendToss(bank, accountNo) {
+  const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+  const bankName = bank.replace('은행', '').trim();
+  copyText(cleanAccount, '계좌번호가 복사되었습니다.\n토스 앱으로 이동합니다.');
+  setTimeout(() => {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = `supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`;
+      setTimeout(() => {
+        window.location.href = 'supertoss://send';
+      }, 600);
+    } else {
+      window.open('https://toss.im', '_blank');
+    }
+  }, 300);
 }
 
 // 4. BGM Toggle (Web Audio Synthesizer & Audio Fallback)
@@ -1029,14 +1309,352 @@ function addReview() {
 }
 
 // 6. Rating Stars Interactive
-document.querySelectorAll('.star-icon').forEach((star, index, arr) => {
-  star.addEventListener('click', () => {
-    arr.forEach((s, i) => {
-      if(i <= index) s.classList.add('active');
-      else s.classList.remove('active');
+<!-- Fullscreen Photo Lightbox Modal (사진 전체보기 - 스와이프 및 줌 기능) -->
+<div id="photo-lightbox">
+  <div class="lightbox-header">
+    <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
+    <button class="lightbox-close" onclick="closePhotoLightbox()" aria-label="닫기" title="닫기">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <div class="lightbox-body" id="lightboxBody">
+    <div class="lightbox-img-wrapper" id="lightboxImgWrapper">
+      <img id="lightboxImg" class="lightbox-img" src="../images/gallery_1.jpg" alt="Fullscreen Photo">
+    </div>
+  </div>
+  <div class="lightbox-dots" id="lightboxDots"></div>
+</div>
+
+<script>
+// Gallery Lightbox Data & Engine
+const galleryPhotos = [
+  '../images/gallery_1.jpg',
+  '../images/gallery_2.jpg',
+  '../images/gallery_3.jpg',
+  '../images/gallery_4.jpg'
+];
+let currentLightboxIdx = 0;
+let lbScale = 1;
+let lbTranslateX = 0;
+let lbTranslateY = 0;
+let lbStartScale = 1;
+let lbStartX = 0;
+let lbStartY = 0;
+let lbStartTransX = 0;
+let lbStartTransY = 0;
+let lbStartDist = 0;
+let lbIsTouching = false;
+let lbIsDragging = false;
+let lbIsPinching = false;
+let lbSwipeDeltaX = 0;
+let lbSwipeStartTime = 0;
+let lbLastTapTime = 0;
+
+function openPhotoLightbox(index) {
+  currentLightboxIdx = index;
+  resetLightboxTransform(false);
+  updateLightbox();
+  document.getElementById('photo-lightbox').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closePhotoLightbox() {
+  document.getElementById('photo-lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+  resetLightboxTransform(false);
+}
+
+function resetLightboxTransform(animate = true) {
+  lbScale = 1;
+  lbTranslateX = 0;
+  lbTranslateY = 0;
+  applyLightboxTransform(animate);
+}
+
+function applyLightboxTransform(animate = true) {
+  const img = document.getElementById('lightboxImg');
+  if (!img) return;
+
+  img.style.transition = animate ? 'transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+  img.style.transform = `translate3d(${lbTranslateX}px, ${lbTranslateY}px, 0) scale(${lbScale})`;
+}
+
+function updateLightbox(slideDirection = 0) {
+  const img = document.getElementById('lightboxImg');
+  const counter = document.getElementById('lightboxCounter');
+  const dotsContainer = document.getElementById('lightboxDots');
+  if (!img) return;
+
+  if (slideDirection !== 0) {
+    img.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease';
+    img.style.transform = `translate3d(${slideDirection * -50}px, 0, 0) scale(0.94)`;
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = galleryPhotos[currentLightboxIdx];
+      resetLightboxTransform(false);
+      img.style.transform = `translate3d(${slideDirection * 50}px, 0, 0) scale(0.94)`;
+      img.style.opacity = '0';
+      img.offsetHeight;
+      img.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease';
+      img.style.transform = `translate3d(0, 0, 0) scale(1)`;
+      img.style.opacity = '1';
+    }, 160);
+  } else {
+    img.src = galleryPhotos[currentLightboxIdx];
+    resetLightboxTransform(false);
+    img.style.opacity = '1';
+  }
+
+  if (counter) counter.textContent = `${currentLightboxIdx + 1} / ${galleryPhotos.length}`;
+
+  if (dotsContainer) {
+    dotsContainer.innerHTML = galleryPhotos.map((_, i) => 
+      `<div class="dot ${i === currentLightboxIdx ? 'active' : ''}" onclick="goToLightboxPhoto(${i})"></div>`
+    ).join('');
+  }
+}
+
+function nextLightboxPhoto() {
+  if (currentLightboxIdx < galleryPhotos.length - 1) {
+    currentLightboxIdx++;
+    updateLightbox(1);
+  }
+}
+
+function prevLightboxPhoto() {
+  if (currentLightboxIdx > 0) {
+    currentLightboxIdx--;
+    updateLightbox(-1);
+  }
+}
+
+function goToLightboxPhoto(index) {
+  if (index !== currentLightboxIdx && index >= 0 && index < galleryPhotos.length) {
+    const dir = index > currentLightboxIdx ? 1 : -1;
+    currentLightboxIdx = index;
+    updateLightbox(dir);
+  }
+}
+
+function zoomLightbox(delta) {
+  const newScale = Math.max(1, Math.min(4, lbScale + delta));
+  if (newScale === 1) {
+    resetLightboxTransform(true);
+  } else {
+    lbScale = newScale;
+    clampLightboxTranslate();
+    applyLightboxTransform(true);
+  }
+}
+
+function resetLightboxZoom() {
+  if (lbScale !== 1) {
+    resetLightboxTransform(true);
+  } else {
+    zoomLightbox(1.5);
+  }
+}
+
+function clampLightboxTranslate() {
+  const wrapper = document.getElementById('lightboxImgWrapper');
+  if (!wrapper) return;
+
+  const maxTransX = (wrapper.offsetWidth * (lbScale - 1)) / 2;
+  const maxTransY = (wrapper.offsetHeight * (lbScale - 1)) / 2;
+
+  lbTranslateX = Math.max(-maxTransX, Math.min(maxTransX, lbTranslateX));
+  lbTranslateY = Math.max(-maxTransY, Math.min(maxTransY, lbTranslateY));
+}
+
+(function initLightboxGestures() {
+  document.addEventListener('DOMContentLoaded', () => {
+    const body = document.getElementById('lightboxBody');
+    const img = document.getElementById('lightboxImg');
+    if (!body || !img) return;
+
+    function getDistance(t1, t2) {
+      return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+    }
+
+    function onTouchStart(e) {
+      if (e.touches.length === 2) {
+        lbIsPinching = true;
+        lbIsDragging = false;
+        lbStartDist = getDistance(e.touches[0], e.touches[1]);
+        lbStartScale = lbScale;
+        img.style.transition = 'none';
+      } else if (e.touches.length === 1) {
+        lbIsTouching = true;
+        lbIsPinching = false;
+        lbIsDragging = true;
+        lbStartX = e.touches[0].clientX;
+        lbStartY = e.touches[0].clientY;
+        lbStartTransX = lbTranslateX;
+        lbStartTransY = lbTranslateY;
+        lbSwipeDeltaX = 0;
+        lbSwipeStartTime = Date.now();
+        img.style.transition = 'none';
+      }
+    }
+
+    function onTouchMove(e) {
+      if (lbIsPinching && e.touches.length === 2) {
+        if (e.cancelable) e.preventDefault();
+        const currentDist = getDistance(e.touches[0], e.touches[1]);
+        if (lbStartDist > 0) {
+          const factor = currentDist / lbStartDist;
+          lbScale = Math.max(1, Math.min(4, lbStartScale * factor));
+          clampLightboxTranslate();
+          applyLightboxTransform(false);
+        }
+      } else if (lbIsTouching && e.touches.length === 1) {
+        const curX = e.touches[0].clientX;
+        const curY = e.touches[0].clientY;
+        const deltaX = curX - lbStartX;
+        const deltaY = curY - lbStartY;
+        lbSwipeDeltaX = deltaX;
+
+        if (lbScale > 1.05) {
+          if (e.cancelable) e.preventDefault();
+          lbTranslateX = lbStartTransX + deltaX;
+          lbTranslateY = lbStartTransY + deltaY;
+          clampLightboxTranslate();
+          applyLightboxTransform(false);
+        } else {
+          if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (e.cancelable) e.preventDefault();
+            let effectiveDelta = deltaX;
+            if ((currentLightboxIdx === 0 && deltaX > 0) || (currentLightboxIdx === galleryPhotos.length - 1 && deltaX < 0)) {
+              effectiveDelta = deltaX * 0.25;
+            }
+            img.style.transform = `translate3d(${effectiveDelta}px, 0, 0) scale(1)`;
+          }
+        }
+      }
+    }
+
+    function onTouchEnd(e) {
+      if (lbIsPinching && e.touches.length < 2) {
+        lbIsPinching = false;
+        if (lbScale < 1.05) {
+          resetLightboxTransform(true);
+        } else {
+          clampLightboxTranslate();
+          applyLightboxTransform(true);
+        }
+      } else if (lbIsTouching) {
+        lbIsTouching = false;
+        lbIsDragging = false;
+
+        if (lbScale <= 1.05) {
+          const elapsed = Date.now() - lbSwipeStartTime;
+          const velocity = Math.abs(lbSwipeDeltaX) / (elapsed || 1);
+          const width = body.offsetWidth || 375;
+
+          if (lbSwipeDeltaX < 0 && (Math.abs(lbSwipeDeltaX) > width * 0.15 || (velocity > 0.3 && Math.abs(lbSwipeDeltaX) > 20))) {
+            nextLightboxPhoto();
+          } else if (lbSwipeDeltaX > 0 && (Math.abs(lbSwipeDeltaX) > width * 0.15 || (velocity > 0.3 && Math.abs(lbSwipeDeltaX) > 20))) {
+            prevLightboxPhoto();
+          } else {
+            resetLightboxTransform(true);
+          }
+        } else {
+          clampLightboxTranslate();
+          applyLightboxTransform(true);
+        }
+      }
+    }
+
+    body.addEventListener('touchstart', onTouchStart, { passive: false });
+    body.addEventListener('touchmove', onTouchMove, { passive: false });
+    body.addEventListener('touchend', onTouchEnd, { passive: true });
+    body.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+    body.addEventListener('click', (e) => {
+      if (e.target.closest('.lightbox-tool-btn') || e.target.closest('.lightbox-close')) return;
+      const now = Date.now();
+      if (now - lbLastTapTime < 320) {
+        if (lbScale > 1.05) {
+          resetLightboxTransform(true);
+        } else {
+          lbScale = 2.5;
+          applyLightboxTransform(true);
+        }
+        lbLastTapTime = 0;
+      } else {
+        lbLastTapTime = now;
+      }
     });
+
+    let isMouseDown = false;
+    body.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.lightbox-header')) return;
+      isMouseDown = true;
+      lbIsTouching = true;
+      lbStartX = e.clientX;
+      lbStartY = e.clientY;
+      lbStartTransX = lbTranslateX;
+      lbStartTransY = lbTranslateY;
+      lbSwipeDeltaX = 0;
+      lbSwipeStartTime = Date.now();
+      img.style.transition = 'none';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      const deltaX = e.clientX - lbStartX;
+      const deltaY = e.clientY - lbStartY;
+      lbSwipeDeltaX = deltaX;
+
+      if (lbScale > 1.05) {
+        lbTranslateX = lbStartTransX + deltaX;
+        lbTranslateY = lbStartTransY + deltaY;
+        clampLightboxTranslate();
+        applyLightboxTransform(false);
+      } else {
+        let effectiveDelta = deltaX;
+        if ((currentLightboxIdx === 0 && deltaX > 0) || (currentLightboxIdx === galleryPhotos.length - 1 && deltaX < 0)) {
+          effectiveDelta = deltaX * 0.25;
+        }
+        img.style.transform = `translate3d(${effectiveDelta}px, 0, 0) scale(1)`;
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (!isMouseDown) return;
+      isMouseDown = false;
+      lbIsTouching = false;
+      if (lbScale <= 1.05) {
+        const width = body.offsetWidth || 375;
+        if (lbSwipeDeltaX < -width * 0.15 || lbSwipeDeltaX < -40) {
+          nextLightboxPhoto();
+        } else if (lbSwipeDeltaX > width * 0.15 || lbSwipeDeltaX > 40) {
+          prevLightboxPhoto();
+        } else {
+          resetLightboxTransform(true);
+        }
+      } else {
+        clampLightboxTranslate();
+        applyLightboxTransform(true);
+      }
+    });
+
+    let lbWheelLock = false;
+    body.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      if (e.ctrlKey || Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const delta = e.deltaY < 0 ? 0.25 : -0.25;
+        zoomLightbox(delta);
+      } else if (Math.abs(e.deltaX) > 15 && lbScale <= 1.05) {
+        if (lbWheelLock) return;
+        lbWheelLock = true;
+        if (e.deltaX > 15) nextLightboxPhoto();
+        else if (e.deltaX < -15) prevLightboxPhoto();
+        setTimeout(() => { lbWheelLock = false; }, 400);
+      }
+    }, { passive: false });
   });
-});
+})();
 </script>
 </body>
 </html>
