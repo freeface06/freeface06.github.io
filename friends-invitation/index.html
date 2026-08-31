@@ -1362,66 +1362,68 @@
       opacity: 0;
     }
 
-    /* Center Wedding Welcome Emblem */
+    /* Refined Luxury Frosted Pearl Glass & Gold Plaque in Center of Doors */
     .doors-emblem {
       position: absolute; top: 48%; left: 50%;
       transform: translate(-50%, -50%);
       display: flex; flex-direction: column; align-items: center; text-align: center;
-      background: rgba(18, 16, 14, 0.88);
+      background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(220, 185, 130, 0.6);
-      border-radius: 10px;
-      padding: 18px 28px;
+      border: 1px solid rgba(212, 175, 120, 0.55);
+      border-radius: 8px;
+      padding: 16px 28px;
       z-index: 6;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.7), inset 0 0 25px rgba(212, 175, 120, 0.18);
+      box-shadow: 0 14px 35px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.08), inset 0 0 15px rgba(255,255,255,0.9);
       transition: opacity 0.4s ease 0.1s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
+      white-space: nowrap !important;
+      width: max-content;
+      max-width: 90%;
     }
     .doors-overlay.opening .doors-emblem {
       opacity: 0;
-      transform: translate(-50%, -50%) scale(1.2);
+      transform: translate(-50%, -50%) scale(1.15);
     }
     .doors-emblem-sub {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.64rem;
-      letter-spacing: 4.5px;
-      color: #e5b982;
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: #9a7b56;
       text-transform: uppercase;
       font-weight: 600;
       margin-bottom: 5px;
+      white-space: nowrap !important;
     }
     .doors-emblem-title {
       font-family: 'Playfair Display', 'Nanum Myeongjo', serif;
       font-size: 1.25rem;
       font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 2px;
+      color: #2b231d;
+      letter-spacing: 1.5px;
       margin-bottom: 6px;
+      white-space: nowrap !important;
     }
     .doors-emblem-divider {
       width: 32px; height: 1px;
-      background: linear-gradient(90deg, transparent, #e5b982, transparent);
+      background: linear-gradient(90deg, transparent, #c4a47c, transparent);
       margin-bottom: 6px;
     }
     .doors-emblem-date {
+      font-family: 'Pretendard', sans-serif;
       font-size: 0.72rem;
-      color: rgba(255, 255, 255, 0.85);
-      letter-spacing: 1.8px;
-    }
-    .doors-skip-hint {
-      position: absolute; bottom: 32px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.72rem;
+      font-weight: 500;
+      color: #6d5d4d;
       letter-spacing: 1.5px;
-      color: rgba(255, 255, 255, 0.75);
-      font-weight: 400;
-      pointer-events: none;
-      z-index: 10;
-      transition: opacity 0.4s;
+      white-space: nowrap !important;
     }
-    .doors-overlay.opening .doors-skip-hint {
-      opacity: 0;
+    .doors-emblem-venue {
+      font-size: 0.68rem;
+      margin-top: 3px;
+      color: #9a7b56;
+      letter-spacing: 1.2px;
+      font-weight: 500;
+      white-space: nowrap !important;
     }
 
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -1452,9 +1454,8 @@
         <div class="doors-emblem-title">이호정 & 전다솔</div>
         <div class="doors-emblem-divider"></div>
         <div class="doors-emblem-date">2027. 06. 19 SAT PM 02:00</div>
-        <div style="font-size: 0.66rem; margin-top: 4px; color: #e5b982; letter-spacing: 1.2px;">라비니움 LABINIUM</div>
+        <div class="doors-emblem-venue">라비니움 LABINIUM</div>
       </div>
-      <div class="doors-skip-hint">화면을 터치하면 바로 입장합니다</div>
     </div>
   </div>
 
