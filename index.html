@@ -3808,6 +3808,19 @@
       }
     }
 
+    /* Universal Safe App Launcher Helper */
+    function openUrlOrScheme(url) {
+      if (!url) return;
+      const a = document.createElement('a');
+      a.href = url;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        if (a && a.parentNode) a.parentNode.removeChild(a);
+      }, 500);
+    }
+
     /* Enterprise Native App Deep Link & Safe Web Fallback Engine */
     function launchNavigationApp(app) {
       const isAndroid = /Android/i.test(navigator.userAgent);
@@ -3821,72 +3834,32 @@
 
       // Desktop PC: Direct Web Browser Navigation in New Tab
       if (!isMobile) {
-        if (app === 'naver') {
-          window.open(`https://map.naver.com/v5/search/${encodedName}`, '_blank');
-        } else if (app === 'tmap') {
-          window.open(`https://map.naver.com/v5/search/${encodedName}`, '_blank');
+        if (app === 'naver' || app === 'tmap') {
+          window.open(`https://map.naver.com/p/search/${encodedName}`, '_blank');
         } else if (app === 'kakao') {
-          window.open(`https://map.kakao.com/link/search/${encodedName}`, '_blank');
+          window.open(`https://map.kakao.com/link/to/${encodedName},${lat},${lng}`, '_blank');
         }
         return;
       }
 
-      // Mobile Device: Native App Scheme & Android Intent with Fallback Protection
-      let appScheme = '';
-      let androidIntent = '';
-      let webFallback = '';
-
       if (app === 'naver') {
-        appScheme = `nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`;
-        androidIntent = `intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
-        webFallback = `https://m.map.naver.com/search2/search.naver?query=${encodedName}`;
+        if (isAndroid) {
+          openUrlOrScheme(`intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`);
+        } else {
+          openUrlOrScheme(`nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`);
+        }
       } else if (app === 'tmap') {
-        appScheme = `tmap://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}`;
-        androidIntent = `intent://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`;
-        webFallback = isIOS 
-          ? `https://apps.apple.com/kr/app/id431589174` 
-          : `https://m.map.naver.com/search2/search.naver?query=${encodedName}`;
+        if (isAndroid) {
+          openUrlOrScheme(`intent://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`);
+        } else {
+          openUrlOrScheme(`tmap://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}`);
+        }
       } else if (app === 'kakao') {
-        appScheme = `kakaonavi://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}`;
-        androidIntent = `intent://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}#Intent;scheme=kakaonavi;package=com.locnall.KimGiSa;end`;
-        webFallback = `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`;
-      }
-
-      if (isAndroid && androidIntent) {
-        // Android Chrome Intent natively handles app execution and Google Play Store / Web fallback seamlessly
-        window.location.href = androidIntent;
-      } else {
-        // iOS Safari & Mobile Web: Smart visibility & pagehide detection
-        const clickedAt = Date.now();
-        let appOpened = false;
-
-        const onPageHide = () => {
-          appOpened = true;
-        };
-
-        const onVisibilityChange = () => {
-          if (document.hidden || document.webkitHidden) {
-            appOpened = true;
-          }
-        };
-
-        window.addEventListener('pagehide', onPageHide, { once: true });
-        document.addEventListener('visibilitychange', onVisibilityChange, { once: true });
-        document.addEventListener('webkitvisibilitychange', onVisibilityChange, { once: true });
-
-        // Trigger App Scheme
-        window.location.href = appScheme;
-
-        // Fail-safe Timer: If the user stays in browser after 1.5s (app not installed or blocked)
-        setTimeout(() => {
-          window.removeEventListener('pagehide', onPageHide);
-          document.removeEventListener('visibilitychange', onVisibilityChange);
-          document.removeEventListener('webkitvisibilitychange', onVisibilityChange);
-
-          if (!appOpened && (Date.now() - clickedAt < 2600)) {
-            window.location.href = webFallback;
-          }
-        }, 1500);
+        if (isAndroid) {
+          openUrlOrScheme(`intent://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}#Intent;scheme=kakaonavi;package=com.locnall.KimGiSa;end`);
+        } else {
+          openUrlOrScheme(`kakaonavi://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}`);
+        }
       }
     }
 
@@ -4264,35 +4237,53 @@
       document.body.removeChild(ta);
     }
 
-    /* Native Easy Remittance (간편송금) Handlers: Instant Copy & Optional App Launch */
+    /* Native Easy Remittance (간편송금) Handlers: Instant Copy & Direct App Launch */
     function sendKakaoPay(bank, accountNo) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
-      copyText(cleanAccount, '계좌번호가 복사되었습니다.');
+      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
 
+      const isAndroid = /Android/i.test(navigator.userAgent);
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
       if (isMobile) {
-        window.location.href = 'kakaotalk://kakaopay/money/to/bank';
+        if (isAndroid) {
+          openUrlOrScheme('intent://kakaopay/money/to/bank#Intent;scheme=kakaotalk;package=com.kakao.talk;end');
+        } else {
+          openUrlOrScheme('kakaotalk://kakaopay/money/to/bank');
+        }
       }
     }
 
     function sendToss(bank, accountNo) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
       const bankName = bank.replace('은행', '').trim();
-      copyText(cleanAccount, '계좌번호가 복사되었습니다.');
+      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
 
+      const isAndroid = /Android/i.test(navigator.userAgent);
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
       if (isMobile) {
-        window.location.href = `supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`;
+        if (isAndroid) {
+          openUrlOrScheme(`intent://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}#Intent;scheme=supertoss;package=viva.republica.toss;end`);
+        } else {
+          openUrlOrScheme(`supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`);
+        }
       }
     }
 
     function sendKakaoBank(bank, accountNo) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
-      copyText(cleanAccount, '계좌번호가 복사되었습니다.');
+      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
 
+      const isAndroid = /Android/i.test(navigator.userAgent);
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
       if (isMobile) {
-        window.location.href = 'kakaobank://';
+        if (isAndroid) {
+          openUrlOrScheme('intent://#Intent;scheme=kakaobank;package=com.kakaobank.channel;end');
+        } else {
+          openUrlOrScheme('kakaobank://');
+        }
       }
     }
 
