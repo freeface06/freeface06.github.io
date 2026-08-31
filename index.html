@@ -1261,16 +1261,16 @@
       transform-style: preserve-3d;
       overflow: hidden;
       transform-origin: 50% 50%;
-      transition: transform 2.1s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 2.2s cubic-bezier(0.35, 0, 0.15, 1);
     }
     .doors-overlay.opening .doors-stage {
-      transform: scale(2.6);
+      transform: scale(2.8);
     }
 
     /* Pure White Radiant Light Behind Doors */
     .doors-interior-view {
       position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 50%, #ffffff 20%, #fffbf2 60%, #faefe0 100%);
+      background: radial-gradient(circle at 50% 50%, #ffffff 30%, #fffcf2 70%, #faefe0 100%);
       transform: scale(1);
       z-index: 1;
     }
@@ -1314,37 +1314,37 @@
       z-index: 3;
     }
 
-    /* Left & Right Door Leaves (Using door_panels.jpg) */
+    /* Left & Right Door Leaves (Using labinium arched gold glass doors) */
     .door-leaf {
       position: absolute; top: 0; width: 50%; height: 100%;
       background-image: url('images/door_panels.jpg');
       background-size: 200% 100%;
       background-repeat: no-repeat;
       transform-style: preserve-3d;
-      transition: transform 1.7s cubic-bezier(0.25, 1, 0.3, 1), filter 1.4s ease;
-      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1), filter 1.4s ease;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
     }
     .door-leaf.left {
       left: 0;
       background-position: left center;
       transform-origin: 0% 50%;
-      border-right: 1px solid rgba(0,0,0,0.3);
+      border-right: 1px solid rgba(212, 175, 120, 0.5);
     }
     .door-leaf.right {
       right: 0;
       background-position: right center;
       transform-origin: 100% 50%;
-      border-left: 1px solid rgba(0,0,0,0.3);
+      border-left: 1px solid rgba(212, 175, 120, 0.5);
     }
 
     /* 3D Door Swing Animation */
     .doors-overlay.opening .door-leaf.left {
-      transform: rotateY(-110deg);
-      filter: brightness(1.25) drop-shadow(15px 0 30px rgba(0,0,0,0.6));
+      transform: rotateY(-105deg);
+      filter: brightness(1.2) drop-shadow(15px 0 30px rgba(0,0,0,0.5));
     }
     .doors-overlay.opening .door-leaf.right {
-      transform: rotateY(110deg);
-      filter: brightness(1.25) drop-shadow(-15px 0 30px rgba(0,0,0,0.6));
+      transform: rotateY(105deg);
+      filter: brightness(1.2) drop-shadow(-15px 0 30px rgba(0,0,0,0.5));
     }
 
     /* Center Door Light Seam (Glowing light slit between doors) */
