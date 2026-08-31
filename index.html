@@ -1267,31 +1267,36 @@
       transform: scale(2.8);
     }
 
-    /* Pure White Radiant Light Behind Doors */
+    /* Interior Atmosphere Behind Doors (Dark at first -> Radiantly Glowing upon opening) */
     .doors-interior-view {
       position: absolute; inset: 0;
       background: radial-gradient(circle at 50% 50%, #ffffff 30%, #fffcf2 70%, #faefe0 100%);
       transform: scale(1);
+      opacity: 0.15;
+      filter: brightness(0.2) contrast(1.2);
+      transition: opacity 1.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, filter 1.6s ease 0.1s, transform 2.2s cubic-bezier(0.35, 0, 0.15, 1);
       z-index: 1;
     }
     .doors-overlay.opening .doors-interior-view {
+      opacity: 1;
+      filter: brightness(1.2) contrast(1);
       transform: scale(1.2);
     }
 
-    /* Radiant Light Burst (Spilling from behind opening doors from the start) */
+    /* Radiant Light Burst (Gradually blooming & expanding as doors swing wide) */
     .doors-light-burst {
       position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 248, 220, 0.95) 30%, rgba(255, 235, 190, 0.6) 60%, rgba(255, 255, 255, 0.2) 80%);
-      opacity: 0.7;
-      transform: scale(0.8);
-      transition: opacity 1.2s ease, transform 1.8s ease;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 248, 220, 0.95) 30%, rgba(255, 235, 190, 0.6) 60%, rgba(255, 255, 255, 0) 80%);
+      opacity: 0;
+      transform: scale(0.3);
+      transition: opacity 1.3s cubic-bezier(0.25, 1, 0.5, 1) 0.25s, transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s;
       pointer-events: none;
       z-index: 4;
       mix-blend-mode: screen;
     }
     .doors-overlay.opening .doors-light-burst {
       opacity: 1;
-      transform: scale(2.4);
+      transform: scale(2.6);
     }
 
     /* Full Flash Transition to Main Feed */
