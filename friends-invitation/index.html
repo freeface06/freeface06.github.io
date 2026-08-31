@@ -317,17 +317,21 @@
     .post-caption-wrap .hashtags { color: var(--ig-blue); margin-top: 6px; font-size: 0.82rem; }
     .post-date-tag { color: var(--text-dim); font-size: 0.72rem; margin-top: 6px; }
 
-    /* Calendar Card with Shimmering D-Day Badge */
+    /* Calendar Feed Post Content (Clean Seamless Instagram Post Media Style) */
     .cal-card-box {
-      background: #fafafa; border: 1px solid var(--border-subtle);
-      border-radius: 14px; margin: 0 14px 8px; padding: 22px 16px; text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      background: #ffffff;
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      padding: 16px 16px 20px;
+      text-align: center;
+      box-shadow: none;
     }
     .cal-badge {
       display: inline-block; position: relative; overflow: hidden;
       background: linear-gradient(135deg, #ff3040, #fd1d1d); color: #fff;
-      font-weight: 700; font-size: 1.25rem; padding: 6px 18px; border-radius: 24px;
-      margin-bottom: 14px; box-shadow: 0 4px 14px rgba(255, 48, 64, 0.3);
+      font-weight: 700; font-size: 1.25rem; padding: 6px 20px; border-radius: 24px;
+      margin-bottom: 14px; box-shadow: 0 4px 14px rgba(255, 48, 64, 0.28);
     }
     .cal-badge::after {
       content: ''; position: absolute; top: 0; left: 0; width: 60%; height: 100%;
@@ -335,10 +339,10 @@
       animation: shimmerSweep 2.6s infinite ease-in-out;
     }
     @keyframes shimmerSweep { 0% { transform: translateX(-150%); } 100% { transform: translateX(250%); } }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; font-size: 0.84rem; max-width: 300px; margin: 0 auto; }
-    .cal-head { color: var(--text-dim); font-size: 0.75rem; font-weight: 600; padding-bottom: 4px; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; font-size: 0.88rem; max-width: 320px; margin: 0 auto; }
+    .cal-head { color: var(--text-dim); font-size: 0.76rem; font-weight: 600; padding-bottom: 6px; }
     .cal-head.sun { color: var(--ig-red); }
-    .cal-day { padding: 6px 0; color: #444; font-weight: 500; transition: transform 0.2s; }
+    .cal-day { padding: 7px 0; color: #333; font-weight: 500; transition: transform 0.2s; }
     .cal-day.sun { color: var(--ig-red); }
     .cal-day.target {
       background: #000; color: #fff; border-radius: 50%; font-weight: 700;
@@ -354,12 +358,12 @@
     /* ==================================================== */
     .loc-card-box {
       background: #ffffff;
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      margin: 0 14px 12px;
-      padding: 16px 14px;
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      padding: 0 14px 10px;
       text-align: left;
-      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
+      box-shadow: none;
     }
     .map-frame-wrapper {
       position: relative;
@@ -675,8 +679,8 @@
       color: #777777;
     }
 
-    /* Timetable Card */
-    .tt-card-box { padding: 0 14px 8px; }
+    /* Timetable Feed Post Content */
+    .tt-card-box { padding: 4px 14px 10px; background: #ffffff; }
     .tt-item {
       background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 12px;
       padding: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px;
@@ -690,11 +694,17 @@
     .tt-info .tt-title { font-weight: 700; font-size: 0.9rem; color: var(--text-main); margin-bottom: 2px; }
     .tt-info .tt-desc { font-size: 0.78rem; color: var(--text-dim); }
 
-    /* RSVP Poll Feed Post Card */
+    /* RSVP Poll Feed Post Content */
     .rsvp-poll-card {
-      background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 14px;
-      margin: 0 14px 12px; padding: 22px 16px; text-align: center; position: relative; overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      background: #ffffff;
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      padding: 10px 16px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: none;
     }
     .rsvp-poll-title { font-size: 1.08rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
     .rsvp-poll-sub { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 16px; }
@@ -735,12 +745,18 @@
       pointer-events: none; z-index: 9999999; display: none;
     }
 
-    /* Bank Feed Post Card */
+    /* Bank Feed Post Content */
     .bank-card-wrap {
-      background: #fafafa; border: 1px solid var(--border-subtle); border-radius: 14px;
-      margin: 0 14px 12px; padding: 20px 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      background: #ffffff;
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      padding: 6px 14px 12px;
+      box-shadow: none;
     }
-    .bank-card-title { text-align: center; margin-bottom: 14px; font-weight: 700; font-size: 1.05rem; color: #000; }
+    .bank-card-title {
+      display: none;
+    }
     .bank-tab-header { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 14px; position: relative; }
     .bank-tab-btn {
       flex: 1; text-align: center; padding: 11px; font-weight: 600; font-size: 0.92rem;
@@ -750,7 +766,7 @@
     .bank-tab-btn.active { color: var(--text-main); border-bottom-color: var(--text-main); }
     .bank-row-item {
       display: flex; justify-content: space-between; align-items: center;
-      background: #ffffff; border: 1px solid var(--border-subtle); padding: 13px 14px; border-radius: 10px; margin-bottom: 10px;
+      background: #fafafa; border: 1px solid var(--border-subtle); padding: 13px 14px; border-radius: 10px; margin-bottom: 10px;
       transition: transform 0.2s;
     }
     .copy-chip {
@@ -765,11 +781,11 @@
     /* ==================================================== */
     .ig-comment-sheet-card {
       background: #ffffff;
-      border: 1px solid #e8e8e8;
-      border-radius: 18px;
-      margin: 0 12px 14px;
-      padding: 12px 14px 14px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      padding: 4px 14px 12px;
+      box-shadow: none;
       overflow: hidden;
     }
     .ig-sheet-handle {
@@ -1596,7 +1612,6 @@
     </div>
 
     <div class="bank-card-wrap">
-      <div class="bank-card-title">마음 전하실 곳</div>
       <div class="bank-tab-header">
         <div class="bank-tab-btn active" onclick="switchBankTab('groom', this)">신랑측</div>
         <div class="bank-tab-btn" onclick="switchBankTab('bride', this)">신부측</div>
