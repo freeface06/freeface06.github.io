@@ -992,7 +992,7 @@
     /* ==================================================== */
     document.addEventListener('DOMContentLoaded', () => {
       updateDDay();
-      initInteractiveMap();
+      tryInitMap();
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -1006,6 +1006,31 @@
 
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     });
+
+    window.addEventListener('load', tryInitMap);
+
+    let mapInitialized = false;
+    function tryInitMap() {
+      if (mapInitialized) return;
+      if (window.naver && window.naver.maps) {
+        mapInitialized = true;
+        initInteractiveMap();
+      } else {
+        let attempts = 0;
+        const checkTimer = setInterval(() => {
+          attempts++;
+          if (window.naver && window.naver.maps) {
+            clearInterval(checkTimer);
+            if (!mapInitialized) {
+              mapInitialized = true;
+              initInteractiveMap();
+            }
+          } else if (attempts > 15) {
+            clearInterval(checkTimer);
+          }
+        }, 300);
+      }
+    }
 
     function initInteractiveMap() {
       const mapEl = document.getElementById('interactiveMap');
