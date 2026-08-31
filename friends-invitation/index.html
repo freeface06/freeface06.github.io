@@ -1239,149 +1239,137 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     }
     /* ============================================ */
-    /* LUXURY PAPER ENVELOPE OPENING ANIMATION      */
+    /* GRAND WEDDING HALL DOORS OPENING ANIMATION   */
     /* ============================================ */
-    .envelope-overlay {
+    .doors-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 99999999; display: flex; flex-direction: column; justify-content: center; align-items: center;
-      background: #f5f0eb url('../images/envelope_bg.jpg') center center/cover no-repeat;
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s ease;
-      perspective: 1400px;
+      z-index: 99999999; display: flex; justify-content: center; align-items: center;
+      background: #0f0e13;
+      perspective: 1200px;
       overflow: hidden;
       cursor: pointer;
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s ease;
     }
-    .envelope-overlay::after {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 48%, rgba(248, 244, 238, 0.45) 0%, rgba(224, 216, 204, 0.82) 100%);
-      pointer-events: none;
+    .doors-overlay.hidden {
+      opacity: 0; visibility: hidden; pointer-events: none;
     }
-    .envelope-overlay.hidden {
-      opacity: 0; transform: scale(1.05); visibility: hidden; pointer-events: none;
-    }
-    .envelope-container {
-      position: relative; width: 330px; height: 230px;
-      transform-style: preserve-3d;
-      z-index: 2;
-      filter: drop-shadow(0 22px 40px rgba(50, 40, 30, 0.2));
-      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    /* Envelope Back & Pocket */
-    .envelope-pocket {
-      position: absolute; bottom: 0; left: 0; width: 100%; height: 170px;
-      background: #faf7f2 url('../images/paper_texture.jpg') center/cover;
-      border-radius: 0 0 8px 8px;
-      border: 1px solid rgba(210, 195, 175, 0.45);
-      border-top: none;
-      box-shadow: inset 0 2px 6px rgba(255,255,255,0.8), 0 10px 25px rgba(0,0,0,0.06);
-      z-index: 3;
-      overflow: hidden;
-    }
-    .envelope-pocket::before {
-      content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-      background: 
-        linear-gradient(35deg, transparent 49.5%, rgba(190, 175, 155, 0.25) 50%, rgba(255,255,255,0.5) 50.5%, transparent 51%),
-        linear-gradient(-35deg, transparent 49.5%, rgba(190, 175, 155, 0.25) 50%, rgba(255,255,255,0.5) 50.5%, transparent 51%);
-      pointer-events: none;
-    }
-    /* Top Flap (Triangular flap with 3D folding) */
-    .envelope-top-flap {
-      position: absolute; top: 0; left: 0; width: 100%; height: 135px;
-      transform-origin: top center;
-      transform: rotateX(0deg);
-      transition: transform 1.1s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 5;
-      transform-style: preserve-3d;
-    }
-    .envelope-top-flap-inner {
-      width: 100%; height: 100%;
-      background: #f7f4ee url('../images/paper_texture.jpg') center/cover;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      border: 1px solid rgba(210, 195, 175, 0.4);
-      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.08));
-    }
-    .envelope-overlay.opening .envelope-top-flap {
-      transform: rotateX(-180deg);
+    /* Radiant backlight glowing from behind the opening doors */
+    .doors-back-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 245, 225, 0.98) 0%, rgba(245, 225, 195, 0.8) 35%, rgba(15, 14, 19, 0.95) 100%);
+      opacity: 0;
+      transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 1;
     }
-    /* Realistic Luxury Wax Seal */
-    .envelope-wax-seal {
-      position: absolute; top: 40px; left: 50%;
-      transform: translateX(-50%) scale(1);
-      width: 66px; height: 66px;
-      background: url('../images/wax_seal-Photoroom.png') center/contain no-repeat;
-      filter: drop-shadow(0 8px 16px rgba(130, 95, 40, 0.42)) drop-shadow(0 2px 5px rgba(0,0,0,0.18));
-      z-index: 6;
-      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease 0.2s;
+    .doors-overlay.opening .doors-back-glow {
+      opacity: 1;
     }
-    .envelope-overlay.opening .envelope-wax-seal {
-      transform: translateX(-50%) scale(1.18);
+    /* Main Door Stage Container (Constrained to max-width 480px on desktop) */
+    .doors-stage {
+      position: relative; width: 100%; max-width: 480px; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+      transform-style: preserve-3d;
+      z-index: 2;
+    }
+    /* Left & Right Door Leaves */
+    .door-leaf {
+      position: absolute; top: 0; width: 50%; height: 100%;
+      background-image: url('../images/wedding_doors.jpg');
+      background-size: 200% 100%;
+      background-repeat: no-repeat;
+      transform-style: preserve-3d;
+      transition: transform 1.5s cubic-bezier(0.25, 1, 0.35, 1), filter 1.5s ease;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.35);
+    }
+    .door-leaf.left {
+      left: 0;
+      background-position: left center;
+      transform-origin: left center;
+    }
+    .door-leaf.right {
+      right: 0;
+      background-position: right center;
+      transform-origin: right center;
+    }
+    /* 3D Grand Opening Motion */
+    .doors-overlay.opening .door-leaf.left {
+      transform: rotateY(-88deg);
+      filter: brightness(1.2);
+    }
+    .doors-overlay.opening .door-leaf.right {
+      transform: rotateY(88deg);
+      filter: brightness(1.2);
+    }
+    /* Center Seam Line */
+    .doors-center-seam {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 2px; height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(212,163,115,0.7) 50%, rgba(0,0,0,0.5) 100%);
+      z-index: 5;
+      transition: opacity 0.4s ease;
+    }
+    .doors-overlay.opening .doors-center-seam {
       opacity: 0;
     }
-    /* Luxury Wedding Invitation Card Inside */
-    .envelope-letter-card {
-      position: absolute; bottom: 15px; left: 50%;
-      transform: translateX(-50%) translateY(0) scale(0.96);
-      width: 280px; height: 175px;
-      background: #ffffff url('../images/paper_texture.jpg') center/cover;
-      border-radius: 6px;
-      border: 1px solid rgba(215, 195, 165, 0.5);
-      box-shadow: 0 8px 30px rgba(60, 45, 30, 0.12), inset 0 0 0 1px rgba(255,255,255,0.9);
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      padding: 16px 20px;
-      z-index: 2;
-      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, box-shadow 1.2s ease 0.4s, opacity 0.6s ease;
-      text-align: center;
-    }
-    .envelope-card-border-inner {
-      position: absolute; inset: 6px;
-      border: 1px solid rgba(195, 165, 125, 0.35);
-      border-radius: 3px;
+    /* Luxury Welcome Plaque / Emblem on the Doors */
+    .doors-emblem {
+      position: absolute; top: 48%; left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      background: rgba(20, 18, 16, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(212, 175, 120, 0.45);
+      border-radius: 8px;
+      padding: 16px 24px;
+      z-index: 6;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.5), inset 0 0 20px rgba(212, 175, 120, 0.12);
+      transition: opacity 0.6s ease 0.1s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
     }
-    .envelope-overlay.opening .envelope-letter-card {
-      transform: translateX(-50%) translateY(-155px) scale(1.08);
-      box-shadow: 0 28px 55px rgba(60, 45, 30, 0.25);
+    .doors-overlay.opening .doors-emblem {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(1.12);
     }
-    .envelope-card-subtitle {
+    .doors-emblem-sub {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 3.5px;
-      color: #9e8565;
+      font-size: 0.62rem;
+      letter-spacing: 4px;
+      color: #d4a373;
       text-transform: uppercase;
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .envelope-card-title {
+    .doors-emblem-title {
       font-family: 'Playfair Display', 'Nanum Myeongjo', serif;
-      font-size: 1.22rem;
+      font-size: 1.18rem;
       font-weight: 700;
-      color: #2b231d;
+      color: #ffffff;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+    .doors-emblem-divider {
+      width: 28px; height: 1px;
+      background: linear-gradient(90deg, transparent, #d4a373, transparent);
+      margin-bottom: 5px;
+    }
+    .doors-emblem-date {
+      font-size: 0.68rem;
+      color: rgba(255, 255, 255, 0.8);
       letter-spacing: 1.5px;
-      margin-bottom: 6px;
     }
-    .envelope-card-divider {
-      width: 32px; height: 1px;
-      background: linear-gradient(90deg, transparent, #c4a47c, transparent);
-      margin-bottom: 6px;
-    }
-    .envelope-card-info {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: #786a5b;
-      letter-spacing: 1.5px;
-      line-height: 1.4;
-    }
-    .envelope-skip-hint {
-      margin-top: 36px;
+    .doors-skip-hint {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
       font-size: 0.72rem;
       letter-spacing: 1.2px;
-      color: rgba(120, 105, 90, 0.7);
+      color: rgba(255, 255, 255, 0.65);
       font-weight: 400;
       pointer-events: none;
       z-index: 10;
       transition: opacity 0.4s;
     }
-    .envelope-overlay.opening .envelope-skip-hint {
+    .doors-overlay.opening .doors-skip-hint {
       opacity: 0;
     }
 
@@ -1390,30 +1378,26 @@
 </head>
 <body>
 
-  <!-- Luxury Paper Envelope Opening Animation (Auto-play) -->
-  <div class="envelope-overlay" id="envelopeOverlay" onclick="skipEnvelope()">
-    <div class="envelope-container">
-      <!-- Top Triangular Flap with 3D Fold -->
-      <div class="envelope-top-flap">
-        <div class="envelope-top-flap-inner"></div>
-      </div>
-      <!-- Authentic 3D Champagne Gold Wax Seal Stamp -->
-      <div class="envelope-wax-seal"></div>
-      <!-- Envelope Bottom Pocket -->
-      <div class="envelope-pocket"></div>
-      <!-- Luxury Invitation Letter Card Inside -->
-      <div class="envelope-letter-card">
-        <div class="envelope-card-border-inner"></div>
-        <div class="envelope-card-subtitle">Wedding Invitation</div>
-        <div class="envelope-card-title">이호정 & 전다솔</div>
-        <div class="envelope-card-divider"></div>
-        <div class="envelope-card-info">
-          <div>2027. 06. 19 SAT PM 02:00</div>
-          <div style="font-size: 0.68rem; margin-top: 3px; color: #998877;">라비니움 LABINIUM</div>
-        </div>
+  <!-- Grand Wedding Hall Doors Opening Animation (Auto-play) -->
+  <div class="doors-overlay" id="doorsOverlay" onclick="skipDoors()">
+    <div class="doors-back-glow"></div>
+    <div class="doors-stage">
+      <!-- Left Door Leaf -->
+      <div class="door-leaf left"></div>
+      <!-- Right Door Leaf -->
+      <div class="door-leaf right"></div>
+      <!-- Center Seam Shadow Line -->
+      <div class="doors-center-seam"></div>
+      <!-- Center Wedding Welcome Emblem -->
+      <div class="doors-emblem">
+        <div class="doors-emblem-sub">Wedding Invitation</div>
+        <div class="doors-emblem-title">이호정 & 전다솔</div>
+        <div class="doors-emblem-divider"></div>
+        <div class="doors-emblem-date">2027. 06. 19 SAT PM 02:00</div>
+        <div style="font-size: 0.64rem; margin-top: 3px; color: #d4a373; letter-spacing: 1px;">라비니움 LABINIUM</div>
       </div>
     </div>
-    <div class="envelope-skip-hint">화면을 터치하면 바로 이동합니다</div>
+    <div class="doors-skip-hint">화면을 터치하면 바로 입장합니다</div>
   </div>
 
   <!-- Canvas for Confetti Fireworks Animation -->
@@ -2088,32 +2072,32 @@
 
   <script>
     /* ==================================================== */
-    /* LUXURY PAPER ENVELOPE OPENING ANIMATION (AUTO-PLAY)  */
+    /* GRAND WEDDING HALL DOORS OPENING (AUTO-PLAY)         */
     /* ==================================================== */
-    let envelopeDismissed = false;
+    let doorsDismissed = false;
     document.body.style.overflow = 'hidden';
 
-    function triggerEnvelopeAnimation() {
-      const overlay = document.getElementById('envelopeOverlay');
-      if (!overlay || envelopeDismissed) return;
+    function triggerDoorsAnimation() {
+      const overlay = document.getElementById('doorsOverlay');
+      if (!overlay || doorsDismissed) return;
       
-      // Auto open sequence
+      // Auto open sequence after short pause
       setTimeout(() => {
-        if (envelopeDismissed) return;
+        if (doorsDismissed) return;
         overlay.classList.add('opening');
-      }, 400);
+      }, 500);
 
-      // Auto fadeout transition to main page
+      // Auto fadeout transition to reveal invitation feed
       setTimeout(() => {
-        if (envelopeDismissed) return;
-        dismissEnvelope();
-      }, 2350);
+        if (doorsDismissed) return;
+        dismissDoors();
+      }, 2200);
     }
 
-    function dismissEnvelope() {
-      if (envelopeDismissed) return;
-      envelopeDismissed = true;
-      const overlay = document.getElementById('envelopeOverlay');
+    function dismissDoors() {
+      if (doorsDismissed) return;
+      doorsDismissed = true;
+      const overlay = document.getElementById('doorsOverlay');
       if (overlay) {
         overlay.classList.add('hidden');
         document.body.style.overflow = '';
@@ -2123,15 +2107,15 @@
       }
     }
 
-    function skipEnvelope() {
-      dismissEnvelope();
+    function skipDoors() {
+      dismissDoors();
     }
 
     // Auto-trigger on DOM load
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', triggerEnvelopeAnimation);
+      document.addEventListener('DOMContentLoaded', triggerDoorsAnimation);
     } else {
-      triggerEnvelopeAnimation();
+      triggerDoorsAnimation();
     }
 
     /* ==================================================== */
