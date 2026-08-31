@@ -1221,10 +1221,142 @@
       transition: all 0.35s var(--spring-ease); z-index: 999999;
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     }
+    /* ============================================ */
+    /* PAPER ENVELOPE OPENING ANIMATION             */
+    /* ============================================ */
+    .envelope-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 99999999; display: flex; justify-content: center; align-items: center;
+      background: linear-gradient(160deg, #f7f3ee 0%, #ede8e0 50%, #e8e2d8 100%);
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      perspective: 1200px;
+    }
+    .envelope-overlay.hidden {
+      opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .envelope-wrap {
+      position: relative; width: 300px; height: 220px;
+      transform-style: preserve-3d;
+    }
+    /* Envelope body */
+    .envelope-body {
+      position: absolute; bottom: 0; left: 0; width: 100%; height: 160px;
+      background: linear-gradient(180deg, #faf6f0 0%, #f0e8dc 100%);
+      border-radius: 0 0 6px 6px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid rgba(180, 165, 140, 0.3);
+      border-top: none;
+      overflow: hidden;
+    }
+    .envelope-body::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, transparent 48%, rgba(180,165,140,0.08) 50%, transparent 52%);
+    }
+    /* Envelope flap (top triangle) */
+    .envelope-flap {
+      position: absolute; top: 0; left: 0; width: 100%; height: 120px;
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+      z-index: 3;
+    }
+    .envelope-flap-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(180deg, #efe9df 0%, #f5efE5 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border: 1px solid rgba(180, 165, 140, 0.25);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      position: relative;
+    }
+    .envelope-flap-inner::after {
+      content: ''; position: absolute; top: 30%; left: 50%; transform: translateX(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,180,150,0.15) 0%, transparent 70%);
+    }
+    .envelope-overlay.opening .envelope-flap {
+      transform: rotateX(-180deg);
+    }
+    /* Wax seal on flap */
+    .wax-seal {
+      position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #c49a6c, #a67c52 40%, #8b6541 80%);
+      box-shadow: 0 3px 10px rgba(139,101,65,0.4), inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.2);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 4;
+      transition: opacity 0.6s 0.3s ease;
+    }
+    .envelope-overlay.opening .wax-seal { opacity: 0; }
+    .wax-seal-text {
+      font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600;
+      color: rgba(255,245,230,0.9); letter-spacing: 1px;
+    }
+    /* Inner card that slides up */
+    .envelope-card {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      width: 250px; height: 140px;
+      background: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 2;
+      transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1) 0.6s, opacity 0.6s ease 1.8s;
+      border: 1px solid rgba(200, 190, 175, 0.3);
+    }
+    .envelope-overlay.opening .envelope-card {
+      transform: translateX(-50%) translateY(-180px);
+    }
+    .envelope-card-names {
+      font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600;
+      color: #3a3025; letter-spacing: 2px; margin-bottom: 6px;
+    }
+    .envelope-card-date {
+      font-family: 'Pretendard', sans-serif; font-size: 0.72rem; font-weight: 500;
+      color: #9a8e80; letter-spacing: 3px; text-transform: uppercase;
+    }
+    .envelope-card-line {
+      width: 36px; height: 1px; background: #c9bfb0; margin: 8px 0;
+    }
+    /* CTA text */
+    .envelope-cta {
+      position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%);
+      font-size: 0.78rem; font-weight: 500; color: #a09588;
+      letter-spacing: 2px; white-space: nowrap;
+      animation: ctaPulse 2s ease-in-out infinite;
+    }
+    .envelope-overlay.opening .envelope-cta { opacity: 0; transition: opacity 0.3s; }
+    @keyframes ctaPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    /* Subtle paper texture */
+    .envelope-overlay::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
+
+  <!-- Paper Envelope Opening Animation -->
+  <div class="envelope-overlay" id="envelopeOverlay" onclick="openEnvelope()">
+    <div class="envelope-wrap">
+      <div class="envelope-flap">
+        <div class="envelope-flap-inner"></div>
+      </div>
+      <div class="wax-seal"><span class="wax-seal-text">W</span></div>
+      <div class="envelope-body"></div>
+      <div class="envelope-card">
+        <div class="envelope-card-names">HOJEONG & DASOL</div>
+        <div class="envelope-card-line"></div>
+        <div class="envelope-card-date">2027. 06. 19 SAT</div>
+      </div>
+      <div class="envelope-cta">TAP TO OPEN</div>
+    </div>
+  </div>
 
   <!-- Canvas for Confetti Fireworks Animation -->
   <canvas id="confettiCanvas"></canvas>
@@ -1897,6 +2029,28 @@
   </div>
 
   <script>
+    /* ==================================================== */
+    /* PAPER ENVELOPE OPENING ANIMATION                     */
+    /* ==================================================== */
+    let envelopeOpened = false;
+    document.body.style.overflow = 'hidden';
+
+    function openEnvelope() {
+      if (envelopeOpened) return;
+      envelopeOpened = true;
+      const overlay = document.getElementById('envelopeOverlay');
+      overlay.classList.add('opening');
+      // After flap opens and card slides up, fade out entire overlay
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 2200);
+      // Remove from DOM after fade completes
+      setTimeout(() => {
+        overlay.remove();
+      }, 3200);
+    }
+
     /* ==================================================== */
     /* INTERSECTION OBSERVER SCROLL REVEAL ENGINE           */
     /* ==================================================== */
