@@ -66,6 +66,7 @@
       position: relative;
       -webkit-font-smoothing: antialiased;
       padding-top: 56px;
+      padding-bottom: calc(54px + constant(safe-area-inset-bottom));
       padding-bottom: calc(54px + env(safe-area-inset-bottom, 0px));
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
@@ -96,11 +97,11 @@
       opacity: 0;
       transform: translateY(28px) scale(0.98);
       transition: opacity 0.8s var(--smooth-ease), transform 0.8s var(--smooth-ease);
-      will-change: opacity, transform;
     }
     .reveal.active {
       opacity: 1;
       transform: translateY(0) scale(1);
+      will-change: auto;
     }
 
     /* Spring interactive tap feedback */
@@ -1108,7 +1109,7 @@
     }
     .rsvp-input {
       width: 100%; background: #fafafa; border: 1.5px solid var(--border);
-      color: var(--text-main); padding: 12px 14px; border-radius: 8px; font-size: 0.9rem;
+      color: var(--text-main); padding: 12px 14px; border-radius: 8px; font-size: 16px;
       font-family: inherit; margin-bottom: 10px; outline: none; transition: border-color 0.2s;
     }
     .rsvp-input:focus { border-color: var(--ig-blue); background: #ffffff; }
@@ -1417,7 +1418,7 @@
       flex-shrink: 0;
       border: none;
       background: transparent;
-      font-size: 0.82rem;
+      font-size: 16px;
       font-weight: 700;
       color: #262626;
       outline: none;
@@ -1439,7 +1440,7 @@
       flex: 1;
       border: none;
       background: transparent;
-      font-size: 0.84rem;
+      font-size: 16px;
       color: #262626;
       outline: none;
       padding: 2px 0;
@@ -1512,7 +1513,7 @@
       overscroll-behavior: none;
     }
     .comments-modal-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       z-index: 2000; display: flex; justify-content: center; align-items: flex-end;
@@ -1564,7 +1565,7 @@
 
     /* TMI Behind Profile Modal Sheet */
     .tmi-modal-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
@@ -1776,7 +1777,7 @@
 
     /* Instagram Activity / Notification Modal Sheet */
     .activity-modal-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
@@ -1889,7 +1890,7 @@
 
     /* Instagram Profile 3x3 Grid Gallery Modal */
     .grid-gallery-modal-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
@@ -2050,7 +2051,7 @@
 
     /* Groom & Bride Profile Bottom Sheet Modal */
     .profile-modal-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
@@ -2243,6 +2244,7 @@
     .ig-bottom-footer {
       position: fixed; bottom: 0; left: 0; right: 0;
       width: 100%; max-width: 100%; margin: 0 auto;
+      height: calc(54px + constant(safe-area-inset-bottom));
       height: calc(54px + env(safe-area-inset-bottom, 0px));
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
@@ -2251,6 +2253,7 @@
       display: flex; justify-content: space-around; align-items: center;
       z-index: 1000; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
       transition: transform 0.3s var(--smooth-ease), opacity 0.25s ease;
+      padding: 0 4px constant(safe-area-inset-bottom);
       padding: 0 4px env(safe-area-inset-bottom, 0px);
     }
     body.modal-open .ig-bottom-footer,
@@ -2345,7 +2348,7 @@
     /* RESPONSIVE GRAND OPAQUE 3D WEDDING DOORS     */
     /* ============================================ */
     .doors-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; height: 100vh; height: 100dvh;
       z-index: 99999999; display: flex; justify-content: center; align-items: center;
       background: #0d0b09;
       perspective: 1200px;
@@ -2372,7 +2375,7 @@
 
     /* Interior Atmosphere Behind Doors (Dark at first -> Radiantly Glowing upon opening) */
     .doors-interior-view {
-      position: absolute; inset: 0;
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: radial-gradient(circle at 50% 50%, #ffffff 30%, #fffcf2 70%, #faefe0 100%);
       transform: scale(1);
       opacity: 0.15;
@@ -2388,7 +2391,7 @@
 
     /* Radiant Light Burst (Gradually blooming & expanding as doors swing wide) */
     .doors-light-burst {
-      position: absolute; inset: 0;
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 248, 220, 0.95) 30%, rgba(255, 235, 190, 0.6) 60%, rgba(255, 255, 255, 0) 80%);
       opacity: 0;
       transform: scale(0.3);
@@ -2404,7 +2407,7 @@
 
     /* Full Flash Transition to Main Feed */
     .doors-white-flash {
-      position: absolute; inset: 0;
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: #ffffff;
       opacity: 0;
       transition: opacity 0.6s ease 1.35s;
@@ -2417,7 +2420,7 @@
 
     /* Door Panels Container */
     .doors-frame-wrap {
-      position: absolute; inset: 0;
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       transform-style: preserve-3d;
       z-index: 3;
     }
@@ -3778,18 +3781,13 @@
               <polygon points="-6,-7 6,-7 0,0" fill="#1a1a1a"/>
               <!-- Pin Circle Badge -->
               <circle cx="0" cy="-25" r="18" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
-              <!-- Wedding Ring SVG inside -->
-              <g transform="translate(-14, -39)">
-                <polygon points="15,2 18,5 12,5" fill="#bae6fd" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/>
-                <polygon points="12,5 15,8 18,5" fill="#38bdf8" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/>
-                <circle cx="9" cy="14" r="5.5" stroke="#1a1a1a" stroke-width="1.8" fill="none"/>
-                <circle cx="15" cy="14" r="5.5" stroke="#1a1a1a" stroke-width="1.8" fill="none"/>
-              </g>
+              <!-- Wedding Ring PNG inside -->
+              <image href="images/wedding-ring.png" x="-12" y="-37" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
             </g>
           </svg>
 
           <!-- Floating Bottom Banner -->
-          <div style="position:absolute;bottom:10px;left:12px;right:12px;background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+          <div style="position:absolute;bottom:10px;left:12px;right:12px;background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
             <div style="display:flex;align-items:center;gap:6px;">
               <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#03C75A;"></span>
               <span style="font-size:0.75rem;font-weight:700;color:#111;">천호역 6번 출구 도보 1분</span>
@@ -3808,6 +3806,7 @@
       const lng = 127.12354;
 
       try {
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         const map = new naver.maps.Map('interactiveMap', {
           center: new naver.maps.LatLng(lat, lng),
           zoom: 16,
@@ -3815,7 +3814,10 @@
           mapTypeControl: false,
           scaleControl: false,
           logoControl: false,
-          mapDataControl: false
+          mapDataControl: false,
+          draggable: !isMobile,
+          pinchZoom: !isMobile,
+          scrollWheel: !isMobile
         });
 
         const marker = new naver.maps.Marker({
@@ -3825,12 +3827,7 @@
           icon: {
             content: `<div style="width:44px;height:50px;display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.25));box-sizing:border-box;">
               <div style="width:44px;height:44px;border-radius:50%;background:#ffffff;border:2px solid #1a1a1a;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.12);box-sizing:border-box;position:relative;">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="15,2 18,5 12,5" fill="#bae6fd" stroke="#1a1a1a" stroke-width="1.4" stroke-linejoin="round"/>
-                  <polygon points="12,5 15,8 18,5" fill="#38bdf8" stroke="#1a1a1a" stroke-width="1.4" stroke-linejoin="round"/>
-                  <circle cx="9" cy="14" r="5.5" stroke="#1a1a1a" stroke-width="2" fill="none"/>
-                  <circle cx="15" cy="14" r="5.5" stroke="#1a1a1a" stroke-width="2" fill="none"/>
-                </svg>
+                <img src="images/wedding-ring.png" alt="웨딩링" style="width:26px;height:26px;object-fit:contain;display:block;">
               </div>
               <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #1a1a1a;margin-top:-1px;"></div>
             </div>`,
@@ -4302,7 +4299,6 @@
     function fallbackCopy(text, msg = '복사되었습니다.') {
       const ta = document.createElement('textarea');
       ta.value = text;
-      ta.setAttribute('readonly', '');
       ta.style.position = 'fixed';
       ta.style.left = '-9999px';
       ta.style.top = '0';
@@ -4310,7 +4306,8 @@
       ta.style.fontSize = '16px'; // Prevents iOS Safari auto-zoom
       document.body.appendChild(ta);
       ta.focus();
-      ta.setSelectionRange(0, 999999);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
       try {
         document.execCommand('copy');
         showToastMsg(msg);
@@ -4637,6 +4634,7 @@
       if (overlay) {
         overlay.classList.remove('active');
       }
+      document.body.style.overflow = '';
       if (!fromHistory) {
         popModalFromHistory('comments-sheet');
       }
@@ -5054,7 +5052,7 @@
       playBGM();
 
       // 2. Comprehensive interaction listeners on all gesture events with capture
-      const gestureEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown', 'scroll'];
+      const gestureEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown'];
       
       const onFirstGesture = () => {
         if (userMutedExplicitly) return;
@@ -5119,6 +5117,7 @@
         sv.style.display = 'none';
       }
       clearTimeout(storyTimer);
+      document.body.style.overflow = '';
       if (!fromHistory) {
         popModalFromHistory('story-viewer');
       }
@@ -5411,6 +5410,7 @@
         lb.style.display = 'none';
         resetLightboxTransform(false);
       }
+      document.body.style.overflow = '';
       if (!fromHistory) {
         popModalFromHistory('photo-lightbox');
       }
