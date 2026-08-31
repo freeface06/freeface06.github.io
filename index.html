@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>이호정 & 전다솔 결혼합니다</title>
   <meta property="og:title" content="이호정 & 전다솔 결혼합니다">
   <meta property="og:description" content="2027년 6월 19일 토요일 오후 2시 라비니움">
@@ -60,12 +60,13 @@
       width: 100%;
       max-width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       margin: 0 auto;
       overflow-x: hidden;
       position: relative;
       -webkit-font-smoothing: antialiased;
       padding-top: 56px;
-      padding-bottom: 54px;
+      padding-bottom: calc(54px + env(safe-area-inset-bottom, 0px));
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
       -webkit-tap-highlight-color: transparent !important;
@@ -1513,6 +1514,7 @@
     .comments-modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 2000; display: flex; justify-content: center; align-items: flex-end;
       opacity: 0; visibility: hidden; pointer-events: none;
       transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
@@ -1564,6 +1566,7 @@
     .tmi-modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
       opacity: 0; visibility: hidden; pointer-events: none;
       transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
@@ -1775,6 +1778,7 @@
     .activity-modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
       opacity: 0; visibility: hidden; pointer-events: none;
       transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
@@ -1887,6 +1891,7 @@
     .grid-gallery-modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
       opacity: 0; visibility: hidden; pointer-events: none;
       transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
@@ -2047,6 +2052,7 @@
     .profile-modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 2100; display: flex; justify-content: center; align-items: flex-end;
       opacity: 0; visibility: hidden; pointer-events: none;
       transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
@@ -2120,6 +2126,7 @@
       letter-spacing: 0.5px;
       color: #ffffff;
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .profile-role-tag.groom { background: rgba(38, 38, 38, 0.85); }
     .profile-role-tag.bride { background: rgba(220, 39, 67, 0.85); }
@@ -2235,7 +2242,8 @@
     /* ==================================================== */
     .ig-bottom-footer {
       position: fixed; bottom: 0; left: 0; right: 0;
-      width: 100%; max-width: 100%; margin: 0 auto; height: 54px;
+      width: 100%; max-width: 100%; margin: 0 auto;
+      height: calc(54px + env(safe-area-inset-bottom, 0px));
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -2243,7 +2251,7 @@
       display: flex; justify-content: space-around; align-items: center;
       z-index: 1000; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
       transition: transform 0.3s var(--smooth-ease), opacity 0.25s ease;
-      padding: 0 4px;
+      padding: 0 4px env(safe-area-inset-bottom, 0px);
     }
     body.modal-open .ig-bottom-footer,
     .ig-bottom-footer.hidden {
@@ -3858,6 +3866,32 @@
     }
 
     /* Enterprise Native App Deep Link & Safe Web Fallback Engine */
+    function openAppWithFallback(appScheme, webFallbackUrl) {
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isMobile) {
+        if (webFallbackUrl) window.open(webFallbackUrl, '_blank');
+        return;
+      }
+
+      const start = Date.now();
+      let hasMovedAway = false;
+      const onVisibilityChange = () => {
+        if (document.hidden) hasMovedAway = true;
+      };
+      document.addEventListener('visibilitychange', onVisibilityChange, { once: true });
+
+      openUrlOrScheme(appScheme);
+
+      if (webFallbackUrl) {
+        setTimeout(() => {
+          document.removeEventListener('visibilitychange', onVisibilityChange);
+          if (!hasMovedAway && (Date.now() - start) < 2500) {
+            window.location.href = webFallbackUrl;
+          }
+        }, 1800);
+      }
+    }
+
     function launchNavigationApp(app) {
       const isAndroid = /Android/i.test(navigator.userAgent);
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -3882,19 +3916,19 @@
         if (isAndroid) {
           openUrlOrScheme(`intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`);
         } else {
-          openUrlOrScheme(`nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`);
+          openAppWithFallback(`nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`, `https://map.naver.com/p/search/${encodedName}`);
         }
       } else if (app === 'tmap') {
         if (isAndroid) {
           openUrlOrScheme(`intent://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`);
         } else {
-          openUrlOrScheme(`tmap://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}`);
+          openAppWithFallback(`tmap://route?goalname=${encodedName}&goallat=${lat}&goallng=${lng}`, `https://map.naver.com/p/search/${encodedName}`);
         }
       } else if (app === 'kakao') {
         if (isAndroid) {
           openUrlOrScheme(`intent://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}#Intent;scheme=kakaonavi;package=com.locnall.KimGiSa;end`);
         } else {
-          openUrlOrScheme(`kakaonavi://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}`);
+          openAppWithFallback(`kakaonavi://navigate?coord_type=wgs84&ep=${lat},${lng}&name=${encodedName}`, `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`);
         }
       }
     }
@@ -4267,9 +4301,20 @@
 
     function fallbackCopy(text, msg = '복사되었습니다.') {
       const ta = document.createElement('textarea');
-      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); showToastMsg(msg); } catch(e) {}
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      ta.style.top = '0';
+      ta.style.opacity = '0';
+      ta.style.fontSize = '16px'; // Prevents iOS Safari auto-zoom
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.setSelectionRange(0, 999999);
+      try {
+        document.execCommand('copy');
+        showToastMsg(msg);
+      } catch(e) {}
       document.body.removeChild(ta);
     }
 
