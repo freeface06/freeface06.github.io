@@ -781,9 +781,16 @@
     .bank-tab-btn {
       flex: 1; text-align: center; padding: 11px; font-weight: 600; font-size: 0.92rem;
       color: var(--text-dim); border-bottom: 2px solid transparent; cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.25s ease, border-color 0.25s ease;
     }
     .bank-tab-btn.active { color: var(--text-main); border-bottom-color: var(--text-main); }
+    .bank-tab-panel {
+      animation: tabFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes tabFadeIn {
+      0% { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
     .bank-row-item {
       display: flex; justify-content: space-between; align-items: center;
       background: transparent; border: none; border-bottom: 1px solid var(--border-subtle); padding: 10px 0 12px; border-radius: 0; margin-bottom: 8px;
@@ -1787,7 +1794,7 @@
         <div class="bank-tab-btn active" onclick="switchBankTab('groom', this)">신랑측</div>
         <div class="bank-tab-btn" onclick="switchBankTab('bride', this)">신부측</div>
       </div>
-      <div id="bank-groom">
+      <div id="bank-groom" class="bank-tab-panel">
         <div class="bank-row-item">
           <div>
             <div style="font-weight:700; font-size:0.92rem; color:#000;">국민은행 123456-00-123456</div>
@@ -1812,7 +1819,7 @@
           </button>
         </div>
       </div>
-      <div id="bank-bride" style="display:none;">
+      <div id="bank-bride" class="bank-tab-panel" style="display:none;">
         <div class="bank-row-item">
           <div>
             <div style="font-weight:700; font-size:0.92rem; color:#000;">신한은행 110-123-456789</div>
@@ -2502,11 +2509,17 @@
       const groom = document.getElementById('bank-groom');
       const bride = document.getElementById('bank-bride');
       if (side === 'groom') {
-        groom.style.display = 'block';
         bride.style.display = 'none';
+        groom.style.display = 'block';
+        groom.classList.remove('bank-tab-panel');
+        void groom.offsetWidth; // trigger reflow for animation restart
+        groom.classList.add('bank-tab-panel');
       } else {
         groom.style.display = 'none';
         bride.style.display = 'block';
+        bride.classList.remove('bank-tab-panel');
+        void bride.offsetWidth; // trigger reflow for animation restart
+        bride.classList.add('bank-tab-panel');
       }
     }
 
