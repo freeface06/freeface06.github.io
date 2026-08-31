@@ -1374,9 +1374,9 @@
       z-index: 3;
     }
 
-    /* Left & Right Door Leaves (100% Responsive Texture Alignment) */
+    /* Left & Right Door Leaves (Seamless 100% Texture Alignment) */
     .door-leaf {
-      position: absolute; top: 0; width: 50%; height: 100%;
+      position: absolute; top: 0; width: calc(50% + 0.5px); height: 100%;
       background-image: url('images/door_panels.jpg');
       background-size: 200% 100%;
       background-repeat: no-repeat;
@@ -1386,18 +1386,18 @@
       will-change: transform;
       transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1), filter 1.4s ease;
       box-shadow: 0 0 40px rgba(0,0,0,0.5);
+      border: none;
+      outline: none;
     }
     .door-leaf.left {
       left: 0;
       background-position: left center;
       transform-origin: 0% 50%;
-      border-right: 1px solid rgba(180, 140, 90, 0.4);
     }
     .door-leaf.right {
       right: 0;
       background-position: right center;
       transform-origin: 100% 50%;
-      border-left: 1px solid rgba(180, 140, 90, 0.4);
     }
 
     /* 3D Door Swing Animation */
@@ -1410,17 +1410,8 @@
       filter: brightness(1.2) drop-shadow(-15px 0 30px rgba(0,0,0,0.5));
     }
 
-    /* Center Door Light Seam (Glowing light slit between doors) */
     .doors-center-shadow {
-      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 2px; height: 100%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,245,210,0.95) 50%, rgba(255,255,255,0.4) 100%);
-      box-shadow: 0 0 10px rgba(255, 240, 200, 0.8);
-      z-index: 5;
-      transition: opacity 0.25s ease;
-    }
-    .doors-overlay.opening .doors-center-shadow {
-      opacity: 0;
+      display: none !important;
     }
 
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -1442,7 +1433,6 @@
       <div class="doors-frame-wrap">
         <div class="door-leaf left"></div>
         <div class="door-leaf right"></div>
-        <div class="doors-center-shadow"></div>
       </div>
     </div>
   </div>
