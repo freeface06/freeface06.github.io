@@ -257,42 +257,24 @@
       pointer-events: none;
       mix-blend-mode: soft-light;
     }
-    .wedding-hero-overlay-text {
+    .wedding-hero-overlay-logo {
       position: absolute;
-      bottom: 0;
+      bottom: 22px;
       left: 0;
       right: 0;
-      padding: 40px 24px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       z-index: 3;
-      text-align: center;
-      color: #ffffff;
       pointer-events: none;
     }
-    .wedding-hero-names {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.75rem;
-      font-weight: 400;
-      font-style: italic;
-      letter-spacing: 0.06em;
-      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
-      line-height: 1.4;
-    }
-    .wedding-hero-ampersand {
-      font-family: 'Grand Hotel', cursive;
-      font-size: 1.6rem;
-      display: inline-block;
-      margin: 0 8px;
-      opacity: 0.85;
-    }
-    .wedding-hero-date {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-top: 6px;
-      opacity: 0.8;
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+    .wedding-hero-logo-img {
+      height: 38px;
+      width: auto;
+      max-width: 70%;
+      object-fit: contain;
+      filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+      opacity: 0.92;
     }
     .wedding-hero-vignette {
       position: absolute;
@@ -3312,12 +3294,8 @@
     <!-- Wedding Hero Single Photo -->
     <div class="wedding-hero-photo" onclick="openSinglePhotoLightbox('images/main/wedding_main.jpg', 'Wedding Photo')">
       <img src="images/main/wedding_main.jpg" alt="Wedding Main Photo">
-      <div class="wedding-hero-vignette"></div>
-      <div class="wedding-hero-overlay-text">
-        <div class="wedding-hero-names">
-          Hojeong <span class="wedding-hero-ampersand">&</span> Dasol
-        </div>
-        <div class="wedding-hero-date">2027. 06. 19 Saturday</div>
+      <div class="wedding-hero-overlay-logo">
+        <img src="images/logo/logo.png" alt="Hojeong & Dasol" class="wedding-hero-logo-img">
       </div>
       <div class="media-audio-btn" onclick="event.stopPropagation(); toggleBGM();" id="audioToggleBtn" title="음악 재생/음소거">
         <svg viewBox="0 0 24 24" id="audioIcon" width="18" height="18"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/></svg>
