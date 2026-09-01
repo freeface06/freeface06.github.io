@@ -14,10 +14,11 @@
   --gold-light: #FFF8F5;
   --gold-dark: #96722C;
   --gold-shimmer: linear-gradient(135deg, #FFFBFA 0%, #F5E2B5 35%, #D4AF37 55%, #F0D595 75%, #FFFBFA 100%);
-  --text: #2C241E;
-  --text-main: #1D1712;
-  --text-dim: #796E60;
-  --text-light: #9B8F80;
+  --title-color: #4A2810;
+  --text: #453428;
+  --text-main: #2A1D15;
+  --text-dim: #7B6858;
+  --text-light: #9E8C7C;
   --ig-blue: #0095f6;
   --ig-red: #ff3040;
   --ig-badge: #ff3040;
@@ -410,7 +411,7 @@ button {
 .post-username {
   font-weight: 700;
   font-size: 0.94rem;
-  color: #5D3A1F;
+  color: var(--title-color);
   letter-spacing: -0.01em;
 }
 
@@ -2813,7 +2814,7 @@ button {
 .wedding-sec-title {
   font-size: clamp(1.22rem, 4.5vw, 1.36rem);
   font-weight: 800;
-  color: #5D3A1F;
+  color: var(--title-color);
   letter-spacing: -0.3px;
   margin: 0 0 8px;
 }
