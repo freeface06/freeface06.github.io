@@ -5447,38 +5447,6 @@ body.modal-open .ig-bottom-footer,
   white-space: nowrap;
 }
 
-.large-map-copy-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 5px 11px;
-  background: #f5f6f8;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 20px;
-  font-size: 0.73rem;
-  font-weight: 700;
-  color: #222222;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  letter-spacing: -0.2px;
-}
-
-.large-map-copy-btn svg {
-  color: #555555;
-}
-
-.large-map-copy-btn:hover {
-  background: #ebeef2;
-  color: #000000;
-}
-
-.large-map-copy-btn:active {
-  transform: scale(0.94);
-  background: #e2e6eb;
-}
-
 .large-map-nav-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
