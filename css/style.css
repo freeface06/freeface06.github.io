@@ -1056,7 +1056,7 @@
     /* Floating BGM Toggle Button (Appears when Main Photo is scrolled away) */
     .floating-bgm-btn {
       position: fixed;
-      bottom: calc(61px + env(safe-area-inset-bottom, 12px));
+      bottom: calc(74px + env(safe-area-inset-bottom, 12px));
       right: 16px;
       width: 36px;
       height: 36px;
@@ -1073,14 +1073,14 @@
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.1);
       opacity: 0;
       pointer-events: none;
-      transform: translateY(12px) scale(0.88);
-      transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
+      transform: scale(0.92);
+      transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s;
     }
 
     .floating-bgm-btn.visible {
       opacity: 1;
       pointer-events: auto;
-      transform: translateY(0) scale(1);
+      transform: scale(1);
     }
 
     .floating-bgm-btn:active {
@@ -1107,15 +1107,19 @@
       }
     }
 
+    .media-audio-btn svg,
     .floating-bgm-btn svg {
       width: 17px;
       height: 17px;
       display: block;
+      flex-shrink: 0;
+      margin: auto;
+      pointer-events: none;
     }
 
     @media (min-width: 501px) {
       .floating-bgm-btn {
-        right: calc(50% - 240px + 8px);
+        right: calc(50% - 240px + 16px);
       }
     }
 
