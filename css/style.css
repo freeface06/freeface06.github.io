@@ -410,7 +410,7 @@ button {
 .post-username {
   font-weight: 700;
   font-size: 0.94rem;
-  color: #8C6A30;
+  color: #5D3A1F;
   letter-spacing: -0.01em;
 }
 
@@ -2825,7 +2825,7 @@ button {
 .wedding-sec-title {
   font-size: clamp(1.22rem, 4.5vw, 1.36rem);
   font-weight: 800;
-  color: #8C6A30;
+  color: #5D3A1F;
   letter-spacing: -0.3px;
   margin: 0 0 8px;
 }
