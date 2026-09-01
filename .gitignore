@@ -1,8 +1,8 @@
 # Workspace temp files
 _workspace/
 
-# Agent system files
-.agents/
+# Agent system files (track custom skills)
+# .agents/
 
 # OS files
 .DS_Store
