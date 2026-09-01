@@ -408,9 +408,10 @@ button {
 }
 
 .post-username {
-  font-weight: 600;
-  font-size: 0.88rem;
-  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: #8C6A30;
+  letter-spacing: -0.01em;
 }
 
 .verified-icon {
@@ -420,8 +421,9 @@ button {
 }
 
 .post-location-tag {
-  font-size: 0.74rem;
-  color: var(--text-dim);
+  font-size: 0.76rem;
+  color: #8A7A66;
+  font-weight: 500;
 }
 
 .post-header-more {
@@ -2821,10 +2823,10 @@ button {
 }
 
 .wedding-sec-title {
-  font-size: clamp(1.18rem, 4.4vw, 1.32rem);
+  font-size: clamp(1.22rem, 4.5vw, 1.36rem);
   font-weight: 800;
-  color: var(--text-main);
-  letter-spacing: -0.4px;
+  color: #8C6A30;
+  letter-spacing: -0.3px;
   margin: 0 0 8px;
 }
 
