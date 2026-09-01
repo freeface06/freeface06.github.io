@@ -19,7 +19,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=lstn6qo079"></script>
-  <link rel="stylesheet" href="css/style.css?v=20260901_1257">
+  <link rel="stylesheet" href="css/style.css?v=20260901_1310">
 </head>
 
 <body>
@@ -2098,35 +2098,48 @@
       <div class="large-map-footer">
         <div class="large-map-info-row">
           <div class="large-map-address">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
+            <svg class="large-map-pin-icon" viewBox="0 0 24 24">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="9" r="2.5" fill="currentColor"/>
             </svg>
-            <span>서울특별시 송파구 천호대로 996</span>
+            <div class="large-map-address-texts">
+              <span class="large-map-venue-name">라비니움 1층 리추얼홀</span>
+              <span class="large-map-address-sub">서울특별시 송파구 천호대로 996</span>
+            </div>
           </div>
-          <button class="large-map-copy-btn tap-spring" onclick="copyText('서울특별시 송파구 천호대로 996', '라비니움 주소가 복사되었습니다.')">
-            복사
+          <button class="large-map-copy-btn tap-spring" onclick="copyText('서울특별시 송파구 천호대로 996', '라비니움 주소가 복사되었습니다.')" title="주소 복사">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>복사</span>
           </button>
         </div>
         <div class="large-map-nav-grid">
           <button class="large-map-nav-btn naver tap-spring" onclick="openNaverNavi()">
-            <img src="images/icon/naver_map.webp" alt="네이버 지도">
-            <span>네이버 지도</span>
+            <div class="large-map-btn-icon-wrap">
+              <img src="images/icon/naver_map.webp" alt="네이버 지도">
+            </div>
+            <span class="large-map-btn-text">네이버 지도</span>
           </button>
           <button class="large-map-nav-btn tmap tap-spring" onclick="openTmapNavi()">
-            <img src="images/icon/t-map.webp" alt="티맵">
-            <span>티맵</span>
+            <div class="large-map-btn-icon-wrap">
+              <img src="images/icon/t-map.webp" alt="티맵">
+            </div>
+            <span class="large-map-btn-text">티맵</span>
           </button>
           <button class="large-map-nav-btn kakao tap-spring" onclick="openKakaoNavi()">
-            <img src="images/icon/kakao-navi.webp" alt="카카오내비">
-            <span>카카오내비</span>
+            <div class="large-map-btn-icon-wrap">
+              <img src="images/icon/kakao-navi.webp" alt="카카오내비">
+            </div>
+            <span class="large-map-btn-text">카카오내비</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <script src="js/script.js?v=20260901_1305"></script>
+  <script src="js/script.js?v=20260901_1310"></script>
 </body>
 
 </html>

@@ -5356,60 +5356,99 @@ body.modal-open .ig-bottom-footer,
 /* Modal Footer Navigation Links */
 .large-map-footer {
   background: #ffffff;
-  padding: 12px 16px 20px;
+  padding: 13px 16px clamp(16px, 3.5vw, 22px);
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex-shrink: 0;
   z-index: 5;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.03);
 }
 
 .large-map-info-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
 .large-map-address {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #333333;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.large-map-pin-icon {
+  width: 18px;
+  height: 18px;
+  color: #ff334b;
+  flex-shrink: 0;
+}
+
+.large-map-address-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.large-map-venue-name {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+}
+
+.large-map-address-sub {
+  font-size: 0.73rem;
+  font-weight: 500;
+  color: #737373;
+  letter-spacing: -0.2px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.large-map-address svg {
-  flex-shrink: 0;
-  color: #ff3040;
-}
-
 .large-map-copy-btn {
-  background: #f4f4f4;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 11px;
+  background: #f5f6f8;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
   font-size: 0.73rem;
   font-weight: 700;
-  color: #222;
+  color: #222222;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.2px;
+}
+
+.large-map-copy-btn svg {
+  color: #555555;
+}
+
+.large-map-copy-btn:hover {
+  background: #ebeef2;
+  color: #000000;
 }
 
 .large-map-copy-btn:active {
-  background: #e8e8e8;
+  transform: scale(0.94);
+  background: #e2e6eb;
 }
 
 .large-map-nav-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 7px;
 }
 
 .large-map-nav-btn {
@@ -5417,24 +5456,64 @@ body.modal-open .ig-bottom-footer,
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 9px 8px;
-  border-radius: 10px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
+  padding: 9px 4px;
+  border-radius: 12px;
+  background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #f8f9fa;
-  color: #222;
-  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.large-map-btn-icon-wrap {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.large-map-btn-icon-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.large-map-btn-text {
+  font-size: 0.77rem;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.large-map-nav-btn:hover {
+  background: #fafbfc;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
 .large-map-nav-btn:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
+  background: #f0f2f5;
+  box-shadow: none;
 }
 
-.large-map-nav-btn img {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  border-radius: 4px;
+/* Subtle Brand Accents on active/hover */
+.large-map-nav-btn.naver:active {
+  border-color: rgba(3, 199, 90, 0.4);
+}
+
+.large-map-nav-btn.tmap:active {
+  border-color: rgba(0, 180, 240, 0.4);
+}
+
+.large-map-nav-btn.kakao:active {
+  border-color: rgba(254, 229, 0, 0.8);
 }
