@@ -1057,9 +1057,9 @@
     .floating-bgm-btn {
       position: fixed;
       bottom: calc(74px + env(safe-area-inset-bottom, 12px));
-      right: 16px;
-      width: 36px;
-      height: 36px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
       background: rgba(22, 22, 22, 0.88);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -1073,14 +1073,12 @@
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.1);
       opacity: 0;
       pointer-events: none;
-      transform: scale(0.92);
-      transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s;
+      transition: opacity 0.2s ease, background 0.2s;
     }
 
     .floating-bgm-btn.visible {
       opacity: 1;
       pointer-events: auto;
-      transform: scale(1);
     }
 
     .floating-bgm-btn:active {
@@ -1111,15 +1109,18 @@
     .floating-bgm-btn svg {
       width: 17px;
       height: 17px;
+      min-width: 17px;
+      min-height: 17px;
       display: block;
       flex-shrink: 0;
-      margin: auto;
+      margin: 0;
+      padding: 0;
       pointer-events: none;
     }
 
     @media (min-width: 501px) {
       .floating-bgm-btn {
-        right: calc(50% - 240px + 16px);
+        right: calc(50% - 240px + 12px);
       }
     }
 
