@@ -4995,21 +4995,21 @@ body.modal-open .ig-bottom-footer,
   width: 24px;
   height: 24px;
   fill: none;
-  stroke: var(--text-dim);
-  stroke-width: 1.8;
+  stroke: var(--title-color);
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: stroke 0.2s ease, stroke-width 0.2s ease, transform 0.2s var(--spring-ease);
+  transition: transform 0.2s var(--spring-ease);
 }
 
 .footer-nav-item .ig-flash-dot {
-  fill: var(--text-dim);
+  fill: var(--title-color);
   stroke: none;
 }
 
 .footer-nav-item.active svg {
   stroke: var(--title-color);
-  stroke-width: 2.2;
+  stroke-width: 2;
 }
 
 .footer-nav-item.active .ig-flash-dot {
@@ -5048,14 +5048,14 @@ body.modal-open .ig-bottom-footer,
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border: 1.6px solid var(--text-dim);
+  border: 1.8px solid var(--title-color);
   object-fit: cover;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s var(--spring-ease), border-color 0.2s ease;
+  transition: transform 0.2s var(--spring-ease);
 }
 
 .footer-nav-item.active .footer-avatar-icon {
-  border: 2px solid var(--title-color);
+  border: 1.8px solid var(--title-color);
 }
 
 /* Fullscreen Story Viewer Modal with Ken Burns Effect */
