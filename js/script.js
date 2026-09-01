@@ -84,6 +84,8 @@
       return commentsFetchPromise;
     }
 
+    const fetchCommentsFromGoogleSheet = prefetchComments;
+
     // Immediately trigger background prefetch upon script load
     prefetchComments();
 
