@@ -637,6 +637,7 @@
     }
 
     /* ==================================================== */
+    /* ==================================================== */
     /* LUXURY INSTAGRAM LOCATION SECTION & TRANSPORTATION   */
     /* ==================================================== */
     .loc-card-box {
@@ -666,13 +667,13 @@
       touch-action: auto !important;
     }
     .loc-body-content {
-      padding: 12px 12px 6px;
+      padding: 14px 14px 8px;
     }
     .map-tag-pill {
       position: absolute;
       top: 10px;
       left: 10px;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       padding: 5px 11px;
@@ -696,8 +697,8 @@
 
     /* Venue Title & Contact Row */
     .loc-venue-header {
-      margin-bottom: 16px;
-      padding-bottom: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border-subtle);
     }
     .loc-venue-title-row {
@@ -706,57 +707,59 @@
       align-items: flex-start;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .loc-venue-name {
       font-weight: 800;
-      font-size: clamp(1.05rem, 4vw, 1.18rem);
+      font-size: clamp(1.1rem, 4.2vw, 1.25rem);
       color: #000000;
       letter-spacing: -0.3px;
       line-height: 1.3;
     }
+    .loc-hall-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
     .loc-hall-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       font-size: 0.74rem;
       font-weight: 700;
       color: #0095f6;
       background: rgba(0, 149, 246, 0.08);
       padding: 2px 8px;
       border-radius: 6px;
-      margin-top: 3px;
     }
-    .loc-phone-btn {
-      display: flex;
+    .loc-free-badge {
+      display: inline-flex;
       align-items: center;
-      gap: 5px;
-      background: #f8f9fa;
-      border: 1px solid var(--border);
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.78rem;
+      gap: 4px;
+      font-size: 0.74rem;
       font-weight: 700;
-      color: #262626;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .loc-phone-btn:active {
-      transform: scale(0.94);
-      background: #efefef;
+      color: #03C75A;
+      background: rgba(3, 199, 90, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
     }
     .loc-address-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       background: transparent;
-      padding: 6px 0 0;
+      padding: 8px 0 0;
       border: none;
-      margin-bottom: 0;
+      border-radius: 0;
+      margin-top: 10px;
     }
     .loc-address-text {
-      font-size: 0.84rem;
-      color: #333333;
-      line-height: 1.45;
+      font-size: 0.86rem;
+      color: #222222;
+      line-height: 1.5;
       flex: 1;
       word-break: keep-all;
     }
@@ -764,11 +767,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       background: #f4f4f4;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 6px;
       color: #111111;
       cursor: pointer;
       flex-shrink: 0;
@@ -779,13 +782,304 @@
       background: #e5e5e5;
     }
 
+    /* Flat Tab Switcher (Instagram Profile Tab Style - Zero Cards) */
+    .loc-tab-bar {
+      display: flex;
+      background: transparent;
+      border-radius: 0;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0;
+      margin: 18px 0 22px;
+      gap: 0;
+    }
+    .loc-tab-btn {
+      flex: 1;
+      padding: 12px 4px;
+      font-size: clamp(0.76rem, 2.5vw, 0.84rem);
+      font-weight: 600;
+      color: #8e8e8e;
+      text-align: center;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .loc-tab-btn.active {
+      background: transparent;
+      color: #111111;
+      font-weight: 800;
+      border-bottom: 2px solid #111111;
+      box-shadow: none;
+    }
+    .loc-tab-pane {
+      display: none;
+      padding-bottom: 24px;
+      animation: locFadeIn 0.2s ease forwards;
+    }
+    .loc-tab-pane.active {
+      display: block;
+    }
+    @keyframes locFadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Flat Transit Details List (Spacious & High Visibility) */
+    .loc-transit-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .transit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+    }
+    .transit-item-divider {
+      height: 1px;
+      background: #edf0f2;
+      margin: 16px 0;
+    }
+    .transit-icon-col {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .transit-icon-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .transit-icon-badge.subway {
+      background: rgba(139, 80, 164, 0.12);
+      color: #8B50A4;
+    }
+    .transit-icon-badge.bus {
+      background: rgba(0, 149, 246, 0.12);
+      color: #0095f6;
+    }
+    .transit-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .transit-header {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .transit-title {
+      font-weight: 800;
+      font-size: 0.92rem;
+      color: #111111;
+    }
+    .subway-lines {
+      display: flex;
+      gap: 5px;
+    }
+    .subway-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #ffffff;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .subway-pill.line-5 { background: #8B50A4; }
+    .subway-pill.line-8 { background: #E61E8C; }
+    .station-code {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+    .transit-desc {
+      font-size: clamp(0.82rem, 2.6vw, 0.88rem);
+      color: #222222;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+    .transit-desc strong {
+      color: #000000;
+      font-weight: 800;
+    }
+
+    /* Flat Bus Route Groups */
+    .bus-route-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 10px;
+    }
+    .bus-route-group {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+    .bus-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #ffffff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .bus-tag.blue { background: #2b78e4; }
+    .bus-tag.green { background: #3ab54a; }
+    .bus-tag.red { background: #e03b3b; }
+    .bus-tag.navy { background: #2c3e50; }
+    .bus-tag.sky { background: #00a0dc; }
+    .bus-num-text {
+      color: #333333;
+      font-size: 0.82rem;
+      word-break: keep-all;
+      line-height: 1.55;
+    }
+    .bus-item {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    /* High-Visibility Flat Parking Guide (Generous Spacing) */
+    .parking-guide-block {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .parking-detail-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .parking-detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .parking-detail-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #111111;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .parking-addr-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 4px 0 6px;
+      margin: 2px 0 6px;
+    }
+    .parking-addr-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #0095f6;
+      background: rgba(0, 149, 246, 0.08);
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .parking-addr-val {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #111111;
+      flex: 1;
+      word-break: keep-all;
+    }
+    .parking-info-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .parking-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.84rem;
+      color: #222222;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+    .parking-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 5px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .parking-tag.rec {
+      background: rgba(230, 104, 60, 0.12);
+      color: #e6683c;
+    }
+    .parking-tag.walk {
+      background: rgba(0, 149, 246, 0.12);
+      color: #0095f6;
+    }
+    .parking-tag.shuttle {
+      background: rgba(139, 80, 164, 0.12);
+      color: #8B50A4;
+    }
+    .parking-info-text {
+      flex: 1;
+      color: #222222;
+    }
+    .parking-info-text strong {
+      color: #000000;
+      font-weight: 800;
+    }
+    .parking-sub-desc {
+      display: block;
+      font-size: 0.76rem;
+      color: #666666;
+      margin-top: 3px;
+      line-height: 1.45;
+    }
+
+    /* Edge-to-Edge Full Width Rough Map */
+    .rough-map-box {
+      margin: 4px -16px 0 -16px;
+      border: none;
+      border-radius: 0;
+      overflow: hidden;
+      background: #ffffff;
+      position: relative;
+    }
+    .rough-map-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+    }
+
     /* 3-Brand Navigation Buttons Grid (No Card Boxes, Clean Flat App Icons) */
     .loc-nav-heading {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #333333;
-      margin-bottom: 10px;
-      padding-top: 14px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: #111111;
+      margin-bottom: 12px;
+      padding-top: 20px;
       border-top: 1px solid var(--border-subtle);
     }
     .loc-nav-grid {
@@ -845,132 +1139,6 @@
       font-weight: 600;
       color: #222222;
       letter-spacing: -0.3px;
-    }
-
-    /* Transit Details List (No Card Boxes, Clean Flat Timeline / List Layout) */
-    .loc-transit-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .transit-item {
-      display: flex;
-      align-items: flex-start;
-      gap: clamp(8px, 2.5vw, 12px);
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      padding: 0;
-      box-shadow: none;
-    }
-    .transit-item:hover {
-      background: transparent;
-    }
-    .transit-icon-col {
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .transit-icon-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .transit-icon-badge.subway {
-      background: rgba(139, 80, 164, 0.12);
-      color: #8B50A4;
-    }
-    .transit-icon-badge.bus {
-      background: rgba(0, 149, 246, 0.12);
-      color: #0095f6;
-    }
-    .transit-icon-badge.parking {
-      background: rgba(255, 140, 0, 0.12);
-      color: #e6683c;
-    }
-    .transit-content {
-      flex: 1;
-      min-width: 0;
-    }
-    .transit-header {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 4px;
-    }
-    .transit-title {
-      font-weight: 800;
-      font-size: 0.85rem;
-      color: #111111;
-    }
-    .subway-lines {
-      display: flex;
-      gap: 4px;
-    }
-    .subway-pill {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #ffffff;
-      padding: 1px 6px;
-      border-radius: 4px;
-    }
-    .subway-pill.line-5 {
-      background: #8B50A4;
-    }
-    .subway-pill.line-8 {
-      background: #E61E8C;
-    }
-    .station-code {
-      font-size: 0.74rem;
-      color: var(--text-dim);
-      font-weight: 600;
-    }
-    .parking-shuttle-pill {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #e6683c;
-      background: rgba(230, 104, 60, 0.12);
-      padding: 1px 6px;
-      border-radius: 4px;
-    }
-    .transit-desc {
-      font-size: clamp(0.76rem, 2.5vw, 0.8rem);
-      color: #444444;
-      line-height: 1.5;
-      word-break: keep-all;
-    }
-    .transit-desc strong {
-      color: #000000;
-    }
-    .bus-route-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 3px;
-      font-size: 0.76rem;
-      color: #555555;
-    }
-    .bus-tag {
-      font-size: 0.66rem;
-      font-weight: 700;
-      color: #fff;
-      padding: 1px 5px;
-      border-radius: 3px;
-      flex-shrink: 0;
-    }
-    .bus-tag.blue { background: #2b78e4; }
-    .bus-tag.green { background: #3ab54a; }
-    .bus-tag.red { background: #e03b3b; }
-    .sub-tip {
-      display: inline-block;
-      margin-top: 3px;
-      font-size: 0.75rem;
-      color: #777777;
     }
 
     /* Timetable Feed Post Content */
@@ -3056,7 +3224,7 @@
       </div>
       <div class="post-header-info">
         <div class="post-user-row"><span class="post-username">오시는 길</span><svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
-        <div class="post-location-tag">라비니움 (천호역 6번 출구)</div>
+        <div class="post-location-tag">라비니움 (천호역 10번 출구 바로 앞)</div>
       </div>
       <svg class="post-header-more tap-spring" viewBox="0 0 24 24" onclick="openTmiModal('guest')" title="하객 감사 인사"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     </div>
@@ -3071,78 +3239,211 @@
       <div class="loc-venue-header">
         <div class="loc-venue-title-row">
           <div>
-            <div class="loc-venue-name">천호 라비니움</div>
-            <div class="loc-hall-badge">1층 리추얼홀 · 1F Ritual Hall</div>
+            <div class="loc-venue-name">천호 라비니움 (LABINIUM)</div>
+            <div class="loc-hall-badges-row">
+              <span class="loc-hall-badge">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M13 7l6 3v11"/></svg>
+                1층 리추얼홀
+              </span>
+              <span class="loc-free-badge">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+                주차 1시간 30분 무료
+              </span>
+            </div>
           </div>
         </div>
+
         <div class="loc-address-row">
-          <span class="loc-address-text">서울특별시 강동구 천호대로 1026-1 (천호동 453-19)</span>
-          <button class="loc-copy-chip tap-spring" onclick="copyText('서울특별시 강동구 천호대로 1026-1', '웨딩홀 주소가 복사되었습니다.')" title="주소 복사">
+          <span class="loc-address-text">서울특별시 송파구 천호대로 996 (풍납동 473-1)</span>
+          <button class="loc-copy-chip tap-spring" onclick="copyText('서울특별시 송파구 천호대로 996', '라비니움 주소가 복사되었습니다.')" title="주소 복사">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           </button>
         </div>
       </div>
 
-      <!-- 3. Modern Transit Information Cards (지하철, 버스, 자가용/주차) -->
-      <div class="loc-transit-container">
-        <!-- Subway -->
-        <div class="transit-item">
-          <div class="transit-icon-col">
-            <div class="transit-icon-badge subway">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16"/><circle cx="8" cy="15" r="1" fill="currentColor"/><circle cx="16" cy="15" r="1" fill="currentColor"/><path d="M7 21l2-3m6 0l2 3"/></svg>
-            </div>
-          </div>
-          <div class="transit-content">
-            <div class="transit-header">
-              <span class="transit-title">지하철</span>
-              <div class="subway-lines">
-                <span class="subway-pill line-5">5호선</span>
-                <span class="subway-pill line-8">8호선</span>
+      <!-- 3. Category Tab Bar (대중교통 / 자가용·주차 / 약도) -->
+      <div class="loc-tab-bar" role="tablist">
+        <button class="loc-tab-btn active tap-spring" role="tab" id="locTabBtn0" onclick="switchLocTab(0)">대중교통 안내</button>
+        <button class="loc-tab-btn tap-spring" role="tab" id="locTabBtn1" onclick="switchLocTab(1)">자가용 &amp; 주차/셔틀</button>
+        <button class="loc-tab-btn tap-spring" role="tab" id="locTabBtn2" onclick="switchLocTab(2)">약도 안내</button>
+      </div>
+
+      <!-- Tab Pane 0: 대중교통 (지하철 & 버스) -->
+      <div class="loc-tab-pane active" id="locPane0" role="tabpanel">
+        <div class="loc-transit-container">
+          <!-- Subway -->
+          <div class="transit-item">
+            <div class="transit-icon-col">
+              <div class="transit-icon-badge subway">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16"/><circle cx="8" cy="15" r="1" fill="currentColor"/><circle cx="16" cy="15" r="1" fill="currentColor"/><path d="M7 21l2-3m6 0l2 3"/></svg>
               </div>
             </div>
-            <div class="transit-desc">
-              <strong>천호역 6번 출구</strong> 바로 앞 (도보 1분 거리)
+            <div class="transit-content">
+              <div class="transit-header">
+                <span class="transit-title">지하철</span>
+                <div class="subway-lines">
+                  <span class="subway-pill line-5">5호선</span>
+                  <span class="subway-pill line-8">8호선</span>
+                </div>
+              </div>
+              <div class="transit-desc">
+                <strong>천호역 10번 출구 바로 앞</strong> (도보 10초)
+              </div>
+            </div>
+          </div>
+
+          <div class="transit-item-divider"></div>
+
+          <!-- Bus -->
+          <div class="transit-item">
+            <div class="transit-icon-col">
+              <div class="transit-icon-badge bus">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1H9v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><circle cx="7.5" cy="14.5" r="1" fill="currentColor"/><circle cx="16.5" cy="14.5" r="1" fill="currentColor"/><path d="M4 9h16"/></svg>
+              </div>
+            </div>
+            <div class="transit-content">
+              <div class="transit-header">
+                <span class="transit-title">버스</span>
+                <span class="station-code">천호역 또는 천호사거리 하차</span>
+              </div>
+              <div class="bus-route-groups">
+                <div class="bus-route-group">
+                  <span class="bus-tag blue">간선</span>
+                  <span class="bus-num-text">
+                    <span class="bus-item">130,</span>
+                    <span class="bus-item">340,</span>
+                    <span class="bus-item">341,</span>
+                    <span class="bus-item">342,</span>
+                    <span class="bus-item">370</span>
+                  </span>
+                </div>
+                <div class="bus-route-group">
+                  <span class="bus-tag green">지선</span>
+                  <span class="bus-num-text">
+                    <span class="bus-item">3214,</span>
+                    <span class="bus-item">3316,</span>
+                    <span class="bus-item">3318,</span>
+                    <span class="bus-item">3321,</span>
+                    <span class="bus-item">3411,</span>
+                    <span class="bus-item">4318,</span>
+                    <span class="bus-item">3324,</span>
+                    <span class="bus-item">강동 05</span>
+                  </span>
+                </div>
+                <div class="bus-route-group">
+                  <span class="bus-tag green">일반</span>
+                  <span class="bus-num-text">
+                    <span class="bus-item">1&#8209;4,</span>
+                    <span class="bus-item">13,</span>
+                    <span class="bus-item">13&#8209;2,</span>
+                    <span class="bus-item">16,</span>
+                    <span class="bus-item">23,</span>
+                    <span class="bus-item">30,</span>
+                    <span class="bus-item">30&#8209;3,</span>
+                    <span class="bus-item">112&#8209;1,</span>
+                    <span class="bus-item">112&#8209;5</span>
+                  </span>
+                </div>
+                <div class="bus-route-group">
+                  <span class="bus-tag red">광역</span>
+                  <span class="bus-num-text">
+                    <span class="bus-item">1113,</span>
+                    <span class="bus-item">1113&#8209;1,</span>
+                    <span class="bus-item">1113&#8209;2,</span>
+                    <span class="bus-item">1113&#8209;10,</span>
+                    <span class="bus-item">1113&#8209;11</span>
+                  </span>
+                </div>
+                <div class="bus-route-group">
+                  <span class="bus-tag navy">심야</span>
+                  <span class="bus-num-text">
+                    <span class="bus-item">N30,</span>
+                    <span class="bus-item">N31</span>
+                  </span>
+                </div>
+                <div class="bus-route-group">
+                  <span class="bus-tag sky">공항</span>
+                  <span class="bus-num-text">
+                    <span class="bus-item">6200</span>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Bus -->
-        <div class="transit-item">
-          <div class="transit-icon-col">
-            <div class="transit-icon-badge bus">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1H9v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><circle cx="7.5" cy="14.5" r="1" fill="currentColor"/><circle cx="16.5" cy="14.5" r="1" fill="currentColor"/><path d="M4 9h16"/></svg>
-            </div>
-          </div>
-          <div class="transit-content">
-            <div class="transit-header">
-              <span class="transit-title">버스</span>
-              <span class="station-code">천호역 정류장 하차</span>
+      <!-- Tab Pane 1: 자가용 & 주차 / 셔틀버스 -->
+      <div class="loc-tab-pane" id="locPane1" role="tabpanel">
+        <div class="parking-guide-block">
+          <!-- Main Building Parking -->
+          <div class="parking-detail-section">
+            <div class="parking-detail-header">
+              <span class="parking-detail-name">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+                라비니움 본관 주차
+              </span>
+              <span class="loc-free-badge">1시간 30분 무료</span>
             </div>
             <div class="transit-desc">
-              <div class="bus-route-row"><span class="bus-tag blue">간선</span> 130, 340, 341, 370</div>
-              <div class="bus-route-row"><span class="bus-tag green">지선</span> 3214, 3316, 3411, 4318</div>
-              <div class="bus-route-row"><span class="bus-tag red">광역</span> 9301, 1113, 1113-1, 1113-2</div>
+              <strong>서울특별시 송파구 천호대로 996</strong> (웨딩홀 본관 내 주차)
+            </div>
+          </div>
+
+          <div class="transit-item-divider"></div>
+
+          <!-- Public Parking & Shuttle -->
+          <div class="parking-detail-section">
+            <div class="parking-detail-header">
+              <span class="parking-detail-name">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#e6683c" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+                천호지하공영주차장 (천호입구)
+              </span>
+              <span class="station-code">천호역 6번 출구 앞 · 지하 1, 2층</span>
+            </div>
+            
+            <!-- High-Visibility Nav Address Bar -->
+            <div class="parking-addr-bar">
+              <span class="parking-addr-label">네비 검색</span>
+              <span class="parking-addr-val">서울시 강동구 천호대로 1026-1</span>
+              <button class="loc-copy-chip tap-spring" onclick="copyText('서울시 강동구 천호대로 1026-1', '공영주차장 주소가 복사되었습니다.')" title="주소 복사">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+
+            <!-- Clear Structured Steps -->
+            <div class="parking-info-rows">
+              <div class="parking-info-row">
+                <span class="parking-tag rec">추천 구역</span>
+                <div class="parking-info-text">
+                  기둥번호 <strong>A, B, C, D (20 ~ 60번)</strong> 사이 주차
+                </div>
+              </div>
+
+              <div class="parking-info-row">
+                <span class="parking-tag walk">도보 이동</span>
+                <div class="parking-info-text">
+                  천호역 지하상가 현대백화점 방면 직진 → <strong>천호역 10번 출구 앞</strong>
+                  <span class="parking-sub-desc">(지하 통로로 웨딩홀 직결되어 눈/비 영향 없이 편리하게 이동 가능)</span>
+                </div>
+              </div>
+
+              <div class="parking-info-row">
+                <span class="parking-tag shuttle">셔틀 탑승</span>
+                <div class="parking-info-text">
+                  주차장 내부 <strong>기둥 A~D (20~60번)</strong> 상시 운행
+                  <span class="parking-sub-desc">(주차하신 차량 앞에서 대기 후 탑승 · 웨딩 진행 시 운영)</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Parking & Shuttle -->
-        <div class="transit-item">
-          <div class="transit-icon-col">
-            <div class="transit-icon-badge parking">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
-            </div>
-          </div>
-          <div class="transit-content">
-            <div class="transit-header">
-              <span class="transit-title">자가용 / 주차</span>
-              <span class="parking-shuttle-pill">셔틀 상시 운행</span>
-            </div>
-            <div class="transit-desc">
-              <strong>천호역 지하공영주차장</strong> 지하 1층 · 지하 2층<br>
-              <span class="sub-tip">기둥번호 <strong>A~D 20~60번</strong> 사이 전용 셔틀카트 상시 운행</span>
-            </div>
-          </div>
+      <!-- Tab Pane 2: 약도 안내 -->
+      <div class="loc-tab-pane" id="locPane2" role="tabpanel">
+        <div class="rough-map-box">
+          <img src="images/location-rough-map.jpg" alt="라비니움 오시는 길 공식 약도" loading="lazy" onclick="openPhotoModal(this.src, '라비니움 공식 약도')">
         </div>
       </div>
 
@@ -3200,7 +3501,7 @@
 
     <div class="post-caption-wrap">
       <div class="post-caption-text">
-        <span class="author">호정 & 다솔</span>천호역 6번 출구 바로 앞에 위치해 대중교통 이용이 매우 편리합니다. 귀한 걸음 해주시는 모든 분들께 감사드립니다.
+        <span class="author">호정 & 다솔</span>천호역 10번 출구 바로 앞에 위치해 대중교통 이용이 매우 편리합니다. 본관 및 공영주차장 주차가 지원되며 셔틀버스가 상시 운행됩니다. 귀한 걸음 해주시는 모든 분들께 감사드립니다.
       </div>
       <div class="hashtags">
         <span class="tag-item">#오시는길</span>
@@ -3208,10 +3509,10 @@
         <span class="tag-item">#라비니움</span>
         <span class="tag-item">#1층리추얼홀</span>
         <span class="tag-item">#천호역웨딩홀</span>
-        <span class="tag-item">#천호역6번출구</span>
+        <span class="tag-item">#천호역10번출구</span>
         <span class="tag-item">#주차안내</span>
       </div>
-      <div class="post-date-tag">서울특별시 강동구 천호대로 1026-1 · 천호 라비니움 1층 리추얼홀</div>
+      <div class="post-date-tag">서울특별시 송파구 천호대로 996 · 천호 라비니움 1층 리추얼홀</div>
     </div>
   </article>
 
@@ -3356,7 +3657,10 @@
       <div class="clean-section-header">
         <div class="clean-section-badge">ACCOUNT</div>
         <h3 class="clean-section-title">마음 전하실 곳</h3>
-        <p class="clean-section-desc">멀리서도 축복해 주시는 따뜻한 마음에 깊이 감사드립니다.</p>
+        <p class="clean-section-desc">
+          축하해 주시는 따뜻한 마음만 감사히 받겠습니다.<br>
+          화환은 정중히 사양하오니 너른 양해 부탁드립니다.
+        </p>
       </div>
 
       <div class="bank-card-wrap">
@@ -3744,7 +4048,14 @@
                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#888" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                   주차 및 교통 안내
                 </div>
-                <div class="tmi-a">천호역 6번 출구 바로 앞이며, 건물 내 2시간 무료 주차가 지원됩니다.</div>
+                <div class="tmi-a">천호역 10번 출구 바로 앞이며, 본관 및 천호지하공영주차장 1시간 30분 무료 주차(셔틀 상시 운행)가 지원됩니다.</div>
+              </div>
+              <div class="tmi-qa-item">
+                <div class="tmi-q">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#888" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                  화환 안내
+                </div>
+                <div class="tmi-a">축하해 주시는 따뜻한 마음만 감사히 받으며, 화환은 정중히 사양하오니 너른 양해 부탁드립니다.</div>
               </div>
             </div>
           </div>
@@ -3886,7 +4197,7 @@
           <div class="ig-bio-block">
             <div class="ig-bio-name">이호정 · 전다솔</div>
             <div class="ig-bio-sub">2027.06.19 토요일 오후 2시 · 라비니움</div>
-            <div class="ig-bio-desc">우리의 가장 빛나는 순간들을 모았습니다. 터치하여 고화질로 감상해보세요 💍</div>
+            <div class="ig-bio-desc">우리의 가장 빛나는 순간들을 모았습니다. 터치하여 고화질로 감상해보세요.</div>
           </div>
         </div>
 
@@ -4101,12 +4412,30 @@
       }
     }
 
+    /* Location Tabs Switcher Engine */
+    function switchLocTab(idx) {
+      const btns = [document.getElementById('locTabBtn0'), document.getElementById('locTabBtn1'), document.getElementById('locTabBtn2')];
+      const panes = [document.getElementById('locPane0'), document.getElementById('locPane1'), document.getElementById('locPane2')];
+      btns.forEach((btn, i) => {
+        if (btn) {
+          if (i === idx) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+      panes.forEach((pane, i) => {
+        if (pane) {
+          if (i === idx) pane.classList.add('active');
+          else pane.classList.remove('active');
+        }
+      });
+    }
+
     function showFallbackMap() {
       const mapEl = document.getElementById('interactiveMap');
       if (!mapEl) return;
       mapEl.innerHTML = `
         <a href="https://map.naver.com/v5/search/%EB%9D%BC%EB%B9%84%EB%8B%88%EC%9B%80" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;position:relative;text-decoration:none;cursor:pointer;background:#eef1f5;overflow:hidden;">
-          <!-- Stylized Schematic Road Map Vector -->
+          <!-- Stylized Schematic Road Map Vector Matching images/location-rough-map.jpg -->
           <svg width="100%" height="100%" viewBox="0 0 400 230" preserveAspectRatio="xMidYMid slice" style="display:block;">
             <defs>
               <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
@@ -4114,64 +4443,82 @@
               </filter>
             </defs>
             <!-- Background Map Blocks -->
-            <rect width="400" height="230" fill="#eef2f6"/>
-            <rect x="20" y="20" width="130" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
-            <rect x="20" y="140" width="130" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
-            <rect x="230" y="20" width="150" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
-            <rect x="230" y="140" width="150" height="70" rx="6" fill="#e2e7ee" opacity="0.6"/>
+            <rect width="400" height="230" fill="#f0f3f7"/>
+            <rect x="15" y="15" width="100" height="75" rx="6" fill="#e2e8f0" opacity="0.6"/>
+            <rect x="15" y="135" width="100" height="80" rx="6" fill="#e2e8f0" opacity="0.6"/>
+            <rect x="145" y="15" width="240" height="75" rx="6" fill="#e2e8f0" opacity="0.6"/>
+            <rect x="145" y="135" width="240" height="80" rx="6" fill="#e2e8f0" opacity="0.6"/>
 
-            <!-- Main Road: Cheonho-daero -->
-            <path d="M-10 115 L410 115" stroke="#ffffff" stroke-width="44"/>
-            <path d="M-10 115 L410 115" stroke="#d5dbe4" stroke-width="2" stroke-dasharray="8 6"/>
+            <!-- Main Road: Cheonho-daero (Horizontal) -->
+            <path d="M-10 115 L410 115" stroke="#ffffff" stroke-width="42"/>
+            <path d="M-10 115 L410 115" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 6"/>
 
-            <!-- Cross Road: Olympic-ro -->
-            <path d="M185 -10 L185 240" stroke="#ffffff" stroke-width="36"/>
-            <path d="M185 -10 L185 240" stroke="#d5dbe4" stroke-width="2" stroke-dasharray="8 6"/>
+            <!-- Cross Road: Olympic-ro (Vertical) -->
+            <path d="M125 -10 L125 240" stroke="#ffffff" stroke-width="36"/>
+            <path d="M125 -10 L125 240" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 6"/>
 
             <!-- Road Labels -->
-            <text x="60" y="119" fill="#8898aa" font-size="10" font-weight="700">천 호 대 로</text>
-            <text x="320" y="119" fill="#8898aa" font-size="10" font-weight="700">강동역 방면</text>
+            <text x="35" y="119" fill="#94a3b8" font-size="9" font-weight="700">광나루 방면</text>
+            <text x="345" y="119" fill="#94a3b8" font-size="9" font-weight="700">강동 방면</text>
+            <text x="125" y="24" fill="#94a3b8" font-size="9" font-weight="700" text-anchor="middle">암사 방면</text>
+            <text x="125" y="218" fill="#94a3b8" font-size="9" font-weight="700" text-anchor="middle">강동구청 방면</text>
 
-            <!-- Subway Station Hub Badge (Cheonho Stn) -->
-            <g transform="translate(145, 120)" filter="url(#shadowFilter)">
+            <!-- Subway Station Hub Badge (천호역 5·8호선) -->
+            <g transform="translate(125, 115)" filter="url(#shadowFilter)">
               <rect x="-42" y="-12" width="84" height="24" rx="12" fill="#222222"/>
               <circle cx="-28" cy="0" r="5" fill="#8B50A4"/>
               <text x="-28" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">5</text>
               <circle cx="-16" cy="0" r="5" fill="#E61E8C"/>
               <text x="-16" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">8</text>
-              <text x="12" y="3.5" fill="#ffffff" font-size="9.5" font-weight="800">천호역</text>
+              <text x="12" y="3.5" fill="#ffffff" font-size="9" font-weight="800">천호역</text>
             </g>
 
-            <!-- Exit 6 Marker -->
-            <g transform="translate(195, 86)">
-              <rect x="-10" y="-8" width="20" height="16" rx="4" fill="#03C75A"/>
-              <text x="0" y="3.5" fill="#ffffff" font-size="8.5" font-weight="800" text-anchor="middle">6번</text>
+            <!-- Exit 10 Marker (Right by Labinium) -->
+            <g transform="translate(78, 142)">
+              <rect x="-14" y="-9" width="28" height="18" rx="5" fill="#4B388D"/>
+              <text x="0" y="3.5" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">10번</text>
             </g>
 
-            <!-- Dotted Walking Path from Exit 6 to LABINIUM -->
-            <path d="M 205 86 Q 235 86 250 75" fill="none" stroke="#ff3040" stroke-width="2.5" stroke-dasharray="4 3"/>
+            <!-- Exit 6 Marker (Underground Public Parking) -->
+            <g transform="translate(230, 142)">
+              <rect x="-14" y="-9" width="28" height="18" rx="5" fill="#4B388D"/>
+              <text x="0" y="3.5" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">6번</text>
+            </g>
 
-            <!-- Main Venue Pin (Wedding Ring Marker) -->
-            <g transform="translate(265, 68)" filter="url(#shadowFilter)">
+            <!-- Public Parking [P] & Shuttle Pin -->
+            <g transform="translate(285, 142)">
+              <rect x="-12" y="-9" width="24" height="18" rx="5" fill="#e6683c"/>
+              <text x="0" y="3.5" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">P</text>
+              <text x="0" y="24" fill="#e6683c" font-size="7.5" font-weight="700" text-anchor="middle">공영주차장</text>
+            </g>
+
+            <!-- Underground Mall Dotted Walking Path from Exit 6 to Exit 10 -->
+            <path d="M 220 142 L 95 142" fill="none" stroke="#e6683c" stroke-width="2" stroke-dasharray="4 3"/>
+
+            <!-- Main Venue Pin (Wedding Ring Marker at Labinium, Exit 10) -->
+            <g transform="translate(62, 172)" filter="url(#shadowFilter)">
               <!-- Outer pulse circle -->
-              <circle cx="0" cy="-25" r="22" fill="#ff3040" opacity="0.2">
-                <animate attributeName="r" values="18;26;18" dur="2s" repeatCount="indefinite"/>
+              <circle cx="0" cy="-20" r="20" fill="#ff3040" opacity="0.25">
+                <animate attributeName="r" values="16;24;16" dur="2s" repeatCount="indefinite"/>
                 <animate attributeName="opacity" values="0.35;0;0.35" dur="2s" repeatCount="indefinite"/>
               </circle>
               <!-- Pin Pointer -->
-              <polygon points="-6,-7 6,-7 0,0" fill="#1a1a1a"/>
+              <polygon points="-5,-4 5,-4 0,2" fill="#1a1a1a"/>
               <!-- Pin Circle Badge -->
-              <circle cx="0" cy="-25" r="18" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+              <circle cx="0" cy="-20" r="16" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
               <!-- Wedding Ring PNG inside -->
-              <image href="images/wedding-ring.png" xlink:href="images/wedding-ring.png" x="-12" y="-37" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
+              <image href="images/wedding-ring.png" xlink:href="images/wedding-ring.png" x="-10" y="-30" width="20" height="20" preserveAspectRatio="xMidYMid meet"/>
+              <!-- Labinium Label -->
+              <rect x="-30" y="4" width="60" height="16" rx="4" fill="#ff3040"/>
+              <text x="0" y="15" fill="#ffffff" font-size="8" font-weight="800" text-anchor="middle">라비니움</text>
             </g>
           </svg>
 
           <!-- Floating Bottom Banner -->
-          <div style="position:absolute;bottom:10px;left:12px;right:12px;background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+          <div style="position:absolute;bottom:10px;left:12px;right:12px;background:rgba(255,255,255,0.96);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
             <div style="display:flex;align-items:center;gap:6px;">
               <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#03C75A;"></span>
-              <span style="font-size:0.75rem;font-weight:700;color:#111;">천호역 6번 출구 도보 1분</span>
+              <span style="font-size:0.75rem;font-weight:700;color:#111;">천호역 10번 출구 바로 앞 (도보 10초)</span>
             </div>
             <span style="font-size:0.74rem;font-weight:700;color:#0095f6;">네이버 지도 열기 &gt;</span>
           </div>
@@ -4185,8 +4532,8 @@
       const mapEl = document.getElementById('interactiveMap');
       if (!mapEl || !window.naver || !window.naver.maps) { showFallbackMap(); return; }
 
-      const lat = 37.5384438;
-      const lng = 127.1224221;
+      const lat = 37.53857;
+      const lng = 127.1235;
 
       try {
         naverMapInstance = new naver.maps.Map('interactiveMap', {
@@ -4210,7 +4557,7 @@
         const marker = new naver.maps.Marker({
           position: new naver.maps.LatLng(lat, lng),
           map: naverMapInstance,
-          title: '웨딩홀 위치',
+          title: '라비니움 (천호역 10번 출구)',
           icon: {
             content: `<div style="width:44px;height:50px;display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.25));box-sizing:border-box;">
               <div style="width:44px;height:44px;border-radius:50%;background:#ffffff;border:2px solid #1a1a1a;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.12);box-sizing:border-box;position:relative;">
@@ -4281,10 +4628,10 @@
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       const isMobile = isAndroid || isIOS;
 
-      const venueName = '천호 라비니움';
+      const venueName = '라비니움';
       const encodedName = encodeURIComponent(venueName);
-      const lat = '37.5384438';
-      const lng = '127.1224221';
+      const lat = '37.53857';
+      const lng = '127.1235';
 
       // Desktop PC: Direct Web Browser Navigation in New Tab
       if (!isMobile) {
@@ -4305,10 +4652,11 @@
         }
       } else if (app === 'tmap') {
         const tmapWebUrl = `https://map.naver.com/p/search/${encodedName}`;
+        const tmapParams = `goalname=${encodedName}&goalx=${lng}&goaly=${lat}&rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}&name=${encodedName}`;
         if (isAndroid) {
-          openAppWithFallback(`intent://route?rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`, tmapWebUrl);
+          openAppWithFallback(`intent://route?${tmapParams}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`, tmapWebUrl);
         } else {
-          openAppWithFallback(`tmap://route?rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}`, tmapWebUrl);
+          openAppWithFallback(`tmap://route?${tmapParams}`, tmapWebUrl);
         }
       } else if (app === 'kakao') {
         const kakaoWebUrl = `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`;
