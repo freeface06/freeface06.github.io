@@ -4358,53 +4358,55 @@
 
   <script>
     /* ==================================================== */
-    /* GRAND WEDDING HALL DOORS OPENING (AUTO-PLAY) [Commented Out] */
+    /* GOOGLE SPREADSHEET (APPS SCRIPT) API CONFIGURATION   */
     /* ==================================================== */
-    /*
-    let doorsDismissed = false;
-    document.body.style.overflow = 'hidden';
+    // 구글 Apps Script 배포 후 발급받은 웹 앱 URL을 아래에 입력하세요.
+    const GOOGLE_SHEET_API_URL = '';
 
-    function triggerDoorsAnimation() {
-      const overlay = document.getElementById('doorsOverlay');
-      if (!overlay || doorsDismissed) return;
-      
-      // Auto open sequence after short pause
-      setTimeout(() => {
-        if (doorsDismissed) return;
-        overlay.classList.add('opening');
-      }, 500);
-
-      // Auto fadeout transition to reveal invitation feed
-      setTimeout(() => {
-        if (doorsDismissed) return;
-        dismissDoors();
-      }, 2200);
-    }
-
-    function dismissDoors() {
-      if (doorsDismissed) return;
-      doorsDismissed = true;
-      const overlay = document.getElementById('doorsOverlay');
-      if (overlay) {
-        overlay.classList.add('hidden');
-        document.body.style.overflow = '';
-        setTimeout(() => {
-          overlay.remove();
-        }, 850);
+    async function sendDataToGoogleSheet(payload) {
+      if (!GOOGLE_SHEET_API_URL || GOOGLE_SHEET_API_URL.trim() === '') {
+        console.log('[GoogleSheet] API URL not configured. Skipped remote save:', payload);
+        return false;
+      }
+      try {
+        await fetch(GOOGLE_SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        console.log('[GoogleSheet] Data sent successfully:', payload.action);
+        return true;
+      } catch (err) {
+        console.error('[GoogleSheet] Error sending data:', err);
+        return false;
       }
     }
 
-    function skipDoors() {
-      dismissDoors();
+    async function fetchCommentsFromGoogleSheet() {
+      if (!GOOGLE_SHEET_API_URL || GOOGLE_SHEET_API_URL.trim() === '') return;
+      try {
+        const res = await fetch(`${GOOGLE_SHEET_API_URL}?action=get_comments`);
+        const json = await res.json();
+        if (json && json.status === 'success' && Array.isArray(json.comments) && json.comments.length > 0) {
+          const sheetComments = json.comments.map(c => ({
+            id: c.id || Date.now() + Math.random(),
+            uname: c.uname || '하객',
+            avatar: 'images/profile.jpg',
+            text: c.text,
+            time: c.time || '최근',
+            likes: 1,
+            liked: false,
+            isAuthor: false
+          }));
+          commentsData.unshift(...sheetComments);
+          renderComments();
+        }
+      } catch (err) {
+        console.log('[GoogleSheet] Note: comments fetch skipped or not yet deployed', err);
+      }
     }
 
-    // Auto-trigger on DOM load
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', triggerDoorsAnimation);
-    } else {
-      triggerDoorsAnimation();
-    }
-    */
 
     /* ==================================================== */
     /* INTERSECTION OBSERVER SCROLL REVEAL ENGINE           */
@@ -4414,6 +4416,7 @@
       updateCountdownTimer();
       tryInitMap();
       renderComments();
+      fetchCommentsFromGoogleSheet();
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -5118,6 +5121,16 @@
         });
         return;
       }
+      // Send to Google Sheet (if configured)
+      sendDataToGoogleSheet({
+        action: 'rsvp',
+        name: name,
+        side: currentRsvpSide,
+        count: currentRsvpCount,
+        meal: currentRsvpMeal,
+        createdAt: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+      });
+
       launchConfetti();
       showToastMsg(`${name}님의 소중한 참석 의사가 전달되었습니다. 감사합니다!`);
       const form = document.getElementById('rsvp-form');
@@ -5861,6 +5874,15 @@
       };
       commentsData.unshift(newComment);
       renderComments();
+
+      // Send to Google Sheet (if configured)
+      sendDataToGoogleSheet({
+        action: 'comment',
+        author: name,
+        message: val,
+        createdAt: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+      });
+
       showToastMsg('축하 메시지가 등록되었습니다.');
     }
 
