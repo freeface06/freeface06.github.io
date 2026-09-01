@@ -1716,171 +1716,326 @@ button {
   margin-top: 6px;
 }
 
-/* Calendar Feed Post Content (Clean Seamless Instagram Post Media Style) */
-.cal-card-box {
-  background: #ffffff;
+/* ==================================================== */
+/* LUXURY EDITORIAL WEDDING CALENDAR & D-DAY COUNTDOWN  */
+/* (Clean Minimalist Typography - Zero Box/Card Design) */
+/* ==================================================== */
+.cal-editorial-wrapper {
+  background: transparent;
   border: none;
   border-radius: 0;
   margin: 0;
-  padding: 14px 12px 18px;
+  padding: 16px 12px 24px;
   text-align: center;
   box-shadow: none;
 }
 
+/* 1. Editorial Date Header */
 .cal-hero-header {
-  padding: 20px 0 44px;
+  padding: 16px 0 28px;
   margin: 0 auto;
   text-align: center;
 }
 
-.cal-hero-date {
-  font-size: clamp(1.8rem, 7vw, 2.4rem);
-  font-weight: 300;
-  color: #111111;
+.cal-hero-eyebrow {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(0.72rem, 2.5vw, 0.82rem);
+  font-weight: 600;
+  color: #9c8a79;
   letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.cal-hero-date {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 8vw, 3rem);
+  font-weight: 300;
+  color: #1a1816;
+  letter-spacing: 2px;
   line-height: 1;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 12px;
 }
 
-.cal-hero-date strong {
-  font-weight: 800;
+.cal-date-year,
+.cal-date-month {
+  font-weight: 300;
 }
 
-.cal-hero-line {
-  width: 28px;
-  height: 1.5px;
-  background: #111111;
-  margin: 0 auto 10px;
+.cal-date-day {
+  font-weight: 600;
+  color: #1a1816;
+}
+
+.cal-date-sep {
+  color: #c5a880;
+  font-weight: 300;
+  margin: 0 4px;
+}
+
+.cal-hero-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 160px;
+  margin: 0 auto 12px;
+}
+
+.cal-hero-divider .divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(197, 168, 128, 0.55), transparent);
+}
+
+.cal-hero-divider .divider-sparkle {
+  width: 10px;
+  height: 10px;
+  color: #c5a880;
+  flex-shrink: 0;
 }
 
 .cal-hero-time {
-  font-size: clamp(0.92rem, 3.2vw, 1.05rem);
-  font-weight: 600;
-  color: #333333;
-  letter-spacing: 1.5px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: clamp(0.88rem, 3vw, 0.98rem);
+  font-weight: 500;
+  color: #4a4540;
+  letter-spacing: 0.5px;
 }
 
+/* 2. Bridal Aesthetic Calendar Grid */
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: clamp(2px, 1.2vw, 6px);
-  font-size: clamp(0.76rem, 2.6vw, 0.88rem);
-  max-width: min(320px, 100%);
+  gap: clamp(4px, 1.5vw, 8px);
+  font-size: clamp(0.92rem, 3vw, 1.08rem);
+  max-width: min(324px, 100%);
   margin: 0 auto;
 }
 
 .cal-head {
-  color: var(--text-dim);
-  font-size: clamp(0.68rem, 2.2vw, 0.76rem);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  color: #9c948c;
+  font-size: clamp(0.7rem, 2.4vw, 0.78rem);
   font-weight: 600;
-  padding-bottom: 6px;
+  letter-spacing: 1.5px;
+  padding-bottom: 10px;
 }
 
 .cal-head.sun {
-  color: var(--ig-red);
+  color: #b85d68;
+}
+
+.cal-head.sat {
+  color: #5c6b73;
+}
+
+.cal-empty {
+  height: clamp(32px, 8.5vw, 38px);
 }
 
 .cal-day {
-  padding: clamp(4px, 1.2vw, 7px) 0;
-  color: #333;
-  font-weight: 500;
-  transition: transform 0.2s;
+  font-family: 'Cormorant Garamond', serif;
+  height: clamp(32px, 8.5vw, 38px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #383431;
+  font-weight: 400;
+  position: relative;
+  transition: transform 0.2s ease;
 }
 
 .cal-day.sun {
-  color: var(--ig-red);
+  color: #b85d68;
+  font-weight: 500;
 }
 
+/* Luxury Wedding Highlight (Champagne Halo + Gold Ring) */
 .cal-day.target {
-  background: #000;
-  color: #fff;
+  color: #1a1816;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.target-ring-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(30px, 8vw, 36px);
+  height: clamp(30px, 8vw, 36px);
+  transform: translate(-50%, -50%);
   border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.08) 60%, transparent 75%);
+  border: 1.5px solid rgba(197, 168, 128, 0.75);
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.25);
+  animation: calWeddingGlow 2.8s infinite ease-in-out;
+  z-index: -1;
+}
+
+.target-ring-icon {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13px;
+  height: 13px;
+  color: #b89047;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(184, 144, 71, 0.4));
+  animation: calRingShimmer 2.8s infinite ease-in-out;
+}
+
+.target-num {
+  position: relative;
+  z-index: 2;
   font-weight: 700;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  animation: targetGlow 2s infinite alternate ease-in-out;
+  color: #1a1816;
 }
 
-@keyframes targetGlow {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+@keyframes calWeddingGlow {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    border-color: rgba(197, 168, 128, 0.65);
   }
-
-  100% {
-    transform: scale(1.08);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
+    border-color: rgba(212, 175, 55, 0.95);
   }
 }
 
-/* Elegant Serif Countdown Timer Component (Matching User's Reference) */
-.countdown-container {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: none;
+@keyframes calRingShimmer {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    filter: drop-shadow(0 1px 2px rgba(184, 144, 71, 0.4));
+  }
+  50% {
+    transform: translateX(-50%) translateY(-1px) scale(1.1);
+    filter: drop-shadow(0 1px 4px rgba(212, 175, 55, 0.8));
+  }
+}
+
+/* 3. Add to Calendar Action Button */
+.cal-action-wrap {
+  margin: 18px auto 0;
   text-align: center;
+}
+
+.cal-save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: transparent;
+  border: 1px solid rgba(197, 168, 128, 0.45);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #635c55;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cal-save-btn:hover,
+.cal-save-btn:active {
+  background: rgba(197, 168, 128, 0.1);
+  border-color: rgba(197, 168, 128, 0.85);
+  color: #1a1816;
+}
+
+/* 4. Editorial Real-Time Countdown Timer */
+.countdown-container {
+  margin-top: 26px;
+  padding-top: 22px;
+  position: relative;
+  text-align: center;
+}
+
+.countdown-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(197, 168, 128, 0.4), transparent);
+}
+
+.countdown-eyebrow {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9c8a79;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
 .countdown-labels {
   display: grid;
   grid-template-columns: 1fr 14px 1fr 14px 1fr 14px 1fr;
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: clamp(0.64rem, 2.2vw, 0.74rem);
+  font-size: clamp(0.64rem, 2.2vw, 0.72rem);
   font-weight: 600;
-  color: #8e8e8e;
-  letter-spacing: clamp(1px, 0.5vw, 2px);
+  color: #9c938a;
+  letter-spacing: 2px;
   margin-bottom: 6px;
   max-width: min(290px, 100%);
   margin-left: auto;
   margin-right: auto;
 }
 
-.countdown-labels span:nth-child(1) {
-  grid-column: 1;
-}
-
-.countdown-labels span:nth-child(2) {
-  grid-column: 3;
-}
-
-.countdown-labels span:nth-child(3) {
-  grid-column: 5;
-}
-
-.countdown-labels span:nth-child(4) {
-  grid-column: 7;
-}
+.countdown-labels span:nth-child(1) { grid-column: 1; }
+.countdown-labels span:nth-child(2) { grid-column: 3; }
+.countdown-labels span:nth-child(3) { grid-column: 5; }
+.countdown-labels span:nth-child(4) { grid-column: 7; }
 
 .countdown-digits {
   display: grid;
   grid-template-columns: 1fr 14px 1fr 14px 1fr 14px 1fr;
   align-items: center;
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: clamp(1.5rem, 6vw, 2.1rem);
+  font-size: clamp(1.8rem, 6.8vw, 2.4rem);
   font-weight: 400;
-  color: #111111;
+  color: #1a1816;
   letter-spacing: 1px;
   line-height: 1;
   max-width: min(290px, 100%);
-  margin: 0 auto 14px;
+  margin: 0 auto 16px;
+}
+
+.timer-unit-box {
+  display: inline-block;
 }
 
 .countdown-colon {
-  font-size: clamp(1.1rem, 4.5vw, 1.5rem);
-  color: #a0a0a0;
+  font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+  color: #c5a880;
   font-weight: 300;
   transform: translateY(-2px);
 }
 
 .countdown-notice {
+  font-family: 'Pretendard', sans-serif;
   font-size: 0.88rem;
-  color: #333333;
+  color: #4a443e;
   line-height: 1.5;
   letter-spacing: -0.3px;
 }
 
 .countdown-notice strong {
-  color: #111111;
+  color: #1a1816;
   font-weight: 700;
+  font-size: 0.94rem;
 }
 
 /* ==================================================== */

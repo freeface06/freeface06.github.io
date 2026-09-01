@@ -21,7 +21,7 @@
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=lstn6qo079"></script>
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
   <link rel="preload" as="image" href="images/main/1762868176689.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="css/style.css?v=20260901_1345">
+  <link rel="stylesheet" href="css/style.css?v=20260901_1405">
 </head>
 
 <body>
@@ -330,22 +330,41 @@
         <circle cx="5" cy="12" r="1.5" />
       </svg>
     </div>
-    <div class="cal-card-box">
+
+    <!-- Editorial Wedding Calendar Main Area (Clean Minimalist Typography - No Card/Box) -->
+    <div class="cal-editorial-wrapper">
+      <!-- 1. Editorial Header -->
       <div class="cal-hero-header">
-        <div class="cal-hero-date">2027. <strong>06. 19</strong></div>
-        <div class="cal-hero-line"></div>
-        <div class="cal-hero-time">토요일 · 오후 3시 30분</div>
+        <div class="cal-hero-eyebrow">THE WEDDING DAY</div>
+        <div class="cal-hero-date">
+          <span class="cal-date-year">2027</span>
+          <span class="cal-date-sep">.</span>
+          <span class="cal-date-month">06</span>
+          <span class="cal-date-sep">.</span>
+          <span class="cal-date-day">19</span>
+        </div>
+        <div class="cal-hero-divider">
+          <span class="divider-line"></span>
+          <svg class="divider-sparkle" viewBox="0 0 24 24">
+            <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor" />
+          </svg>
+          <span class="divider-line"></span>
+        </div>
+        <div class="cal-hero-time">토요일 오후 3시 30분</div>
       </div>
+
+      <!-- 2. Bridal Aesthetic Calendar Grid -->
       <div class="cal-grid">
-        <div class="cal-head sun">일</div>
-        <div class="cal-head">월</div>
-        <div class="cal-head">화</div>
-        <div class="cal-head">수</div>
-        <div class="cal-head">목</div>
-        <div class="cal-head">금</div>
-        <div class="cal-head">토</div>
-        <div></div>
-        <div></div>
+        <div class="cal-head sun">SUN</div>
+        <div class="cal-head">MON</div>
+        <div class="cal-head">TUE</div>
+        <div class="cal-head">WED</div>
+        <div class="cal-head">THU</div>
+        <div class="cal-head">FRI</div>
+        <div class="cal-head sat">SAT</div>
+
+        <div class="cal-empty"></div>
+        <div class="cal-empty"></div>
         <div class="cal-day">1</div>
         <div class="cal-day">2</div>
         <div class="cal-day">3</div>
@@ -364,7 +383,14 @@
         <div class="cal-day">16</div>
         <div class="cal-day">17</div>
         <div class="cal-day">18</div>
-        <div class="cal-day target">19</div>
+        <div class="cal-day target">
+          <div class="target-ring-halo"></div>
+          <svg class="target-ring-icon" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="14" rx="7" ry="7" fill="none" stroke="currentColor" stroke-width="1.8" />
+            <polygon points="12,2 14.5,5.8 9.5,5.8" fill="currentColor" />
+          </svg>
+          <span class="target-num">19</span>
+        </div>
         <div class="cal-day sun">20</div>
         <div class="cal-day">21</div>
         <div class="cal-day">22</div>
@@ -376,37 +402,54 @@
         <div class="cal-day">28</div>
         <div class="cal-day">29</div>
         <div class="cal-day">30</div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class="cal-empty"></div>
+        <div class="cal-empty"></div>
+        <div class="cal-empty"></div>
       </div>
 
-      <!-- Elegant Real-Time Countdown Timer -->
+      <!-- 3. Minimalist Add to Calendar Button (Seamless link) -->
+      <div class="cal-action-wrap">
+        <button class="cal-save-btn tap-spring" onclick="addWeddingToCalendar()" title="캘린더에 일정 추가">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+            <line x1="12" y1="14" x2="12" y2="18"></line>
+            <line x1="10" y1="16" x2="14" y2="16"></line>
+          </svg>
+          <span>캘린더에 일정 등록하기</span>
+        </button>
+      </div>
+
+      <!-- 4. Editorial Real-Time Countdown Timer -->
       <div class="countdown-container">
+        <div class="countdown-eyebrow">COUNTDOWN</div>
         <div class="countdown-labels">
           <span>DAYS</span>
-          <span>HOUR</span>
-          <span>MIN</span>
-          <span>SEC</span>
+          <span>HOURS</span>
+          <span>MINS</span>
+          <span>SECS</span>
         </div>
         <div class="countdown-digits">
-          <span id="timer-days">00</span>
+          <span class="timer-unit-box"><span id="timer-days">00</span></span>
           <span class="countdown-colon">:</span>
-          <span id="timer-hours">00</span>
+          <span class="timer-unit-box"><span id="timer-hours">00</span></span>
           <span class="countdown-colon">:</span>
-          <span id="timer-mins">00</span>
+          <span class="timer-unit-box"><span id="timer-mins">00</span></span>
           <span class="countdown-colon">:</span>
-          <span id="timer-secs">00</span>
+          <span class="timer-unit-box"><span id="timer-secs">00</span></span>
         </div>
         <div class="countdown-notice" id="countdownNotice">
-          호정, 다솔의 결혼식이 <strong>292일</strong> 남았습니다.
+          호정과 다솔의 결혼식이 <strong>291일</strong> 남았습니다.
         </div>
       </div>
     </div>
 
-    <div class="post-caption-wrap" style="padding-top: 10px; padding-bottom: 16px;">
+    <div class="post-caption-wrap" style="padding-top: 12px; padding-bottom: 20px;">
       <div class="post-caption-text">
-        우리의 특별한 날까지 남은 시간, 함께 카운트다운 해주세요!
+        우리의 특별한 날까지 남은 시간, 따뜻한 축복으로 함께해 주세요.
       </div>
       <div class="post-date-tag">2027년 6월 19일 토요일 오후 3시 30분 · 라비니움 1층 리추얼홀</div>
     </div>

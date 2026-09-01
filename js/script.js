@@ -464,7 +464,7 @@
       if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
 
       if (noticeEl) {
-        noticeEl.innerHTML = `호정, 다솔의 결혼식이 <strong>${days}일</strong> 남았습니다.`;
+        noticeEl.innerHTML = `호정과 다솔의 결혼식이 <strong>${days}일</strong> 남았습니다.`;
       }
     }
     setInterval(updateCountdownTimer, 1000);
@@ -472,6 +472,51 @@
 
     function updateDDay() {
       updateCountdownTimer();
+    }
+
+    function addWeddingToCalendar() {
+      const title = '이호정 & 전다솔 결혼식';
+      const description = '라비니움 1층 리추얼홀\n이호정 & 전다솔 결혼식에 초대합니다.';
+      const location = '서울특별시 송파구 천호대로 996 (라비니움 1층 리추얼홀)';
+      const startDate = '20270619T063000Z'; // 15:30 KST (UTC+9 -> 06:30Z)
+      const endDate = '20270619T083000Z';   // 17:30 KST (UTC+9 -> 08:30Z)
+
+      const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
+      
+      if (isApple) {
+        const icsContent = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//Hojeong & Dasol Wedding//KO',
+          'CALSCALE:GREGORIAN',
+          'BEGIN:VEVENT',
+          `SUMMARY:${title}`,
+          `DESCRIPTION:${description}`,
+          `LOCATION:${location}`,
+          'DTSTART:20270619T153000',
+          'DTEND:20270619T173000',
+          'STATUS:CONFIRMED',
+          'END:VEVENT',
+          'END:VCALENDAR'
+        ].join('\r\n');
+
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute('download', 'wedding_invitation_20270619.ics');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        if (typeof showToastMsg === 'function') {
+          showToastMsg('캘린더 일정 파일이 다운로드되었습니다.');
+        }
+      } else {
+        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+        window.open(googleUrl, '_blank', 'noopener,noreferrer');
+        if (typeof showToastMsg === 'function') {
+          showToastMsg('캘린더 일정 등록 화면으로 이동합니다.');
+        }
+      }
     }
 
     function scrollToSection(id) {
