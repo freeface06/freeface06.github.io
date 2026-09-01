@@ -1628,12 +1628,12 @@ button {
 
 .poem-lines {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  font-size: 0.96rem;
-  font-weight: 500;
-  line-height: 2.15;
-  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 2.1;
+  color: var(--text);
   word-break: keep-all;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   margin: 0 0 10px 0;
 }
 
@@ -1642,7 +1642,7 @@ button {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 0.82rem;
   color: #A3844C;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.02em;
 }
 
@@ -1654,7 +1654,9 @@ button {
 }
 
 .invitation-intro-lines {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 0.92rem;
+  font-weight: 400;
   line-height: 2.1;
   color: var(--text);
   word-break: keep-all;
