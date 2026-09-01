@@ -19,8 +19,8 @@
   --text-main: #2A1D15;
   --text-dim: #7B6858;
   --text-light: #9E8C7C;
-  --hashtag-color: #8C3A24;
-  --ig-blue: #8C3A24;
+  --hashtag-color: #6E2B18;
+  --ig-blue: #6E2B18;
   --ig-red: #ff3040;
   --ig-badge: #ff3040;
   --ig-grad: linear-gradient(45deg, #ECCB85 0%, #D4AF37 35%, #F0A07B 70%, #C59D4F 100%);
@@ -1715,7 +1715,7 @@ button {
   color: var(--hashtag-color);
   margin-top: 10px;
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   flex-wrap: wrap;
   gap: 3px 6px;
