@@ -2670,7 +2670,7 @@ button {
 }
 
 #comments-sec.wedding-section {
-  padding-bottom: 76px;
+  padding-bottom: 20px;
 }
 
 /* Wreath Decline Notice Pure Minimal Typography (카드 디자인 배제) */
@@ -5518,4 +5518,133 @@ body.modal-open .ig-bottom-footer,
 
 .large-map-nav-btn.kakao:active {
   border-color: rgba(254, 229, 0, 0.8);
+}
+
+/* ==================================================== */
+/* SECTION: SHARE & CLOSING FOOTER BRANDING             */
+/* ==================================================== */
+#share-sec.wedding-section {
+  padding-bottom: 84px;
+}
+
+.share-btn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+  margin-bottom: 28px;
+}
+
+.share-dock-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  letter-spacing: -0.3px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.share-dock-btn.kakao {
+  background: #fee500;
+  color: #191919;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px rgba(254, 229, 0, 0.35);
+}
+
+.share-dock-btn.kakao:hover {
+  background: #fada0a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(254, 229, 0, 0.45);
+}
+
+.share-dock-btn.kakao:active {
+  transform: scale(0.96);
+  background: #ecd000;
+  box-shadow: none;
+}
+
+.share-dock-btn.copy {
+  background: #ffffff;
+  color: #222222;
+  border: 1px solid #dbdbdb;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.share-dock-btn.copy:hover {
+  background: #f8f9fa;
+  border-color: #c4c4c4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.share-dock-btn.copy:active {
+  transform: scale(0.96);
+  background: #f0f0f0;
+  box-shadow: none;
+}
+
+.share-dock-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.share-dock-icon-wrap.copy svg {
+  color: #444444;
+}
+
+.share-dock-label {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Elegant Closing Footer Signature */
+.wedding-footer-branding {
+  text-align: center;
+  padding: 24px 16px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-names-signature {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #111111;
+  margin-bottom: 4px;
+}
+
+.footer-wedding-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #8e8e8e;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.footer-blessing-text {
+  font-size: 0.78rem;
+  color: #666666;
+  line-height: 1.55;
+  margin: 0 0 16px;
+  word-break: keep-all;
+  max-width: 320px;
+}
+
+.footer-copyright-line {
+  font-size: 0.64rem;
+  font-weight: 500;
+  color: #aaaaaa;
+  letter-spacing: 0.06em;
 }

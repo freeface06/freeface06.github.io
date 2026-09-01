@@ -19,7 +19,8 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=lstn6qo079"></script>
-  <link rel="stylesheet" href="css/style.css?v=20260901_1316">
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/style.css?v=20260901_1320">
 </head>
 
 <body>
@@ -1281,6 +1282,48 @@
     </div>
   </section>
 
+  <!-- Section: Share Invitation (청첩장 공유하기) -->
+  <section class="wedding-section reveal" id="share-sec">
+    <div class="wedding-sec-header">
+      <div class="wedding-sec-sub">S H A R E</div>
+      <h3 class="wedding-sec-title">청첩장 공유하기</h3>
+      <p class="wedding-sec-desc">소중한 분들께 저희의 결혼 소식을 전해주세요.</p>
+    </div>
+
+    <div class="wedding-sec-body">
+      <div class="share-btn-grid">
+        <!-- KakaoTalk Share Button -->
+        <button type="button" class="share-dock-btn kakao tap-spring" onclick="shareKakaoTalk()" title="카카오톡으로 청첩장 공유하기">
+          <div class="share-dock-icon-wrap kakao">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#181600">
+              <path d="M12 3c-5.52 0-10 3.58-10 8 0 2.82 1.83 5.3 4.62 6.72-.2.74-.74 2.68-.85 3.09-.13.51.19.5.4.36.16-.11 2.57-1.74 3.6-2.44.91.13 1.85.2 2.83.2 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
+            </svg>
+          </div>
+          <span class="share-dock-label">카카오톡 공유</span>
+        </button>
+
+        <!-- Copy Link Button -->
+        <button type="button" class="share-dock-btn copy tap-spring" onclick="shareCopyLink()" title="모바일 청첩장 링크 복사">
+          <div class="share-dock-icon-wrap copy">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </div>
+          <span class="share-dock-label">링크 복사</span>
+        </button>
+      </div>
+
+      <!-- Elegant Closing Footer Branding -->
+      <div class="wedding-footer-branding">
+        <div class="footer-names-signature">HOJEONG &amp; DASOL</div>
+        <div class="footer-wedding-date">2027. 06. 19 SAT 3:30 PM · LABINIUM</div>
+        <p class="footer-blessing-text">따뜻한 마음으로 축복해 주시는 모든 분들께 진심으로 감사드립니다.</p>
+        <div class="footer-copyright-line">&copy; 2027 HOJEONG &amp; DASOL. ALL RIGHTS RESERVED.</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Floating BGM Toggle Button (Appears when Main Photo is scrolled away) -->
   <div class="floating-bgm-btn tap-spring" id="floatingBgmBtn" onclick="toggleBGM()" title="음악 재생/음소거">
     <svg viewBox="0 0 24 24" id="floatingAudioIcon" width="18" height="18">
@@ -2127,7 +2170,7 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=20260901_1316"></script>
+  <script src="js/script.js?v=20260901_1320"></script>
 </body>
 
 </html>

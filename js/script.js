@@ -947,6 +947,68 @@
       }
     }
 
+    /* ==================================================== */
+    /* INVITATION SHARE ENGINE (카카오톡 공유 & 링크 복사)     */
+    /* ==================================================== */
+    function shareKakaoTalk() {
+      const shareTitle = '이호정 & 전다솔 결혼합니다';
+      const shareDesc = '2027년 6월 19일 토요일 오후 3시 30분 라비니움 1층 리추얼홀';
+      const shareUrl = window.location.href.split('#')[0];
+      const shareImg = window.location.origin + '/images/main/1762868176689.jpg';
+
+      // 1. If Kakao JS SDK is available and initialized with an AppKey
+      if (window.Kakao && window.Kakao.isInitialized && window.Kakao.isInitialized()) {
+        try {
+          window.Kakao.Share.sendDefault({
+            objectType: 'feed',
+            content: {
+              title: shareTitle,
+              description: shareDesc,
+              imageUrl: shareImg,
+              link: {
+                mobileWebUrl: shareUrl,
+                webUrl: shareUrl
+              }
+            },
+            buttons: [
+              {
+                title: '모바일 청첩장 보기',
+                link: {
+                  mobileWebUrl: shareUrl,
+                  webUrl: shareUrl
+                }
+              }
+            ]
+          });
+          return;
+        } catch (e) {
+          console.log('[KakaoShare] SDK send error:', e);
+        }
+      }
+
+      // 2. Native Web Share API (Mobile Safari, Chrome, Samsung Internet, In-App Browsers)
+      if (navigator.share) {
+        navigator.share({
+          title: shareTitle,
+          text: `${shareTitle}\n${shareDesc}\n\n저희 두 사람의 결혼식에 소중한 분들을 초대합니다.`,
+          url: shareUrl
+        }).catch((err) => {
+          if (err && err.name !== 'AbortError') {
+            copyText(shareUrl, '모바일 청첩장 링크가 복사되었습니다!');
+          }
+        });
+        return;
+      }
+
+      // 3. Fallback: Copy URL to clipboard with Toast Guide
+      copyText(shareUrl, '모바일 청첩장 링크가 복사되었습니다. 카카오톡에 붙여넣어 공유해보세요!');
+    }
+
+    function shareCopyLink() {
+      const shareUrl = window.location.href.split('#')[0];
+      copyText(shareUrl, '모바일 청첩장 주소가 복사되었습니다.');
+    }
+
     /* =============================== */
     /* CUSTOM ALERT / CONFIRM MODAL    */
     /* =============================== */
