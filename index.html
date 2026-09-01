@@ -456,7 +456,9 @@
       height: 8px;
       pointer-events: none;
       mix-blend-mode: screen;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      animation-fill-mode: backwards;
       will-change: transform, opacity;
     }
     .fine-sparkle::before {
@@ -489,25 +491,25 @@
       78% { transform: translate(-50%, -50%) scale(0.35); opacity: 0.3; }
     }
 
-    /* 18 Evenly Distributed Sparkle Nodes across Entire Photo */
-    .sp-1  { top: 8%;  left: 25%; animation: microTwinkle 4.2s ease-in-out infinite 0.1s; }
-    .sp-2  { top: 12%; left: 78%; animation: microTwinkle 5.0s ease-in-out infinite 1.6s; }
-    .sp-3  { top: 18%; left: 50%; animation: microTwinkle 4.4s ease-in-out infinite 2.8s; }
-    .sp-4  { top: 6%;  left: 88%; animation: microTwinkle 5.6s ease-in-out infinite 3.5s; }
-    .sp-5  { top: 14%; left: 12%; animation: microTwinkle 4.8s ease-in-out infinite 0.9s; }
-    .sp-6  { top: 28%; left: 18%; animation: microTwinkle 4.5s ease-in-out infinite 2.1s; }
-    .sp-7  { top: 32%; left: 85%; animation: microTwinkle 5.2s ease-in-out infinite 0.4s; }
-    .sp-8  { top: 24%; left: 68%; animation: microTwinkle 4.1s ease-in-out infinite 3.1s; }
-    .sp-9  { top: 42%; left: 12%; animation: microTwinkle 5.5s ease-in-out infinite 1.4s; }
-    .sp-10 { top: 38%; left: 45%; animation: microTwinkle 4.3s ease-in-out infinite 2.5s; }
-    .sp-11 { top: 54%; left: 28%; animation: microTwinkle 5.7s ease-in-out infinite 0.7s; }
-    .sp-12 { top: 58%; left: 78%; animation: microTwinkle 4.6s ease-in-out infinite 3.9s; }
-    .sp-13 { top: 64%; left: 15%; animation: microTwinkle 5.1s ease-in-out infinite 1.9s; }
-    .sp-14 { top: 68%; left: 88%; animation: microTwinkle 4.7s ease-in-out infinite 0.3s; }
-    .sp-15 { top: 48%; left: 92%; animation: microTwinkle 5.3s ease-in-out infinite 2.6s; }
-    .sp-16 { top: 78%; left: 22%; animation: microTwinkle 4.9s ease-in-out infinite 1.2s; }
-    .sp-17 { top: 82%; left: 75%; animation: microTwinkle 5.4s ease-in-out infinite 3.3s; }
-    .sp-18 { top: 90%; left: 48%; animation: microTwinkle 4.5s ease-in-out infinite 0.5s; }
+    /* 18 Evenly Distributed Sparkle Nodes (Fade in after 1.2s delay) */
+    .sp-1  { top: 8%;  left: 25%; animation: microTwinkle 4.2s ease-in-out infinite 1.2s; }
+    .sp-2  { top: 12%; left: 78%; animation: microTwinkle 5.0s ease-in-out infinite 2.4s; }
+    .sp-3  { top: 18%; left: 50%; animation: microTwinkle 4.4s ease-in-out infinite 3.5s; }
+    .sp-4  { top: 6%;  left: 88%; animation: microTwinkle 5.6s ease-in-out infinite 4.2s; }
+    .sp-5  { top: 14%; left: 12%; animation: microTwinkle 4.8s ease-in-out infinite 1.8s; }
+    .sp-6  { top: 28%; left: 18%; animation: microTwinkle 4.5s ease-in-out infinite 2.9s; }
+    .sp-7  { top: 32%; left: 85%; animation: microTwinkle 5.2s ease-in-out infinite 1.5s; }
+    .sp-8  { top: 24%; left: 68%; animation: microTwinkle 4.1s ease-in-out infinite 3.8s; }
+    .sp-9  { top: 42%; left: 12%; animation: microTwinkle 5.5s ease-in-out infinite 2.2s; }
+    .sp-10 { top: 38%; left: 45%; animation: microTwinkle 4.3s ease-in-out infinite 3.2s; }
+    .sp-11 { top: 54%; left: 28%; animation: microTwinkle 5.7s ease-in-out infinite 1.6s; }
+    .sp-12 { top: 58%; left: 78%; animation: microTwinkle 4.6s ease-in-out infinite 4.5s; }
+    .sp-13 { top: 64%; left: 15%; animation: microTwinkle 5.1s ease-in-out infinite 2.6s; }
+    .sp-14 { top: 68%; left: 88%; animation: microTwinkle 4.7s ease-in-out infinite 1.4s; }
+    .sp-15 { top: 48%; left: 92%; animation: microTwinkle 5.3s ease-in-out infinite 3.4s; }
+    .sp-16 { top: 78%; left: 22%; animation: microTwinkle 4.9s ease-in-out infinite 2.0s; }
+    .sp-17 { top: 82%; left: 75%; animation: microTwinkle 5.4s ease-in-out infinite 4.0s; }
+    .sp-18 { top: 90%; left: 48%; animation: microTwinkle 4.5s ease-in-out infinite 1.3s; }
 
     @keyframes bokehFloat1 {
       0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.4; }
