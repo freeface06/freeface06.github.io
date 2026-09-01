@@ -2,6 +2,25 @@
     /* GOOGLE SPREADSHEET (APPS SCRIPT) API CONFIGURATION   */
     /* ==================================================== */
     const GOOGLE_SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby6DENoj4doh7phAp0UpNcB7YQE5JSZmdS1zGfLj0fT9PhNnx-xXzic1j6_QI5JQnY/exec';
+    const COMMENTS_CACHE_KEY = 'wedding_comments_cache_v2';
+
+    function getInitialCommentsData() {
+      try {
+        const cached = localStorage.getItem(COMMENTS_CACHE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed;
+          }
+        }
+      } catch (e) {
+        console.log('[Comments] Local cache read error:', e);
+      }
+      return [];
+    }
+
+    const commentsData = getInitialCommentsData();
+    let isCommentsLoading = commentsData.length === 0;
 
     async function sendDataToGoogleSheet(payload) {
       if (!GOOGLE_SHEET_API_URL || GOOGLE_SHEET_API_URL.trim() === '') {
@@ -23,30 +42,50 @@
       }
     }
 
-    async function fetchCommentsFromGoogleSheet() {
+    let commentsFetchPromise = null;
+    function prefetchComments() {
       if (!GOOGLE_SHEET_API_URL || GOOGLE_SHEET_API_URL.trim() === '') return;
-      try {
-        const res = await fetch(`${GOOGLE_SHEET_API_URL}?action=get_comments`);
-        const json = await res.json();
-        if (json && json.status === 'success' && Array.isArray(json.comments)) {
-          commentsData.length = 0;
-          const sheetComments = json.comments.map(c => ({
-            id: c.id || Date.now() + Math.random(),
-            uname: c.uname || '하객',
-            avatar: 'images/main/1762868176689.jpg',
-            text: c.text,
-            time: c.time || '최근',
-            likes: 1,
-            liked: false,
-            isAuthor: false
-          }));
-          commentsData.push(...sheetComments);
+      if (commentsFetchPromise) return commentsFetchPromise;
+
+      commentsFetchPromise = fetch(`${GOOGLE_SHEET_API_URL}?action=get_comments`, { cache: 'no-cache' })
+        .then(res => res.json())
+        .then(json => {
+          isCommentsLoading = false;
+          if (json && json.status === 'success' && Array.isArray(json.comments)) {
+            const sheetComments = json.comments.map(c => ({
+              id: c.id || Date.now() + Math.random(),
+              uname: c.uname || '하객',
+              avatar: 'images/main/1762868176689.jpg',
+              text: c.text,
+              time: c.time || '최근',
+              likes: 1,
+              liked: false,
+              isAuthor: false
+            }));
+
+            // Check if changed
+            const isDifferent = JSON.stringify(sheetComments) !== JSON.stringify(commentsData);
+            if (isDifferent) {
+              commentsData.length = 0;
+              commentsData.push(...sheetComments);
+              try {
+                localStorage.setItem(COMMENTS_CACHE_KEY, JSON.stringify(sheetComments));
+              } catch (e) { }
+              renderComments();
+            }
+          }
+        })
+        .catch(err => {
+          isCommentsLoading = false;
+          console.log('[GoogleSheet] Note: comments fetch error:', err);
           renderComments();
-        }
-      } catch (err) {
-        console.log('[GoogleSheet] Note: comments fetch error:', err);
-      }
+        });
+
+      return commentsFetchPromise;
     }
+
+    // Immediately trigger background prefetch upon script load
+    prefetchComments();
 
 
     /* ==================================================== */
@@ -1018,7 +1057,7 @@
       }, 2200);
     }
 
-    /* ==================================================== */
+        /* ==================================================== */
     /* INSTAGRAM COMMENTS ENGINE & FULL BOTTOM SHEET (IMAGE 2) */
     /* ==================================================== */
     const emojiMap = {
@@ -1031,8 +1070,6 @@
       'wow': '\uD83D\uDE2E',
       'joy': '\uD83D\uDE02'
     };
-
-    const commentsData = [];
 
     function renderCommentItemHTML(c) {
       const isAuthorTag = c.isAuthor ? `<span class="ig-author-badge">· 작성자</span>` : '';
@@ -1072,11 +1109,19 @@
       const listEl = document.getElementById('comments-list');
       if (listEl) {
         if (commentsData.length === 0) {
-          listEl.innerHTML = `
-            <div style="text-align:center; padding:18px 0; color:#8e8e8e; font-size:0.86rem;">
-              첫 번째 축하 메시지를 남겨주세요
-            </div>
-          `;
+          if (isCommentsLoading) {
+            listEl.innerHTML = `
+              <div style="text-align:center; padding:18px 0; color:#aaaaaa; font-size:0.84rem;">
+                축하 메시지를 불러오는 중입니다...
+              </div>
+            `;
+          } else {
+            listEl.innerHTML = `
+              <div style="text-align:center; padding:18px 0; color:#8e8e8e; font-size:0.86rem;">
+                첫 번째 축하 메시지를 남겨주세요
+              </div>
+            `;
+          }
         } else {
           const previewItems = commentsData.slice(0, 2);
           listEl.innerHTML = previewItems.map(c => renderCommentItemHTML(c)).join('');
@@ -1087,11 +1132,19 @@
       const sheetBody = document.getElementById('sheet-comments-body');
       if (sheetBody) {
         if (commentsData.length === 0) {
-          sheetBody.innerHTML = `
-            <div style="text-align:center; padding:50px 20px; color:#8e8e8e; font-size:0.9rem; line-height:1.6;">
-              아직 등록된 축하 메시지가 없습니다.<br>가장 먼저 축하의 한마디를 남겨주세요.
-            </div>
-          `;
+          if (isCommentsLoading) {
+            sheetBody.innerHTML = `
+              <div style="text-align:center; padding:50px 20px; color:#aaaaaa; font-size:0.88rem; line-height:1.6;">
+                축하 메시지를 불러오는 중입니다...
+              </div>
+            `;
+          } else {
+            sheetBody.innerHTML = `
+              <div style="text-align:center; padding:50px 20px; color:#8e8e8e; font-size:0.9rem; line-height:1.6;">
+                아직 등록된 축하 메시지가 없습니다.<br>가장 먼저 축하의 한마디를 남겨주세요.
+              </div>
+            `;
+          }
         } else {
           sheetBody.innerHTML = commentsData.map(c => renderCommentItemHTML(c)).join('');
         }

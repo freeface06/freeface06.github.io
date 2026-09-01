@@ -1056,7 +1056,7 @@ button {
 /* Floating BGM Toggle Button (Appears when Main Photo is scrolled away) */
 .floating-bgm-btn {
   position: fixed;
-  bottom: calc(72px + env(safe-area-inset-bottom, 12px));
+  bottom: calc(64px + env(safe-area-inset-bottom, 12px));
   right: 14px;
   left: auto;
   width: 36px;
