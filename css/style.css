@@ -1,19 +1,19 @@
 :root {
-  --bg: #F5ECE0;
+  --bg: #FAF7F2;
   --bg-gradient: none;
-  --card-bg: #F5ECE0;
-  --card-bg-elevated: #F5ECE0;
-  --surface: #EFE4D2;
-  --surface-subtle: #F0E6D6;
-  --surface-champagne: #EBDCC5;
-  --border: #DFD0B7;
-  --border-subtle: #E8DDC8;
-  --border-gold: #D4BD88;
+  --card-bg: #FAF7F2;
+  --card-bg-elevated: #FAF7F2;
+  --surface: #F3EDE3;
+  --surface-subtle: #F6F1EA;
+  --surface-champagne: #EFE7DA;
+  --border: #E8DDCF;
+  --border-subtle: #EFE8DC;
+  --border-gold: #D8C59D;
   --gold-primary: #C59D4F;
   --gold-accent: #D4AF37;
-  --gold-light: #F7EBD4;
+  --gold-light: #FBF4E6;
   --gold-dark: #96722C;
-  --gold-shimmer: linear-gradient(135deg, #F5ECE0 0%, #EEDBB3 35%, #D4AF37 55%, #ECCB85 75%, #F5ECE0 100%);
+  --gold-shimmer: linear-gradient(135deg, #FAF7F2 0%, #EEDBB3 35%, #D4AF37 55%, #ECCB85 75%, #FAF7F2 100%);
   --text: #2C241E;
   --text-main: #1D1712;
   --text-dim: #796E60;
@@ -53,7 +53,7 @@ html {
   overflow-x: hidden;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  background-color: #E2D6C0;
+  background-color: #E8DFD0;
   -webkit-tap-highlight-color: transparent !important;
 }
 
@@ -150,7 +150,7 @@ button {
   margin: 0 auto;
   width: 100%;
   max-width: 100%;
-  background: rgba(247, 239, 226, 0.96);
+  background: rgba(250, 247, 242, 0.96);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   display: grid;
@@ -4902,7 +4902,7 @@ body.modal-open {
   margin: 0 auto;
   height: calc(54px + constant(safe-area-inset-bottom));
   height: calc(54px + env(safe-area-inset-bottom, 0px));
-  background: rgba(245, 236, 224, 0.97);
+  background: rgba(250, 247, 242, 0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(214, 189, 138, 0.28);
