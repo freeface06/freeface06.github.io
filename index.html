@@ -4360,8 +4360,7 @@
     /* ==================================================== */
     /* GOOGLE SPREADSHEET (APPS SCRIPT) API CONFIGURATION   */
     /* ==================================================== */
-    // 구글 Apps Script 배포 후 발급받은 웹 앱 URL을 아래에 입력하세요.
-    const GOOGLE_SHEET_API_URL = '';
+    const GOOGLE_SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby6DENoj4doh7phAp0UpNcB7YQE5JSZmdS1zGfLj0fT9PhNnx-xXzic1j6_QI5JQnY/exec';
 
     async function sendDataToGoogleSheet(payload) {
       if (!GOOGLE_SHEET_API_URL || GOOGLE_SHEET_API_URL.trim() === '') {
@@ -4372,7 +4371,7 @@
         await fetch(GOOGLE_SHEET_API_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload)
         });
         console.log('[GoogleSheet] Data sent successfully:', payload.action);
