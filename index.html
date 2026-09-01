@@ -4383,16 +4383,13 @@
 
   <!-- Fullscreen Story Viewer Modal -->
   <div id="story-viewer">
-    <div class="story-progress-container">
+    <div class="story-progress-container" id="story-progress-container">
       <div class="story-progress-bar"><div class="story-progress-fill" id="story-progress-1"></div></div>
-      <div class="story-progress-bar"><div class="story-progress-fill" id="story-progress-2"></div></div>
-      <div class="story-progress-bar"><div class="story-progress-fill" id="story-progress-3"></div></div>
-      <div class="story-progress-bar"><div class="story-progress-fill" id="story-progress-4"></div></div>
     </div>
     <div class="story-header">
       <div class="post-header-avatar"><img src="images/main/1762868176689.jpg" alt="avatar"></div>
       <div style="font-weight: 600; font-size: 0.88rem; color: #fff;">호정 & 다솔</div>
-      <div style="color:rgba(255,255,255,0.7); font-size:0.75rem;">· 3h</div>
+      <div style="color:rgba(255,255,255,0.7); font-size:0.75rem;">· Wedding Story</div>
       <div class="story-close" onclick="closeStoryViewer()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </div>
@@ -4400,7 +4397,8 @@
     <div class="story-image-container">
       <div class="story-tap-left" onclick="prevStory()"></div>
       <div class="story-tap-right" onclick="nextStory()"></div>
-      <img id="story-img" class="story-image" src="images/gallery/gallery_1.jpg" alt="Story">
+      <img id="story-img" class="story-image" src="images/gallery/1762868142274.jpg" alt="Story">
+      <video id="story-video" class="story-image" playsinline muted loop style="display:none; object-fit:contain; width:100%; height:100%;"></video>
     </div>
   </div>
 
@@ -6560,15 +6558,152 @@
       });
     }
 
-    /* Story Viewer Logic */
-    let currentStory = 0;
-    const stories = [
-      'images/gallery/gallery_1.jpg',
-      'images/gallery/gallery_2.jpg',
-      'images/gallery/gallery_3.jpg',
-      'images/gallery/gallery_4.jpg'
+    /* ==================================================== */
+    /* DYNAMIC GALLERY & STORY AUTO-SCAN ENGINE             */
+    /* ==================================================== */
+    let galleryMediaList = [
+      'images/gallery/2026_08_19 13_15.mp4',
+      'images/gallery/1762868142274.jpg',
+      'images/gallery/1762868144152.jpg',
+      'images/gallery/2026_03_30 13_49.mp4',
+      'images/gallery/1762868146681.jpg',
+      'images/gallery/1762868148857.jpg',
+      'images/gallery/2026_03_30 13_49 (2).mp4',
+      'images/gallery/1762868149684.jpg',
+      'images/gallery/1762868150411.jpg',
+      'images/gallery/1762868168703.jpg',
+      'images/gallery/1762868168978.jpg',
+      'images/gallery/1762868174450.jpg',
+      'images/gallery/1762868174682.jpg',
+      'images/gallery/1762868177891.jpg',
+      'images/gallery/1762868180166.jpg'
     ];
-    let storyTimer;
+    let postPhotos = galleryMediaList;
+    let gridPhotos = galleryMediaList;
+    let stories = galleryMediaList;
+    let currentStory = 0;
+    let storyTimer = null;
+
+    function isVideoMedia(path) {
+      if (!path) return false;
+      const lower = path.toLowerCase().split('?')[0];
+      return lower.endsWith('.mp4') || lower.endsWith('.webm') || lower.endsWith('.mov') || lower.endsWith('.ogg');
+    }
+
+    function renderDynamicGallery(mediaList) {
+      if (!mediaList || !mediaList.length) return;
+      galleryMediaList = mediaList;
+      postPhotos = mediaList;
+      gridPhotos = mediaList;
+      stories = mediaList;
+
+      // 1. Post 4 Feed Carousel Track & Dots
+      const track = document.getElementById('galleryCarouselTrack');
+      const dotsContainer = document.getElementById('galleryCarouselDots');
+      const locationTag = document.querySelector('#post-gallery .post-location-tag');
+      if (locationTag) {
+        locationTag.textContent = `웨딩 갤러리 · 사진 및 영상 ${mediaList.length}개`;
+      }
+
+      if (track) {
+        track.innerHTML = mediaList.map((src, idx) => {
+          const isVid = isVideoMedia(src);
+          if (isVid) {
+            return `
+              <div class="carousel-slide" onclick="handleSlideClick(${idx}, this, event)">
+                <video src="${src}" autoplay muted loop playsinline preload="auto" class="feed-video-element"></video>
+                <div class="video-media-badge">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                </div>
+                <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="carousel-slide" onclick="handleSlideClick(${idx}, this, event)">
+                <img src="${src}" alt="Wedding Media ${idx + 1}" loading="lazy">
+                <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+            `;
+          }
+        }).join('');
+      }
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = mediaList.map((_, idx) => 
+          `<div class="dot ${idx === 0 ? 'active' : ''}" onclick="goToGallerySlide(${idx})"></div>`
+        ).join('');
+      }
+
+      const carouselWrapper = document.getElementById('galleryCarouselWrapper');
+      if (carouselWrapper) {
+        initCarouselInstance(carouselWrapper);
+      }
+
+      // 2. 3x3 Grid Modal
+      const grid = document.querySelector('.ig-photo-grid');
+      const statNum = document.querySelector('#grid-gallery-modal-overlay .ig-stat-num');
+      if (statNum) statNum.textContent = mediaList.length;
+
+      if (grid) {
+        grid.innerHTML = mediaList.map((src, idx) => {
+          const isVid = isVideoMedia(src);
+          if (isVid) {
+            return `
+              <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
+                <video src="${src}" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="ig-grid-badge">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                </div>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
+                <img src="${src}" alt="Wedding Media ${idx + 1}" loading="lazy">
+              </div>
+            `;
+          }
+        }).join('');
+      }
+
+      // 3. Story Viewer Progress Container
+      const progContainer = document.getElementById('story-progress-container');
+      if (progContainer) {
+        progContainer.innerHTML = mediaList.map((_, idx) => 
+          `<div class="story-progress-bar"><div class="story-progress-fill" id="story-progress-${idx + 1}"></div></div>`
+        ).join('');
+      }
+    }
+
+    async function autoScanGalleryFolder() {
+      try {
+        const repoUrl = 'https://api.github.com/repos/freeface06/mobile-wedding/contents/images/gallery';
+        const res = await fetch(repoUrl, { headers: { 'Accept': 'application/vnd.github.v3+json' } });
+        if (res.ok) {
+          const files = await res.json();
+          if (Array.isArray(files) && files.length > 0) {
+            const validMediaFiles = files
+              .filter(f => f.type === 'file')
+              .map(f => `images/gallery/${f.name}`)
+              .filter(path => {
+                const lower = path.toLowerCase();
+                return lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.png') ||
+                       lower.endsWith('.webp') || lower.endsWith('.gif') || lower.endsWith('.mp4') ||
+                       lower.endsWith('.webm') || lower.endsWith('.mov');
+              });
+            
+            if (validMediaFiles.length > 0) {
+              renderDynamicGallery(validMediaFiles);
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Auto-scan using built-in gallery media list:', e.message);
+      }
+      renderDynamicGallery(galleryMediaList);
+    }
 
     function openStoryViewer() {
       const sv = document.getElementById('story-viewer');
@@ -6586,6 +6721,12 @@
 
     function closeStoryViewer(fromHistory = false) {
       const sv = document.getElementById('story-viewer');
+      const videoEl = document.getElementById('story-video');
+      if (videoEl) {
+        videoEl.pause();
+        videoEl.currentTime = 0;
+        videoEl.style.display = 'none';
+      }
       if (sv) {
         sv.style.display = 'none';
       }
@@ -6609,45 +6750,49 @@
     }
 
     function updateStory() {
-      document.getElementById('story-img').src = stories[currentStory];
-      for (let i = 1; i <= 4; i++) {
+      const currentSrc = stories[currentStory] || '';
+      const isVid = isVideoMedia(currentSrc);
+      const imgEl = document.getElementById('story-img');
+      const videoEl = document.getElementById('story-video');
+
+      if (videoEl) {
+        videoEl.pause();
+        videoEl.currentTime = 0;
+      }
+
+      if (isVid) {
+        if (imgEl) imgEl.style.display = 'none';
+        if (videoEl) {
+          videoEl.style.display = 'block';
+          videoEl.src = currentSrc;
+          videoEl.play().catch(() => {});
+        }
+      } else {
+        if (videoEl) videoEl.style.display = 'none';
+        if (imgEl) {
+          imgEl.style.display = 'block';
+          imgEl.src = currentSrc;
+        }
+      }
+
+      for (let i = 1; i <= stories.length; i++) {
         const fill = document.getElementById(`story-progress-${i}`);
-        if (i < currentStory + 1) fill.style.width = '100%';
-        else fill.style.width = '0%';
-        fill.style.transition = 'none';
+        if (fill) {
+          if (i < currentStory + 1) fill.style.width = '100%';
+          else fill.style.width = '0%';
+          fill.style.transition = 'none';
+        }
       }
       clearTimeout(storyTimer);
       const currentFill = document.getElementById(`story-progress-${currentStory + 1}`);
-      setTimeout(() => {
-        currentFill.style.transition = 'width 3s linear';
-        currentFill.style.width = '100%';
-      }, 50);
-      storyTimer = setTimeout(nextStory, 3000);
+      if (currentFill) {
+        setTimeout(() => {
+          currentFill.style.transition = 'width 3.5s linear';
+          currentFill.style.width = '100%';
+        }, 50);
+      }
+      storyTimer = setTimeout(nextStory, 3500);
     }
-    /* ==================================================== */
-    /* INSTAGRAM MULTI-PHOTO CAROUSEL LOGIC (1 SLIDE PER SWIPE) */
-    /* ==================================================== */
-    /* ==================================================== */
-    /* INSTAGRAM MULTI-PHOTO CAROUSEL CONTROLLER            */
-    /* ==================================================== */
-    const postPhotos = [
-      'images/gallery/2026_08_19 13_15.mp4',
-      'images/gallery/1762868142274.jpg',
-      'images/gallery/1762868144152.jpg',
-      'images/gallery/2026_03_30 13_49.mp4',
-      'images/gallery/1762868146681.jpg',
-      'images/gallery/1762868148857.jpg',
-      'images/gallery/2026_03_30 13_49 (2).mp4',
-      'images/gallery/1762868149684.jpg',
-      'images/gallery/1762868150411.jpg',
-      'images/gallery/1762868168703.jpg',
-      'images/gallery/1762868168978.jpg',
-      'images/gallery/1762868174450.jpg',
-      'images/gallery/1762868174682.jpg',
-      'images/gallery/1762868177891.jpg',
-      'images/gallery/1762868180166.jpg'
-    ];
-    const gridPhotos = postPhotos;
     let didSwipeSlide = false;
     const carouselInstances = {};
 
@@ -6816,6 +6961,7 @@
       document.querySelectorAll('.post-carousel-wrapper').forEach(wrapper => {
         initCarouselInstance(wrapper);
       });
+      autoScanGalleryFolder();
     });
 
     /* Handle Click vs Double Tap on Photos */
