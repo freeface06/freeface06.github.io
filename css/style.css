@@ -1,18 +1,28 @@
 :root {
-  --bg: #ffffff;
-  --card-bg: #ffffff;
-  --surface: #f9f9f9;
-  --surface-subtle: #f4f4f4;
-  --border: #dbdbdb;
-  --border-subtle: #efefef;
-  --text: #262626;
-  --text-main: #000000;
-  --text-dim: #737373;
+  --bg: #F5ECE0;
+  --bg-gradient: none;
+  --card-bg: #F5ECE0;
+  --card-bg-elevated: #F5ECE0;
+  --surface: #EFE4D2;
+  --surface-subtle: #F0E6D6;
+  --surface-champagne: #EBDCC5;
+  --border: #DFD0B7;
+  --border-subtle: #E8DDC8;
+  --border-gold: #D4BD88;
+  --gold-primary: #C59D4F;
+  --gold-accent: #D4AF37;
+  --gold-light: #F7EBD4;
+  --gold-dark: #96722C;
+  --gold-shimmer: linear-gradient(135deg, #F5ECE0 0%, #EEDBB3 35%, #D4AF37 55%, #ECCB85 75%, #F5ECE0 100%);
+  --text: #2C241E;
+  --text-main: #1D1712;
+  --text-dim: #796E60;
+  --text-light: #9B8F80;
   --ig-blue: #0095f6;
   --ig-red: #ff3040;
   --ig-badge: #ff3040;
-  --ig-grad: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  --ig-grad-conic: conic-gradient(from 180deg at 50% 50%, #833ab4, #fd1d1d, #fcb045, #833ab4);
+  --ig-grad: linear-gradient(45deg, #ECCB85 0%, #D4AF37 35%, #F0A07B 70%, #C59D4F 100%);
+  --ig-grad-conic: conic-gradient(from 180deg at 50% 50%, #C59D4F, #D4AF37, #F0A07B, #ECCB85, #C59D4F);
   --spring-ease: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -43,12 +53,13 @@ html {
   overflow-x: hidden;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  background-color: #f0f2f5;
+  background-color: #E2D6C0;
   -webkit-tap-highlight-color: transparent !important;
 }
 
 body {
   background-color: var(--bg);
+  background-image: none;
   color: var(--text);
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   width: 100%;
@@ -70,9 +81,9 @@ body {
 @media (min-width: 501px) {
   body {
     max-width: 480px;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 60px rgba(184, 150, 80, 0.18), 0 0 30px rgba(0, 0, 0, 0.08);
+    border-left: 1px solid rgba(214, 189, 138, 0.35);
+    border-right: 1px solid rgba(214, 189, 138, 0.35);
   }
 }
 
@@ -139,9 +150,9 @@ button {
   margin: 0 auto;
   width: 100%;
   max-width: 100%;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(247, 239, 226, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -158,8 +169,8 @@ button {
 @media (min-width: 501px) {
   .top-nav {
     max-width: 480px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    border-left: 1px solid rgba(214, 189, 138, 0.35);
+    border-right: 1px solid rgba(214, 189, 138, 0.35);
   }
 }
 
@@ -248,13 +259,13 @@ button {
 .stories-tray {
   display: flex;
   gap: clamp(8px, 2.5vw, 14px);
-  padding: 10px 12px;
+  padding: 10px 12px 14px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
   border-bottom: none;
-  background: #ffffff;
+  background: var(--bg);
 }
 
 .stories-tray::-webkit-scrollbar {
@@ -278,7 +289,7 @@ button {
   height: clamp(56px, 16vw, 68px);
   border-radius: 50%;
   padding: 2px;
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  background: linear-gradient(45deg, #ECCB85 0%, #D4AF37 35%, #F0A07B 70%, #C59D4F 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,8 +305,8 @@ button {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2.5px solid #ffffff;
-  background: #ffffff;
+  border: 2px solid var(--bg);
+  background: var(--bg);
   display: block;
 }
 
@@ -303,8 +314,8 @@ button {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2.5px solid #ffffff;
+  background: var(--bg);
+  border: 2px solid var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -313,15 +324,15 @@ button {
 .story-avatar-wrap .story-icon-circle svg {
   width: clamp(20px, 5.5vw, 24px);
   height: clamp(20px, 5.5vw, 24px);
-  stroke: #262626;
+  stroke: var(--text-main);
   display: block;
 }
 
 .story-label {
   font-size: clamp(10px, 2.8vw, 11.5px);
   line-height: 13px;
-  color: #262626;
-  font-weight: 400;
+  color: var(--text-main);
+  font-weight: 600;
   max-width: clamp(58px, 16vw, 70px);
   text-align: center;
   white-space: nowrap;
@@ -333,9 +344,9 @@ button {
 
 /* Feed Posts */
 .feed-post {
-  border-bottom: none;
-  margin-bottom: 12px;
-  background: #ffffff;
+  border-bottom: 1px solid rgba(214, 189, 138, 0.25);
+  margin-bottom: 0;
+  background: var(--bg);
 }
 
 .post-header {
@@ -350,7 +361,7 @@ button {
   height: 42px;
   border-radius: 50%;
   padding: 2px;
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  background: linear-gradient(45deg, #ECCB85 0%, #D4AF37 35%, #F0A07B 70%, #C59D4F 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -362,8 +373,8 @@ button {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ffffff;
-  background: #ffffff;
+  border: 2px solid var(--bg);
+  background: var(--bg);
   display: block;
 }
 
@@ -371,8 +382,8 @@ button {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #ffffff;
+  background: var(--bg);
+  border: 2px solid var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -381,7 +392,7 @@ button {
 .post-header-avatar .avatar-icon-circle svg {
   width: 20px;
   height: 20px;
-  stroke: #262626;
+  stroke: var(--text);
   display: block;
 }
 
@@ -695,11 +706,11 @@ button {
   animation: bokehFloat1 6.5s ease-in-out infinite 3s;
 }
 
-/* Ultra-Fine Micro-Diamond Stardust Sparkle (사진 전체에 은은하게 반짝이는 미세 글리터) */
+/* Ultra-Fine Micro-Diamond Stardust Sparkle (메인 사진에 화사하고 은은하게 반짝이는 골드 글리터) */
 .fine-sparkle {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   pointer-events: none;
   mix-blend-mode: screen;
   transform: translate(-50%, -50%) scale(0);
@@ -711,55 +722,56 @@ button {
 .fine-sparkle::before {
   content: '';
   position: absolute;
-  inset: 2px;
+  inset: 2.5px;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 0 4px 1.5px rgba(255, 248, 220, 0.9), 0 0 8px 2px rgba(255, 225, 150, 0.45);
+  box-shadow: 0 0 6px 2.5px rgba(255, 248, 220, 0.95), 0 0 14px 4px rgba(235, 195, 100, 0.7);
 }
 
 .fine-sparkle::after {
   content: '';
   position: absolute;
-  top: -2px;
-  left: 3px;
-  right: 3px;
-  bottom: -2px;
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9) 45%, rgba(255, 255, 255, 0.9) 55%, transparent);
-  transform: scaleY(1.4);
-  box-shadow: 0 0 5px rgba(255, 240, 200, 0.65);
+  top: -3px;
+  left: 4px;
+  right: 4px;
+  bottom: -3px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+  transform: scaleY(1.6);
+  box-shadow: 0 0 8px rgba(255, 225, 140, 0.85);
 }
 
 .fine-sparkle .flare-h {
   position: absolute;
-  top: 3px;
-  left: -2px;
-  right: -2px;
-  bottom: 3px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9) 45%, rgba(255, 255, 255, 0.9) 55%, transparent);
-  transform: scaleX(1.4);
+  top: 4px;
+  left: -3px;
+  right: -3px;
+  bottom: 4px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+  transform: scaleX(1.6);
+  box-shadow: 0 0 8px rgba(255, 225, 140, 0.85);
 }
 
 @keyframes microTwinkle {
-
   0%,
   100% {
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
     opacity: 0;
   }
 
-  18% {
-    transform: translate(-50%, -50%) scale(0.25);
-    opacity: 0.2;
+  20% {
+    transform: translate(-50%, -50%) scale(0.4) rotate(25deg);
+    opacity: 0.4;
   }
 
   50% {
-    transform: translate(-50%, -50%) scale(0.85);
-    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.1) rotate(90deg);
+    opacity: 1;
+    filter: brightness(1.2);
   }
 
-  78% {
-    transform: translate(-50%, -50%) scale(0.35);
-    opacity: 0.3;
+  75% {
+    transform: translate(-50%, -50%) scale(0.45) rotate(145deg);
+    opacity: 0.35;
   }
 }
 
@@ -1088,21 +1100,21 @@ button {
 
 .floating-bgm-btn.playing {
   background: rgba(18, 18, 18, 0.95);
-  border-color: rgba(255, 48, 64, 0.45);
+  border-color: rgba(212, 175, 55, 0.65);
   animation: floatingAudioPulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @keyframes floatingAudioPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 48, 64, 0.5), 0 4px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6), 0 4px 16px rgba(0, 0, 0, 0.25);
   }
 
   70% {
-    box-shadow: 0 0 0 9px rgba(255, 48, 64, 0), 0 4px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 9px rgba(212, 175, 55, 0), 0 4px 16px rgba(0, 0, 0, 0.25);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 48, 64, 0), 0 4px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0), 0 4px 16px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -1602,7 +1614,7 @@ button {
 
 .post-caption-text {
   line-height: 2.0;
-  color: #444444;
+  color: var(--text);
   text-align: center;
   padding: 24px 12px 10px;
   font-size: 0.92rem;
@@ -1617,9 +1629,9 @@ button {
 .poem-lines {
   font-family: 'Pretendard', sans-serif;
   font-size: 0.98rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 2.15;
-  color: #242424;
+  color: var(--text-main);
   word-break: keep-all;
   letter-spacing: -0.02em;
   margin: 0 0 10px 0;
@@ -1628,22 +1640,22 @@ button {
 .poem-author {
   display: inline-block;
   font-size: 0.82rem;
-  color: #777777;
-  font-weight: 400;
+  color: #A3844C;
+  font-weight: 500;
   letter-spacing: 0.02em;
 }
 
 .caption-divider-vertical {
   width: 1px;
   height: 24px;
-  background: #d4d4d4;
+  background: var(--border-gold);
   margin: 22px auto;
 }
 
 .invitation-intro-lines {
   font-size: 0.92rem;
   line-height: 2.1;
-  color: #444444;
+  color: var(--text);
   word-break: keep-all;
   letter-spacing: -0.01em;
   margin: 0;
@@ -1669,7 +1681,7 @@ button {
 }
 
 .caption-parents {
-  color: #666666;
+  color: var(--text-dim);
   font-weight: 500;
   text-align: right;
   letter-spacing: 0.02em;
@@ -1678,7 +1690,7 @@ button {
 
 .caption-relation {
   font-size: 0.82rem;
-  color: #999999;
+  color: #A3844C;
   text-align: center;
   white-space: nowrap;
   padding: 0 2px;
@@ -1686,7 +1698,7 @@ button {
 
 .caption-child {
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-main);
   font-size: 0.96rem;
   text-align: left;
   letter-spacing: 0.04em;
@@ -2043,7 +2055,7 @@ button {
 /* LUXURY INSTAGRAM LOCATION SECTION & TRANSPORTATION   */
 /* ==================================================== */
 .loc-card-box {
-  background: #ffffff;
+  background: transparent;
   border: none;
   border-radius: 0;
   margin: 0;
@@ -2697,11 +2709,11 @@ button {
 /* Timetable Feed Post Content */
 .tt-card-box {
   padding: 4px 12px 10px;
-  background: #ffffff;
+  background: var(--card-bg);
 }
 
 .tt-item {
-  background: #fafafa;
+  background: var(--surface-subtle);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 12px 14px;
@@ -2714,17 +2726,17 @@ button {
 
 .tt-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px rgba(197, 157, 79, 0.08);
 }
 
 .tt-pill {
-  background: #efefef;
-  color: #000;
+  background: var(--surface);
+  color: var(--text-main);
   font-weight: 700;
   font-size: 0.82rem;
   padding: 6px 10px;
   border-radius: 6px;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border);
   flex-shrink: 0;
 }
 
@@ -2748,15 +2760,15 @@ button {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 26px 16px 16px;
-  background: #f6f7f9;
-  border-top: 8px solid #f0f2f5;
+  padding: 28px 16px 20px;
+  background: var(--bg);
+  border-top: 1px solid rgba(214, 189, 138, 0.25);
 }
 
 .feed-end-divider .divider-line {
   flex: 1;
   height: 1px;
-  background: #dce0e5;
+  background: var(--border-gold);
 }
 
 .feed-end-divider .divider-badge {
@@ -2766,12 +2778,12 @@ button {
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #555555;
-  background: #ffffff;
+  color: #73644E;
+  background: var(--bg);
   padding: 5px 14px;
   border-radius: 20px;
-  border: 1px solid #dce0e5;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 2px 8px rgba(197, 157, 79, 0.08);
 }
 
 .feed-end-divider .divider-badge-icon {
@@ -2783,9 +2795,10 @@ button {
 /* CLEAN WEDDING SECTION (STANDARD MOBILE WEDDING STYLE) */
 /* ==================================================== */
 .wedding-section {
-  background: #ffffff;
+  background: var(--bg);
   padding: 36px 16px 32px;
   margin: 0;
+  border-bottom: 1px solid rgba(214, 189, 138, 0.25);
   position: relative;
 }
 
@@ -2799,7 +2812,7 @@ button {
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 3px;
-  color: #999999;
+  color: #A3844C;
   margin-bottom: 6px;
   text-transform: uppercase;
 }
@@ -2807,14 +2820,14 @@ button {
 .wedding-sec-title {
   font-size: clamp(1.18rem, 4.4vw, 1.32rem);
   font-weight: 800;
-  color: #111111;
+  color: var(--text-main);
   letter-spacing: -0.4px;
   margin: 0 0 8px;
 }
 
 .wedding-sec-desc {
   font-size: 0.86rem;
-  color: #666666;
+  color: var(--text-dim);
   margin: 0;
   line-height: 1.6;
   word-break: keep-all;
@@ -2837,7 +2850,7 @@ button {
 .wreath-notice-headline {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #222222;
+  color: var(--text);
   line-height: 1.55;
   margin: 0 0 2px;
   word-break: keep-all;
@@ -2845,7 +2858,7 @@ button {
 
 .wreath-notice-footnote {
   font-size: 0.76rem;
-  color: #888888;
+  color: var(--text-dim);
   margin: 0;
   line-height: 1.4;
   word-break: keep-all;
@@ -2853,7 +2866,7 @@ button {
 
 /* RSVP Poll Feed Post Content (Luxury Respectful UI/UX) */
 .rsvp-poll-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border: none;
   border-radius: 0;
   margin: 0;
@@ -2879,42 +2892,42 @@ button {
   gap: 6px;
   width: 100%;
   padding: 16px 8px 14px;
-  background: #ffffff;
-  border: 1.5px solid #e2e5e8;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
   border-radius: 14px;
-  color: #333333;
+  color: var(--text);
   cursor: pointer;
   text-align: center;
   transition: all 0.22s var(--smooth-ease);
 }
 
 .rsvp-choice-btn:hover {
-  border-color: #cbd2d9;
-  background: #fbfbfc;
+  border-color: var(--border-gold);
+  background: var(--surface-subtle);
 }
 
 .rsvp-choice-btn .choice-icon-wrap {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #f4f6f8;
+  background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #555555;
+  color: var(--text-dim);
   transition: all 0.22s var(--smooth-ease);
 }
 
 .rsvp-choice-btn .choice-title {
   font-size: clamp(0.9rem, 3vw, 0.98rem);
   font-weight: 800;
-  color: #111111;
+  color: var(--text-main);
   line-height: 1.2;
 }
 
 .rsvp-choice-btn .choice-desc {
   font-size: clamp(0.66rem, 2.1vw, 0.72rem);
-  color: #888888;
+  color: var(--text-dim);
   line-height: 1.25;
   font-weight: 400;
   word-break: keep-all;
@@ -3004,30 +3017,30 @@ button {
 
 .rsvp-pill-btn {
   padding: 9px 10px;
-  background: #ffffff;
-  border: 1.5px solid #e2e5e8;
+  background: var(--surface-subtle);
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #555555;
+  color: var(--text);
   text-align: center;
   cursor: pointer;
   transition: all 0.2s var(--smooth-ease);
 }
 
 .rsvp-pill-btn.active {
-  background: #111111;
-  border-color: #111111;
-  color: #ffffff;
+  background: var(--text-main);
+  border-color: var(--text-main);
+  color: #FAF4EA;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Standardized Input */
 .rsvp-input {
   width: 100%;
-  background: #ffffff;
-  border: 1.5px solid #e2e5e8;
-  color: #111111;
+  background: var(--surface-subtle);
+  border: 1.5px solid var(--border);
+  color: var(--text-main);
   padding: 11px 13px;
   border-radius: 10px;
   font-size: 15px;
@@ -3038,12 +3051,12 @@ button {
 }
 
 .rsvp-input:focus {
-  border-color: var(--ig-blue);
-  box-shadow: 0 0 0 3px rgba(0, 149, 246, 0.12);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 3px rgba(197, 157, 79, 0.2);
 }
 
 .rsvp-input::placeholder {
-  color: #aaaaaa;
+  color: var(--text-light);
   font-size: 0.84rem;
 }
 
@@ -3051,8 +3064,8 @@ button {
 .rsvp-stepper-box {
   display: flex;
   align-items: center;
-  background: #ffffff;
-  border: 1.5px solid #e2e5e8;
+  background: var(--surface-subtle);
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 7px;
@@ -3061,19 +3074,19 @@ button {
 .rsvp-stepper-btn {
   width: 44px;
   height: 42px;
-  background: #f8f9fa;
+  background: var(--surface);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #222222;
+  color: var(--text-main);
   cursor: pointer;
   transition: background 0.15s;
   flex-shrink: 0;
 }
 
 .rsvp-stepper-btn:active {
-  background: #e9ecef;
+  background: var(--surface-champagne);
 }
 
 .rsvp-stepper-display {
@@ -3081,7 +3094,7 @@ button {
   text-align: center;
   font-size: 0.94rem;
   font-weight: 700;
-  color: #111111;
+  color: var(--text-main);
   user-select: none;
 }
 
@@ -3093,8 +3106,8 @@ button {
 
 .rsvp-count-chip {
   padding: 6px 4px;
-  background: #ffffff;
-  border: 1px solid #e2e5e8;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.74rem;
   font-weight: 600;
@@ -3125,9 +3138,9 @@ button {
 /* Submit Button */
 .rsvp-submit-btn {
   width: 100%;
-  background: #0095f6;
-  color: #ffffff;
-  font-weight: 700;
+  background: linear-gradient(135deg, #ECCB85 0%, #D4AF37 50%, #B88E28 100%);
+  color: #1D1712;
+  font-weight: 800;
   padding: 13px 14px;
   border-radius: 10px;
   font-size: 0.94rem;
@@ -3136,15 +3149,15 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-shadow: 0 4px 12px rgba(0, 149, 246, 0.25);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.35);
   margin-top: 6px;
   border: none;
-  transition: transform 0.15s, background 0.2s;
+  transition: transform 0.15s, filter 0.2s;
 }
 
 .rsvp-submit-btn:active {
   transform: scale(0.97);
-  background: #0081d6;
+  filter: brightness(0.95);
 }
 
 /* Polite Non-Attendance Card */
@@ -3152,8 +3165,8 @@ button {
   display: none;
   margin-top: 12px;
   padding: 18px 16px;
-  background: #fafbfc;
-  border: 1px solid #eef0f3;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
   border-radius: 14px;
   text-align: center;
   animation: drawerSlideDown 0.35s var(--smooth-ease) forwards;
@@ -3174,14 +3187,14 @@ button {
 .rsvp-declined-msg {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #222222;
+  color: var(--text-main);
   margin-bottom: 4px;
   line-height: 1.4;
 }
 
 .rsvp-declined-sub {
   font-size: 0.78rem;
-  color: #737373;
+  color: var(--text-dim);
   line-height: 1.5;
   margin-bottom: 14px;
   word-break: keep-all;
@@ -3196,12 +3209,12 @@ button {
 .rsvp-sub-action-btn {
   width: 100%;
   padding: 10px;
-  background: #ffffff;
-  border: 1px solid #dcdfe3;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.82rem;
   font-weight: 700;
-  color: #333333;
+  color: var(--text);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -3212,7 +3225,7 @@ button {
 
 .rsvp-sub-action-btn:active {
   transform: scale(0.97);
-  background: #f4f4f4;
+  background: var(--surface);
 }
 
 /* Confetti Canvas */
@@ -3229,7 +3242,7 @@ button {
 
 /* Bank Feed Post Content */
 .bank-card-wrap {
-  background: #ffffff;
+  background: var(--card-bg);
   border: none;
   border-radius: 0;
   margin: 0;
@@ -3255,16 +3268,16 @@ button {
   font-weight: 700;
   font-size: 0.96rem;
   letter-spacing: -0.3px;
-  color: #767676;
+  color: var(--text-dim);
   border-bottom: 2.5px solid transparent;
   cursor: pointer;
   transition: color 0.25s ease, border-color 0.25s ease;
 }
 
 .bank-tab-btn.active {
-  color: #000000;
+  color: var(--text-main);
   font-weight: 800;
-  border-bottom-color: #000000;
+  border-bottom-color: var(--gold-primary);
 }
 
 .bank-tab-panel {
@@ -3303,36 +3316,37 @@ button {
   justify-content: center;
   gap: 5px;
   padding: 7px 12px;
-  background: #ffffff;
-  border: 1px solid #dbdbdb;
-  color: #262626;
+  background: var(--card-bg);
+  border: 1px solid var(--border-gold);
+  color: var(--text-main);
   border-radius: 8px;
   flex-shrink: 0;
   font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: -0.02em;
+  box-shadow: 0 2px 6px rgba(197, 157, 79, 0.08);
   transition: all 0.15s ease;
 }
 
 .copy-chip:active {
   transform: scale(0.95);
-  background: #f0f0f0;
+  background: var(--surface);
 }
 
 /* ==================================================== */
 /* REAL INSTAGRAM COMMENTS UI (BOTTOM SECTION & MODAL)  */
 /* ==================================================== */
 .ig-bottom-comments-section {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 24px 16px 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 20px rgba(197, 157, 79, 0.06);
   margin-bottom: 0;
 }
 
 .ig-comment-sheet-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border: none;
   border-radius: 0;
   margin: 0;
@@ -3595,8 +3609,8 @@ button {
   flex: 1;
   display: flex;
   align-items: center;
-  background: #fafafa;
-  border: 1px solid #dbdbdb;
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
   border-radius: 22px;
   padding: 5px 12px;
   gap: 8px;
@@ -3605,9 +3619,9 @@ button {
 }
 
 .ig-unified-input-wrap:focus-within {
-  border-color: #a8a8a8;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border-color: var(--gold-primary);
+  background: var(--surface-subtle);
+  box-shadow: 0 1px 6px rgba(197, 157, 79, 0.15);
 }
 
 .ig-unified-author {
@@ -3617,7 +3631,7 @@ button {
   background: transparent;
   font-size: 16px;
   font-weight: 700;
-  color: #262626;
+  color: var(--text-main);
   outline: none;
   padding: 2px 0;
   text-align: center;
@@ -3625,14 +3639,14 @@ button {
 }
 
 .ig-unified-author::placeholder {
-  color: #8e8e8e;
+  color: var(--text-light);
   font-weight: 500;
 }
 
 .ig-input-divider {
   width: 1px;
   height: 16px;
-  background: #dbdbdb;
+  background: var(--border-gold);
   flex-shrink: 0;
 }
 
@@ -3641,7 +3655,7 @@ button {
   border: none;
   background: transparent;
   font-size: 16px;
-  color: #262626;
+  color: var(--text-main);
   outline: none;
   padding: 2px 0;
   min-width: 0;
@@ -3649,7 +3663,7 @@ button {
 }
 
 .ig-unified-text::placeholder {
-  color: #8e8e8e;
+  color: var(--text-light);
   font-weight: 400;
 }
 
@@ -3750,7 +3764,7 @@ body.modal-open {
 }
 
 .comments-sheet {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 100%;
   max-width: 100%;
   max-height: 84vh;
@@ -4142,7 +4156,7 @@ body.modal-open {
 }
 
 .activity-sheet {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 100%;
   max-width: 100%;
   max-height: 85vh;
@@ -4313,7 +4327,7 @@ body.modal-open {
 }
 
 .grid-gallery-sheet {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4527,7 +4541,7 @@ body.modal-open {
 }
 
 .rough-map-sheet {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4570,9 +4584,9 @@ body.modal-open {
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #e9ecef;
-  background: #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-gold);
+  background: var(--card-bg);
+  box-shadow: 0 4px 14px rgba(197, 157, 79, 0.08);
 }
 
 .rough-map-popup-card img {
@@ -4660,7 +4674,7 @@ body.modal-open {
 }
 
 .profile-sheet {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4864,14 +4878,14 @@ body.modal-open {
   border-top: 1px solid #f0f0f0;
   margin-top: 0;
   padding: 8px 16px 4px;
-  background: #ffffff;
+  background: var(--card-bg);
   flex-shrink: 0;
 }
 
 .sheet-input-dock {
   padding: 6px 14px 14px;
   border-top: none;
-  background: #ffffff;
+  background: var(--card-bg);
   flex-shrink: 0;
 }
 
@@ -4888,15 +4902,15 @@ body.modal-open {
   margin: 0 auto;
   height: calc(54px + constant(safe-area-inset-bottom));
   height: calc(54px + env(safe-area-inset-bottom, 0px));
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(245, 236, 224, 0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid rgba(214, 189, 138, 0.28);
   display: flex;
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 -4px 16px rgba(180, 140, 70, 0.08);
   transition: transform 0.3s var(--smooth-ease), opacity 0.25s ease;
   padding: 0 4px constant(safe-area-inset-bottom);
   padding: 0 4px env(safe-area-inset-bottom, 0px);
@@ -4912,8 +4926,8 @@ body.modal-open .ig-bottom-footer,
 @media (min-width: 501px) {
   .ig-bottom-footer {
     max-width: 480px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    border-left: 1px solid rgba(214, 189, 138, 0.35);
+    border-right: 1px solid rgba(214, 189, 138, 0.35);
   }
 }
 
@@ -5132,12 +5146,13 @@ body.modal-open .ig-bottom-footer,
 }
 
 .custom-modal-box {
-  background: #ffffff;
+  background: var(--card-bg);
+  border: 1px solid var(--border-gold);
   border-radius: 16px;
   width: 100%;
   max-width: 300px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(197, 157, 79, 0.2);
   transform: scale(0.9) translateY(10px);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -5564,22 +5579,22 @@ body.modal-open .ig-bottom-footer,
 }
 
 .share-dock-btn.copy {
-  background: #ffffff;
-  color: #222222;
-  border: 1px solid #dbdbdb;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 2px 10px rgba(197, 157, 79, 0.08);
 }
 
 .share-dock-btn.copy:hover {
-  background: #f8f9fa;
-  border-color: #c4c4c4;
+  background: var(--surface-subtle);
+  border-color: var(--gold-primary);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 14px rgba(197, 157, 79, 0.15);
 }
 
 .share-dock-btn.copy:active {
   transform: scale(0.96);
-  background: #f0f0f0;
+  background: var(--surface);
   box-shadow: none;
 }
 
@@ -5591,7 +5606,7 @@ body.modal-open .ig-bottom-footer,
 }
 
 .share-dock-icon-wrap.copy svg {
-  color: #444444;
+  color: var(--text);
 }
 
 .share-dock-label {
@@ -5603,7 +5618,7 @@ body.modal-open .ig-bottom-footer,
 .wedding-footer-branding {
   text-align: center;
   padding: 24px 16px 16px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid rgba(214, 189, 138, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5614,21 +5629,21 @@ body.modal-open .ig-bottom-footer,
   font-size: 1.18rem;
   font-weight: 600;
   letter-spacing: 0.22em;
-  color: #111111;
+  color: var(--text-main);
   margin-bottom: 4px;
 }
 
 .footer-wedding-date {
   font-size: 0.72rem;
   font-weight: 600;
-  color: #8e8e8e;
+  color: #A3844C;
   letter-spacing: 0.1em;
   margin-bottom: 12px;
 }
 
 .footer-blessing-text {
   font-size: 0.78rem;
-  color: #666666;
+  color: var(--text-dim);
   line-height: 1.55;
   margin: 0 0 16px;
   word-break: keep-all;
@@ -5638,6 +5653,6 @@ body.modal-open .ig-bottom-footer,
 .footer-copyright-line {
   font-size: 0.64rem;
   font-weight: 500;
-  color: #aaaaaa;
+  color: var(--text-light);
   letter-spacing: 0.06em;
 }
