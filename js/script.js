@@ -1975,6 +1975,30 @@
       }
     }
 
+    let wasPlayingBeforeHide = false;
+
+    function handlePageHidden() {
+      const audio = document.getElementById('bgm-audio');
+      if ((audio && !audio.paused) || isPlaying) {
+        wasPlayingBeforeHide = true;
+        pauseBGM();
+      }
+
+      // Also pause any active videos (e.g. story viewer, reels, gallery videos)
+      document.querySelectorAll('video').forEach(vid => {
+        try {
+          if (!vid.paused) vid.pause();
+        } catch (e) { }
+      });
+    }
+
+    function handlePageVisible() {
+      if (wasPlayingBeforeHide && !userMutedExplicitly) {
+        wasPlayingBeforeHide = false;
+        playBGM();
+      }
+    }
+
     function initAutoBGM() {
       // 1. Initial play attempt on load
       playBGM();
@@ -2008,6 +2032,46 @@
         document.addEventListener(evt, onFirstGesture, { capture: true, passive: true });
         window.addEventListener(evt, onFirstGesture, { capture: true, passive: true });
       });
+
+      // 3. Multi-layer Lifecycle & Visibility Audio Guard (Background / Tab Switch / Minimize / App Exit / Abnormal Suspend)
+      // Standard Page Visibility API
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          handlePageHidden();
+        } else {
+          handlePageVisible();
+        }
+      }, { capture: true, passive: true });
+
+      // WebKit prefix for older in-app browsers (KakaoTalk / Naver / Instagram WebView)
+      document.addEventListener('webkitvisibilitychange', () => {
+        if (document.webkitHidden) {
+          handlePageHidden();
+        } else {
+          handlePageVisible();
+        }
+      }, { capture: true, passive: true });
+
+      // Mobile Page Lifecycle API (pagehide, freeze, resume, pageshow)
+      window.addEventListener('pagehide', handlePageHidden, { capture: true, passive: true });
+      document.addEventListener('freeze', handlePageHidden, { capture: true, passive: true });
+      document.addEventListener('resume', handlePageVisible, { capture: true, passive: true });
+      window.addEventListener('pageshow', () => {
+        if (!document.hidden && !document.webkitHidden) {
+          handlePageVisible();
+        }
+      }, { capture: true, passive: true });
+
+      // Window Blur / Focus
+      window.addEventListener('blur', () => {
+        if (document.hidden || document.webkitHidden) {
+          handlePageHidden();
+        }
+      }, { passive: true });
+
+      // Unload & BeforeUnload (Window close / Tab destroy)
+      window.addEventListener('beforeunload', handlePageHidden, { passive: true });
+      window.addEventListener('unload', handlePageHidden, { passive: true });
     }
 
     /* ==================================================== */
