@@ -1757,7 +1757,7 @@ button {
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
   font-size: clamp(2.2rem, 8vw, 3rem);
   font-weight: 300;
-  color: #1a1816;
+  color: var(--title-color);
   letter-spacing: 2px;
   line-height: 1;
   display: flex;
@@ -1774,7 +1774,7 @@ button {
 
 .cal-date-day {
   font-weight: 600;
-  color: #1a1816;
+  color: var(--title-color);
 }
 
 .cal-date-sep {
@@ -2012,7 +2012,7 @@ button {
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
   font-size: clamp(1.8rem, 6.8vw, 2.4rem);
   font-weight: 400;
-  color: #1a1816;
+  color: var(--title-color);
   letter-spacing: 1px;
   line-height: 1;
   max-width: min(290px, 100%);
@@ -2033,13 +2033,13 @@ button {
 .countdown-notice {
   font-family: 'Pretendard', sans-serif;
   font-size: 0.88rem;
-  color: #4a443e;
+  color: var(--text);
   line-height: 1.5;
   letter-spacing: -0.3px;
 }
 
 .countdown-notice strong {
-  color: #1a1816;
+  color: var(--title-color);
   font-weight: 700;
   font-size: 0.94rem;
 }
@@ -2164,7 +2164,7 @@ button {
 .loc-venue-name {
   font-weight: 800;
   font-size: clamp(1.1rem, 4.2vw, 1.25rem);
-  color: #000000;
+  color: var(--title-color);
   letter-spacing: -0.3px;
   line-height: 1.3;
 }
@@ -2219,7 +2219,7 @@ button {
 
 .loc-address-text {
   font-size: 0.86rem;
-  color: #222222;
+  color: var(--text);
   line-height: 1.5;
   flex: 1;
   word-break: keep-all;
@@ -2234,7 +2234,7 @@ button {
   background: #ffffff;
   border: 1px solid #dbdbdb;
   border-radius: 8px;
-  color: #262626;
+  color: var(--text-main);
   font-size: 0.76rem;
   font-weight: 600;
   cursor: pointer;
@@ -2264,7 +2264,7 @@ button {
   background: #ffffff;
   border: 1px solid #dbdbdb;
   border-radius: 10px;
-  color: #222222;
+  color: var(--text);
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
@@ -2298,7 +2298,7 @@ button {
   font-size: 0.84rem;
   font-weight: 700;
   color: #ffffff;
-  background: #262626;
+  background: var(--title-color);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -2307,7 +2307,7 @@ button {
 }
 
 .loc-rough-map-btn:active {
-  background: #444444;
+  background: #331B0A;
   transform: scale(0.98);
 }
 
@@ -2346,9 +2346,9 @@ button {
 
 .loc-tab-btn.active {
   background: transparent;
-  color: #000000;
+  color: var(--title-color);
   font-weight: 800;
-  border-bottom: 2.5px solid #000000;
+  border-bottom: 2.5px solid var(--title-color);
   box-shadow: none;
 }
 
@@ -2445,7 +2445,7 @@ button {
 .transit-title {
   font-weight: 800;
   font-size: 0.94rem;
-  color: #111111;
+  color: var(--title-color);
   letter-spacing: -0.3px;
 }
 
@@ -2478,13 +2478,13 @@ button {
 
 .transit-desc {
   font-size: 0.86rem;
-  color: #222222;
+  color: var(--text);
   line-height: 1.6;
   word-break: keep-all;
 }
 
 .transit-desc strong {
-  color: #000000;
+  color: var(--title-color);
   font-weight: 800;
 }
 
@@ -2555,7 +2555,7 @@ button {
 
 .bus-num-text,
 .parking-info-text {
-  color: #333333;
+  color: var(--text);
   font-size: 0.84rem;
   word-break: keep-all;
   line-height: 1.55;
@@ -2563,7 +2563,7 @@ button {
 }
 
 .parking-info-text strong {
-  color: #000000;
+  color: var(--title-color);
   font-weight: 800;
 }
 
@@ -2603,7 +2603,7 @@ button {
 .parking-addr-val {
   font-size: 0.86rem;
   font-weight: 700;
-  color: #000000;
+  color: var(--title-color);
   word-break: keep-all;
 }
 
@@ -2628,7 +2628,7 @@ button {
 .loc-nav-heading {
   font-size: 0.84rem;
   font-weight: 800;
-  color: #111111;
+  color: var(--title-color);
   margin-bottom: 12px;
   padding-top: 14px;
   border-top: none;
@@ -4260,7 +4260,7 @@ body.modal-open {
 
 .activity-text-wrap strong {
   font-weight: 700;
-  color: #000000;
+  color: var(--title-color);
 }
 
 .activity-time-tag {
@@ -5188,7 +5188,7 @@ body.modal-open .ig-bottom-footer,
 .custom-modal-title {
   font-size: 1rem;
   font-weight: 800;
-  color: #000000;
+  color: var(--title-color);
   margin-bottom: 6px;
   letter-spacing: -0.3px;
 }
