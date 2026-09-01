@@ -2696,8 +2696,8 @@ button {
 
 .loc-app-btn .app-name {
   font-size: clamp(0.7rem, 2.2vw, 0.78rem);
-  font-weight: 600;
-  color: #222222;
+  font-weight: 700;
+  color: var(--title-color);
   letter-spacing: -0.3px;
 }
 
@@ -5586,7 +5586,7 @@ body.modal-open .ig-bottom-footer,
 
 .share-dock-btn.copy {
   background: var(--card-bg);
-  color: var(--text-main);
+  color: var(--title-color);
   border: 1px solid var(--border-gold);
   box-shadow: 0 2px 10px rgba(197, 157, 79, 0.08);
 }
@@ -5612,7 +5612,7 @@ body.modal-open .ig-bottom-footer,
 }
 
 .share-dock-icon-wrap.copy svg {
-  color: var(--text);
+  color: var(--title-color);
 }
 
 .share-dock-label {
