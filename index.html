@@ -20,7 +20,8 @@
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=lstn6qo079"></script>
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/style.css?v=20260901_1322">
+  <link rel="preload" as="image" href="images/main/1762868176689.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="css/style.css?v=20260901_1345">
 </head>
 
 <body>
@@ -128,7 +129,7 @@
 
     <!-- Wedding Hero Single Photo -->
     <div class="wedding-hero-photo" onclick="openSinglePhotoLightbox('images/main/1762868176689.jpg', 'Wedding Photo')">
-      <img src="images/main/1762868176689.jpg" alt="Wedding Main Photo">
+      <img src="images/main/1762868176689.jpg" alt="Wedding Main Photo" fetchpriority="high" decoding="async">
 
       <!-- Cinematic Ambient Sunlight, Sunbeams & Micro-Sparkle Shimmer -->
       <div class="hero-sunlight-wrap">
@@ -764,7 +765,7 @@
       <div class="post-carousel-track" id="galleryCarouselTrack">
         <!-- 0. Video 1 -->
         <div class="carousel-slide" onclick="handleSlideClick(0, this, event)">
-          <video src="images/gallery/01_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="auto"
+          <video src="images/gallery/01_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="metadata"
             class="feed-video-element"></video>
           <div class="video-media-badge">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -810,7 +811,7 @@
         </div>
         <!-- 5. Video 2 -->
         <div class="carousel-slide" onclick="handleSlideClick(5, this, event)">
-          <video src="images/gallery/06_2026_08_19%2013_15.mp4" autoplay muted loop playsinline preload="auto"
+          <video src="images/gallery/06_2026_08_19%2013_15.mp4" autoplay muted loop playsinline preload="none"
             class="feed-video-element"></video>
           <div class="video-media-badge">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -832,7 +833,7 @@
         </div>
         <!-- 7. Video 3 -->
         <div class="carousel-slide" onclick="handleSlideClick(7, this, event)">
-          <video src="images/gallery/08_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="auto"
+          <video src="images/gallery/08_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="none"
             class="feed-video-element"></video>
           <div class="video-media-badge">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -1359,7 +1360,7 @@
   </nav>
 
   <!-- Audio element for BGM -->
-  <audio id="bgm-audio" src="music/a_thousand_years.mp3" preload="auto" loop playsinline></audio>
+  <audio id="bgm-audio" src="music/a_thousand_years.mp3" preload="none" loop playsinline></audio>
 
   <!-- Toast -->
   <div id="toast">복사되었습니다.</div>
@@ -1900,7 +1901,7 @@
         <div class="ig-photo-grid">
           <!-- Cell 0: Video 1 -->
           <div class="ig-grid-cell" onclick="selectGridPhoto(0)">
-            <video src="images/gallery/01_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="metadata"></video>
+            <video src="images/gallery/01_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="none"></video>
             <div class="ig-grid-badge">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff">
                 <path
@@ -1926,7 +1927,7 @@
           </div>
           <!-- Cell 5: Video 2 -->
           <div class="ig-grid-cell" onclick="selectGridPhoto(5)">
-            <video src="images/gallery/06_2026_08_19%2013_15.mp4" autoplay muted loop playsinline preload="metadata"></video>
+            <video src="images/gallery/06_2026_08_19%2013_15.mp4" autoplay muted loop playsinline preload="none"></video>
             <div class="ig-grid-badge">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff">
                 <path
@@ -1941,7 +1942,7 @@
           <!-- Cell 7: Video 3 -->
           <div class="ig-grid-cell" onclick="selectGridPhoto(7)">
             <video src="images/gallery/08_2026_03_30%2013_49.mp4" autoplay muted loop playsinline
-              preload="metadata"></video>
+              preload="none"></video>
             <div class="ig-grid-badge">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff">
                 <path
@@ -2154,7 +2155,7 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=20260901_1340"></script>
+  <script src="js/script.js?v=20260901_1345"></script>
 </body>
 
 </html>
