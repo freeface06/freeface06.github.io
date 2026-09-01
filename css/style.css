@@ -3692,25 +3692,61 @@
       margin-top: 2px;
     }
 
-    .tmi-profile-card {
-      background: #fafafa;
-      border: 1px solid #eeeeee;
-      border-radius: 16px;
-      padding: 14px;
+    .tmi-section-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .tmi-profile-card {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #ebebeb;
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
     .tmi-profile-header {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+    }
+
+    .tmi-avatar-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      background: #f0f0f0;
+    }
+
+    .tmi-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tmi-avatar-img.groom {
+      object-position: center 30%;
+    }
+
+    .tmi-avatar-img.bride {
+      object-position: center 35%;
     }
 
     .tmi-avatar-icon {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: #111111;
       color: #ffffff;
@@ -3726,27 +3762,32 @@
 
     .tmi-name-col {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
     .tmi-name-row {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .tmi-name {
-      font-size: 0.95rem;
+      font-size: 1.02rem;
       font-weight: 800;
       color: #111111;
+      letter-spacing: -0.2px;
     }
 
     .tmi-role-badge {
       font-size: 0.72rem;
       font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
       background: #e8e8e8;
-      color: #555555;
+      color: #444444;
+      letter-spacing: 0.3px;
     }
 
     .tmi-role-badge.bride {
@@ -3755,10 +3796,9 @@
     }
 
     .tmi-mbti-pill {
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       color: #666666;
       font-weight: 600;
-      margin-top: 2px;
     }
 
     .tmi-qa-list {
