@@ -1,19 +1,19 @@
 :root {
-  --bg: #FDF1EB;
+  --bg: #FAF7F2;
   --bg-gradient: none;
-  --card-bg: #FDF1EB;
-  --card-bg-elevated: #FDF1EB;
-  --surface: #F7E4D8;
-  --surface-subtle: #FAF0E8;
-  --surface-champagne: #F2DCCE;
-  --border: #EBD6C6;
-  --border-subtle: #F0E2D6;
-  --border-gold: #D8BFA5;
+  --card-bg: #FAF7F2;
+  --card-bg-elevated: #FAF7F2;
+  --surface: #F3ECE2;
+  --surface-subtle: #F7F2EB;
+  --surface-champagne: #EDE3D4;
+  --border: #E5DACB;
+  --border-subtle: #EDE4D8;
+  --border-gold: #D4C09E;
   --gold-primary: #C59D4F;
   --gold-accent: #D4AF37;
-  --gold-light: #FFF8F5;
+  --gold-light: #FFFBF7;
   --gold-dark: #96722C;
-  --gold-shimmer: linear-gradient(135deg, #FDF1EB 0%, #F5E2B5 35%, #D4AF37 55%, #F0D595 75%, #FDF1EB 100%);
+  --gold-shimmer: linear-gradient(135deg, #FAF7F2 0%, #F5E2B5 35%, #D4AF37 55%, #F0D595 75%, #FAF7F2 100%);
   --title-color: #4A2810;
   --text: #453428;
   --text-main: #2A1D15;
@@ -60,13 +60,10 @@ html {
 
 body {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  background-position: top center;
   color: var(--text);
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   width: 100%;
@@ -158,13 +155,10 @@ button {
   width: 100%;
   max-width: 100%;
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  background-position: top center;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -3802,13 +3796,9 @@ body.modal-open {
 
 .comments-sheet {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   width: 100%;
   max-width: 100%;
   max-height: 84vh;
@@ -3913,13 +3903,9 @@ body.modal-open {
 
 .tmi-sheet {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4217,13 +4203,9 @@ body.modal-open {
 
 .activity-sheet {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   width: 100%;
   max-width: 100%;
   max-height: 85vh;
@@ -4395,13 +4377,9 @@ body.modal-open {
 
 .grid-gallery-sheet {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4626,13 +4604,9 @@ body.modal-open {
 
 .rough-map-sheet {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4766,13 +4740,9 @@ body.modal-open {
 
 .profile-sheet {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -5001,13 +4971,10 @@ body.modal-open {
   height: calc(54px + constant(safe-area-inset-bottom));
   height: calc(54px + env(safe-area-inset-bottom, 0px));
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  background-position: bottom center;
   border-top: 1px solid rgba(214, 189, 138, 0.28);
   display: flex;
   justify-content: space-around;
@@ -5254,13 +5221,9 @@ body.modal-open .ig-bottom-footer,
 
 .custom-modal-box {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   border: 1px solid var(--border-gold);
   border-radius: 16px;
   width: 100%;
@@ -5413,13 +5376,9 @@ body.modal-open .ig-bottom-footer,
 
 .large-map-sheet {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   width: 100%;
   max-width: 100%;
   height: 90vh;
@@ -5519,13 +5478,9 @@ body.modal-open .ig-bottom-footer,
 /* Modal Footer Navigation Links */
 .large-map-footer {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(235, 195, 170, 0.38) 0px,
-    rgba(235, 195, 170, 0.38) 1.2px,
-    transparent 1.2px,
-    transparent 8px
-  );
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   padding: 13px 16px clamp(16px, 3.5vw, 22px);
   border-top: 1px solid var(--border-gold);
   display: flex;
