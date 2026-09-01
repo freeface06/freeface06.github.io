@@ -1,19 +1,19 @@
 :root {
-  --bg: #FAF7F2;
+  --bg: #FFFDEA;
   --bg-gradient: none;
-  --card-bg: #FAF7F2;
-  --card-bg-elevated: #FAF7F2;
-  --surface: #F3EDE3;
-  --surface-subtle: #F6F1EA;
-  --surface-champagne: #EFE7DA;
-  --border: #E8DDCF;
-  --border-subtle: #EFE8DC;
-  --border-gold: #D8C59D;
+  --card-bg: #FFFDEA;
+  --card-bg-elevated: #FFFDEA;
+  --surface: #F9F4DF;
+  --surface-subtle: #FCF8E5;
+  --surface-champagne: #F5ECCE;
+  --border: #EDE2C4;
+  --border-subtle: #F3EBD3;
+  --border-gold: #D8C38E;
   --gold-primary: #C59D4F;
   --gold-accent: #D4AF37;
-  --gold-light: #FBF4E6;
+  --gold-light: #FFF9E0;
   --gold-dark: #96722C;
-  --gold-shimmer: linear-gradient(135deg, #FAF7F2 0%, #EEDBB3 35%, #D4AF37 55%, #ECCB85 75%, #FAF7F2 100%);
+  --gold-shimmer: linear-gradient(135deg, #FFFDEA 0%, #F5E2B5 35%, #D4AF37 55%, #F0D595 75%, #FFFDEA 100%);
   --text: #2C241E;
   --text-main: #1D1712;
   --text-dim: #796E60;
@@ -53,7 +53,7 @@ html {
   overflow-x: hidden;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  background-color: #F4EFE6;
+  background-color: #E2D5BE;
   -webkit-tap-highlight-color: transparent !important;
 }
 
@@ -81,9 +81,9 @@ body {
 @media (min-width: 501px) {
   body {
     max-width: 480px;
-    box-shadow: 0 0 45px rgba(184, 150, 80, 0.12), 0 0 20px rgba(0, 0, 0, 0.04);
-    border-left: 1px solid rgba(214, 189, 138, 0.25);
-    border-right: 1px solid rgba(214, 189, 138, 0.25);
+    box-shadow: 0 0 50px rgba(184, 150, 80, 0.18), 0 0 25px rgba(0, 0, 0, 0.08);
+    border-left: 1px solid rgba(214, 189, 138, 0.35);
+    border-right: 1px solid rgba(214, 189, 138, 0.35);
   }
 }
 
@@ -150,7 +150,7 @@ button {
   margin: 0 auto;
   width: 100%;
   max-width: 100%;
-  background: rgba(250, 247, 242, 0.96);
+  background: rgba(255, 253, 234, 0.96);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   display: grid;
@@ -4902,7 +4902,7 @@ body.modal-open {
   margin: 0 auto;
   height: calc(54px + constant(safe-area-inset-bottom));
   height: calc(54px + env(safe-area-inset-bottom, 0px));
-  background: rgba(250, 247, 242, 0.97);
+  background: rgba(255, 253, 234, 0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(214, 189, 138, 0.28);
