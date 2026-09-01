@@ -306,7 +306,8 @@
           }
         });
 
-        naver.maps.Event.addListener(marker, 'click', () => openNaverNavi());
+        naver.maps.Event.addListener(marker, 'click', () => openLargeMapModal());
+        naver.maps.Event.addListener(naverMapInstance, 'click', () => openLargeMapModal());
 
         // Check if Naver Maps injected an authentication error banner
         setTimeout(() => {
@@ -1068,10 +1069,7 @@
       'fire': '\uD83D\uDD25',
       'party': '\uD83C\uDF89',
       'plead': '\uD83E\uDD7A',
-      'heart_eyes': '\uD83D\uDE0D',
-      'wow': '\uD83D\uDE2E',
-      'joy': '\uD83D\uDE02'
-    };
+    }
 
     function renderCommentItemHTML(c) {
       const isAuthorTag = c.isAuthor ? `<span class="ig-author-badge">· 작성자</span>` : '';
@@ -1170,7 +1168,7 @@
     // Touchmove preventer on modal backdrop and non-scrollable areas
     document.addEventListener('touchmove', function (e) {
       if (modalHistoryStack.length > 0) {
-        const scrollable = e.target.closest('.tmi-sheet-body, .sheet-comments-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body');
+        const scrollable = e.target.closest('.tmi-sheet-body, .sheet-comments-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body, .large-map-sheet, #largeInteractiveMap, .large-map-modal-body');
         if (!scrollable) {
           e.preventDefault();
         }
@@ -1410,6 +1408,145 @@
 
     function closeRoughMapModal(fromHistory = false) {
       closePhotoLightbox(fromHistory);
+    }
+
+    /* ==================================================== */
+    /* LARGE INTERACTIVE MAP MODAL HANDLERS                 */
+    /* ==================================================== */
+    let naverLargeMapInstance = null;
+    let largeMapMarker = null;
+
+    function initLargeInteractiveMap() {
+      const mapEl = document.getElementById('largeInteractiveMap');
+      if (!mapEl || !window.naver || !window.naver.maps) {
+        showLargeMapFallback();
+        return;
+      }
+
+      const lat = 37.5384438;
+      const lng = 127.1224221;
+
+      try {
+        naverLargeMapInstance = new naver.maps.Map('largeInteractiveMap', {
+          center: new naver.maps.LatLng(lat, lng),
+          zoom: 16,
+          minZoom: 9,
+          maxZoom: 19,
+          draggable: true,
+          pinchZoom: true,
+          scrollWheel: true,
+          disableDoubleTapZoom: false,
+          disableTwoFingerTapZoom: false,
+          disableKineticPan: false,
+          mapTypeControl: false,
+          scaleControl: true,
+          scaleControlOptions: {
+            position: naver.maps.Position.BOTTOM_LEFT
+          },
+          logoControl: true,
+          logoControlOptions: {
+            position: naver.maps.Position.BOTTOM_LEFT
+          },
+          zoomControl: false
+        });
+
+        largeMapMarker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(lat, lng),
+          map: naverLargeMapInstance,
+          title: '라비니움 (천호역 10번 출구)',
+          icon: {
+            content: `<div style="width:48px;height:54px;display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 10px rgba(0,0,0,0.3));box-sizing:border-box;">
+              <div style="width:48px;height:48px;border-radius:50%;background:#ffffff;border:2.5px solid #1a1a1a;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);box-sizing:border-box;position:relative;">
+                <img src="images/wedding-ring.png" alt="웨딩링" style="width:30px;height:30px;object-fit:contain;display:block;">
+              </div>
+              <div style="width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #1a1a1a;margin-top:-1px;"></div>
+            </div>`,
+            size: new naver.maps.Size(48, 54),
+            anchor: new naver.maps.Point(24, 54)
+          }
+        });
+
+        naver.maps.Event.addListener(largeMapMarker, 'click', () => {
+          if (naverLargeMapInstance) {
+            naverLargeMapInstance.panTo(new naver.maps.LatLng(lat, lng));
+          }
+        });
+      } catch (err) {
+        showLargeMapFallback();
+      }
+    }
+
+    function showLargeMapFallback() {
+      const mapEl = document.getElementById('largeInteractiveMap');
+      if (!mapEl) return;
+      mapEl.innerHTML = `
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#f8f9fa;">
+          <img src="images/story_location.jpg" alt="라비니움" style="width:100%;max-width:320px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:14px;object-fit:cover;">
+          <div style="font-size:0.95rem;font-weight:700;color:#111;margin-bottom:4px;">천호 라비니움 1층 리추얼홀</div>
+          <div style="font-size:0.8rem;color:#666;margin-bottom:12px;">서울특별시 송파구 천호대로 996 (풍납동 473-1)</div>
+          <div style="font-size:0.78rem;color:#0095f6;font-weight:600;">하단 내비게이션 버튼을 누르시면 길찾기 앱으로 바로 연결됩니다.</div>
+        </div>
+      `;
+    }
+
+    function openLargeMapModal() {
+      const overlay = document.getElementById('large-map-modal-overlay');
+      if (!overlay) return;
+
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      pushModalToHistory('large-map-modal', (fromHistory) => {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      if (!naverLargeMapInstance) {
+        if (window.naver && window.naver.maps) {
+          initLargeInteractiveMap();
+        } else {
+          showLargeMapFallback();
+        }
+      }
+
+      setTimeout(() => {
+        if (naverLargeMapInstance) {
+          naver.maps.Event.trigger(naverLargeMapInstance, 'resize');
+          naverLargeMapInstance.setCenter(new naver.maps.LatLng(37.5384438, 127.1224221));
+          naverLargeMapInstance.setZoom(16);
+        }
+      }, 150);
+    }
+
+    function closeLargeMapModal(fromHistory = false) {
+      const overlay = document.getElementById('large-map-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+      if (!fromHistory) {
+        popModalFromHistory('large-map-modal');
+      }
+    }
+
+    function handleLargeMapOverlayClick(e) {
+      if (e.target.id === 'large-map-modal-overlay') {
+        closeLargeMapModal();
+      }
+    }
+
+    function resetLargeMapCenter() {
+      if (naverLargeMapInstance) {
+        const latLng = new naver.maps.LatLng(37.5384438, 127.1224221);
+        naverLargeMapInstance.morph(latLng, 16);
+      }
+    }
+
+    function zoomLargeMap(delta) {
+      if (naverLargeMapInstance) {
+        const currentZoom = naverLargeMapInstance.getZoom();
+        naverLargeMapInstance.setZoom(currentZoom + delta, true);
+      }
     }
 
     function toggleCommentDataLike(id, e) {
