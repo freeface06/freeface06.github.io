@@ -2418,6 +2418,16 @@
           }
           const offsetPercent = -currentIndex * 100;
           track.style.transform = `translateX(calc(${offsetPercent}% + ${effectiveDelta}px))`;
+
+          // Synchronize active dot in real-time as slide moves past 50% midpoint
+          let previewIndex = Math.round(currentIndex - (effectiveDelta / width));
+          if (previewIndex < 0) previewIndex = 0;
+          if (previewIndex >= totalSlides) previewIndex = totalSlides - 1;
+
+          const dots = parentArticle.querySelectorAll('.carousel-dots .dot');
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === previewIndex);
+          });
         }
       }
 
@@ -2432,13 +2442,13 @@
           const slides = track.querySelectorAll('.carousel-slide');
           const totalSlides = slides.length || 1;
 
-          if (deltaX < 0 && (Math.abs(deltaX) > width * 0.12 || (velocity > 0.25 && Math.abs(deltaX) > 15))) {
+          if (deltaX < 0 && (Math.abs(deltaX) > width * 0.15 || (velocity > 0.22 && Math.abs(deltaX) > 15))) {
             currentIndex = Math.min(currentIndex + 1, totalSlides - 1);
-          } else if (deltaX > 0 && (Math.abs(deltaX) > width * 0.12 || (velocity > 0.25 && Math.abs(deltaX) > 15))) {
+          } else if (deltaX > 0 && (Math.abs(deltaX) > width * 0.15 || (velocity > 0.22 && Math.abs(deltaX) > 15))) {
             currentIndex = Math.max(currentIndex - 1, 0);
           }
           updateUI(true);
-          setTimeout(() => { didSwipeSlide = false; }, 60);
+          setTimeout(() => { didSwipeSlide = false; }, 80);
         } else {
           updateUI(true);
         }
