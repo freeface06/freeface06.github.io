@@ -2083,7 +2083,7 @@ button {
   border-radius: 20px;
   font-size: 0.74rem;
   font-weight: 700;
-  color: #111111;
+  color: var(--title-color);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
   z-index: 10;
@@ -2130,7 +2130,7 @@ button {
   border-radius: 20px;
   font-size: 0.74rem;
   font-weight: 700;
-  color: #111111;
+  color: var(--title-color);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   z-index: 10;
@@ -2421,8 +2421,8 @@ button {
 }
 
 .transit-icon-badge.parking {
-  background: rgba(38, 38, 38, 0.08);
-  color: #262626;
+  background: rgba(74, 40, 16, 0.1);
+  color: var(--title-color);
 }
 
 .transit-icon-badge.car {
@@ -3371,7 +3371,7 @@ button {
 .ig-sheet-title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #262626;
+  color: var(--title-color);
   letter-spacing: -0.3px;
 }
 
@@ -3440,7 +3440,7 @@ button {
 .ig-comment-uname {
   font-weight: 700;
   font-size: 0.88rem;
-  color: #262626;
+  color: var(--title-color);
   cursor: pointer;
 }
 
@@ -3469,7 +3469,7 @@ button {
 .ig-comment-text {
   font-size: 0.88rem;
   line-height: 1.5;
-  color: #262626;
+  color: var(--text);
   word-break: break-word;
 }
 
@@ -3500,7 +3500,7 @@ button {
 }
 
 .ig-comment-reply-btn:hover {
-  color: #262626;
+  color: var(--title-color);
 }
 
 .ig-reply-thread {
@@ -3561,7 +3561,7 @@ button {
 }
 
 .ig-view-all-link:hover {
-  color: #262626;
+  color: var(--title-color);
 }
 
 /* Real Instagram Quick Emoji Reaction Bar */
@@ -3686,7 +3686,7 @@ button {
 }
 
 .ig-tool-svg:hover {
-  color: #262626;
+  color: var(--title-color);
 }
 
 .ig-tool-gif {
@@ -3704,8 +3704,8 @@ button {
 }
 
 .ig-tool-gif:hover {
-  color: #262626;
-  border-color: #262626;
+  color: var(--title-color);
+  border-color: var(--title-color);
 }
 
 .ig-post-btn {
@@ -3814,7 +3814,7 @@ body.modal-open {
 .sheet-title {
   font-size: 0.96rem;
   font-weight: 700;
-  color: #262626;
+  color: var(--title-color);
   text-align: center;
   flex: 1;
   margin-left: 24px;
@@ -3824,7 +3824,7 @@ body.modal-open {
   background: none;
   border: none;
   cursor: pointer;
-  color: #262626;
+  color: var(--title-color);
   padding: 4px;
   line-height: 1;
   display: flex;
@@ -4031,7 +4031,7 @@ body.modal-open {
 .tmi-name {
   font-size: 1.02rem;
   font-weight: 800;
-  color: #111111;
+  color: var(--title-color);
   letter-spacing: -0.2px;
 }
 
@@ -4084,7 +4084,7 @@ body.modal-open {
 .tmi-a {
   font-size: 0.84rem;
   font-weight: 600;
-  color: #222222;
+  color: var(--text);
   line-height: 1.45;
   word-break: keep-all;
 }
@@ -4102,7 +4102,7 @@ body.modal-open {
 .tmi-fun-heading {
   font-size: 0.88rem;
   font-weight: 800;
-  color: #111111;
+  color: var(--title-color);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -4111,7 +4111,7 @@ body.modal-open {
 .tmi-close-btn-bottom {
   width: 100%;
   padding: 13px;
-  background: #111111;
+  background: var(--title-color);
   color: #ffffff;
   font-size: 0.92rem;
   font-weight: 700;
@@ -4261,7 +4261,7 @@ body.modal-open {
 .activity-text-wrap {
   flex: 1;
   font-size: 0.85rem;
-  color: #222222;
+  color: var(--text);
   line-height: 1.42;
   word-break: keep-all;
 }
@@ -4416,7 +4416,7 @@ body.modal-open {
 .ig-stat-num {
   font-size: 1.02rem;
   font-weight: 800;
-  color: #111111;
+  color: var(--title-color);
   line-height: 1.2;
 }
 
@@ -4428,13 +4428,13 @@ body.modal-open {
 
 .ig-bio-block {
   font-size: 0.84rem;
-  color: #262626;
+  color: var(--text);
   line-height: 1.45;
 }
 
 .ig-bio-name {
   font-weight: 800;
-  color: #111111;
+  color: var(--title-color);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -4634,13 +4634,13 @@ body.modal-open {
   transition: all 0.2s ease;
   border: 1px solid #dbdbdb;
   background: #f8f9fa;
-  color: #262626;
+  color: var(--title-color);
 }
 
 .rough-map-action-btn.primary {
-  background: #262626;
+  background: var(--title-color);
   color: #ffffff;
-  border-color: #262626;
+  border-color: var(--title-color);
 }
 
 .rough-map-action-btn:active {
@@ -4787,7 +4787,7 @@ body.modal-open {
 .profile-detail-name {
   font-size: 1.08rem;
   font-weight: 800;
-  color: #111111;
+  color: var(--title-color);
 }
 
 .profile-detail-mbti {
@@ -5383,7 +5383,7 @@ body.modal-open .ig-bottom-footer,
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #222222;
+  color: var(--title-color);
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -5446,7 +5446,7 @@ body.modal-open .ig-bottom-footer,
 .large-map-venue-name {
   font-size: 0.84rem;
   font-weight: 700;
-  color: #111111;
+  color: var(--title-color);
   letter-spacing: -0.3px;
   line-height: 1.25;
 }
@@ -5504,7 +5504,7 @@ body.modal-open .ig-bottom-footer,
 .large-map-btn-text {
   font-size: 0.77rem;
   font-weight: 700;
-  color: #222222;
+  color: var(--title-color);
   letter-spacing: -0.3px;
   white-space: nowrap;
 }
