@@ -2721,7 +2721,7 @@ button {
 /* Timetable Feed Post Content */
 .tt-card-box {
   padding: 4px 12px 10px;
-  background: var(--card-bg);
+  background: transparent;
 }
 
 .tt-item {
@@ -2773,7 +2773,7 @@ button {
   justify-content: center;
   gap: 12px;
   padding: 28px 16px 20px;
-  background: var(--bg);
+  background: transparent;
   border-top: none;
 }
 
@@ -2791,7 +2791,7 @@ button {
   font-weight: 700;
   letter-spacing: 0.5px;
   color: #73644E;
-  background: var(--bg);
+  background: var(--surface);
   padding: 5px 14px;
   border-radius: 20px;
   border: 1px solid var(--border-gold);
@@ -2807,7 +2807,7 @@ button {
 /* CLEAN WEDDING SECTION (STANDARD MOBILE WEDDING STYLE) */
 /* ==================================================== */
 .wedding-section {
-  background: var(--bg);
+  background: transparent;
   padding: 36px 16px 32px;
   margin: 0;
   border-bottom: none;
@@ -2878,7 +2878,7 @@ button {
 
 /* RSVP Poll Feed Post Content (Luxury Respectful UI/UX) */
 .rsvp-poll-card {
-  background: var(--card-bg);
+  background: transparent;
   border: none;
   border-radius: 0;
   margin: 0;
@@ -3254,7 +3254,7 @@ button {
 
 /* Bank Feed Post Content */
 .bank-card-wrap {
-  background: var(--card-bg);
+  background: transparent;
   border: none;
   border-radius: 0;
   margin: 0;
@@ -3356,16 +3356,16 @@ button {
 /* REAL INSTAGRAM COMMENTS UI (BOTTOM SECTION & MODAL)  */
 /* ==================================================== */
 .ig-bottom-comments-section {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
+  background: transparent;
+  border: 1px solid var(--border-gold);
   border-radius: 18px;
   padding: 24px 16px 20px;
-  box-shadow: 0 4px 20px rgba(197, 157, 79, 0.06);
+  box-shadow: none;
   margin-bottom: 0;
 }
 
 .ig-comment-sheet-card {
-  background: var(--card-bg);
+  background: transparent;
   border: none;
   border-radius: 0;
   margin: 0;
