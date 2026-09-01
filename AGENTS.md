@@ -35,9 +35,17 @@ mobile-wedding/
 
 ---
 
-## 3. 구성 변경 이력 (Change History)
+## 3. 에이전트 하네스 스킬 (Custom Skills)
+
+- **`gallery-sync`** (`.agents/skills/gallery-sync/SKILL.md`):
+  - `images/gallery/` 폴더 안의 미디어를 스캔하여 `js/script.js`를 100% 자동 동기화하고 Git 배포를 수행하는 전용 하네스 스킬.
+  - 실행: `node .agents/skills/gallery-sync/scripts/sync_gallery.js`
+
+---
+
+## 4. 구성 변경 이력 (Change History)
 
 | 변경 일자 | 구성 유형 | 주요 변경 사항 |
 | :--- | :--- | :--- |
 | **2026-08-31** | **단일 통합 (Unified)** | • 분리 폴더 정리 및 기능 통합 |
-| **2026-09-01** | **모듈형 분리 (Modular)** | • 사용자 요청에 따라 `index.html`에서 `css/style.css` 및 `js/script.js`로 분리 완료<br>• 갤러리 폴더 자동 스캔(Auto-Scan), BGM 플로팅 반응형 버튼, 무이모지 100% 벡터 파티클 적용 |
+| **2026-09-01** | **모듈형 분리 (Modular)** | • 사용자 요청에 따라 `index.html`에서 `css/style.css` 및 `js/script.js`로 분리 완료<br>• 갤러리 폴더 자동 스캔(Auto-Scan), BGM 플로팅 반응형 버튼, 무이모지 100% 벡터 파티클 적용<br>• `gallery-sync` 하네스 전용 스킬 구축 완료 |
