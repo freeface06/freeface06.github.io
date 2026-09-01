@@ -215,6 +215,93 @@
     .post-location-tag { font-size: 0.74rem; color: var(--text-dim); }
     .post-header-more { margin-left: auto; stroke: var(--text-main); fill: none; width: 20px; height: 20px; cursor: pointer; }
 
+    /* Wedding Hero Single Photo */
+    .wedding-hero-photo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+    .wedding-hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: contrast(1.04) saturate(0.92) brightness(0.97);
+    }
+    .wedding-hero-photo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0) 30%,
+        rgba(0, 0, 0, 0) 55%,
+        rgba(0, 0, 0, 0.35) 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+    .wedding-hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at 50% 40%,
+        rgba(255, 235, 205, 0.12) 0%,
+        transparent 65%
+      );
+      z-index: 2;
+      pointer-events: none;
+      mix-blend-mode: soft-light;
+    }
+    .wedding-hero-overlay-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 24px 20px;
+      z-index: 3;
+      text-align: center;
+      color: #ffffff;
+      pointer-events: none;
+    }
+    .wedding-hero-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
+      line-height: 1.4;
+    }
+    .wedding-hero-ampersand {
+      font-family: 'Grand Hotel', cursive;
+      font-size: 1.6rem;
+      display: inline-block;
+      margin: 0 8px;
+      opacity: 0.85;
+    }
+    .wedding-hero-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 6px;
+      opacity: 0.8;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+    }
+    .wedding-hero-vignette {
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.18);
+      z-index: 2;
+      pointer-events: none;
+    }
+
     /* Instagram Carousel Styles */
     .post-carousel-wrapper {
       position: relative; width: 100%; aspect-ratio: 1/1; background: #f0f0f0; overflow: hidden;
@@ -3273,36 +3360,20 @@
       <svg class="post-header-more tap-spring" viewBox="0 0 24 24" onclick="openTmiModal('couple')" title="신랑 & 신부 프로필"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     </div>
 
-    <!-- Instagram Multi-Photo Carousel -->
-    <div class="post-carousel-wrapper" id="carouselWrapper">
+    <!-- Wedding Hero Single Photo -->
+    <div class="wedding-hero-photo" onclick="openSinglePhotoLightbox('images/wedding_main.jpg', 'Wedding Photo')">
+      <img src="images/wedding_main.jpg" alt="Wedding Main Photo">
+      <div class="wedding-hero-vignette"></div>
+      <div class="wedding-hero-overlay-text">
+        <div class="wedding-hero-names">
+          Hojeong <span class="wedding-hero-ampersand">&</span> Dasol
+        </div>
+        <div class="wedding-hero-date">2027. 06. 19 Saturday</div>
+      </div>
       <div class="media-audio-btn" onclick="event.stopPropagation(); toggleBGM();" id="audioToggleBtn" title="음악 재생/음소거">
         <svg viewBox="0 0 24 24" id="audioIcon" width="18" height="18"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/></svg>
       </div>
-      <div class="post-carousel-track" id="postCarousel">
-        <div class="carousel-slide" onclick="handleSlideClick(0, this, event)">
-          <img src="images/wedding_main.jpg" alt="Wedding Photo 1">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="carousel-slide" onclick="handleSlideClick(1, this, event)">
-          <img src="images/gallery_1.jpg" alt="Wedding Photo 2">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="carousel-slide" onclick="handleSlideClick(2, this, event)">
-          <img src="images/gallery_2.jpg" alt="Wedding Photo 3">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="carousel-slide" onclick="handleSlideClick(3, this, event)">
-          <img src="images/gallery_3.jpg" alt="Wedding Photo 4">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-      </div>
-    </div>
-    <!-- Carousel Dots Pagination -->
-    <div class="carousel-dots" id="carouselDots">
-      <div class="dot active" onclick="goToSlide(0)"></div>
-      <div class="dot" onclick="goToSlide(1)"></div>
-      <div class="dot" onclick="goToSlide(2)"></div>
-      <div class="dot" onclick="goToSlide(3)"></div>
+      <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
     </div>
 
     <!-- Action Bar with Counts (Post 1: Photo Gallery) -->
