@@ -2588,52 +2588,25 @@
       word-break: keep-all;
     }
 
-    /* Wreath Decline Notice Luxury Box (하객 배려형 화환 사양 강조 카드) */
-    .wreath-notice-box {
-      margin: 14px 0 20px;
-      padding: 16px 18px;
-      background: linear-gradient(135deg, #faf7f2 0%, #fdfbf7 100%);
-      border: 1px solid #ebd9c8;
-      border-left: 4px solid #c9935b;
-      border-radius: 14px;
-      text-align: center;
-      box-shadow: 0 3px 12px rgba(180, 83, 9, 0.04);
-      position: relative;
+    /* Wreath Decline Notice Pure Minimal Typography (카드 디자인 배제) */
+    .wreath-notice-text-wrap {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(0, 0, 0, 0.08);
     }
 
-    .wreath-notice-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 10px;
-      background: #fcf0e4;
-      border: 1px solid #ecc9a8;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: #9a4c12;
-      letter-spacing: 0.3px;
-      margin-bottom: 8px;
-    }
-
-    .wreath-notice-content {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .wreath-notice-title {
-      font-size: 0.84rem;
+    .wreath-notice-headline {
+      font-size: 0.82rem;
       font-weight: 700;
-      color: #2b2b2b;
+      color: #222222;
       line-height: 1.55;
-      margin: 0;
+      margin: 0 0 2px;
       word-break: keep-all;
     }
 
-    .wreath-notice-sub {
-      font-size: 0.78rem;
-      color: #786b5e;
+    .wreath-notice-footnote {
+      font-size: 0.76rem;
+      color: #888888;
       margin: 0;
       line-height: 1.4;
       word-break: keep-all;
