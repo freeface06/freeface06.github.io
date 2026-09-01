@@ -1714,7 +1714,7 @@ button {
 .post-caption-wrap .hashtags {
   color: var(--hashtag-color);
   margin-top: 10px;
-  font-size: 0.82rem;
+  font-size: 0.77rem;
   font-weight: 700;
   display: flex;
   flex-wrap: wrap;
