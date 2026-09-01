@@ -227,8 +227,8 @@
       const mapEl = document.getElementById('interactiveMap');
       if (!mapEl || !window.naver || !window.naver.maps) { showFallbackMap(); return; }
 
-      const lat = 37.53835;
-      const lng = 127.1258;
+      const lat = 37.5384438;
+      const lng = 127.1224221;
 
       try {
         naverMapInstance = new naver.maps.Map('interactiveMap', {
@@ -325,8 +325,8 @@
 
       const venueName = '라비니움';
       const encodedName = encodeURIComponent(venueName);
-      const lat = '37.53835';
-      const lng = '127.1258';
+      const lat = '37.5384438';
+      const lng = '127.1224221';
 
       // Desktop PC: Direct Web Browser Navigation in New Tab
       if (!isMobile) {
