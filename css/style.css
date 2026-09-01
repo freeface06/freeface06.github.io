@@ -2550,24 +2550,21 @@
       fill: rgba(255, 48, 64, 0.12);
     }
 
-    /* Wedding Information Zone (Contained Floating Cards) */
+    /* Wedding Information Zone (Seamless Feed Post Stream) */
     .wedding-info-zone {
-      background: #f6f7f9;
-      padding: 4px 12px 30px;
+      background: transparent;
+      padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 0;
     }
 
-    /* ==================================================== */
-    /* CLEAN WEDDING SECTION CARDS (NON-INSTAGRAM STYLE)    */
-    /* ==================================================== */
     .wedding-clean-card {
       background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 18px;
-      padding: 24px 16px 20px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      box-shadow: none;
       margin-bottom: 0;
     }
 
