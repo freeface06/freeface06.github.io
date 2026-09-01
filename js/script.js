@@ -481,21 +481,24 @@
       const startDate = '20270619T063000Z'; // 15:30 KST (UTC+9 -> 06:30Z)
       const endDate = '20270619T083000Z';   // 17:30 KST (UTC+9 -> 08:30Z)
 
+      const startMillis = new Date('2027-06-19T15:30:00+09:00').getTime();
+      const endMillis = new Date('2027-06-19T17:30:00+09:00').getTime();
+
       const googleWebUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
 
       const isAndroid = /Android/i.test(navigator.userAgent);
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
       if (typeof showToastMsg === 'function') {
-        showToastMsg('구글 캘린더로 이동합니다.');
+        showToastMsg('캘린더 일정 등록 화면으로 이동합니다.');
       }
 
       if (isAndroid) {
-        // Android: Google Calendar App Intent with automatic fallback
-        const intentUrl = `intent://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}#Intent;scheme=https;package=com.google.android.calendar;S.browser_fallback_url=${encodeURIComponent(googleWebUrl)};end`;
-        window.location.href = intentUrl;
+        // Android Native Calendar Insert Intent (Wakes up Google Calendar / Samsung Calendar App instantly)
+        const androidIntent = `intent:#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/event;S.title=${encodeURIComponent(title)};S.description=${encodeURIComponent(description)};S.eventLocation=${encodeURIComponent(location)};l.beginTime=${startMillis};l.endTime=${endMillis};S.browser_fallback_url=${encodeURIComponent(googleWebUrl)};end`;
+        window.location.href = androidIntent;
       } else if (isIOS) {
-        // iOS: Google Calendar App custom scheme with visibility guard fallback
+        // iOS: Try Google Calendar App Scheme first, then fall back to Google Calendar Web
         const iosAppUrl = `comgooglecalendar://?action=create&title=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
         const start = Date.now();
 
@@ -507,7 +510,7 @@
           if (Date.now() - start < 2500) {
             window.location.href = googleWebUrl;
           }
-        }, 1500);
+        }, 1200);
       } else {
         // PC / Others: Open Google Calendar in new tab
         window.open(googleWebUrl, '_blank', 'noopener,noreferrer');
