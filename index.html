@@ -325,7 +325,7 @@
       opacity: 0.6;
     }
 
-    /* Cinematic Natural Sunlight & Bokeh Animation */
+    /* Cinematic Natural Sunlight & Micro-Sparkle Shimmer */
     .hero-sunlight-wrap {
       position: absolute;
       inset: 0;
@@ -341,13 +341,27 @@
       height: 120%;
       background: radial-gradient(
         ellipse at 30% 25%,
-        rgba(255, 240, 205, 0.42) 0%,
-        rgba(255, 215, 160, 0.22) 30%,
-        rgba(255, 190, 130, 0.08) 55%,
+        rgba(255, 240, 205, 0.45) 0%,
+        rgba(255, 215, 160, 0.25) 30%,
+        rgba(255, 190, 130, 0.1) 55%,
         transparent 75%
       );
       mix-blend-mode: screen;
       animation: naturalSunPulse 7s ease-in-out infinite alternate;
+      will-change: opacity, transform;
+    }
+    .sun-beam-rays {
+      position: absolute;
+      top: -35%;
+      left: -25%;
+      width: 150%;
+      height: 150%;
+      background: 
+        radial-gradient(ellipse at 25% 20%, rgba(255, 248, 225, 0.35) 0%, rgba(255, 220, 160, 0.15) 35%, transparent 65%),
+        conic-gradient(from 115deg at 25% 20%, transparent 0deg, rgba(255, 252, 235, 0.12) 18deg, transparent 38deg, rgba(255, 235, 185, 0.15) 58deg, transparent 78deg);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      animation: sunbeamShift 11s ease-in-out infinite alternate;
       will-change: opacity, transform;
     }
     .sun-light-leak {
@@ -358,8 +372,8 @@
       height: 100%;
       background: radial-gradient(
         circle at 70% 30%,
-        rgba(255, 230, 190, 0.25) 0%,
-        rgba(255, 200, 150, 0.1) 40%,
+        rgba(255, 230, 190, 0.28) 0%,
+        rgba(255, 200, 150, 0.12) 40%,
         transparent 70%
       );
       mix-blend-mode: screen;
@@ -373,23 +387,28 @@
         115deg,
         transparent 35%,
         rgba(255, 248, 230, 0.08) 48%,
-        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.24) 50%,
         rgba(255, 248, 230, 0.08) 52%,
         transparent 65%
       );
       mix-blend-mode: screen;
-      animation: sunlightSweep 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: sunlightSweep 8.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
       will-change: transform;
     }
     @keyframes naturalSunPulse {
-      0% { opacity: 0.55; transform: scale(0.98); }
-      50% { opacity: 0.9; transform: scale(1.03); }
-      100% { opacity: 0.65; transform: scale(1); }
+      0% { opacity: 0.6; transform: scale(0.98); }
+      50% { opacity: 0.95; transform: scale(1.03); }
+      100% { opacity: 0.7; transform: scale(1); }
+    }
+    @keyframes sunbeamShift {
+      0% { opacity: 0.65; transform: scale(0.98) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.03) rotate(1.2deg); }
+      100% { opacity: 0.75; transform: scale(1) rotate(-0.8deg); }
     }
     @keyframes sunlightSweep {
       0% { transform: translate3d(-60%, -60%, 0) rotate(25deg); opacity: 0; }
-      15% { opacity: 0.85; }
-      35% { opacity: 0.9; }
+      15% { opacity: 0.9; }
+      35% { opacity: 0.95; }
       50% { transform: translate3d(60%, 60%, 0) rotate(25deg); opacity: 0; }
       100% { transform: translate3d(60%, 60%, 0) rotate(25deg); opacity: 0; }
     }
@@ -429,6 +448,56 @@
       filter: blur(8px);
       animation: bokehFloat1 6.5s ease-in-out infinite 3s;
     }
+
+    /* Fine Micro-Diamond Sparkle (미세하게 반짝이는 글리터) */
+    .fine-sparkle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      will-change: transform, opacity;
+    }
+    .fine-sparkle::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 6px 2px rgba(255, 245, 215, 0.95), 0 0 12px 3px rgba(255, 225, 150, 0.65);
+    }
+    .fine-sparkle::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 5px; right: 5px; bottom: 0;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+      transform: scaleY(1.5);
+      box-shadow: 0 0 8px rgba(255, 240, 200, 0.85);
+    }
+    .fine-sparkle .flare-h {
+      position: absolute;
+      top: 5px; left: 0; right: 0; bottom: 5px;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+      transform: scaleX(1.5);
+    }
+
+    @keyframes microTwinkle {
+      0%, 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+      20% { transform: translate(-50%, -50%) scale(0.35); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1); opacity: 0.95; }
+      75% { transform: translate(-50%, -50%) scale(0.55); opacity: 0.45; }
+    }
+
+    .sp-1 { top: 22%; left: 28%; animation: microTwinkle 4.2s ease-in-out infinite 0.2s; }
+    .sp-2 { top: 38%; left: 74%; animation: microTwinkle 5.1s ease-in-out infinite 1.8s; }
+    .sp-3 { top: 15%; left: 65%; animation: microTwinkle 4.6s ease-in-out infinite 2.5s; }
+    .sp-4 { top: 48%; left: 20%; animation: microTwinkle 5.8s ease-in-out infinite 3.2s; }
+    .sp-5 { top: 29%; left: 48%; animation: microTwinkle 4.0s ease-in-out infinite 1.1s; }
+    .sp-6 { top: 58%; left: 62%; animation: microTwinkle 4.9s ease-in-out infinite 0.7s; }
+    .sp-7 { top: 16%; left: 82%; animation: microTwinkle 5.4s ease-in-out infinite 2.9s; }
+    .sp-8 { top: 34%; left: 16%; animation: microTwinkle 4.5s ease-in-out infinite 2.1s; }
+
     @keyframes bokehFloat1 {
       0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.4; }
       50% { transform: translate3d(6px, -10px, 0) scale(1.12); opacity: 0.85; }
@@ -3484,14 +3553,23 @@
     <div class="wedding-hero-photo" onclick="openSinglePhotoLightbox('images/main/1762868176689.jpg', 'Wedding Photo')">
       <img src="images/main/1762868176689.jpg" alt="Wedding Main Photo">
 
-      <!-- Cinematic Ambient Sunlight & Bokeh -->
+      <!-- Cinematic Ambient Sunlight, Sunbeams & Micro-Sparkle Shimmer -->
       <div class="hero-sunlight-wrap">
         <div class="sun-ambient-glow"></div>
+        <div class="sun-beam-rays"></div>
         <div class="sun-light-leak"></div>
         <div class="sun-shimmer-sweep"></div>
         <div class="bokeh-orb bokeh-1"></div>
         <div class="bokeh-orb bokeh-2"></div>
         <div class="bokeh-orb bokeh-3"></div>
+        <div class="fine-sparkle sp-1"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-2"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-3"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-4"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-5"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-6"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-7"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-8"><div class="flare-h"></div></div>
       </div>
 
       <div class="wedding-hero-overlay-content">
