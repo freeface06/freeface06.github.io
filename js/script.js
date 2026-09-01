@@ -476,46 +476,41 @@
 
     function addWeddingToCalendar() {
       const title = '이호정 & 전다솔 결혼식';
-      const description = '라비니움 1층 리추얼홀\n이호정 & 전다솔 결혼식에 초대합니다.';
+      const description = '이호정 & 전다솔의 결혼식에 초대합니다.\n일시: 2027년 6월 19일(토) 오후 3:30\n장소: 라비니움 1층 리추얼홀 (서울특별시 송파구 천호대로 996)';
       const location = '서울특별시 송파구 천호대로 996 (라비니움 1층 리추얼홀)';
       const startDate = '20270619T063000Z'; // 15:30 KST (UTC+9 -> 06:30Z)
       const endDate = '20270619T083000Z';   // 17:30 KST (UTC+9 -> 08:30Z)
 
-      const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
-      
-      if (isApple) {
-        const icsContent = [
-          'BEGIN:VCALENDAR',
-          'VERSION:2.0',
-          'PRODID:-//Hojeong & Dasol Wedding//KO',
-          'CALSCALE:GREGORIAN',
-          'BEGIN:VEVENT',
-          `SUMMARY:${title}`,
-          `DESCRIPTION:${description}`,
-          `LOCATION:${location}`,
-          'DTSTART:20270619T153000',
-          'DTEND:20270619T173000',
-          'STATUS:CONFIRMED',
-          'END:VEVENT',
-          'END:VCALENDAR'
-        ].join('\r\n');
+      const googleWebUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
 
-        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.setAttribute('download', 'wedding_invitation_20270619.ics');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        if (typeof showToastMsg === 'function') {
-          showToastMsg('캘린더 일정 파일이 다운로드되었습니다.');
-        }
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (typeof showToastMsg === 'function') {
+        showToastMsg('구글 캘린더로 이동합니다.');
+      }
+
+      if (isAndroid) {
+        // Android: Google Calendar App Intent with automatic fallback
+        const intentUrl = `intent://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}#Intent;scheme=https;package=com.google.android.calendar;S.browser_fallback_url=${encodeURIComponent(googleWebUrl)};end`;
+        window.location.href = intentUrl;
+      } else if (isIOS) {
+        // iOS: Google Calendar App custom scheme with visibility guard fallback
+        const iosAppUrl = `comgooglecalendar://?action=create&title=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+        const start = Date.now();
+
+        window.location.href = iosAppUrl;
+
+        setTimeout(() => {
+          // If app was not opened (page remains visible)
+          if (document.hidden || document.webkitHidden) return;
+          if (Date.now() - start < 2500) {
+            window.location.href = googleWebUrl;
+          }
+        }, 1500);
       } else {
-        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
-        window.open(googleUrl, '_blank', 'noopener,noreferrer');
-        if (typeof showToastMsg === 'function') {
-          showToastMsg('캘린더 일정 등록 화면으로 이동합니다.');
-        }
+        // PC / Others: Open Google Calendar in new tab
+        window.open(googleWebUrl, '_blank', 'noopener,noreferrer');
       }
     }
 
