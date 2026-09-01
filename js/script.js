@@ -1687,7 +1687,7 @@
     /* DYNAMIC GALLERY & STORY AUTO-SCAN ENGINE             */
     /* ==================================================== */
     let galleryMediaList = [
-      'images/gallery/01_2026_03_30 13_49 (2).mp4',
+      'images/gallery/01_2026_03_30 13_49.mp4',
       'images/gallery/02_1762868144152.jpg',
       'images/gallery/03_1762868146681.jpg',
       'images/gallery/04_1762868148857.jpg',
