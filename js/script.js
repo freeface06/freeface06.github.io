@@ -276,7 +276,7 @@
           <div style="position:absolute;bottom:10px;left:12px;right:12px;background:rgba(255,255,255,0.96);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
             <div style="display:flex;align-items:center;gap:6px;">
               <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#03C75A;"></span>
-              <span style="font-size:0.75rem;font-weight:700;color:#111;">천호역 10번 출구 바로 앞 (도보 10초)</span>
+              <span style="font-size:0.75rem;font-weight:700;color:#4A2810;">천호역 10번 출구 바로 앞 (도보 10초)</span>
             </div>
             <span style="font-size:0.74rem;font-weight:700;color:#0095f6;">네이버 지도 열기 &gt;</span>
           </div>
@@ -1617,8 +1617,8 @@
       mapEl.innerHTML = `
         <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#f8f9fa;">
           <img src="images/story_location.jpg" alt="라비니움" style="width:100%;max-width:320px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:14px;object-fit:cover;">
-          <div style="font-size:0.95rem;font-weight:700;color:#111;margin-bottom:4px;">천호 라비니움 1층 리추얼홀</div>
-          <div style="font-size:0.8rem;color:#666;margin-bottom:12px;">서울특별시 송파구 천호대로 996 (풍납동 473-1)</div>
+          <div style="font-size:0.95rem;font-weight:700;color:#4A2810;margin-bottom:4px;">천호 라비니움 1층 리추얼홀</div>
+          <div style="font-size:0.8rem;color:#7B6858;margin-bottom:12px;">서울특별시 송파구 천호대로 996 (풍납동 473-1)</div>
           <div style="font-size:0.78rem;color:#0095f6;font-weight:600;">하단 내비게이션 버튼을 누르시면 길찾기 앱으로 바로 연결됩니다.</div>
         </div>
       `;

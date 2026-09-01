@@ -2993,7 +2993,7 @@ button {
   justify-content: space-between;
   font-size: 0.8rem;
   font-weight: 700;
-  color: #333333;
+  color: var(--title-color);
   margin-bottom: 6px;
 }
 
@@ -3269,9 +3269,16 @@ button {
 }
 
 .bank-tab-btn.active {
-  color: var(--text-main);
+  color: var(--title-color);
   font-weight: 800;
-  border-bottom-color: var(--gold-primary);
+  border-bottom-color: var(--title-color);
+}
+
+.bank-acc-num {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--title-color);
+  letter-spacing: -0.01em;
 }
 
 .bank-tab-panel {
@@ -4440,7 +4447,7 @@ body.modal-open {
 
 .ig-bio-desc {
   margin-top: 5px;
-  color: #333333;
+  color: var(--text);
   font-size: 0.82rem;
 }
 
@@ -4450,8 +4457,8 @@ body.modal-open {
   justify-content: center;
   gap: 6px;
   padding: 6px 0;
-  border-bottom: 2px solid #111111;
-  color: #111111;
+  border-bottom: 2px solid var(--title-color);
+  color: var(--title-color);
   font-size: 0.82rem;
   font-weight: 700;
   flex-shrink: 0;
@@ -4798,7 +4805,7 @@ body.modal-open {
 
 .profile-detail-quote {
   font-size: 0.84rem;
-  color: #333333;
+  color: var(--text);
   line-height: 1.45;
   margin: 4px 0 6px;
   word-break: keep-all;
@@ -4826,12 +4833,12 @@ body.modal-open {
 
 .profile-action-btn.tel {
   background: #f0f0f0;
-  color: #111111;
+  color: var(--text-main);
   border: 1px solid #e5e5e5;
 }
 
 .profile-action-btn.sms {
-  background: #111111;
+  background: var(--title-color);
   color: #ffffff;
 }
 
