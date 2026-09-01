@@ -613,11 +613,11 @@
     /* Floating BGM Toggle Button (Appears when Main Photo is scrolled away) */
     .floating-bgm-btn {
       position: fixed;
-      bottom: calc(58px + env(safe-area-inset-bottom, 12px));
-      right: 18px;
-      width: 44px;
-      height: 44px;
-      background: rgba(24, 24, 24, 0.88);
+      bottom: calc(74px + env(safe-area-inset-bottom, 12px));
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      background: rgba(22, 22, 22, 0.88);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.18);
@@ -627,10 +627,10 @@
       justify-content: center;
       z-index: 990;
       cursor: pointer;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.1);
       opacity: 0;
       pointer-events: none;
-      transform: translateY(14px) scale(0.88);
+      transform: translateY(12px) scale(0.88);
       transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
     }
     .floating-bgm-btn.visible {
@@ -639,26 +639,26 @@
       transform: translateY(0) scale(1);
     }
     .floating-bgm-btn:active {
-      transform: scale(0.9);
+      transform: scale(0.88);
     }
     .floating-bgm-btn.playing {
-      background: rgba(20, 20, 20, 0.95);
+      background: rgba(18, 18, 18, 0.95);
       border-color: rgba(255, 48, 64, 0.45);
       animation: floatingAudioPulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
     }
     @keyframes floatingAudioPulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0.5), 0 4px 18px rgba(0,0,0,0.28); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 48, 64, 0), 0 4px 18px rgba(0,0,0,0.28); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0), 0 4px 18px rgba(0,0,0,0.28); }
+      0% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0.5), 0 4px 16px rgba(0,0,0,0.25); }
+      70% { box-shadow: 0 0 0 9px rgba(255, 48, 64, 0), 0 4px 16px rgba(0,0,0,0.25); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0), 0 4px 16px rgba(0,0,0,0.25); }
     }
     .floating-bgm-btn svg {
-      width: 20px;
-      height: 20px;
+      width: 17px;
+      height: 17px;
       display: block;
     }
     @media (min-width: 501px) {
       .floating-bgm-btn {
-        right: calc(50% - 240px + 18px);
+        right: calc(50% - 240px + 16px);
       }
     }
 
