@@ -2144,7 +2144,7 @@
     .loc-transit-container {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 22px;
     }
 
     .transit-item {
@@ -2158,9 +2158,7 @@
     }
 
     .transit-item-divider {
-      height: 1px;
-      background: #edf0f2;
-      margin: 18px 0;
+      display: none;
     }
 
     .transit-icon-col {
