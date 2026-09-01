@@ -794,24 +794,25 @@
     }
     .loc-tab-btn {
       flex: 1;
-      padding: 12px 4px;
-      font-size: clamp(0.76rem, 2.5vw, 0.84rem);
-      font-weight: 600;
-      color: #8e8e8e;
+      padding: 13px 2px;
+      font-size: clamp(0.88rem, 2.9vw, 0.98rem);
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: #767676;
       text-align: center;
       border-radius: 0;
       background: transparent;
       border: none;
-      border-bottom: 2px solid transparent;
+      border-bottom: 2.5px solid transparent;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
     }
     .loc-tab-btn.active {
       background: transparent;
-      color: #111111;
+      color: #000000;
       font-weight: 800;
-      border-bottom: 2px solid #111111;
+      border-bottom: 2.5px solid #000000;
       box-shadow: none;
     }
     .loc-tab-pane {
@@ -1586,11 +1587,12 @@
     }
     .bank-tab-header { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 14px; position: relative; }
     .bank-tab-btn {
-      flex: 1; text-align: center; padding: 11px; font-weight: 600; font-size: 0.92rem;
-      color: var(--text-dim); border-bottom: 2px solid transparent; cursor: pointer;
+      flex: 1; text-align: center; padding: 12px; font-weight: 700; font-size: 0.96rem;
+      letter-spacing: -0.3px;
+      color: #767676; border-bottom: 2.5px solid transparent; cursor: pointer;
       transition: color 0.25s ease, border-color 0.25s ease;
     }
-    .bank-tab-btn.active { color: var(--text-main); border-bottom-color: var(--text-main); }
+    .bank-tab-btn.active { color: #000000; font-weight: 800; border-bottom-color: #000000; }
     .bank-tab-panel {
       animation: tabFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
