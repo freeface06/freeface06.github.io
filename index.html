@@ -610,6 +610,53 @@
       display: block;
     }
 
+    /* Floating BGM Toggle Button (Appears when Main Photo is scrolled away) */
+    .floating-bgm-btn {
+      position: fixed;
+      bottom: calc(58px + env(safe-area-inset-bottom, 12px));
+      right: 18px;
+      width: 44px;
+      height: 44px;
+      background: rgba(24, 24, 24, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 990;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px) scale(0.88);
+      transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
+    }
+    .floating-bgm-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+    .floating-bgm-btn:active {
+      transform: scale(0.9);
+    }
+    .floating-bgm-btn.playing {
+      background: rgba(20, 20, 20, 0.95);
+      border-color: rgba(255, 48, 64, 0.45);
+      animation: floatingAudioPulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    @keyframes floatingAudioPulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0.5), 0 4px 18px rgba(0,0,0,0.28); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 48, 64, 0), 0 4px 18px rgba(0,0,0,0.28); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0), 0 4px 18px rgba(0,0,0,0.28); }
+    }
+    .floating-bgm-btn svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+
     /* Fullscreen Photo Lightbox Modal (Swipe + Zoom & Pan) */
     #photo-lightbox {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -4419,6 +4466,15 @@
     </section>
   </div>
 
+  <!-- Floating BGM Toggle Button (Appears when Main Photo is scrolled away) -->
+  <div class="floating-bgm-btn tap-spring" id="floatingBgmBtn" onclick="toggleBGM()" title="음악 재생/음소거">
+    <svg viewBox="0 0 24 24" id="floatingAudioIcon" width="20" height="20">
+      <path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/>
+      <line x1="22" y1="9" x2="16" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="16" y1="9" x2="22" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+  </div>
+
   <!-- ==================================================== -->
   <!-- REAL INSTAGRAM LIGHT THEME BOTTOM NAVIGATION BAR      -->
   <!-- ==================================================== -->
@@ -6587,21 +6643,17 @@
       if (playPromise !== undefined) {
         playPromise.then(() => {
           isPlaying = true;
-          if (audioBtn) audioBtn.classList.add('playing');
-          if (audioIcon) {
-            audioIcon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
-          }
+          updateAudioUI(true);
         }).catch(err => {
           console.log('Autoplay waiting for user gesture:', err);
           isPlaying = false;
+          updateAudioUI(false);
         });
       }
     }
 
     function pauseBGM() {
       const audio = document.getElementById('bgm-audio');
-      const audioBtn = document.getElementById('audioToggleBtn');
-      const audioIcon = document.getElementById('audioIcon');
       if (audio) {
         audio.pause();
       }
@@ -6613,10 +6665,7 @@
         audioCtx.suspend();
       }
       isPlaying = false;
-      if (audioBtn) audioBtn.classList.remove('playing');
-      if (audioIcon) {
-        audioIcon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><line x1="22" y1="9" x2="16" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="9" x2="22" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
-      }
+      updateAudioUI(false);
     }
 
     function toggleBGM() {
@@ -6627,6 +6676,58 @@
       } else {
         userMutedExplicitly = false;
         playBGM();
+      }
+    }
+
+    function updateAudioUI(playing) {
+      const mainBtn = document.getElementById('audioToggleBtn');
+      const floatBtn = document.getElementById('floatingBgmBtn');
+      const mainIcon = document.getElementById('audioIcon');
+      const floatIcon = document.getElementById('floatingAudioIcon');
+
+      const playingSVG = '<path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
+      const mutedSVG = '<path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><line x1="22" y1="9" x2="16" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="9" x2="22" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
+
+      if (playing) {
+        if (mainBtn) mainBtn.classList.add('playing');
+        if (floatBtn) floatBtn.classList.add('playing');
+        if (mainIcon) mainIcon.innerHTML = playingSVG;
+        if (floatIcon) floatIcon.innerHTML = playingSVG;
+      } else {
+        if (mainBtn) mainBtn.classList.remove('playing');
+        if (floatBtn) floatBtn.classList.remove('playing');
+        if (mainIcon) mainIcon.innerHTML = mutedSVG;
+        if (floatIcon) floatIcon.innerHTML = mutedSVG;
+      }
+    }
+
+    function initFloatingBGMObserver() {
+      const heroPhoto = document.querySelector('.wedding-hero-photo');
+      const floatingBtn = document.getElementById('floatingBgmBtn');
+      if (!heroPhoto || !floatingBtn) return;
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+              floatingBtn.classList.add('visible');
+            } else {
+              floatingBtn.classList.remove('visible');
+            }
+          });
+        }, { threshold: 0.15 });
+        observer.observe(heroPhoto);
+      } else {
+        const onScroll = () => {
+          const rect = heroPhoto.getBoundingClientRect();
+          if (rect.bottom < 80) {
+            floatingBtn.classList.add('visible');
+          } else {
+            floatingBtn.classList.remove('visible');
+          }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
       }
     }
 
@@ -6647,13 +6748,7 @@
           if (p !== undefined) {
             p.then(() => {
               isPlaying = true;
-              const audioBtn = document.getElementById('audioToggleBtn');
-              const audioIcon = document.getElementById('audioIcon');
-              if (audioBtn) audioBtn.classList.add('playing');
-              if (audioIcon) {
-                audioIcon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
-              }
-              // Unbind only when audio is confirmed playing
+              updateAudioUI(true);
               gestureEvents.forEach(evt => {
                 document.removeEventListener(evt, onFirstGesture, true);
                 window.removeEventListener(evt, onFirstGesture, true);
@@ -7075,6 +7170,7 @@
         initCarouselInstance(wrapper);
       });
       autoScanGalleryFolder();
+      initFloatingBGMObserver();
     });
 
     /* Handle Click vs Double Tap on Photos */
