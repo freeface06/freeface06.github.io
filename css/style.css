@@ -2220,9 +2220,9 @@ button {
   gap: 4px;
   font-size: 0.76rem;
   font-weight: 700;
-  color: #1a6ed8;
-  background: #ebf3ff;
-  border: 1px solid rgba(26, 110, 216, 0.2);
+  color: var(--title-color);
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
   padding: 3px 8px;
   border-radius: 6px;
   letter-spacing: -0.2px;
@@ -2234,9 +2234,9 @@ button {
   gap: 4px;
   font-size: 0.76rem;
   font-weight: 700;
-  color: #0b7a3d;
-  background: #e6f7ee;
-  border: 1px solid rgba(11, 122, 61, 0.25);
+  color: var(--hashtag-color);
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
   padding: 3px 8px;
   border-radius: 6px;
   letter-spacing: -0.2px;
@@ -2268,10 +2268,10 @@ button {
   justify-content: center;
   gap: 5px;
   padding: 7px 12px;
-  background: #ffffff;
-  border: 1px solid #dbdbdb;
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
   border-radius: 8px;
-  color: var(--text-main);
+  color: var(--title-color);
   font-size: 0.76rem;
   font-weight: 600;
   cursor: pointer;
@@ -2282,7 +2282,7 @@ button {
 
 .loc-copy-chip:active {
   transform: scale(0.95);
-  background: #f0f0f0;
+  background: var(--card-bg);
 }
 
 .loc-address-actions {
@@ -2298,26 +2298,25 @@ button {
   justify-content: center;
   gap: 6px;
   padding: 10px 14px;
-  background: #ffffff;
-  border: 1px solid #dbdbdb;
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
   border-radius: 10px;
-  color: var(--text);
+  color: var(--title-color);
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   letter-spacing: -0.2px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
 .loc-action-chip:hover {
-  background: #f8f9fa;
-  border-color: #c8c8c8;
+  background: var(--card-bg);
+  border-color: var(--border-gold);
 }
 
 .loc-action-chip:active {
   transform: scale(0.97);
-  background: #f0f0f0;
+  background: var(--surface);
 }
 
 .loc-action-chip svg {
@@ -2444,26 +2443,17 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.transit-icon-badge.subway {
-  background: rgba(139, 80, 164, 0.12);
-  color: #8B50A4;
-}
-
-.transit-icon-badge.bus {
-  background: rgba(0, 149, 246, 0.12);
-  color: #0095f6;
-}
-
-.transit-icon-badge.parking {
-  background: rgba(74, 40, 16, 0.1);
+  background: var(--surface);
   color: var(--title-color);
+  border: 1px solid var(--border-gold);
 }
 
+.transit-icon-badge.subway,
+.transit-icon-badge.bus,
+.transit-icon-badge.parking,
 .transit-icon-badge.car {
-  background: rgba(230, 104, 60, 0.12);
-  color: #e6683c;
+  background: var(--surface);
+  color: var(--title-color);
 }
 
 .transit-content {
@@ -2500,11 +2490,11 @@ button {
 }
 
 .subway-pill.line-5 {
-  background: #8B50A4;
+  background: #75527D;
 }
 
 .subway-pill.line-8 {
-  background: #E61E8C;
+  background: #8F3F62;
 }
 
 .station-code {
@@ -2547,47 +2537,38 @@ button {
 .parking-tag {
   font-size: 0.72rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--title-color);
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
   padding: 2px 7px;
   border-radius: 4px;
   flex-shrink: 0;
   letter-spacing: -0.2px;
 }
 
-.bus-tag.blue {
-  background: #2b78e4;
-}
-
-.bus-tag.green {
-  background: #3ab54a;
-}
-
-.bus-tag.red {
-  background: #e03b3b;
-}
-
-.bus-tag.navy {
-  background: #2c3e50;
-}
-
-.bus-tag.sky {
-  background: #00a0dc;
-}
-
+.bus-tag.blue,
+.bus-tag.green,
+.bus-tag.red,
+.bus-tag.navy,
+.bus-tag.sky,
 .bus-tag.orange,
+.bus-tag.purple {
+  color: var(--title-color);
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+}
+
 .parking-tag.rec {
-  background: #e6683c;
-  color: #fff;
+  color: var(--hashtag-color);
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
 }
 
-.parking-tag.walk {
-  background: #0095f6;
-  color: #fff;
-}
-
+.parking-tag.walk,
 .parking-tag.shuttle {
-  background: #8B50A4;
-  color: #fff;
+  color: var(--title-color);
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
 }
 
 .bus-num-text,
@@ -2629,8 +2610,9 @@ button {
 .parking-addr-label {
   font-size: 0.72rem;
   font-weight: 700;
-  color: #ffffff;
-  background: #2b78e4;
+  color: var(--title-color);
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
   padding: 2px 7px;
   border-radius: 4px;
   flex-shrink: 0;
