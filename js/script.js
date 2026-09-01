@@ -1,4 +1,25 @@
 /* ==================================================== */
+    /* KAKAO JAVASCRIPT SDK & SHARE CONFIGURATION          */
+    /* ==================================================== */
+    const KAKAO_JAVASCRIPT_KEY = '4ebb148f84b8b983a0a27ceaf5f6c60b';
+
+    function initKakaoSDK() {
+      if (typeof window.Kakao !== 'undefined' && KAKAO_JAVASCRIPT_KEY) {
+        if (!window.Kakao.isInitialized()) {
+          try {
+            window.Kakao.init(KAKAO_JAVASCRIPT_KEY);
+            console.log('[Kakao] SDK initialized successfully:', window.Kakao.isInitialized());
+          } catch (e) {
+            console.log('[Kakao] SDK init error:', e);
+          }
+        }
+      }
+    }
+
+    // Try initializing immediately if SDK script is ready
+    initKakaoSDK();
+
+    /* ==================================================== */
     /* GOOGLE SPREADSHEET (APPS SCRIPT) API CONFIGURATION   */
     /* ==================================================== */
     const GOOGLE_SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby6DENoj4doh7phAp0UpNcB7YQE5JSZmdS1zGfLj0fT9PhNnx-xXzic1j6_QI5JQnY/exec';
@@ -94,6 +115,7 @@
     /* INTERSECTION OBSERVER SCROLL REVEAL ENGINE           */
     /* ==================================================== */
     document.addEventListener('DOMContentLoaded', () => {
+      initKakaoSDK();
       initAutoBGM();
       updateCountdownTimer();
       tryInitMap();
@@ -951,12 +973,15 @@
     /* INVITATION SHARE ENGINE (카카오톡 공유 & 링크 복사)     */
     /* ==================================================== */
     function shareKakaoTalk() {
+      initKakaoSDK();
+
       const shareTitle = '이호정 & 전다솔 결혼합니다';
       const shareDesc = '2027년 6월 19일 토요일 오후 3시 30분 라비니움 1층 리추얼홀';
       const shareUrl = window.location.href.split('#')[0];
-      const shareImg = window.location.origin + '/images/main/1762868176689.jpg';
+      const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+      const shareImg = window.location.origin + basePath + 'images/main/1762868176689.jpg';
 
-      // 1. If Kakao JS SDK is available and initialized with an AppKey
+      // 1. Kakao JS SDK Official Card Share (카카오톡 전용 피드 카드 메시지)
       if (window.Kakao && window.Kakao.isInitialized && window.Kakao.isInitialized()) {
         try {
           window.Kakao.Share.sendDefault({
