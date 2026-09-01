@@ -1015,14 +1015,17 @@ button {
   max-width: 6px;
   max-height: 6px;
   border-radius: 50%;
-  background: #dbdbdb;
-  transition: background-color 0.2s ease;
+  background: var(--border-gold);
+  opacity: 0.7;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   flex-shrink: 0;
 }
 
 .carousel-dots .dot.active {
-  background: var(--ig-blue);
+  background: var(--hashtag-color);
+  opacity: 1;
+  transform: scale(1.25);
 }
 
 .media-page-badge {
