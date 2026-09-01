@@ -1687,21 +1687,21 @@
     /* DYNAMIC GALLERY & STORY AUTO-SCAN ENGINE             */
     /* ==================================================== */
     let galleryMediaList = [
-      'images/gallery/2026_08_19 13_15.mp4',
-      'images/gallery/1762868142274.jpg',
-      'images/gallery/1762868144152.jpg',
-      'images/gallery/2026_03_30 13_49.mp4',
-      'images/gallery/1762868146681.jpg',
-      'images/gallery/1762868148857.jpg',
-      'images/gallery/2026_03_30 13_49 (2).mp4',
-      'images/gallery/1762868149684.jpg',
-      'images/gallery/1762868150411.jpg',
-      'images/gallery/1762868168703.jpg',
-      'images/gallery/1762868168978.jpg',
-      'images/gallery/1762868174450.jpg',
-      'images/gallery/1762868174682.jpg',
-      'images/gallery/1762868177891.jpg',
-      'images/gallery/1762868180166.jpg'
+      'images/gallery/01_2026_03_30 13_49 (2).mp4',
+      'images/gallery/02_1762868144152.jpg',
+      'images/gallery/03_1762868146681.jpg',
+      'images/gallery/04_1762868148857.jpg',
+      'images/gallery/05_1762868180166.jpg',
+      'images/gallery/06_2026_08_19 13_15.mp4',
+      'images/gallery/07_1762868142274.jpg',
+      'images/gallery/08_2026_03_30 13_49.mp4',
+      'images/gallery/09_1762868149684.jpg',
+      'images/gallery/10_1762868150411.jpg',
+      'images/gallery/11_1762868168703.jpg',
+      'images/gallery/12_1762868168978.jpg',
+      'images/gallery/13_1762868174450.jpg',
+      'images/gallery/14_1762868174682.jpg',
+      'images/gallery/15_1762868177891.jpg'
     ];
     let postPhotos = galleryMediaList;
     let gridPhotos = galleryMediaList;
@@ -1733,10 +1733,11 @@
       if (track) {
         track.innerHTML = mediaList.map((src, idx) => {
           const isVid = isVideoMedia(src);
+          const encodedSrc = encodeURI(src);
           if (isVid) {
             return `
               <div class="carousel-slide" onclick="handleSlideClick(${idx}, this, event)">
-                <video src="${src}" autoplay muted loop playsinline preload="auto" class="feed-video-element"></video>
+                <video src="${encodedSrc}" autoplay muted loop playsinline preload="auto" class="feed-video-element"></video>
                 <div class="video-media-badge">
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                 </div>
@@ -1746,7 +1747,7 @@
           } else {
             return `
               <div class="carousel-slide" onclick="handleSlideClick(${idx}, this, event)">
-                <img src="${src}" alt="Wedding Media ${idx + 1}" loading="lazy">
+                <img src="${encodedSrc}" alt="Wedding Media ${idx + 1}" loading="lazy">
                 <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </div>
             `;
@@ -1773,10 +1774,11 @@
       if (grid) {
         grid.innerHTML = mediaList.map((src, idx) => {
           const isVid = isVideoMedia(src);
+          const encodedSrc = encodeURI(src);
           if (isVid) {
             return `
               <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
-                <video src="${src}" autoplay muted loop playsinline preload="metadata"></video>
+                <video src="${encodedSrc}" autoplay muted loop playsinline preload="metadata"></video>
                 <div class="ig-grid-badge">
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                 </div>
@@ -1785,7 +1787,7 @@
           } else {
             return `
               <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
-                <img src="${src}" alt="Wedding Media ${idx + 1}" loading="lazy">
+                <img src="${encodedSrc}" alt="Wedding Media ${idx + 1}" loading="lazy">
               </div>
             `;
           }
@@ -1816,7 +1818,8 @@
                 return lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.png') ||
                   lower.endsWith('.webp') || lower.endsWith('.gif') || lower.endsWith('.mp4') ||
                   lower.endsWith('.webm') || lower.endsWith('.mov');
-              });
+              })
+              .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
 
             if (validMediaFiles.length > 0) {
               renderDynamicGallery(validMediaFiles);
@@ -1877,6 +1880,7 @@
     function updateStory() {
       const currentSrc = stories[currentStory] || '';
       const isVid = isVideoMedia(currentSrc);
+      const encodedSrc = encodeURI(currentSrc);
       const imgEl = document.getElementById('story-img');
       const videoEl = document.getElementById('story-video');
 
@@ -1889,14 +1893,14 @@
         if (imgEl) imgEl.style.display = 'none';
         if (videoEl) {
           videoEl.style.display = 'block';
-          videoEl.src = currentSrc;
+          videoEl.src = encodedSrc;
           videoEl.play().catch(() => { });
         }
       } else {
         if (videoEl) videoEl.style.display = 'none';
         if (imgEl) {
           imgEl.style.display = 'block';
-          imgEl.src = currentSrc;
+          imgEl.src = encodedSrc;
         }
       }
 
@@ -2217,7 +2221,8 @@
       const counter = document.getElementById('lightboxCounter');
       const dotsContainer = document.getElementById('lightboxDots');
       const currentSrc = gridPhotos[currentLightboxIdx] || '';
-      const isVideo = currentSrc.toLowerCase().endsWith('.mp4');
+      const isVideo = isVideoMedia(currentSrc);
+      const encodedSrc = encodeURI(currentSrc);
 
       if (video) {
         video.pause();
@@ -2229,7 +2234,7 @@
           if (img) img.style.display = 'none';
           if (video) {
             video.style.display = 'block';
-            video.src = currentSrc;
+            video.src = encodedSrc;
             video.play().catch(() => { });
           }
         } else {
@@ -2238,7 +2243,7 @@
           }
           if (img) {
             img.style.display = 'block';
-            img.src = currentSrc;
+            img.src = encodedSrc;
             img.style.opacity = '1';
           }
         }
