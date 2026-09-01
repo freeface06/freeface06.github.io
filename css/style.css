@@ -3141,9 +3141,9 @@ button {
 /* Submit Button */
 .rsvp-submit-btn {
   width: 100%;
-  background: linear-gradient(135deg, #ECCB85 0%, #D4AF37 50%, #B88E28 100%);
-  color: #1D1712;
-  font-weight: 800;
+  background: #1D1712;
+  color: #ffffff;
+  font-weight: 700;
   padding: 13px 14px;
   border-radius: 10px;
   font-size: 0.94rem;
@@ -3152,15 +3152,15 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   margin-top: 6px;
   border: none;
-  transition: transform 0.15s, filter 0.2s;
+  transition: transform 0.15s, background-color 0.2s;
 }
 
 .rsvp-submit-btn:active {
   transform: scale(0.97);
-  filter: brightness(0.95);
+  background: #333333;
 }
 
 /* Polite Non-Attendance Card */
