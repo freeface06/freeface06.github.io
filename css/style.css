@@ -912,8 +912,8 @@
     .post-carousel-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 1/1;
-      background: #f0f0f0;
+      aspect-ratio: 4 / 5;
+      background: #000000;
       overflow: hidden;
       touch-action: pan-y;
       user-select: none;
@@ -1230,6 +1230,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center 20%;
       display: block;
       background: #000;
     }
@@ -4152,7 +4153,7 @@
 
     .ig-grid-cell {
       position: relative;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 3 / 4;
       background: #f4f4f4;
       overflow: hidden;
       cursor: pointer;
@@ -4163,6 +4164,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center 20%;
       transition: transform 0.22s var(--smooth-ease), filter 0.2s;
     }
 
@@ -4394,7 +4396,7 @@
     .profile-detail-photo-wrap {
       position: relative;
       width: 100%;
-      height: 190px;
+      aspect-ratio: 4 / 4.2;
       background: #222222;
       overflow: hidden;
     }
@@ -4403,7 +4405,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 25%;
+      object-position: center 18%;
+    }
+
+    #profile-card-groom .profile-detail-img {
+      object-position: center 15%;
+    }
+
+    #profile-card-bride .profile-detail-img {
+      object-position: center 20%;
     }
 
     .profile-role-tag {
