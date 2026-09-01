@@ -78,9 +78,9 @@ body {
   -webkit-tap-highlight-color: transparent !important;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   body {
-    max-width: 480px;
+    max-width: 500px;
     box-shadow: 0 0 50px rgba(184, 150, 80, 0.18), 0 0 25px rgba(0, 0, 0, 0.08);
     border-left: 1px solid rgba(214, 189, 138, 0.35);
     border-right: 1px solid rgba(214, 189, 138, 0.35);
@@ -166,9 +166,9 @@ button {
   will-change: transform;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .top-nav {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.35);
     border-right: 1px solid rgba(214, 189, 138, 0.35);
   }
@@ -1131,9 +1131,9 @@ button {
   pointer-events: none;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .floating-bgm-btn {
-    right: calc(50% - 240px + 14px);
+    right: calc(50% - 250px + 14px);
     left: auto;
   }
 }
@@ -3779,9 +3779,9 @@ body.modal-open {
   overscroll-behavior: contain;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .comments-sheet {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -3874,9 +3874,9 @@ body.modal-open {
   overscroll-behavior: contain;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .tmi-sheet {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -4171,9 +4171,9 @@ body.modal-open {
   overscroll-behavior: contain;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .activity-sheet {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -4342,9 +4342,9 @@ body.modal-open {
   overscroll-behavior: contain;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .grid-gallery-sheet {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -4555,9 +4555,9 @@ body.modal-open {
   overscroll-behavior: contain;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .rough-map-sheet {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -4689,9 +4689,9 @@ body.modal-open {
   overscroll-behavior: contain;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .profile-sheet {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -4923,9 +4923,9 @@ body.modal-open .ig-bottom-footer,
   pointer-events: none;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .ig-bottom-footer {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.35);
     border-right: 1px solid rgba(214, 189, 138, 0.35);
   }
@@ -5314,9 +5314,9 @@ body.modal-open .ig-bottom-footer,
   overflow: hidden;
 }
 
-@media (min-width: 501px) {
+@media (min-width: 900px) {
   .large-map-sheet {
-    max-width: 480px;
+    max-width: 500px;
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
     height: 85vh;
