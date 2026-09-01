@@ -212,7 +212,7 @@ button {
   width: 14px;
   height: 14px;
   fill: none;
-  stroke: #000000;
+  stroke: var(--title-color);
   stroke-width: 2.6;
   margin-top: 2px;
 }
@@ -242,13 +242,14 @@ button {
 }
 
 .top-nav-icon {
-  stroke: var(--text-main);
+  stroke: var(--title-color);
   fill: none;
   width: 24px;
   height: 24px;
   stroke-width: 2.2;
   cursor: pointer;
-  transition: transform 0.2s var(--spring-ease);
+  color: var(--title-color);
+  transition: transform 0.18s var(--spring-ease), stroke 0.18s ease;
 }
 
 .top-nav-icon:active {
@@ -429,8 +430,8 @@ button {
 
 .post-header-more {
   margin-left: auto;
-  stroke: var(--text-main);
-  fill: none;
+  stroke: var(--title-color);
+  fill: var(--title-color);
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -1372,7 +1373,7 @@ button {
   width: clamp(20px, 5.5vw, 24px);
   height: clamp(20px, 5.5vw, 24px);
   fill: none;
-  stroke: var(--text-main);
+  stroke: var(--title-color);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -2285,7 +2286,7 @@ button {
 
 .loc-action-chip svg {
   flex-shrink: 0;
-  color: #444444;
+  color: var(--title-color);
 }
 
 .loc-rough-map-btn {
@@ -4952,7 +4953,7 @@ body.modal-open .ig-bottom-footer,
   width: 24px;
   height: 24px;
   fill: none;
-  stroke: #1a1a1a;
+  stroke: var(--text-dim);
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -4960,13 +4961,17 @@ body.modal-open .ig-bottom-footer,
 }
 
 .footer-nav-item .ig-flash-dot {
-  fill: #1a1a1a;
+  fill: var(--text-dim);
   stroke: none;
 }
 
 .footer-nav-item.active svg {
-  stroke: #000000;
-  stroke-width: 2.1;
+  stroke: var(--title-color);
+  stroke-width: 2.2;
+}
+
+.footer-nav-item.active .ig-flash-dot {
+  fill: var(--title-color);
 }
 
 .footer-badge-dot {
@@ -5001,14 +5006,14 @@ body.modal-open .ig-bottom-footer,
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border: 1.6px solid #1a1a1a;
+  border: 1.6px solid var(--text-dim);
   object-fit: cover;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s var(--spring-ease), border-color 0.2s ease;
 }
 
 .footer-nav-item.active .footer-avatar-icon {
-  border: 2px solid #000000;
+  border: 2px solid var(--title-color);
 }
 
 /* Fullscreen Story Viewer Modal with Ken Burns Effect */
