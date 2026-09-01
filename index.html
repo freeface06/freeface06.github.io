@@ -2788,6 +2788,107 @@
     .story-tap-left { left: 0; }
     .story-tap-right { right: 0; }
 
+    /* Custom Alert / Confirm Modal (Replaces Native alert/confirm) */
+    .custom-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 99999990;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .custom-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .custom-modal-box {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 300px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      transform: scale(0.9) translateY(10px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .custom-modal-overlay.show .custom-modal-box {
+      transform: scale(1) translateY(0);
+    }
+    .custom-modal-body {
+      padding: 28px 24px 20px;
+      text-align: center;
+    }
+    .custom-modal-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .custom-modal-icon.info {
+      background: rgba(0, 149, 246, 0.1);
+      color: #0095f6;
+    }
+    .custom-modal-icon.warn {
+      background: rgba(255, 59, 48, 0.1);
+      color: #ff3b30;
+    }
+    .custom-modal-icon.success {
+      background: rgba(3, 199, 90, 0.1);
+      color: #03C75A;
+    }
+    .custom-modal-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #000000;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .custom-modal-msg {
+      font-size: 0.88rem;
+      color: #444444;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+    .custom-modal-actions {
+      display: flex;
+      border-top: 1px solid #e5e5e5;
+    }
+    .custom-modal-btn {
+      flex: 1;
+      padding: 15px 8px;
+      font-size: 0.94rem;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: inherit;
+    }
+    .custom-modal-btn:active {
+      background: #f0f0f0;
+    }
+    .custom-modal-btn.cancel {
+      color: #666666;
+      border-right: 1px solid #e5e5e5;
+    }
+    .custom-modal-btn.ok {
+      color: #0095f6;
+      font-weight: 700;
+    }
+    .custom-modal-btn.ok.danger {
+      color: #ff3b30;
+    }
+
     /* Toast Notification */
     #toast {
       position: fixed; bottom: 72px; left: 50%; transform: translateX(-50%) translateY(20px);
@@ -3752,6 +3853,22 @@
 
   <!-- Toast -->
   <div id="toast">복사되었습니다.</div>
+
+  <!-- Custom Alert / Confirm Modal -->
+  <div class="custom-modal-overlay" id="customModalOverlay" onclick="handleModalOverlayClick(event)">
+    <div class="custom-modal-box">
+      <div class="custom-modal-body">
+        <div class="custom-modal-icon info" id="customModalIcon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div class="custom-modal-title" id="customModalTitle">안내</div>
+        <div class="custom-modal-msg" id="customModalMsg"></div>
+      </div>
+      <div class="custom-modal-actions" id="customModalActions">
+        <button type="button" class="custom-modal-btn ok" id="customModalOkBtn" onclick="closeCustomModal(true)">확인</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Fullscreen Story Viewer Modal -->
   <div id="story-viewer">
@@ -5005,8 +5122,9 @@
       const nameInput = document.getElementById('rsvpName');
       const name = nameInput ? nameInput.value.trim() : '';
       if (!name) {
-        alert('성함을 입력해 주세요.');
-        if (nameInput) nameInput.focus();
+        showCustomAlert('성함을 입력해 주세요.', { title: '입력 필요', type: 'warn' }).then(() => {
+          if (nameInput) nameInput.focus();
+        });
         return;
       }
       launchConfetti();
@@ -5127,6 +5245,98 @@
         } else {
           openUrlOrScheme('kakaobank://');
         }
+      }
+    }
+
+    /* =============================== */
+    /* CUSTOM ALERT / CONFIRM MODAL    */
+    /* =============================== */
+    let customModalResolve = null;
+
+    function showCustomAlert(msg, options = {}) {
+      const overlay = document.getElementById('customModalOverlay');
+      const titleEl = document.getElementById('customModalTitle');
+      const msgEl = document.getElementById('customModalMsg');
+      const iconEl = document.getElementById('customModalIcon');
+      const actionsEl = document.getElementById('customModalActions');
+      if (!overlay) return Promise.resolve(true);
+
+      const title = options.title || '안내';
+      const type = options.type || 'info'; // info, warn, success
+
+      titleEl.textContent = title;
+      msgEl.textContent = msg;
+
+      // Set icon type
+      iconEl.className = 'custom-modal-icon ' + type;
+      const iconSvgs = {
+        info: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+        warn: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+        success: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+      };
+      iconEl.innerHTML = iconSvgs[type] || iconSvgs.info;
+
+      // Alert mode: single OK button
+      actionsEl.innerHTML = '<button type="button" class="custom-modal-btn ok" onclick="closeCustomModal(true)">확인</button>';
+
+      overlay.classList.add('show');
+
+      return new Promise(resolve => {
+        customModalResolve = resolve;
+      });
+    }
+
+    function showCustomConfirm(msg, options = {}) {
+      const overlay = document.getElementById('customModalOverlay');
+      const titleEl = document.getElementById('customModalTitle');
+      const msgEl = document.getElementById('customModalMsg');
+      const iconEl = document.getElementById('customModalIcon');
+      const actionsEl = document.getElementById('customModalActions');
+      if (!overlay) return Promise.resolve(false);
+
+      const title = options.title || '확인';
+      const type = options.type || 'info';
+      const okText = options.okText || '확인';
+      const cancelText = options.cancelText || '취소';
+      const danger = options.danger || false;
+
+      titleEl.textContent = title;
+      msgEl.textContent = msg;
+
+      iconEl.className = 'custom-modal-icon ' + type;
+      const iconSvgs = {
+        info: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+        warn: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+        success: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+      };
+      iconEl.innerHTML = iconSvgs[type] || iconSvgs.info;
+
+      // Confirm mode: Cancel + OK buttons
+      const dangerClass = danger ? ' danger' : '';
+      actionsEl.innerHTML = `
+        <button type="button" class="custom-modal-btn cancel" onclick="closeCustomModal(false)">${cancelText}</button>
+        <button type="button" class="custom-modal-btn ok${dangerClass}" onclick="closeCustomModal(true)">${okText}</button>
+      `;
+
+      overlay.classList.add('show');
+
+      return new Promise(resolve => {
+        customModalResolve = resolve;
+      });
+    }
+
+    function closeCustomModal(result) {
+      const overlay = document.getElementById('customModalOverlay');
+      if (overlay) overlay.classList.remove('show');
+      if (customModalResolve) {
+        customModalResolve(result);
+        customModalResolve = null;
+      }
+    }
+
+    function handleModalOverlayClick(e) {
+      if (e.target === e.currentTarget) {
+        closeCustomModal(false);
       }
     }
 
