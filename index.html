@@ -808,30 +808,34 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-top: 4px;
+      margin-top: 6px;
       flex-wrap: wrap;
     }
     .loc-hall-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       font-weight: 700;
-      color: #0095f6;
-      background: rgba(0, 149, 246, 0.08);
-      padding: 2px 8px;
+      color: #1a6ed8;
+      background: #ebf3ff;
+      border: 1px solid rgba(26, 110, 216, 0.2);
+      padding: 3px 8px;
       border-radius: 6px;
+      letter-spacing: -0.2px;
     }
     .loc-free-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: #03C75A;
-      background: rgba(3, 199, 90, 0.1);
-      padding: 4px 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #0b7a3d;
+      background: #e6f7ee;
+      border: 1px solid rgba(11, 122, 61, 0.25);
+      padding: 3px 8px;
       border-radius: 6px;
+      letter-spacing: -0.2px;
     }
     .loc-address-row {
       display: flex;
@@ -949,7 +953,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Flat Transit Details List (Spacious & High Visibility) */
+    /* Flat Transit & Parking Details List (Spacious, Unified & High Visibility) */
     .loc-transit-container {
       display: flex;
       flex-direction: column;
@@ -989,6 +993,14 @@
       background: rgba(0, 149, 246, 0.12);
       color: #0095f6;
     }
+    .transit-icon-badge.parking {
+      background: rgba(38, 38, 38, 0.08);
+      color: #262626;
+    }
+    .transit-icon-badge.car {
+      background: rgba(230, 104, 60, 0.12);
+      color: #e6683c;
+    }
     .transit-content {
       flex: 1;
       min-width: 0;
@@ -1002,8 +1014,9 @@
     }
     .transit-title {
       font-weight: 800;
-      font-size: 0.92rem;
+      font-size: 0.94rem;
       color: #111111;
+      letter-spacing: -0.3px;
     }
     .subway-lines {
       display: flex;
@@ -1024,7 +1037,7 @@
       font-weight: 600;
     }
     .transit-desc {
-      font-size: clamp(0.82rem, 2.6vw, 0.88rem);
+      font-size: 0.86rem;
       color: #222222;
       line-height: 1.6;
       word-break: keep-all;
@@ -1034,153 +1047,89 @@
       font-weight: 800;
     }
 
-    /* Flat Bus Route Groups */
-    .bus-route-groups {
+    /* Flat Bus Route Groups & Parking Info Rows */
+    .bus-route-groups,
+    .parking-info-rows {
       display: flex;
       flex-direction: column;
       gap: 9px;
       margin-top: 10px;
     }
-    .bus-route-group {
+    .bus-route-group,
+    .parking-info-row {
       display: flex;
       align-items: baseline;
       gap: 8px;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       line-height: 1.55;
     }
-    .bus-tag {
-      font-size: 0.68rem;
+    .bus-tag,
+    .parking-tag {
+      font-size: 0.72rem;
       font-weight: 700;
       color: #ffffff;
-      padding: 2px 6px;
+      padding: 2px 7px;
       border-radius: 4px;
       flex-shrink: 0;
+      letter-spacing: -0.2px;
     }
     .bus-tag.blue { background: #2b78e4; }
     .bus-tag.green { background: #3ab54a; }
     .bus-tag.red { background: #e03b3b; }
     .bus-tag.navy { background: #2c3e50; }
     .bus-tag.sky { background: #00a0dc; }
-    .bus-num-text {
+    .bus-tag.orange,
+    .parking-tag.rec { background: #e6683c; color: #fff; }
+    .parking-tag.walk { background: #0095f6; color: #fff; }
+    .parking-tag.shuttle { background: #8B50A4; color: #fff; }
+
+    .bus-num-text,
+    .parking-info-text {
       color: #333333;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       word-break: keep-all;
       line-height: 1.55;
-    }
-    .bus-item {
-      display: inline-block;
-      white-space: nowrap;
-    }
-
-    /* High-Visibility Flat Parking Guide (Generous Spacing) */
-    .parking-guide-block {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .parking-detail-section {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 4px 0;
-    }
-    .parking-detail-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .parking-detail-name {
-      font-size: 1rem;
-      font-weight: 800;
-      color: #000000;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      letter-spacing: -0.3px;
-    }
-    .parking-addr-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      padding: 2px 0 4px;
-      margin: 0 0 4px;
-    }
-    .parking-addr-label {
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #0095f6;
-      background: rgba(0, 149, 246, 0.1);
-      padding: 4px 10px;
-      border-radius: 6px;
-      flex-shrink: 0;
-    }
-    .parking-addr-val {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #000000;
       flex: 1;
-      word-break: keep-all;
-    }
-    .parking-info-rows {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-top: 2px;
-    }
-    .parking-info-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 0.88rem;
-      color: #111111;
-      line-height: 1.6;
-      word-break: keep-all;
-    }
-    .parking-tag {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.76rem;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 6px;
-      flex-shrink: 0;
-      margin-top: 1px;
-      letter-spacing: -0.2px;
-    }
-    .parking-tag.rec {
-      background: rgba(230, 104, 60, 0.12);
-      color: #d4592e;
-    }
-    .parking-tag.walk {
-      background: rgba(0, 149, 246, 0.12);
-      color: #0088e0;
-    }
-    .parking-tag.shuttle {
-      background: rgba(139, 80, 164, 0.12);
-      color: #7a3d98;
-    }
-    .parking-info-text {
-      flex: 1;
-      color: #111111;
-      font-size: 0.88rem;
     }
     .parking-info-text strong {
       color: #000000;
       font-weight: 800;
     }
+    .bus-item {
+      display: inline-block;
+      white-space: nowrap;
+    }
     .parking-sub-desc {
       display: block;
       font-size: 0.78rem;
-      color: #555555;
-      margin-top: 4px;
-      line-height: 1.5;
+      color: var(--text-dim);
+      margin-top: 2px;
+      line-height: 1.45;
+    }
+
+    .parking-addr-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      background: transparent;
+      padding: 0;
+    }
+    .parking-addr-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: #2b78e4;
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      letter-spacing: -0.2px;
+    }
+    .parking-addr-val {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #000000;
+      word-break: keep-all;
     }
 
     /* Edge-to-Edge Full Width Rough Map */
@@ -3668,65 +3617,73 @@
 
       <!-- Tab Pane 1: 자가용 & 주차 / 셔틀버스 -->
       <div class="loc-tab-pane" id="locPane1" role="tabpanel">
-        <div class="parking-guide-block">
+        <div class="loc-transit-container">
           <!-- Main Building Parking -->
-          <div class="parking-detail-section">
-            <div class="parking-detail-header">
-              <span class="parking-detail-name">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
-                라비니움 본관 주차
-              </span>
-              <span class="loc-free-badge">1시간 30분 무료</span>
+          <div class="transit-item">
+            <div class="transit-icon-col">
+              <div class="transit-icon-badge parking">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+              </div>
             </div>
-            <div class="transit-desc" style="font-size: 0.9rem; color: #111;">
-              <strong>서울특별시 송파구 천호대로 996</strong> (웨딩홀 본관 내 주차)
+            <div class="transit-content">
+              <div class="transit-header">
+                <span class="transit-title">라비니움 본관 주차</span>
+                <span class="loc-free-badge">1시간 30분 무료</span>
+              </div>
+              <div class="transit-desc">
+                <strong>서울특별시 송파구 천호대로 996</strong> (웨딩홀 본관 내 주차)
+              </div>
             </div>
           </div>
 
-          <div class="transit-item-divider" style="margin: 18px 0;"></div>
+          <div class="transit-item-divider"></div>
 
           <!-- Public Parking & Shuttle -->
-          <div class="parking-detail-section">
-            <div class="parking-detail-header">
-              <span class="parking-detail-name">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#e6683c" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
-                천호지하공영주차장 (천호입구)
-              </span>
-              <span class="station-code">천호역 6번 출구 앞 · 지하 1, 2층</span>
+          <div class="transit-item">
+            <div class="transit-icon-col">
+              <div class="transit-icon-badge car">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+              </div>
             </div>
-            
-            <!-- High-Visibility Nav Address Bar -->
-            <div class="parking-addr-bar">
-              <span class="parking-addr-label">네비 검색</span>
-              <span class="parking-addr-val">서울시 강동구 천호대로 1026-1</span>
-              <button class="loc-copy-chip tap-spring" onclick="copyText('서울시 강동구 천호대로 1026-1', '공영주차장 주소가 복사되었습니다.')" title="주소 복사">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                복사
-              </button>
-            </div>
-
-            <!-- Clear Structured Steps -->
-            <div class="parking-info-rows">
-              <div class="parking-info-row">
-                <span class="parking-tag rec">추천 구역</span>
-                <div class="parking-info-text">
-                  기둥번호 <strong>A, B, C, D (20 ~ 60번)</strong> 사이 주차
-                </div>
+            <div class="transit-content">
+              <div class="transit-header">
+                <span class="transit-title">천호지하공영주차장</span>
+                <span class="station-code">천호역 6번 출구 앞 · 지하 1, 2층</span>
+              </div>
+              
+              <!-- Nav Search Address Row -->
+              <div class="parking-addr-bar">
+                <span class="parking-addr-label">네비 검색</span>
+                <span class="parking-addr-val">서울시 강동구 천호대로 1026-1</span>
+                <button class="loc-copy-chip tap-spring" onclick="copyText('서울시 강동구 천호대로 1026-1', '공영주차장 주소가 복사되었습니다.')" title="주소 복사" style="padding: 4px 8px; font-size: 0.72rem; margin-left: auto;">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  복사
+                </button>
               </div>
 
-              <div class="parking-info-row">
-                <span class="parking-tag walk">도보 이동</span>
-                <div class="parking-info-text">
-                  천호역 지하상가 현대백화점 방면 직진 → <strong>천호역 10번 출구 앞</strong>
-                  <span class="parking-sub-desc">(지하 통로로 웨딩홀 직결되어 눈/비 영향 없이 편리하게 이동 가능)</span>
+              <!-- Steps Guide -->
+              <div class="parking-info-rows">
+                <div class="parking-info-row">
+                  <span class="bus-tag orange">추천 구역</span>
+                  <div class="parking-info-text">
+                    기둥번호 <strong>A, B, C, D (20 ~ 60번)</strong> 사이 주차
+                  </div>
                 </div>
-              </div>
 
-              <div class="parking-info-row">
-                <span class="parking-tag shuttle">셔틀 탑승</span>
-                <div class="parking-info-text">
-                  주차장 내부 <strong>기둥 A~D (20~60번)</strong> 상시 운행
-                  <span class="parking-sub-desc">(주차하신 차량 앞에서 대기 후 탑승 · 웨딩 진행 시 운영)</span>
+                <div class="parking-info-row">
+                  <span class="bus-tag blue">도보 이동</span>
+                  <div class="parking-info-text">
+                    천호역 지하상가 방면 직진 → <strong>천호역 10번 출구 앞</strong>
+                    <span class="parking-sub-desc">(지하 통로로 웨딩홀 직결되어 눈/비 영향 없이 편리하게 이동 가능)</span>
+                  </div>
+                </div>
+
+                <div class="parking-info-row">
+                  <span class="bus-tag purple">셔틀 탑승</span>
+                  <div class="parking-info-text">
+                    주차장 내부 <strong>기둥 A~D (20~60번)</strong> 상시 운행
+                    <span class="parking-sub-desc">(주차하신 차량 앞에서 대기 후 탑승 · 웨딩 진행 시 운영)</span>
+                  </div>
                 </div>
               </div>
             </div>
