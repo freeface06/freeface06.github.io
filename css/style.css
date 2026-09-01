@@ -4145,8 +4145,9 @@
 
     .ig-photo-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 4px 0 20px;
       border-radius: 12px;
       overflow: hidden;
     }
@@ -4154,10 +4155,11 @@
     .ig-grid-cell {
       position: relative;
       aspect-ratio: 3 / 4;
-      background: #f4f4f4;
+      background: #1a1a1a;
       overflow: hidden;
       cursor: pointer;
-      border-radius: 6px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     .ig-grid-cell img {
