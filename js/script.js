@@ -1804,8 +1804,9 @@
     }
 
     async function autoScanGalleryFolder() {
+      // 1. Try Live GitHub Repository Auto-Scan (works for any filename with zero setup)
       try {
-        const repoUrl = 'https://api.github.com/repos/freeface06/mobile-wedding/contents/images/gallery';
+        const repoUrl = `https://api.github.com/repos/freeface06/mobile-wedding/contents/images/gallery?t=${Date.now()}`;
         const res = await fetch(repoUrl, { headers: { 'Accept': 'application/vnd.github.v3+json' } });
         if (res.ok) {
           const files = await res.json();
@@ -1828,8 +1829,10 @@
           }
         }
       } catch (e) {
-        console.warn('Auto-scan using built-in gallery media list:', e.message);
+        // Fallback to local auto-probe
       }
+
+      // 2. Local Fallback Rendering
       renderDynamicGallery(galleryMediaList);
     }
 
