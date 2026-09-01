@@ -426,7 +426,8 @@ button {
 .verified-icon {
   width: 14px;
   height: 14px;
-  fill: var(--ig-blue);
+  fill: var(--hashtag-color);
+  flex-shrink: 0;
 }
 
 .post-location-tag {
