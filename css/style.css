@@ -3831,6 +3831,11 @@ body.modal-open {
   margin-left: 24px;
 }
 
+.sheet-title span {
+  color: var(--title-color);
+  font-weight: 700;
+}
+
 .sheet-close-btn {
   background: none;
   border: none;
@@ -3841,6 +3846,10 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.sheet-close-btn svg {
+  stroke: var(--title-color);
 }
 
 /* TMI Behind Profile Modal Sheet */
@@ -3912,7 +3921,7 @@ body.modal-open {
 }
 
 .tmi-hero-banner {
-  background: linear-gradient(135deg, #111111 0%, #262626 100%);
+  background: linear-gradient(135deg, #4A2810 0%, #634023 100%);
   color: #ffffff;
   border-radius: 16px;
   padding: 16px 14px 14px;
@@ -4014,7 +4023,7 @@ body.modal-open {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #111111;
+  background: var(--title-color);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -4433,8 +4442,9 @@ body.modal-open {
 
 .ig-stat-label {
   font-size: 0.72rem;
-  color: #737373;
+  color: var(--text-dim);
   margin-top: 2px;
+  font-weight: 600;
 }
 
 .ig-bio-block {
@@ -4452,7 +4462,7 @@ body.modal-open {
 }
 
 .ig-bio-sub {
-  color: #737373;
+  color: var(--text-dim);
   font-size: 0.76rem;
   margin-top: 1px;
 }
@@ -4468,12 +4478,21 @@ body.modal-open {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 2px solid var(--title-color);
   color: var(--title-color);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 700;
   flex-shrink: 0;
+}
+
+.ig-grid-tab-header svg {
+  fill: var(--title-color);
+}
+
+.ig-grid-tab-header span {
+  color: var(--title-color);
+  font-weight: 700;
 }
 
 .ig-photo-grid {
@@ -4775,7 +4794,7 @@ body.modal-open {
 }
 
 .profile-role-tag.groom {
-  background: rgba(38, 38, 38, 0.85);
+  background: rgba(74, 40, 16, 0.85);
 }
 
 .profile-role-tag.bride {
@@ -4812,7 +4831,7 @@ body.modal-open {
 
 .profile-detail-relation {
   font-size: 0.82rem;
-  color: #737373;
+  color: var(--text-dim);
 }
 
 .profile-detail-quote {
@@ -4845,7 +4864,7 @@ body.modal-open {
 
 .profile-action-btn.tel {
   background: #f0f0f0;
-  color: var(--text-main);
+  color: var(--title-color);
   border: 1px solid #e5e5e5;
 }
 
