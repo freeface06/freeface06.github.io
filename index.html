@@ -1644,13 +1644,14 @@
       transition: transform 0.2s;
     }
     .copy-chip {
-      display: flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px;
-      background: #f4f4f4; border: 1px solid var(--border); color: var(--text-main);
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 5px; padding: 7px 12px;
+      background: #ffffff; border: 1px solid #dbdbdb; color: #262626;
       border-radius: 8px; flex-shrink: 0;
-      transition: all 0.15s;
+      font-size: 0.76rem; font-weight: 600; letter-spacing: -0.02em;
+      transition: all 0.15s ease;
     }
-    .copy-chip:active { transform: scale(0.9); background: #e5e5e5; }
+    .copy-chip:active { transform: scale(0.95); background: #f0f0f0; }
 
     /* ==================================================== */
     /* REAL INSTAGRAM COMMENTS UI (BOTTOM SECTION & MODAL)  */
@@ -3628,7 +3629,8 @@
               <span class="parking-addr-label">네비 검색</span>
               <span class="parking-addr-val">서울시 강동구 천호대로 1026-1</span>
               <button class="loc-copy-chip tap-spring" onclick="copyText('서울시 강동구 천호대로 1026-1', '공영주차장 주소가 복사되었습니다.')" title="주소 복사">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                복사
               </button>
             </div>
 
@@ -3847,7 +3849,8 @@
               <div style="font-size:0.8rem; color:var(--text-dim); margin-top:2px;">예금주: 이호정 (신랑)</div>
             </div>
             <button class="copy-chip tap-spring" onclick="copyText('123456-00-123456', '신랑 이호정 계좌번호가 복사되었습니다.')" title="계좌번호 복사">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              복사
             </button>
           </div>
           <div class="remit-nav-grid">
@@ -3878,7 +3881,8 @@
               <div style="font-size:0.8rem; color:var(--text-dim); margin-top:2px;">예금주: 전다솔 (신부)</div>
             </div>
             <button class="copy-chip tap-spring" onclick="copyText('110-123-456789', '신부 전다솔 계좌번호가 복사되었습니다.')" title="계좌번호 복사">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              복사
             </button>
           </div>
           <div class="remit-nav-grid">
