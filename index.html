@@ -2537,6 +2537,42 @@
       pointer-events: none;
     }
 
+    /* Feed Inline Gallery Grid */
+    .feed-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+    .feed-gallery-grid .gallery-cell {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      cursor: pointer;
+      background: #f4f4f4;
+    }
+    .feed-gallery-grid .gallery-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.22s var(--smooth-ease), filter 0.2s;
+    }
+    .feed-gallery-grid .gallery-cell:active img {
+      transform: scale(0.96);
+      filter: brightness(0.9);
+    }
+    .feed-gallery-grid .gallery-cell .gallery-more-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
     /* Rough Map Bottom Sheet Modal */
     .rough-map-modal-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65);
@@ -3695,6 +3731,66 @@
     <div class="post-caption-wrap" style="padding-top: 8px; padding-bottom: 20px;">
       <div class="post-caption-text">
         천호역 10번 출구 바로 앞에 위치해 대중교통 이용이 매우 편리합니다. 본관 및 공영주차장 주차가 지원되며 셔틀버스가 상시 운행됩니다. 귀한 걸음 해주시는 모든 분들께 감사드립니다.
+      </div>
+    </div>
+  </article>
+
+  <!-- Feed Post 4: Gallery (우리가 함께한 순간들) -->
+  <article class="feed-post reveal" id="post-gallery">
+    <div class="post-header">
+      <div class="post-header-avatar">
+        <div class="avatar-icon-circle">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#262626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="post-header-info">
+        <div class="post-user-row"><span class="post-username">우리가 함께한 순간들</span><svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <div class="post-location-tag">Wedding Gallery</div>
+      </div>
+      <svg class="post-header-more tap-spring" viewBox="0 0 24 24" onclick="openGridGalleryModal()" title="전체보기"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
+    </div>
+
+    <!-- 3x3 Gallery Grid -->
+    <div class="feed-gallery-grid">
+      <div class="gallery-cell" onclick="openPhotoLightbox(0)">
+        <img src="images/wedding_main.jpg" alt="Photo 1" loading="lazy">
+      </div>
+      <div class="gallery-cell" onclick="openPhotoLightbox(1)">
+        <img src="images/gallery_1.jpg" alt="Photo 2" loading="lazy">
+      </div>
+      <div class="gallery-cell" onclick="openPhotoLightbox(2)">
+        <img src="images/gallery_2.jpg" alt="Photo 3" loading="lazy">
+      </div>
+      <div class="gallery-cell" onclick="openPhotoLightbox(3)">
+        <img src="images/gallery_3.jpg" alt="Photo 4" loading="lazy">
+      </div>
+      <div class="gallery-cell" onclick="openPhotoLightbox(4)">
+        <img src="images/gallery_4.jpg" alt="Photo 5" loading="lazy">
+      </div>
+      <div class="gallery-cell" onclick="openGridGalleryModal()">
+        <img src="images/wedding_hall.jpg" alt="Photo 6" loading="lazy">
+        <div class="gallery-more-overlay">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><rect x="7" y="7" width="14" height="14" rx="2"/><path d="M3 17V5a2 2 0 0 1 2-2h12"/></svg>
+          +more
+        </div>
+      </div>
+    </div>
+
+    <!-- Caption -->
+    <div class="post-caption-wrap" style="padding-top: 10px; padding-bottom: 16px;">
+      <div class="post-caption-text">
+        함께 걸었던 길, 나누었던 웃음, 마주 보던 눈빛.<br>
+        우리의 가장 빛나는 순간들을 모았습니다.
+      </div>
+      <div class="hashtags">
+        <span class="tag-item">#호정x다솔</span>
+        <span class="tag-item">#우리의순간</span>
+        <span class="tag-item">#웨딩갤러리</span>
+        <span class="tag-item">#WeddingGallery</span>
       </div>
     </div>
   </article>
