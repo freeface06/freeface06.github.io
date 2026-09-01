@@ -3175,7 +3175,7 @@
         </div>
         <div class="action-btn-item tap-spring" onclick="handleActionComment(this, event)">
           <svg class="action-svg" viewBox="0 0 24 24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span id="post-comments-count">12</span>
+          <span id="post-comments-count">0</span>
         </div>
         <div class="action-btn-item tap-spring" onclick="handleActionRepost(this, event)">
           <svg class="action-svg" viewBox="0 0 24 24"><path d="M19 8l-4-4m4 4l-4 4m4-4H8a4 4 0 0 0-4 4v2m1 6l4 4m-4-4l4-4m-4 4h11a4 4 0 0 0 4-4v-2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3782,8 +3782,8 @@
       </div>
 
       <!-- View All Comments Button -->
-      <div id="view-all-comments-btn" class="ig-view-all-link tap-spring" onclick="openCommentsSheet()">
-        메시지 <span id="comments-count-badge">12</span>개 모두 보기
+      <div id="view-all-comments-btn" class="ig-view-all-link tap-spring" onclick="openCommentsSheet()" style="display: none;">
+        메시지 <span id="comments-count-badge">0</span>개 모두 보기
       </div>
 
       <!-- Real Instagram Unified Comment Input Dock -->
@@ -4387,7 +4387,8 @@
       try {
         const res = await fetch(`${GOOGLE_SHEET_API_URL}?action=get_comments`);
         const json = await res.json();
-        if (json && json.status === 'success' && Array.isArray(json.comments) && json.comments.length > 0) {
+        if (json && json.status === 'success' && Array.isArray(json.comments)) {
+          commentsData.length = 0;
           const sheetComments = json.comments.map(c => ({
             id: c.id || Date.now() + Math.random(),
             uname: c.uname || '하객',
@@ -4398,11 +4399,11 @@
             liked: false,
             isAuthor: false
           }));
-          commentsData.unshift(...sheetComments);
+          commentsData.push(...sheetComments);
           renderComments();
         }
       } catch (err) {
-        console.log('[GoogleSheet] Note: comments fetch skipped or not yet deployed', err);
+        console.log('[GoogleSheet] Note: comments fetch error:', err);
       }
     }
 
@@ -5378,128 +5379,7 @@
       'joy': '\uD83D\uDE02'
     };
 
-    const commentsData = [
-      {
-        id: 1,
-        uname: 'friend_sujin',
-        avatar: 'images/profile.jpg',
-        text: '결혼 진심으로 축하해! 축제 즐기러 갈게',
-        time: '1시간 전',
-        likes: 65,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 2,
-        uname: 'jungho_k',
-        avatar: 'images/profile.jpg',
-        text: '호정아 다솔아 행복하게 잘 살아라!',
-        time: '30분 전',
-        likes: 40,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 3,
-        uname: 'min_ji_92',
-        avatar: 'images/profile.jpg',
-        text: '선남선녀 커플 드디어 결혼하는구나 축하해',
-        time: '2시간 전',
-        likes: 265,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 4,
-        uname: 'taewon_lee',
-        avatar: 'images/profile.jpg',
-        text: '두 사람 앞날에 행복만 가득하길 바랍니다!',
-        time: '3시간 전',
-        likes: 19,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 5,
-        uname: 'dasol_bestie',
-        avatar: 'images/profile.jpg',
-        text: '우리 다솔이 세상에서 제일 예쁜 6월의 신부 축하해',
-        time: '4시간 전',
-        likes: 88,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 6,
-        uname: 'yujin_unnie',
-        avatar: 'images/profile.jpg',
-        text: '사진 너무 예쁘게 잘 나왔다! 결혼식날 봐요',
-        time: '5시간 전',
-        likes: 12,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 7,
-        uname: 'hojeong_crew',
-        avatar: 'images/profile.jpg',
-        text: '호정아 품절남 합류 축하한다 웰컴투유부월드',
-        time: '6시간 전',
-        likes: 31,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 8,
-        uname: 'wedding_guest_77',
-        avatar: 'images/profile.jpg',
-        text: '청첩장 디자인 감각 대박이네요! 본식 기대돼요',
-        time: '7시간 전',
-        likes: 54,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 9,
-        uname: 'jinsol_p',
-        avatar: 'images/profile.jpg',
-        text: '너무 잘 어울리는 한 쌍! 축하드려요',
-        time: '8시간 전',
-        likes: 15,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 10,
-        uname: 'chulsoo_kim',
-        avatar: 'images/profile.jpg',
-        text: '결혼 진심으로 축하드립니다. 행복한 가정 이루세요',
-        time: '9시간 전',
-        likes: 27,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 11,
-        uname: 'hyejin_v',
-        avatar: 'images/profile.jpg',
-        text: '두 분 행복 가득한 날들만 있기를 응원할게요!',
-        time: '10시간 전',
-        likes: 33,
-        liked: false,
-        isAuthor: false
-      },
-      {
-        id: 12,
-        uname: 'dongwook_s',
-        avatar: 'images/profile.jpg',
-        text: '천호역 라비니움에서 멋진 날 함께 축하하겠습니다!',
-        time: '12시간 전',
-        likes: 42,
-        liked: false,
-        isAuthor: false
-      }
-    ];
+    const commentsData = [];
 
     function renderCommentItemHTML(c) {
       const isAuthorTag = c.isAuthor ? `<span class="ig-author-badge">· 작성자</span>` : '';
@@ -5525,17 +5405,43 @@
       const postCommentCount = document.getElementById('post-comments-count');
       if (postCommentCount) postCommentCount.textContent = totalCount;
 
+      const viewAllBtn = document.getElementById('view-all-comments-btn');
+      if (viewAllBtn) {
+        if (totalCount === 0) {
+          viewAllBtn.style.display = 'none';
+        } else {
+          viewAllBtn.style.display = 'block';
+          viewAllBtn.innerHTML = `메시지 <span id="comments-count-badge">${totalCount}</span>개 모두 보기`;
+        }
+      }
+
       // 1. Render Preview Comments on main page (latest 2 comments)
       const listEl = document.getElementById('comments-list');
       if (listEl) {
-        const previewItems = commentsData.slice(0, 2);
-        listEl.innerHTML = previewItems.map(c => renderCommentItemHTML(c)).join('');
+        if (commentsData.length === 0) {
+          listEl.innerHTML = `
+            <div style="text-align:center; padding:18px 0; color:#8e8e8e; font-size:0.86rem;">
+              첫 번째 축하 메시지를 남겨주세요 💌
+            </div>
+          `;
+        } else {
+          const previewItems = commentsData.slice(0, 2);
+          listEl.innerHTML = previewItems.map(c => renderCommentItemHTML(c)).join('');
+        }
       }
 
       // 2. Render Full Modal Sheet List (all comments)
       const sheetBody = document.getElementById('sheet-comments-body');
       if (sheetBody) {
-        sheetBody.innerHTML = commentsData.map(c => renderCommentItemHTML(c)).join('');
+        if (commentsData.length === 0) {
+          sheetBody.innerHTML = `
+            <div style="text-align:center; padding:50px 20px; color:#8e8e8e; font-size:0.9rem; line-height:1.6;">
+              아직 등록된 축하 메시지가 없습니다.<br>가장 먼저 축하의 한마디를 남겨주세요! ✨
+            </div>
+          `;
+        } else {
+          sheetBody.innerHTML = commentsData.map(c => renderCommentItemHTML(c)).join('');
+        }
       }
     }
 
