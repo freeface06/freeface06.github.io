@@ -3720,22 +3720,34 @@ button {
 }
 
 .ig-post-btn {
-  background: none;
+  background: transparent;
   border: none;
-  color: #0095f6;
+  color: var(--title-color);
   font-weight: 700;
   font-size: 0.86rem;
   cursor: pointer;
-  padding: 4px 6px;
+  padding: 4px 10px;
+  border-radius: 14px;
   opacity: 0.35;
   pointer-events: none;
-  transition: opacity 0.2s, transform 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
+  letter-spacing: -0.2px;
 }
 
 .ig-post-btn.active {
   opacity: 1;
   pointer-events: auto;
+  color: #ffffff;
+  background: var(--title-color);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(74, 40, 16, 0.25);
+}
+
+.ig-post-btn.active:hover {
+  background: #3a1f0c;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(74, 40, 16, 0.35);
 }
 
 .ig-post-btn:active {
