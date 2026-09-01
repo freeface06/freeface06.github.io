@@ -1,0 +1,2577 @@
+/* ==================================================== */
+    /* GOOGLE SPREADSHEET (APPS SCRIPT) API CONFIGURATION   */
+    /* ==================================================== */
+    const GOOGLE_SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby6DENoj4doh7phAp0UpNcB7YQE5JSZmdS1zGfLj0fT9PhNnx-xXzic1j6_QI5JQnY/exec';
+
+    async function sendDataToGoogleSheet(payload) {
+      if (!GOOGLE_SHEET_API_URL || GOOGLE_SHEET_API_URL.trim() === '') {
+        console.log('[GoogleSheet] API URL not configured. Skipped remote save:', payload);
+        return false;
+      }
+      try {
+        await fetch(GOOGLE_SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        console.log('[GoogleSheet] Data sent successfully:', payload.action);
+        return true;
+      } catch (err) {
+        console.error('[GoogleSheet] Error sending data:', err);
+        return false;
+      }
+    }
+
+    async function fetchCommentsFromGoogleSheet() {
+      if (!GOOGLE_SHEET_API_URL || GOOGLE_SHEET_API_URL.trim() === '') return;
+      try {
+        const res = await fetch(`${GOOGLE_SHEET_API_URL}?action=get_comments`);
+        const json = await res.json();
+        if (json && json.status === 'success' && Array.isArray(json.comments)) {
+          commentsData.length = 0;
+          const sheetComments = json.comments.map(c => ({
+            id: c.id || Date.now() + Math.random(),
+            uname: c.uname || '하객',
+            avatar: 'images/main/1762868176689.jpg',
+            text: c.text,
+            time: c.time || '최근',
+            likes: 1,
+            liked: false,
+            isAuthor: false
+          }));
+          commentsData.push(...sheetComments);
+          renderComments();
+        }
+      } catch (err) {
+        console.log('[GoogleSheet] Note: comments fetch error:', err);
+      }
+    }
+
+
+    /* ==================================================== */
+    /* INTERSECTION OBSERVER SCROLL REVEAL ENGINE           */
+    /* ==================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      initAutoBGM();
+      updateCountdownTimer();
+      tryInitMap();
+      renderComments();
+      fetchCommentsFromGoogleSheet();
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    });
+
+    window.addEventListener('load', tryInitMap);
+
+    let mapInitialized = false;
+    function tryInitMap() {
+      if (mapInitialized) return;
+      if (window.naver && window.naver.maps) {
+        try {
+          mapInitialized = true;
+          initInteractiveMap();
+        } catch (e) {
+          console.log('Naver Maps init error:', e);
+          showFallbackMap();
+        }
+      } else {
+        let attempts = 0;
+        const checkTimer = setInterval(() => {
+          attempts++;
+          if (window.naver && window.naver.maps) {
+            clearInterval(checkTimer);
+            if (!mapInitialized) {
+              try {
+                mapInitialized = true;
+                initInteractiveMap();
+              } catch (e) {
+                showFallbackMap();
+              }
+            }
+          } else if (attempts > 8) {
+            clearInterval(checkTimer);
+            showFallbackMap();
+          }
+        }, 300);
+      }
+    }
+
+    /* Location Tabs Switcher Engine */
+    function switchLocTab(idx) {
+      const btns = [document.getElementById('locTabBtn0'), document.getElementById('locTabBtn1')];
+      const panes = [document.getElementById('locPane0'), document.getElementById('locPane1')];
+      btns.forEach((btn, i) => {
+        if (btn) {
+          if (i === idx) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+      panes.forEach((pane, i) => {
+        if (pane) {
+          if (i === idx) pane.classList.add('active');
+          else pane.classList.remove('active');
+        }
+      });
+    }
+
+    function showFallbackMap() {
+      const mapEl = document.getElementById('interactiveMap');
+      if (!mapEl) return;
+      mapEl.innerHTML = `
+        <a href="https://map.naver.com/v5/search/%EB%9D%BC%EB%B9%84%EB%8B%88%EC%9B%80" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;position:relative;text-decoration:none;cursor:pointer;background:#eef1f5;overflow:hidden;">
+          <!-- Stylized Schematic Road Map Vector Matching images/location-rough-map.jpg -->
+          <svg width="100%" height="100%" viewBox="0 0 400 230" preserveAspectRatio="xMidYMid slice" style="display:block;">
+            <defs>
+              <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.2"/>
+              </filter>
+            </defs>
+            <!-- Background Map Blocks -->
+            <rect width="400" height="230" fill="#f0f3f7"/>
+            <rect x="15" y="15" width="100" height="75" rx="6" fill="#e2e8f0" opacity="0.6"/>
+            <rect x="15" y="135" width="100" height="80" rx="6" fill="#e2e8f0" opacity="0.6"/>
+            <rect x="145" y="15" width="240" height="75" rx="6" fill="#e2e8f0" opacity="0.6"/>
+            <rect x="145" y="135" width="240" height="80" rx="6" fill="#e2e8f0" opacity="0.6"/>
+
+            <!-- Main Road: Cheonho-daero (Horizontal) -->
+            <path d="M-10 115 L410 115" stroke="#ffffff" stroke-width="42"/>
+            <path d="M-10 115 L410 115" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 6"/>
+
+            <!-- Cross Road: Olympic-ro (Vertical) -->
+            <path d="M125 -10 L125 240" stroke="#ffffff" stroke-width="36"/>
+            <path d="M125 -10 L125 240" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 6"/>
+
+            <!-- Road Labels -->
+            <text x="35" y="119" fill="#94a3b8" font-size="9" font-weight="700">광나루 방면</text>
+            <text x="345" y="119" fill="#94a3b8" font-size="9" font-weight="700">강동 방면</text>
+            <text x="125" y="24" fill="#94a3b8" font-size="9" font-weight="700" text-anchor="middle">암사 방면</text>
+            <text x="125" y="218" fill="#94a3b8" font-size="9" font-weight="700" text-anchor="middle">강동구청 방면</text>
+
+            <!-- Subway Station Hub Badge (천호역 5·8호선) -->
+            <g transform="translate(125, 115)" filter="url(#shadowFilter)">
+              <rect x="-42" y="-12" width="84" height="24" rx="12" fill="#222222"/>
+              <circle cx="-28" cy="0" r="5" fill="#8B50A4"/>
+              <text x="-28" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">5</text>
+              <circle cx="-16" cy="0" r="5" fill="#E61E8C"/>
+              <text x="-16" y="3" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">8</text>
+              <text x="12" y="3.5" fill="#ffffff" font-size="9" font-weight="800">천호역</text>
+            </g>
+
+            <!-- Exit 10 Marker (Right by Labinium) -->
+            <g transform="translate(78, 142)">
+              <rect x="-14" y="-9" width="28" height="18" rx="5" fill="#4B388D"/>
+              <text x="0" y="3.5" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">10번</text>
+            </g>
+
+            <!-- Exit 6 Marker (Underground Public Parking) -->
+            <g transform="translate(230, 142)">
+              <rect x="-14" y="-9" width="28" height="18" rx="5" fill="#4B388D"/>
+              <text x="0" y="3.5" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">6번</text>
+            </g>
+
+            <!-- Public Parking [P] & Shuttle Pin -->
+            <g transform="translate(285, 142)">
+              <rect x="-12" y="-9" width="24" height="18" rx="5" fill="#e6683c"/>
+              <text x="0" y="3.5" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">P</text>
+              <text x="0" y="24" fill="#e6683c" font-size="7.5" font-weight="700" text-anchor="middle">공영주차장</text>
+            </g>
+
+            <!-- Underground Mall Dotted Walking Path from Exit 6 to Exit 10 -->
+            <path d="M 220 142 L 95 142" fill="none" stroke="#e6683c" stroke-width="2" stroke-dasharray="4 3"/>
+
+            <!-- Main Venue Pin (Wedding Ring Marker at Labinium, Exit 10) -->
+            <g transform="translate(62, 172)" filter="url(#shadowFilter)">
+              <!-- Outer pulse circle -->
+              <circle cx="0" cy="-20" r="20" fill="#ff3040" opacity="0.25">
+                <animate attributeName="r" values="16;24;16" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.35;0;0.35" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Pin Pointer -->
+              <polygon points="-5,-4 5,-4 0,2" fill="#1a1a1a"/>
+              <!-- Pin Circle Badge -->
+              <circle cx="0" cy="-20" r="16" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+              <!-- Wedding Ring PNG inside -->
+              <image href="images/wedding-ring.png" xlink:href="images/wedding-ring.png" x="-10" y="-30" width="20" height="20" preserveAspectRatio="xMidYMid meet"/>
+              <!-- Labinium Label -->
+              <rect x="-30" y="4" width="60" height="16" rx="4" fill="#ff3040"/>
+              <text x="0" y="15" fill="#ffffff" font-size="8" font-weight="800" text-anchor="middle">라비니움</text>
+            </g>
+          </svg>
+
+          <!-- Floating Bottom Banner -->
+          <div style="position:absolute;bottom:10px;left:12px;right:12px;background:rgba(255,255,255,0.96);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#03C75A;"></span>
+              <span style="font-size:0.75rem;font-weight:700;color:#111;">천호역 10번 출구 바로 앞 (도보 10초)</span>
+            </div>
+            <span style="font-size:0.74rem;font-weight:700;color:#0095f6;">네이버 지도 열기 &gt;</span>
+          </div>
+        </a>
+      `;
+    }
+
+    let naverMapInstance = null;
+
+    function initInteractiveMap() {
+      const mapEl = document.getElementById('interactiveMap');
+      if (!mapEl || !window.naver || !window.naver.maps) { showFallbackMap(); return; }
+
+      const lat = 37.53835;
+      const lng = 127.1258;
+
+      try {
+        naverMapInstance = new naver.maps.Map('interactiveMap', {
+          center: new naver.maps.LatLng(lat, lng),
+          zoom: 16,
+          minZoom: 10,
+          maxZoom: 19,
+          draggable: false,
+          pinchZoom: false,
+          scrollWheel: false,
+          disableDoubleTapZoom: true,
+          disableTwoFingerTapZoom: true,
+          disableKineticPan: true,
+          mapTypeControl: false,
+          scaleControl: false,
+          logoControl: false,
+          mapDataControl: false,
+          zoomControl: false
+        });
+
+        const marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(lat, lng),
+          map: naverMapInstance,
+          title: '라비니움 (천호역 10번 출구)',
+          icon: {
+            content: `<div style="width:44px;height:50px;display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.25));box-sizing:border-box;">
+              <div style="width:44px;height:44px;border-radius:50%;background:#ffffff;border:2px solid #1a1a1a;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.12);box-sizing:border-box;position:relative;">
+                <img src="images/wedding-ring.png" alt="웨딩링" style="width:28px;height:28px;object-fit:contain;display:block;">
+              </div>
+              <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #1a1a1a;margin-top:-1px;"></div>
+            </div>`,
+            size: new naver.maps.Size(44, 50),
+            anchor: new naver.maps.Point(22, 50)
+          }
+        });
+
+        naver.maps.Event.addListener(marker, 'click', () => openNaverNavi());
+
+        // Check if Naver Maps injected an authentication error banner
+        setTimeout(() => {
+          if (mapEl.innerText.includes('인증이 실패') || mapEl.innerText.includes('Open API')) {
+            showFallbackMap();
+          }
+        }, 400);
+      } catch (err) {
+        showFallbackMap();
+      }
+    }
+
+    /* Universal Safe App Launcher Helper */
+    function openUrlOrScheme(url) {
+      if (!url) return;
+      const a = document.createElement('a');
+      a.href = url;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        if (a && a.parentNode) a.parentNode.removeChild(a);
+      }, 500);
+    }
+
+    /* Enterprise Native App Deep Link & Safe Web Fallback Engine */
+    function openAppWithFallback(appScheme, webFallbackUrl) {
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isMobile) {
+        if (webFallbackUrl) window.open(webFallbackUrl, '_blank');
+        return;
+      }
+
+      const start = Date.now();
+      let hasMovedAway = false;
+      const onVisibilityChange = () => {
+        if (document.hidden) hasMovedAway = true;
+      };
+      document.addEventListener('visibilitychange', onVisibilityChange, { once: true });
+
+      openUrlOrScheme(appScheme);
+
+      if (webFallbackUrl) {
+        setTimeout(() => {
+          document.removeEventListener('visibilitychange', onVisibilityChange);
+          if (!hasMovedAway && (Date.now() - start) < 2500) {
+            window.location.href = webFallbackUrl;
+          }
+        }, 1800);
+      }
+    }
+
+    function launchNavigationApp(app) {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isMobile = isAndroid || isIOS;
+
+      const venueName = '라비니움';
+      const encodedName = encodeURIComponent(venueName);
+      const lat = '37.53835';
+      const lng = '127.1258';
+
+      // Desktop PC: Direct Web Browser Navigation in New Tab
+      if (!isMobile) {
+        if (app === 'naver' || app === 'tmap') {
+          window.open(`https://map.naver.com/p/search/${encodedName}`, '_blank');
+        } else if (app === 'kakao') {
+          window.open(`https://map.kakao.com/link/to/${encodedName},${lat},${lng}`, '_blank');
+        }
+        return;
+      }
+
+      if (app === 'naver') {
+        const naverWebUrl = `https://map.naver.com/p/search/${encodedName}`;
+        if (isAndroid) {
+          openAppWithFallback(`intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`, naverWebUrl);
+        } else {
+          openAppWithFallback(`nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`, naverWebUrl);
+        }
+      } else if (app === 'tmap') {
+        const tmapWebUrl = `https://map.naver.com/p/search/${encodedName}`;
+        const tmapParams = `goalname=${encodedName}&goalx=${lng}&goaly=${lat}&rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}&name=${encodedName}`;
+        if (isAndroid) {
+          openAppWithFallback(`intent://route?${tmapParams}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`, tmapWebUrl);
+        } else {
+          openAppWithFallback(`tmap://route?${tmapParams}`, tmapWebUrl);
+        }
+      } else if (app === 'kakao') {
+        const kakaoWebUrl = `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`;
+        if (isAndroid) {
+          openAppWithFallback(`intent://route?ep=${lat},${lng}&by=car#Intent;scheme=kakaomap;package=net.daum.android.map;end`, kakaoWebUrl);
+        } else {
+          openAppWithFallback(`kakaomap://route?ep=${lat},${lng}&by=car`, kakaoWebUrl);
+        }
+      }
+    }
+
+    function openNaverNavi() { launchNavigationApp('naver'); }
+    function openTmapNavi() { launchNavigationApp('tmap'); }
+    function openKakaoNavi() { launchNavigationApp('kakao'); }
+
+    function updateCountdownTimer() {
+      const target = new Date('2027-06-19T15:30:00+09:00');
+      const now = new Date();
+      const diff = target - now;
+
+      const daysEl = document.getElementById('timer-days');
+      const hoursEl = document.getElementById('timer-hours');
+      const minsEl = document.getElementById('timer-mins');
+      const secsEl = document.getElementById('timer-secs');
+      const noticeEl = document.getElementById('countdownNotice');
+
+      if (diff <= 0) {
+        if (daysEl) daysEl.textContent = '00';
+        if (hoursEl) hoursEl.textContent = '00';
+        if (minsEl) minsEl.textContent = '00';
+        if (secsEl) secsEl.textContent = '00';
+        if (noticeEl) {
+          noticeEl.innerHTML = '오늘은 <strong>호정, 다솔</strong>의 결혼식 당일입니다. 축하해 주세요!';
+        }
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+      if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
+      if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
+
+      if (noticeEl) {
+        noticeEl.innerHTML = `호정, 다솔의 결혼식이 <strong>${days}일</strong> 남았습니다.`;
+      }
+    }
+    setInterval(updateCountdownTimer, 1000);
+    updateCountdownTimer();
+
+    function updateDDay() {
+      updateCountdownTimer();
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        el.classList.add('active');
+      }
+    }
+
+    /* Supercharged Dynamic Photo Double Tap Heart Burst */
+    function triggerHeart(container, e) {
+      const rect = container.getBoundingClientRect();
+      let clickX = rect.width / 2;
+      let clickY = rect.height / 2;
+      let screenX = rect.left + clickX;
+      let screenY = rect.top + clickY;
+
+      if (e && e.clientX && e.clientY) {
+        clickX = e.clientX - rect.left;
+        clickY = e.clientY - rect.top;
+        screenX = e.clientX;
+        screenY = e.clientY;
+      }
+
+      // 1. Spawn Supercharged Big 3D Heart Element
+      const heartEl = document.createElement('div');
+      heartEl.className = 'dynamic-photo-heart';
+      heartEl.style.left = clickX + 'px';
+      heartEl.style.top = clickY + 'px';
+      heartEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+      container.appendChild(heartEl);
+      setTimeout(() => heartEl.remove(), 900);
+
+      // 2. Spawn Shockwave Ripple Ring
+      const ripple = document.createElement('div');
+      ripple.className = 'photo-heart-ripple';
+      ripple.style.left = clickX + 'px';
+      ripple.style.top = clickY + 'px';
+      container.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 800);
+
+      // 3. Spawn 360-degree Radial Heart Particles at Tap Position
+      triggerEasterEggBurst(screenX, screenY, ['heart', 'pinkHeart', 'sparkle', 'star'], 14);
+
+      // 4. Trigger Post Action Bar Heart
+      const post = container.closest('.feed-post');
+      const likeItem = post ? post.querySelector('.action-btn-item') : null;
+      if (likeItem) {
+        const svg = likeItem.querySelector('.action-svg');
+        if (svg) {
+          svg.classList.add('liked');
+          svg.classList.remove('heart-burst-anim');
+          void svg.offsetWidth;
+          svg.classList.add('heart-burst-anim');
+          setTimeout(() => svg.classList.remove('heart-burst-anim'), 700);
+        }
+      }
+    }
+
+    /* Ultra-Delightful Vector SVG Easter Egg Engine */
+    const VECTOR_PARTICLES = {
+      heart: '<svg viewBox="0 0 24 24" width="18" height="18" fill="#ff3040"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+      pinkHeart: '<svg viewBox="0 0 24 24" width="18" height="18" fill="#ff6b8b"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+      sparkle: '<svg viewBox="0 0 24 24" width="16" height="16" fill="#f59e0b"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>',
+      star: '<svg viewBox="0 0 24 24" width="16" height="16" fill="#fbbf24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+      ring: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="14" r="7"/><path d="M12 7l-2-3h4l-2 3z"/></svg>',
+      bubble: '<svg viewBox="0 0 24 24" width="16" height="16" fill="#38bdf8"><circle cx="12" cy="12" r="9"/></svg>',
+      plane: '<svg viewBox="0 0 24 24" width="16" height="16" fill="#2563eb"><path d="M22 2L2 9.2l8.8 3.5 3.5 8.8L22 2z"/></svg>',
+      burst: '<svg viewBox="0 0 24 24" width="16" height="16" fill="#ef4444"><circle cx="12" cy="12" r="5"/></svg>'
+    };
+
+    function triggerEasterEggBurst(x, y, particleTypes = ['heart', 'pinkHeart', 'sparkle'], count = 10) {
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'easter-particle-blast';
+        const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        particle.innerHTML = VECTOR_PARTICLES[type] || VECTOR_PARTICLES.sparkle;
+
+        const angle = (i / count) * 2 * Math.PI + (Math.random() - 0.5) * 0.6;
+        const distance = Math.random() * 60 + 35;
+        const dx = Math.cos(angle) * distance + 'px';
+        const dy = Math.sin(angle) * distance + 'px';
+        const rot = (Math.random() - 0.5) * 360 + 'deg';
+        const scale = (Math.random() * 0.5 + 0.9).toFixed(2);
+
+        particle.style.setProperty('--dx', dx);
+        particle.style.setProperty('--dy', dy);
+        particle.style.setProperty('--rot', rot);
+        particle.style.setProperty('--target-scale', scale);
+        particle.style.left = (x - 12) + 'px';
+        particle.style.top = (y - 12) + 'px';
+
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 950);
+      }
+    }
+
+    function toggleLike(item, e) {
+      handleActionLike(item, e);
+    }
+
+    /* 1. HEART: Endless Heart Explosion (Pure Easter Egg, No Count Change) */
+    function handleActionLike(item, e) {
+      const svg = item.querySelector('.action-svg');
+      if (!svg) return;
+
+      // Always fill red
+      svg.classList.add('liked');
+
+      // Re-trigger energetic popping animation on every single click
+      svg.classList.remove('heart-burst-anim');
+      void svg.offsetWidth; // Force reflow
+      svg.classList.add('heart-burst-anim');
+      setTimeout(() => svg.classList.remove('heart-burst-anim'), 700);
+
+      const rect = item.getBoundingClientRect();
+      const x = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+      const y = (e && e.clientY) ? e.clientY : (rect.top + rect.height / 2);
+
+      triggerEasterEggBurst(x, y, ['heart', 'pinkHeart', 'sparkle', 'burst'], 12);
+    }
+
+    /* 2. SPEECH BUBBLE: Inflate like Balloon & POP Explosion! */
+    function handleActionComment(item, e) {
+      const svg = item.querySelector('.action-svg');
+      if (svg) {
+        svg.classList.remove('bubble-pop-anim');
+        void svg.offsetWidth; // Force reflow
+        svg.classList.add('bubble-pop-anim');
+        setTimeout(() => svg.classList.remove('bubble-pop-anim'), 750);
+      }
+
+      const rect = item.getBoundingClientRect();
+      const x = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+      const y = (e && e.clientY) ? e.clientY : (rect.top + rect.height / 2);
+
+      // Delay pop particles slightly to match the balloon pop climax at ~350ms
+      setTimeout(() => {
+        triggerEasterEggBurst(x, y, ['bubble', 'sparkle', 'burst'], 12);
+      }, 350);
+    }
+
+    /* 3. REPOST: 720° Turbo Spin & Speed Trails */
+    function handleActionRepost(item, e) {
+      const svg = item.querySelector('.action-svg');
+      if (!svg) return;
+
+      svg.classList.remove('repost-turbo-anim');
+      void svg.offsetWidth; // Force reflow
+      svg.classList.add('repost-turbo-anim');
+      setTimeout(() => svg.classList.remove('repost-turbo-anim'), 750);
+
+      svg.classList.toggle('reposted');
+
+      const rect = item.getBoundingClientRect();
+      const x = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+      const y = (e && e.clientY) ? e.clientY : (rect.top + rect.height / 2);
+
+      triggerEasterEggBurst(x, y, ['sparkle', 'star', 'bubble'], 10);
+    }
+
+    /* 4. PAPER PLANE: Wind-up & SWOOSH 슝~ Fly Away! */
+    function handleActionShare(item, e) {
+      const svg = item.querySelector('.action-svg');
+      if (svg) {
+        svg.classList.remove('plane-fly-anim');
+        void svg.offsetWidth; // Force reflow
+        svg.classList.add('plane-fly-anim');
+        setTimeout(() => svg.classList.remove('plane-fly-anim'), 900);
+      }
+
+      const rect = item.getBoundingClientRect();
+      const x = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+      const y = (e && e.clientY) ? e.clientY : (rect.top + rect.height / 2);
+
+      triggerEasterEggBurst(x, y, ['plane', 'sparkle', 'star'], 12);
+    }
+
+    /* 5. BOOKMARK: Starburst Explosion & Black Ribbon Fill */
+    function handleActionSave(svg, e) {
+      if (!svg) return;
+
+      svg.classList.remove('bookmark-snap-anim');
+      void svg.offsetWidth; // Force reflow
+      svg.classList.add('bookmark-snap-anim');
+      setTimeout(() => svg.classList.remove('bookmark-snap-anim'), 700);
+
+      const isSaved = svg.classList.toggle('saved');
+
+      const rect = svg.getBoundingClientRect();
+      const x = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+      const y = (e && e.clientY) ? e.clientY : (rect.top + rect.height / 2);
+
+      if (isSaved) {
+        triggerEasterEggBurst(x, y, ['star', 'sparkle', 'ring'], 12);
+      } else {
+        triggerEasterEggBurst(x, y, ['sparkle', 'bubble'], 6);
+      }
+    }
+
+    function animateActionTap(item) {
+      if (!item) return;
+      item.classList.remove('tap-active');
+      void item.offsetWidth; // trigger reflow
+      item.classList.add('tap-active');
+      setTimeout(() => item.classList.remove('tap-active'), 400);
+    }
+
+    function toggleCommentLike(svg) {
+      if (svg.style.fill === 'rgb(255, 48, 64)') {
+        svg.style.fill = 'none';
+        svg.style.stroke = 'var(--text-dim)';
+      } else {
+        svg.style.fill = '#ff3040';
+        svg.style.stroke = '#ff3040';
+      }
+    }
+
+    /* Confetti Particle Burst for RSVP YES */
+    function launchConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.style.display = 'block';
+
+      const pieces = [];
+      const colors = ['#f09433', '#e6683c', '#dc2743', '#cc2366', '#bc1888', '#0095f6', '#ffd700'];
+
+      for (let i = 0; i < 70; i++) {
+        pieces.push({
+          x: canvas.width / 2,
+          y: canvas.height * 0.65,
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 0.8) * 18,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+
+      let frame = 0;
+      function animateConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        pieces.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.45; // gravity
+          p.rotation += p.rotSpeed;
+          p.opacity -= 0.012;
+
+          if (p.opacity > 0) {
+            alive = true;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.opacity;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+            ctx.restore();
+          }
+        });
+
+        frame++;
+        if (alive && frame < 120) {
+          requestAnimationFrame(animateConfetti);
+        } else {
+          canvas.style.display = 'none';
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      requestAnimationFrame(animateConfetti);
+    }
+
+    let currentRsvpCount = 1;
+    let currentRsvpSide = '신랑측';
+    let currentRsvpMeal = '식사 예정';
+
+    function selectRsvpSide(side, btn) {
+      document.querySelectorAll('.rsvp-pill-group .rsvp-pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentRsvpSide = (side === 'groom') ? '신랑측' : '신부측';
+    }
+
+    function selectRsvpMeal(meal, btn) {
+      document.querySelectorAll('.rsvp-meal-group .rsvp-pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (meal === 'yes') currentRsvpMeal = '식사 예정';
+      else if (meal === 'no') currentRsvpMeal = '식사 안 함';
+      else currentRsvpMeal = '미정';
+    }
+
+    function updateRsvpCountUI() {
+      const display = document.getElementById('rsvpCountDisplay');
+      if (display) {
+        if (currentRsvpCount === 1) {
+          display.textContent = '1명 (본인)';
+        } else {
+          display.textContent = `${currentRsvpCount}명 (동반 ${currentRsvpCount - 1}인)`;
+        }
+      }
+
+      // Update preset chips active state
+      document.querySelectorAll('.rsvp-count-chip').forEach((chip, index) => {
+        chip.classList.remove('active');
+        if (index === 0 && currentRsvpCount === 1) chip.classList.add('active');
+        else if (index === 1 && currentRsvpCount === 2) chip.classList.add('active');
+        else if (index === 2 && currentRsvpCount === 3) chip.classList.add('active');
+        else if (index === 3 && currentRsvpCount >= 4) chip.classList.add('active');
+      });
+    }
+
+    function adjustRsvpCount(delta) {
+      currentRsvpCount = Math.max(1, Math.min(10, currentRsvpCount + delta));
+      updateRsvpCountUI();
+    }
+
+    function setRsvpCount(count, btn) {
+      currentRsvpCount = count;
+      updateRsvpCountUI();
+    }
+
+    function selectPoll(isYes, btn) {
+      const choiceYes = document.getElementById('rsvpChoiceYes');
+      const choiceNo = document.getElementById('rsvpChoiceNo');
+      const form = document.getElementById('rsvp-form');
+      const declined = document.getElementById('rsvp-declined');
+
+      if (choiceYes) choiceYes.classList.remove('active', 'yes', 'no');
+      if (choiceNo) choiceNo.classList.remove('active', 'yes', 'no');
+
+      if (isYes) {
+        if (choiceYes) choiceYes.classList.add('active', 'yes');
+        if (declined) declined.style.display = 'none';
+        if (form) {
+          form.style.display = 'block';
+          launchConfetti();
+          setTimeout(() => {
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 120);
+        }
+      } else {
+        if (choiceNo) choiceNo.classList.add('active', 'no');
+        if (form) form.style.display = 'none';
+        if (declined) {
+          declined.style.display = 'block';
+          setTimeout(() => {
+            declined.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 120);
+        }
+      }
+    }
+
+    function submitRSVP() {
+      const nameInput = document.getElementById('rsvpName');
+      const name = nameInput ? nameInput.value.trim() : '';
+      if (!name) {
+        showCustomAlert('성함을 입력해 주세요.', { title: '입력 필요', type: 'warn' }).then(() => {
+          if (nameInput) nameInput.focus();
+        });
+        return;
+      }
+      // Send to Google Sheet (if configured)
+      sendDataToGoogleSheet({
+        action: 'rsvp',
+        name: name,
+        side: currentRsvpSide,
+        count: currentRsvpCount,
+        meal: currentRsvpMeal,
+        createdAt: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+      });
+
+      launchConfetti();
+      showToastMsg(`${name}님의 소중한 참석 의사가 전달되었습니다. 감사합니다!`);
+      const form = document.getElementById('rsvp-form');
+      if (form) form.style.display = 'none';
+      const choiceYes = document.getElementById('rsvpChoiceYes');
+      if (choiceYes) {
+        const companionText = (currentRsvpCount > 1) ? ` 외 ${currentRsvpCount - 1}인` : '';
+        choiceYes.innerHTML = `
+          <div class="choice-icon-wrap" style="background:#0095f6;color:#fff;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="choice-title" style="color:#0095f6;">참석 전달 완료</span>
+          <span class="choice-desc">${currentRsvpSide} · ${name}님${companionText}</span>
+        `;
+      }
+    }
+
+    function switchBankTab(side, tabBtn) {
+      document.querySelectorAll('.bank-tab-btn').forEach(t => t.classList.remove('active'));
+      tabBtn.classList.add('active');
+      const groom = document.getElementById('bank-groom');
+      const bride = document.getElementById('bank-bride');
+      if (side === 'groom') {
+        bride.style.display = 'none';
+        groom.style.display = 'block';
+        groom.classList.remove('bank-tab-panel');
+        void groom.offsetWidth; // trigger reflow for animation restart
+        groom.classList.add('bank-tab-panel');
+      } else {
+        groom.style.display = 'none';
+        bride.style.display = 'block';
+        bride.classList.remove('bank-tab-panel');
+        void bride.offsetWidth; // trigger reflow for animation restart
+        bride.classList.add('bank-tab-panel');
+      }
+    }
+
+    function copyText(text, customMsg) {
+      const msg = customMsg || '복사되었습니다.';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToastMsg(msg);
+        }).catch(() => {
+          fallbackCopy(text, msg);
+        });
+      } else {
+        fallbackCopy(text, msg);
+      }
+    }
+
+    function fallbackCopy(text, msg = '복사되었습니다.') {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.readOnly = true;
+      ta.contentEditable = 'true';
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      ta.style.top = '0';
+      ta.style.opacity = '0';
+      ta.style.fontSize = '16px'; // Prevents iOS Safari auto-zoom
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      try {
+        document.execCommand('copy');
+        showToastMsg(msg);
+      } catch (e) { }
+      document.body.removeChild(ta);
+    }
+
+    /* Native Easy Remittance (간편송금) Handlers: Instant Copy & Direct App Launch */
+    function sendKakaoPay(bank, accountNo) {
+      const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
+
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        if (isAndroid) {
+          openUrlOrScheme('intent://kakaopay/money/to/bank#Intent;scheme=kakaotalk;package=com.kakao.talk;end');
+        } else {
+          openUrlOrScheme('kakaotalk://kakaopay/money/to/bank');
+        }
+      }
+    }
+
+    function sendToss(bank, accountNo) {
+      const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+      const bankName = bank.replace('은행', '').trim();
+      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
+
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        if (isAndroid) {
+          openUrlOrScheme(`intent://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}#Intent;scheme=supertoss;package=viva.republica.toss;end`);
+        } else {
+          openUrlOrScheme(`supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`);
+        }
+      }
+    }
+
+    function sendKakaoBank(bank, accountNo) {
+      const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
+
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        if (isAndroid) {
+          openUrlOrScheme('intent://#Intent;scheme=kakaobank;package=com.kakaobank.channel;end');
+        } else {
+          openUrlOrScheme('kakaobank://');
+        }
+      }
+    }
+
+    /* =============================== */
+    /* CUSTOM ALERT / CONFIRM MODAL    */
+    /* =============================== */
+    let customModalResolve = null;
+
+    function showCustomAlert(msg, options = {}) {
+      const overlay = document.getElementById('customModalOverlay');
+      const titleEl = document.getElementById('customModalTitle');
+      const msgEl = document.getElementById('customModalMsg');
+      const iconEl = document.getElementById('customModalIcon');
+      const actionsEl = document.getElementById('customModalActions');
+      if (!overlay) return Promise.resolve(true);
+
+      const title = options.title || '안내';
+      const type = options.type || 'info'; // info, warn, success
+
+      titleEl.textContent = title;
+      msgEl.textContent = msg;
+
+      // Set icon type
+      iconEl.className = 'custom-modal-icon ' + type;
+      const iconSvgs = {
+        info: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+        warn: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+        success: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+      };
+      iconEl.innerHTML = iconSvgs[type] || iconSvgs.info;
+
+      // Alert mode: single OK button
+      actionsEl.innerHTML = '<button type="button" class="custom-modal-btn ok" onclick="closeCustomModal(true)">확인</button>';
+
+      overlay.classList.add('show');
+
+      return new Promise(resolve => {
+        customModalResolve = resolve;
+      });
+    }
+
+    function showCustomConfirm(msg, options = {}) {
+      const overlay = document.getElementById('customModalOverlay');
+      const titleEl = document.getElementById('customModalTitle');
+      const msgEl = document.getElementById('customModalMsg');
+      const iconEl = document.getElementById('customModalIcon');
+      const actionsEl = document.getElementById('customModalActions');
+      if (!overlay) return Promise.resolve(false);
+
+      const title = options.title || '확인';
+      const type = options.type || 'info';
+      const okText = options.okText || '확인';
+      const cancelText = options.cancelText || '취소';
+      const danger = options.danger || false;
+
+      titleEl.textContent = title;
+      msgEl.textContent = msg;
+
+      iconEl.className = 'custom-modal-icon ' + type;
+      const iconSvgs = {
+        info: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+        warn: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+        success: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+      };
+      iconEl.innerHTML = iconSvgs[type] || iconSvgs.info;
+
+      // Confirm mode: Cancel + OK buttons
+      const dangerClass = danger ? ' danger' : '';
+      actionsEl.innerHTML = `
+        <button type="button" class="custom-modal-btn cancel" onclick="closeCustomModal(false)">${cancelText}</button>
+        <button type="button" class="custom-modal-btn ok${dangerClass}" onclick="closeCustomModal(true)">${okText}</button>
+      `;
+
+      overlay.classList.add('show');
+
+      return new Promise(resolve => {
+        customModalResolve = resolve;
+      });
+    }
+
+    function closeCustomModal(result) {
+      const overlay = document.getElementById('customModalOverlay');
+      if (overlay) overlay.classList.remove('show');
+      if (customModalResolve) {
+        customModalResolve(result);
+        customModalResolve = null;
+      }
+    }
+
+    function handleModalOverlayClick(e) {
+      if (e.target === e.currentTarget) {
+        closeCustomModal(false);
+      }
+    }
+
+    let toastTimer = null;
+    function showToastMsg(msg) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+
+      if (toastTimer) {
+        clearTimeout(toastTimer);
+        toastTimer = null;
+      }
+
+      toast.textContent = msg;
+      toast.classList.remove('show');
+      void toast.offsetWidth; // Force DOM reflow to re-trigger pop animation
+      toast.classList.add('show');
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+        toastTimer = null;
+      }, 2200);
+    }
+
+    /* ==================================================== */
+    /* INSTAGRAM COMMENTS ENGINE & FULL BOTTOM SHEET (IMAGE 2) */
+    /* ==================================================== */
+    const emojiMap = {
+      'heart': '\u2764\uFE0F',
+      'clap': '\uD83D\uDC4F',
+      'fire': '\uD83D\uDD25',
+      'party': '\uD83C\uDF89',
+      'plead': '\uD83E\uDD7A',
+      'heart_eyes': '\uD83D\uDE0D',
+      'wow': '\uD83D\uDE2E',
+      'joy': '\uD83D\uDE02'
+    };
+
+    const commentsData = [];
+
+    function renderCommentItemHTML(c) {
+      const isAuthorTag = c.isAuthor ? `<span class="ig-author-badge">· 작성자</span>` : '';
+
+      return `
+        <div class="ig-comment-item">
+          <div class="ig-comment-main">
+            <div class="ig-comment-header-row">
+              <span class="ig-comment-uname">${c.uname}</span>
+              <span class="ig-comment-time">${c.time}</span>
+              ${isAuthorTag}
+            </div>
+            <div class="ig-comment-text">${c.text}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderComments() {
+      const totalCount = commentsData.length;
+      const badge = document.getElementById('comments-count-badge');
+      if (badge) badge.textContent = totalCount;
+      const postCommentCount = document.getElementById('post-comments-count');
+      if (postCommentCount) postCommentCount.textContent = totalCount;
+
+      const viewAllBtn = document.getElementById('view-all-comments-btn');
+      if (viewAllBtn) {
+        if (totalCount === 0) {
+          viewAllBtn.style.display = 'none';
+        } else {
+          viewAllBtn.style.display = 'block';
+          viewAllBtn.innerHTML = `메시지 <span id="comments-count-badge">${totalCount}</span>개 모두 보기`;
+        }
+      }
+
+      // 1. Render Preview Comments on main page (latest 2 comments)
+      const listEl = document.getElementById('comments-list');
+      if (listEl) {
+        if (commentsData.length === 0) {
+          listEl.innerHTML = `
+            <div style="text-align:center; padding:18px 0; color:#8e8e8e; font-size:0.86rem;">
+              첫 번째 축하 메시지를 남겨주세요
+            </div>
+          `;
+        } else {
+          const previewItems = commentsData.slice(0, 2);
+          listEl.innerHTML = previewItems.map(c => renderCommentItemHTML(c)).join('');
+        }
+      }
+
+      // 2. Render Full Modal Sheet List (all comments)
+      const sheetBody = document.getElementById('sheet-comments-body');
+      if (sheetBody) {
+        if (commentsData.length === 0) {
+          sheetBody.innerHTML = `
+            <div style="text-align:center; padding:50px 20px; color:#8e8e8e; font-size:0.9rem; line-height:1.6;">
+              아직 등록된 축하 메시지가 없습니다.<br>가장 먼저 축하의 한마디를 남겨주세요.
+            </div>
+          `;
+        } else {
+          sheetBody.innerHTML = commentsData.map(c => renderCommentItemHTML(c)).join('');
+        }
+      }
+    }
+
+    /* ==================================================== */
+    /* UNIFIED MODAL & VIEWER BROWSER BACK NAVIGATION       */
+    /* ==================================================== */
+    const modalHistoryStack = [];
+    let isHistoryNavigating = false;
+
+    function updateModalBodyState() {
+      if (modalHistoryStack.length > 0) {
+        document.body.classList.add('modal-open');
+      } else {
+        document.body.classList.remove('modal-open');
+      }
+    }
+
+    // Touchmove preventer on modal backdrop and non-scrollable areas
+    document.addEventListener('touchmove', function (e) {
+      if (modalHistoryStack.length > 0) {
+        const scrollable = e.target.closest('.tmi-sheet-body, .sheet-comments-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body');
+        if (!scrollable) {
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
+
+    function pushModalToHistory(id, closeCallback) {
+      if (modalHistoryStack.length > 0 && modalHistoryStack[modalHistoryStack.length - 1].id === id) {
+        return;
+      }
+      modalHistoryStack.push({ id, close: closeCallback });
+      history.pushState({ modalId: id, timestamp: Date.now() }, '');
+      updateModalBodyState();
+    }
+
+    function popModalFromHistory(id) {
+      const idx = modalHistoryStack.findIndex(m => m.id === id);
+      if (idx !== -1) {
+        modalHistoryStack.splice(idx, 1);
+        if (!isHistoryNavigating) {
+          history.back();
+        }
+      }
+      updateModalBodyState();
+    }
+
+    window.addEventListener('popstate', () => {
+      if (modalHistoryStack.length > 0) {
+        isHistoryNavigating = true;
+        const item = modalHistoryStack.pop();
+        if (item && typeof item.close === 'function') {
+          item.close(true);
+        }
+        isHistoryNavigating = false;
+      }
+      updateModalBodyState();
+    });
+
+    function openCommentsSheet() {
+      renderComments();
+      const overlay = document.getElementById('comments-modal-overlay');
+      if (overlay) {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        pushModalToHistory('comments-sheet', (fromHistory) => {
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    }
+
+    function closeCommentsSheet(fromHistory = false) {
+      const overlay = document.getElementById('comments-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+      if (!fromHistory) {
+        popModalFromHistory('comments-sheet');
+      }
+    }
+
+    function handleCommentsOverlayClick(e) {
+      if (e.target.id === 'comments-modal-overlay') {
+        closeCommentsSheet();
+      }
+    }
+
+    /* TMI Behind Profile Bottom Sheet Handlers (Distributed 3 Types) */
+    let currentTmiType = 'couple';
+
+    function openTmiModal(type = 'couple') {
+      currentTmiType = type;
+      const overlay = document.getElementById('tmi-modal-overlay');
+      const titleEl = document.getElementById('tmi-modal-title');
+      const secCouple = document.getElementById('tmi-section-couple');
+      const secStory = document.getElementById('tmi-section-story');
+      const secGuest = document.getElementById('tmi-section-guest');
+
+      if (secCouple) secCouple.style.display = (type === 'couple') ? 'flex' : 'none';
+      if (secStory) secStory.style.display = (type === 'story') ? 'flex' : 'none';
+      if (secGuest) secGuest.style.display = (type === 'guest') ? 'flex' : 'none';
+
+      if (titleEl) {
+        if (type === 'couple') titleEl.textContent = '신랑 & 신부 프로필';
+        else if (type === 'story') titleEl.textContent = 'Our Love Story';
+        else if (type === 'guest') titleEl.textContent = '하객 감사 인사';
+      }
+
+      if (overlay) {
+        overlay.classList.add('active');
+        pushModalToHistory(`tmi-modal-${type}`, (fromHistory) => {
+          overlay.classList.remove('active');
+        });
+      }
+    }
+
+    function closeTmiModal(fromHistory = false) {
+      const overlay = document.getElementById('tmi-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      if (!fromHistory) {
+        popModalFromHistory(`tmi-modal-${currentTmiType}`);
+      }
+    }
+
+    function handleTmiOverlayClick(e) {
+      if (e.target.id === 'tmi-modal-overlay') {
+        closeTmiModal();
+      }
+    }
+
+    /* Top Nav (+) Confetti Celebration Fireworks Engine */
+    function handleTopPlusClick(btn, e) {
+      if (btn) {
+        btn.classList.remove('plus-burst-anim');
+        void btn.offsetWidth;
+        btn.classList.add('plus-burst-anim');
+        setTimeout(() => btn.classList.remove('plus-burst-anim'), 650);
+      }
+
+      const rect = btn ? btn.getBoundingClientRect() : { left: 24, top: 24, width: 24, height: 24 };
+      const x = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+      const y = (e && e.clientY) ? e.clientY : (rect.top + rect.height / 2);
+
+      triggerEasterEggBurst(x, y, ['sparkle', 'star', 'pinkHeart', 'heart', 'ring'], 14);
+      launchConfetti();
+    }
+
+    /* Instagram Activity / Notification Modal Handlers */
+    function openActivityModal() {
+      const dot = document.getElementById('topHeartRedDot');
+      if (dot) dot.style.display = 'none';
+
+      const overlay = document.getElementById('activity-modal-overlay');
+      if (overlay) {
+        overlay.classList.add('active');
+        pushModalToHistory('activity-modal', (fromHistory) => {
+          overlay.classList.remove('active');
+        });
+      }
+    }
+
+    function closeActivityModal(fromHistory = false) {
+      const overlay = document.getElementById('activity-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      if (!fromHistory) {
+        popModalFromHistory('activity-modal');
+      }
+    }
+
+    function handleActivityOverlayClick(e) {
+      if (e.target.id === 'activity-modal-overlay') {
+        closeActivityModal();
+      }
+    }
+
+    /* Instagram 3x3 Grid Wedding Gallery Modal Handlers */
+    function openGridGalleryModal() {
+      const overlay = document.getElementById('grid-gallery-modal-overlay');
+      if (overlay) {
+        overlay.classList.add('active');
+        pushModalToHistory('grid-gallery-modal', (fromHistory) => {
+          overlay.classList.remove('active');
+        });
+      }
+    }
+
+    function closeGridGalleryModal(fromHistory = false) {
+      const overlay = document.getElementById('grid-gallery-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      if (!fromHistory) {
+        popModalFromHistory('grid-gallery-modal');
+      }
+    }
+
+    function handleGridGalleryOverlayClick(e) {
+      if (e.target.id === 'grid-gallery-modal-overlay') {
+        closeGridGalleryModal();
+      }
+    }
+
+    function selectGridPhoto(index) {
+      closeGridGalleryModal();
+      setTimeout(() => {
+        openPhotoLightbox(index);
+      }, 150);
+    }
+
+    /* Groom & Bride Profile Modal Handlers */
+    function openProfileModal(focusType = 'all') {
+      const overlay = document.getElementById('groom-bride-profile-modal-overlay');
+      if (overlay) {
+        overlay.classList.add('active');
+        if (focusType === 'groom') {
+          setTimeout(() => {
+            const groomCard = document.getElementById('profile-card-groom');
+            if (groomCard) groomCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        } else if (focusType === 'bride') {
+          setTimeout(() => {
+            const brideCard = document.getElementById('profile-card-bride');
+            if (brideCard) brideCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        }
+        pushModalToHistory('profile-modal', (fromHistory) => {
+          overlay.classList.remove('active');
+        });
+      }
+    }
+
+    function closeProfileModal(fromHistory = false) {
+      const overlay = document.getElementById('groom-bride-profile-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      if (!fromHistory) {
+        popModalFromHistory('profile-modal');
+      }
+    }
+
+    function handleProfileOverlayClick(e) {
+      if (e.target.id === 'groom-bride-profile-modal-overlay') {
+        closeProfileModal();
+      }
+    }
+
+    /* Rough Map Modal Handlers */
+    function openRoughMapModal() {
+      openSinglePhotoLightbox('images/location-rough-map.jpg', '라비니움 오시는 길 약도');
+    }
+
+    function closeRoughMapModal(fromHistory = false) {
+      closePhotoLightbox(fromHistory);
+    }
+
+    function toggleCommentDataLike(id, e) {
+      if (e) e.stopPropagation();
+      const c = commentsData.find(item => item.id === id);
+      if (c) {
+        c.liked = !c.liked;
+        c.likes = (c.likes || 0) + (c.liked ? 1 : -1);
+        if (c.likes < 0) c.likes = 0;
+      }
+      renderComments();
+    }
+
+    function validateCommentInputs() {
+      const mainAuth = document.getElementById('comment-author-field');
+      const mainText = document.getElementById('comment-input-field');
+      const mainBtn = document.getElementById('comment-post-btn');
+
+      const sheetAuth = document.getElementById('sheet-comment-author');
+      const sheetText = document.getElementById('sheet-comment-input');
+      const sheetBtn = document.getElementById('sheet-post-btn');
+
+      const isMainValid = (mainAuth && mainAuth.value.trim().length > 0) && (mainText && mainText.value.trim().length > 0);
+      if (mainBtn) {
+        if (isMainValid) mainBtn.classList.add('active');
+        else mainBtn.classList.remove('active');
+      }
+
+      const isSheetValid = (sheetAuth && sheetAuth.value.trim().length > 0) && (sheetText && sheetText.value.trim().length > 0);
+      if (sheetBtn) {
+        if (isSheetValid) sheetBtn.classList.add('active');
+        else sheetBtn.classList.remove('active');
+      }
+    }
+
+    function syncAuthorInputs(name) {
+      const mainAuth = document.getElementById('comment-author-field');
+      const sheetAuth = document.getElementById('sheet-comment-author');
+      if (mainAuth && mainAuth.value !== name) mainAuth.value = name;
+      if (sheetAuth && sheetAuth.value !== name) sheetAuth.value = name;
+      validateCommentInputs();
+    }
+
+    function quickReact(type, btn) {
+      const emoji = emojiMap[type] || '\u2764\uFE0F';
+      const input = document.getElementById('comment-input-field');
+      if (input) {
+        input.value += (input.value ? ' ' : '') + emoji;
+        validateCommentInputs();
+        input.focus();
+      }
+      if (btn) {
+        btn.style.transform = 'scale(1.35)';
+        setTimeout(() => btn.style.transform = '', 200);
+      }
+    }
+
+    function quickReactSheet(type, btn) {
+      const emoji = emojiMap[type] || '\u2764\uFE0F';
+      const input = document.getElementById('sheet-comment-input');
+      if (input) {
+        input.value += (input.value ? ' ' : '') + emoji;
+        validateCommentInputs();
+        input.focus();
+      }
+      if (btn) {
+        btn.style.transform = 'scale(1.35)';
+        setTimeout(() => btn.style.transform = '', 200);
+      }
+    }
+
+    function addCommentRecord(val, authorName) {
+      const name = (authorName && authorName.trim()) ? authorName.trim() : '익명 하객';
+      const newComment = {
+        id: Date.now(),
+        uname: name,
+        avatar: 'images/main/1762868176689.jpg',
+        text: val,
+        time: '방금 전',
+        likes: 1,
+        liked: true,
+        isAuthor: false,
+        replies: []
+      };
+      commentsData.unshift(newComment);
+      renderComments();
+
+      // Send to Google Sheet (if configured)
+      sendDataToGoogleSheet({
+        action: 'comment',
+        author: name,
+        message: val,
+        createdAt: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+      });
+
+      showToastMsg('축하 메시지가 등록되었습니다.');
+    }
+
+    function postComment() {
+      const authInput = document.getElementById('comment-author-field');
+      const input = document.getElementById('comment-input-field');
+      const author = authInput ? authInput.value.trim() : '';
+      const val = input ? input.value.trim() : '';
+
+      if (!author) {
+        showToastMsg('성함(이름)을 입력해주세요.');
+        if (authInput) authInput.focus();
+        return;
+      }
+      if (!val) {
+        showToastMsg('축하 메시지를 입력해주세요.');
+        if (input) input.focus();
+        return;
+      }
+
+      addCommentRecord(val, author);
+      if (input) {
+        input.value = '';
+      }
+      validateCommentInputs();
+      openCommentsSheet();
+    }
+
+    function postCommentFromSheet() {
+      const authInput = document.getElementById('sheet-comment-author');
+      const input = document.getElementById('sheet-comment-input');
+      const author = authInput ? authInput.value.trim() : '';
+      const val = input ? input.value.trim() : '';
+
+      if (!author) {
+        showToastMsg('성함(이름)을 입력해주세요.');
+        if (authInput) authInput.focus();
+        return;
+      }
+      if (!val) {
+        showToastMsg('축하 메시지를 입력해주세요.');
+        if (input) input.focus();
+        return;
+      }
+
+      addCommentRecord(val, author);
+      if (input) {
+        input.value = '';
+      }
+      validateCommentInputs();
+      const body = document.getElementById('sheet-comments-body');
+      if (body) body.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Web Audio & MP3 BGM Engine */
+    let isPlaying = false;
+    let userMutedExplicitly = false;
+    let audioCtx = null;
+    let synthTimer = null;
+    const melodyNotes = [
+      [293.66, 369.99, 440.00, 587.33],
+      [220.00, 277.18, 329.63, 440.00],
+      [246.94, 293.66, 369.99, 493.88],
+      [185.00, 220.00, 277.18, 369.99],
+      [196.00, 246.94, 293.66, 392.00],
+      [146.83, 220.00, 293.66, 440.00],
+      [196.00, 246.94, 293.66, 392.00],
+      [220.00, 277.18, 329.63, 440.00]
+    ];
+    let chordIndex = 0;
+
+    function playSynthNote(freq, time, duration) {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, time);
+      gain.gain.setValueAtTime(0.0001, time);
+      gain.gain.exponentialRampToValueAtTime(0.05, time + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(time);
+      osc.stop(time + duration);
+    }
+
+    function playSynthMelodyLoop() {
+      if (!isPlaying || !audioCtx || audioCtx.state !== 'running') return;
+      const now = audioCtx.currentTime;
+      const chord = melodyNotes[chordIndex % melodyNotes.length];
+      chord.forEach((freq, idx) => {
+        playSynthNote(freq, now + (idx * 0.4), 1.5);
+      });
+      chordIndex++;
+      synthTimer = setTimeout(playSynthMelodyLoop, 1600);
+    }
+
+    function playBGM() {
+      if (userMutedExplicitly) return;
+      const audio = document.getElementById('bgm-audio');
+      const audioBtn = document.getElementById('audioToggleBtn');
+      const audioIcon = document.getElementById('audioIcon');
+      if (!audio) return;
+
+      audio.muted = false;
+      audio.volume = 0.65;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isPlaying = true;
+          updateAudioUI(true);
+        }).catch(err => {
+          console.log('Autoplay waiting for user gesture:', err);
+          isPlaying = false;
+          updateAudioUI(false);
+        });
+      }
+    }
+
+    function pauseBGM() {
+      const audio = document.getElementById('bgm-audio');
+      if (audio) {
+        audio.pause();
+      }
+      if (synthTimer) {
+        clearTimeout(synthTimer);
+        synthTimer = null;
+      }
+      if (audioCtx && audioCtx.state === 'running') {
+        audioCtx.suspend();
+      }
+      isPlaying = false;
+      updateAudioUI(false);
+    }
+
+    function toggleBGM() {
+      const audio = document.getElementById('bgm-audio');
+      if (audio && !audio.paused && isPlaying) {
+        userMutedExplicitly = true;
+        pauseBGM();
+      } else {
+        userMutedExplicitly = false;
+        playBGM();
+      }
+    }
+
+    function updateAudioUI(playing) {
+      const mainBtn = document.getElementById('audioToggleBtn');
+      const floatBtn = document.getElementById('floatingBgmBtn');
+      const mainIcon = document.getElementById('audioIcon');
+      const floatIcon = document.getElementById('floatingAudioIcon');
+
+      const playingSVG = '<path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
+      const mutedSVG = '<path d="M11 5L6 9H2v6h4l5 4V5z" fill="#ffffff"/><line x1="22" y1="9" x2="16" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="9" x2="22" y2="15" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
+
+      if (playing) {
+        if (mainBtn) mainBtn.classList.add('playing');
+        if (floatBtn) floatBtn.classList.add('playing');
+        if (mainIcon) mainIcon.innerHTML = playingSVG;
+        if (floatIcon) floatIcon.innerHTML = playingSVG;
+      } else {
+        if (mainBtn) mainBtn.classList.remove('playing');
+        if (floatBtn) floatBtn.classList.remove('playing');
+        if (mainIcon) mainIcon.innerHTML = mutedSVG;
+        if (floatIcon) floatIcon.innerHTML = mutedSVG;
+      }
+    }
+
+    function initFloatingBGMObserver() {
+      const heroPhoto = document.querySelector('.wedding-hero-photo');
+      const floatingBtn = document.getElementById('floatingBgmBtn');
+      if (!heroPhoto || !floatingBtn) return;
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+              floatingBtn.classList.add('visible');
+            } else {
+              floatingBtn.classList.remove('visible');
+            }
+          });
+        }, { threshold: 0.15 });
+        observer.observe(heroPhoto);
+      } else {
+        const onScroll = () => {
+          const rect = heroPhoto.getBoundingClientRect();
+          if (rect.bottom < 80) {
+            floatingBtn.classList.add('visible');
+          } else {
+            floatingBtn.classList.remove('visible');
+          }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+    }
+
+    function initAutoBGM() {
+      // 1. Initial play attempt on load
+      playBGM();
+
+      // 2. Comprehensive interaction listeners on all gesture events with capture
+      const gestureEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown'];
+
+      const onFirstGesture = () => {
+        if (userMutedExplicitly) return;
+        const audio = document.getElementById('bgm-audio');
+        if (audio && audio.paused) {
+          audio.muted = false;
+          audio.volume = 0.65;
+          const p = audio.play();
+          if (p !== undefined) {
+            p.then(() => {
+              isPlaying = true;
+              updateAudioUI(true);
+              gestureEvents.forEach(evt => {
+                document.removeEventListener(evt, onFirstGesture, true);
+                window.removeEventListener(evt, onFirstGesture, true);
+              });
+            }).catch(e => {
+              console.log('Gesture play attempt deferred:', e);
+            });
+          }
+        }
+      };
+
+      gestureEvents.forEach(evt => {
+        document.addEventListener(evt, onFirstGesture, { capture: true, passive: true });
+        window.addEventListener(evt, onFirstGesture, { capture: true, passive: true });
+      });
+    }
+
+    /* ==================================================== */
+    /* DYNAMIC GALLERY & STORY AUTO-SCAN ENGINE             */
+    /* ==================================================== */
+    let galleryMediaList = [
+      'images/gallery/2026_08_19 13_15.mp4',
+      'images/gallery/1762868142274.jpg',
+      'images/gallery/1762868144152.jpg',
+      'images/gallery/2026_03_30 13_49.mp4',
+      'images/gallery/1762868146681.jpg',
+      'images/gallery/1762868148857.jpg',
+      'images/gallery/2026_03_30 13_49 (2).mp4',
+      'images/gallery/1762868149684.jpg',
+      'images/gallery/1762868150411.jpg',
+      'images/gallery/1762868168703.jpg',
+      'images/gallery/1762868168978.jpg',
+      'images/gallery/1762868174450.jpg',
+      'images/gallery/1762868174682.jpg',
+      'images/gallery/1762868177891.jpg',
+      'images/gallery/1762868180166.jpg'
+    ];
+    let postPhotos = galleryMediaList;
+    let gridPhotos = galleryMediaList;
+    let stories = galleryMediaList;
+    let currentStory = 0;
+    let storyTimer = null;
+
+    function isVideoMedia(path) {
+      if (!path) return false;
+      const lower = path.toLowerCase().split('?')[0];
+      return lower.endsWith('.mp4') || lower.endsWith('.webm') || lower.endsWith('.mov') || lower.endsWith('.ogg');
+    }
+
+    function renderDynamicGallery(mediaList) {
+      if (!mediaList || !mediaList.length) return;
+      galleryMediaList = mediaList;
+      postPhotos = mediaList;
+      gridPhotos = mediaList;
+      stories = mediaList;
+
+      // 1. Post 4 Feed Carousel Track & Dots
+      const track = document.getElementById('galleryCarouselTrack');
+      const dotsContainer = document.getElementById('galleryCarouselDots');
+      const locationTag = document.querySelector('#post-gallery .post-location-tag');
+      if (locationTag) {
+        locationTag.textContent = `웨딩 갤러리 · 사진 및 영상 ${mediaList.length}개`;
+      }
+
+      if (track) {
+        track.innerHTML = mediaList.map((src, idx) => {
+          const isVid = isVideoMedia(src);
+          if (isVid) {
+            return `
+              <div class="carousel-slide" onclick="handleSlideClick(${idx}, this, event)">
+                <video src="${src}" autoplay muted loop playsinline preload="auto" class="feed-video-element"></video>
+                <div class="video-media-badge">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                </div>
+                <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="carousel-slide" onclick="handleSlideClick(${idx}, this, event)">
+                <img src="${src}" alt="Wedding Media ${idx + 1}" loading="lazy">
+                <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+            `;
+          }
+        }).join('');
+      }
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = mediaList.map((_, idx) =>
+          `<div class="dot ${idx === 0 ? 'active' : ''}" onclick="goToGallerySlide(${idx})"></div>`
+        ).join('');
+      }
+
+      const carouselWrapper = document.getElementById('galleryCarouselWrapper');
+      if (carouselWrapper) {
+        initCarouselInstance(carouselWrapper);
+      }
+
+      // 2. 3x3 Grid Modal
+      const grid = document.querySelector('.ig-photo-grid');
+      const statNum = document.querySelector('#grid-gallery-modal-overlay .ig-stat-num');
+      if (statNum) statNum.textContent = mediaList.length;
+
+      if (grid) {
+        grid.innerHTML = mediaList.map((src, idx) => {
+          const isVid = isVideoMedia(src);
+          if (isVid) {
+            return `
+              <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
+                <video src="${src}" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="ig-grid-badge">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                </div>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
+                <img src="${src}" alt="Wedding Media ${idx + 1}" loading="lazy">
+              </div>
+            `;
+          }
+        }).join('');
+      }
+
+      // 3. Story Viewer Progress Container
+      const progContainer = document.getElementById('story-progress-container');
+      if (progContainer) {
+        progContainer.innerHTML = mediaList.map((_, idx) =>
+          `<div class="story-progress-bar"><div class="story-progress-fill" id="story-progress-${idx + 1}"></div></div>`
+        ).join('');
+      }
+    }
+
+    async function autoScanGalleryFolder() {
+      try {
+        const repoUrl = 'https://api.github.com/repos/freeface06/mobile-wedding/contents/images/gallery';
+        const res = await fetch(repoUrl, { headers: { 'Accept': 'application/vnd.github.v3+json' } });
+        if (res.ok) {
+          const files = await res.json();
+          if (Array.isArray(files) && files.length > 0) {
+            const validMediaFiles = files
+              .filter(f => f.type === 'file')
+              .map(f => `images/gallery/${f.name}`)
+              .filter(path => {
+                const lower = path.toLowerCase();
+                return lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.png') ||
+                  lower.endsWith('.webp') || lower.endsWith('.gif') || lower.endsWith('.mp4') ||
+                  lower.endsWith('.webm') || lower.endsWith('.mov');
+              });
+
+            if (validMediaFiles.length > 0) {
+              renderDynamicGallery(validMediaFiles);
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Auto-scan using built-in gallery media list:', e.message);
+      }
+      renderDynamicGallery(galleryMediaList);
+    }
+
+    function openStoryViewer() {
+      const sv = document.getElementById('story-viewer');
+      if (!sv) return;
+      sv.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      currentStory = 0;
+      updateStory();
+      pushModalToHistory('story-viewer', (fromHistory) => {
+        sv.style.display = 'none';
+        clearTimeout(storyTimer);
+        document.body.style.overflow = '';
+      });
+    }
+
+    function closeStoryViewer(fromHistory = false) {
+      const sv = document.getElementById('story-viewer');
+      const videoEl = document.getElementById('story-video');
+      if (videoEl) {
+        videoEl.pause();
+        videoEl.currentTime = 0;
+        videoEl.style.display = 'none';
+      }
+      if (sv) {
+        sv.style.display = 'none';
+      }
+      clearTimeout(storyTimer);
+      document.body.style.overflow = '';
+      if (!fromHistory) {
+        popModalFromHistory('story-viewer');
+      }
+    }
+
+    function nextStory() {
+      currentStory++;
+      if (currentStory >= stories.length) closeStoryViewer();
+      else updateStory();
+    }
+
+    function prevStory() {
+      currentStory--;
+      if (currentStory < 0) currentStory = 0;
+      updateStory();
+    }
+
+    function updateStory() {
+      const currentSrc = stories[currentStory] || '';
+      const isVid = isVideoMedia(currentSrc);
+      const imgEl = document.getElementById('story-img');
+      const videoEl = document.getElementById('story-video');
+
+      if (videoEl) {
+        videoEl.pause();
+        videoEl.currentTime = 0;
+      }
+
+      if (isVid) {
+        if (imgEl) imgEl.style.display = 'none';
+        if (videoEl) {
+          videoEl.style.display = 'block';
+          videoEl.src = currentSrc;
+          videoEl.play().catch(() => { });
+        }
+      } else {
+        if (videoEl) videoEl.style.display = 'none';
+        if (imgEl) {
+          imgEl.style.display = 'block';
+          imgEl.src = currentSrc;
+        }
+      }
+
+      for (let i = 1; i <= stories.length; i++) {
+        const fill = document.getElementById(`story-progress-${i}`);
+        if (fill) {
+          if (i < currentStory + 1) fill.style.width = '100%';
+          else fill.style.width = '0%';
+          fill.style.transition = 'none';
+        }
+      }
+      clearTimeout(storyTimer);
+      const currentFill = document.getElementById(`story-progress-${currentStory + 1}`);
+      if (currentFill) {
+        setTimeout(() => {
+          currentFill.style.transition = 'width 3.5s linear';
+          currentFill.style.width = '100%';
+        }, 50);
+      }
+      storyTimer = setTimeout(nextStory, 3500);
+    }
+    let didSwipeSlide = false;
+    const carouselInstances = {};
+
+    function initCarouselInstance(wrapper) {
+      if (!wrapper) return;
+      const id = wrapper.id || ('carousel_' + Math.random().toString(36).substr(2, 9));
+      const track = wrapper.querySelector('.post-carousel-track');
+      if (!track) return;
+
+      const parentArticle = wrapper.closest('article') || wrapper.parentElement;
+      const dots = parentArticle.querySelectorAll('.carousel-dots .dot');
+      const slides = track.querySelectorAll('.carousel-slide');
+      const totalSlides = slides.length || 1;
+
+      let currentIndex = 0;
+      let startX = 0;
+      let startY = 0;
+      let deltaX = 0;
+      let deltaY = 0;
+      let isTouching = false;
+      let isHorizontalSwipe = false;
+      let isVerticalScroll = false;
+      let startTime = 0;
+
+      function updateUI(animate = true) {
+        track.style.transition = animate ? 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === currentIndex);
+        });
+      }
+
+      function goTo(index) {
+        if (index >= 0 && index < totalSlides) {
+          currentIndex = index;
+          updateUI(true);
+        }
+      }
+
+      function onTouchStart(e) {
+        const touch = e.touches ? e.touches[0] : e;
+        startX = touch.clientX;
+        startY = touch.clientY;
+        deltaX = 0;
+        deltaY = 0;
+        startTime = Date.now();
+        isTouching = true;
+        isHorizontalSwipe = false;
+        isVerticalScroll = false;
+        didSwipeSlide = false;
+        track.style.transition = 'none';
+      }
+
+      function onTouchMove(e) {
+        if (!isTouching) return;
+        const touch = e.touches ? e.touches[0] : e;
+        deltaX = touch.clientX - startX;
+        deltaY = touch.clientY - startY;
+
+        if (!isHorizontalSwipe && !isVerticalScroll) {
+          if (Math.abs(deltaY) > 8 && Math.abs(deltaY) > Math.abs(deltaX)) {
+            isVerticalScroll = true;
+            return;
+          } else if (Math.abs(deltaX) > 8 && Math.abs(deltaX) >= Math.abs(deltaY)) {
+            isHorizontalSwipe = true;
+          }
+        }
+
+        if (isHorizontalSwipe) {
+          if (e.cancelable) e.preventDefault();
+          didSwipeSlide = true;
+          const width = wrapper.offsetWidth || 375;
+          let effectiveDelta = deltaX;
+
+          if (currentIndex === 0 && deltaX > 0) {
+            effectiveDelta = deltaX * 0.22;
+          } else if (currentIndex === totalSlides - 1 && deltaX < 0) {
+            effectiveDelta = deltaX * 0.22;
+          } else {
+            if (deltaX < -width) {
+              effectiveDelta = -width + (deltaX + width) * 0.12;
+            } else if (deltaX > width) {
+              effectiveDelta = width + (deltaX - width) * 0.12;
+            }
+          }
+          const offsetPercent = -currentIndex * 100;
+          track.style.transform = `translateX(calc(${offsetPercent}% + ${effectiveDelta}px))`;
+        }
+      }
+
+      function onTouchEnd() {
+        if (!isTouching) return;
+        isTouching = false;
+
+        if (isHorizontalSwipe) {
+          const timeTaken = Date.now() - startTime;
+          const width = wrapper.offsetWidth || 375;
+          const velocity = Math.abs(deltaX) / (timeTaken || 1);
+
+          if (deltaX < 0 && (Math.abs(deltaX) > width * 0.12 || (velocity > 0.25 && Math.abs(deltaX) > 15))) {
+            currentIndex = Math.min(currentIndex + 1, totalSlides - 1);
+          } else if (deltaX > 0 && (Math.abs(deltaX) > width * 0.12 || (velocity > 0.25 && Math.abs(deltaX) > 15))) {
+            currentIndex = Math.max(currentIndex - 1, 0);
+          }
+          updateUI(true);
+          setTimeout(() => { didSwipeSlide = false; }, 60);
+        } else {
+          updateUI(true);
+        }
+      }
+
+      // Wheel / Trackpad
+      let wheelLocked = false;
+      wrapper.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 15) {
+          if (e.cancelable) e.preventDefault();
+          if (wheelLocked) return;
+          wheelLocked = true;
+          if (e.deltaX > 15) {
+            goTo(Math.min(currentIndex + 1, totalSlides - 1));
+          } else if (e.deltaX < -15) {
+            goTo(Math.max(currentIndex - 1, 0));
+          }
+          setTimeout(() => { wheelLocked = false; }, 420);
+        }
+      }, { passive: false });
+
+      wrapper.addEventListener('touchstart', onTouchStart, { passive: false });
+      wrapper.addEventListener('touchmove', onTouchMove, { passive: false });
+      wrapper.addEventListener('touchend', onTouchEnd, { passive: true });
+      wrapper.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+      let isMouseDown = false;
+      wrapper.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.media-audio-btn')) return;
+        isMouseDown = true;
+        onTouchStart(e);
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return;
+        onTouchMove(e);
+      });
+      window.addEventListener('mouseup', () => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        onTouchEnd();
+      });
+
+      carouselInstances[id] = { goTo, updateUI };
+      updateUI(false);
+    }
+
+    function goToSlide(index) {
+      if (carouselInstances['carouselWrapper']) {
+        carouselInstances['carouselWrapper'].goTo(index);
+      }
+    }
+
+    function goToGallerySlide(index) {
+      if (carouselInstances['galleryCarouselWrapper']) {
+        carouselInstances['galleryCarouselWrapper'].goTo(index);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.post-carousel-wrapper').forEach(wrapper => {
+        initCarouselInstance(wrapper);
+      });
+      autoScanGalleryFolder();
+      initFloatingBGMObserver();
+    });
+
+    /* Handle Click vs Double Tap on Photos */
+    let clickTimeout = null;
+    let lastClickTime = 0;
+    function handleSlideClick(index, slideEl, event) {
+      if (didSwipeSlide) {
+        didSwipeSlide = false;
+        return;
+      }
+      const now = Date.now();
+      if (now - lastClickTime < 360) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+        triggerHeart(slideEl, event);
+        lastClickTime = now;
+      } else {
+        lastClickTime = now;
+        clickTimeout = setTimeout(() => {
+          openPhotoLightbox(index);
+          clickTimeout = null;
+        }, 320);
+      }
+    }
+
+    /* ==================================================== */
+    /* FULLSCREEN LIGHTBOX ENGINE (SWIPE + PINCH/TAP ZOOM)   */
+    /* ==================================================== */
+    let currentLightboxIdx = 0;
+    let lbScale = 1;
+    let lbTranslateX = 0;
+    let lbTranslateY = 0;
+    let lbStartScale = 1;
+    let lbStartX = 0;
+    let lbStartY = 0;
+    let lbStartTransX = 0;
+    let lbStartTransY = 0;
+    let lbStartDist = 0;
+    let lbIsTouching = false;
+    let lbIsDragging = false;
+    let lbIsPinching = false;
+    let lbSwipeDeltaX = 0;
+    let lbSwipeStartTime = 0;
+    let lbLastTapTime = 0;
+
+    function openPhotoLightbox(index) {
+      currentLightboxIdx = index;
+      resetLightboxTransform(false);
+      updateLightbox();
+      const lb = document.getElementById('photo-lightbox');
+      if (!lb) return;
+      lb.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      pushModalToHistory('photo-lightbox', (fromHistory) => {
+        lb.style.display = 'none';
+        resetLightboxTransform(false);
+        document.body.style.overflow = '';
+      });
+    }
+
+    function openSinglePhotoLightbox(src, caption = '약도') {
+      const lb = document.getElementById('photo-lightbox');
+      const img = document.getElementById('lightboxImg');
+      const video = document.getElementById('lightboxVideo');
+      const counter = document.getElementById('lightboxCounter');
+      const dotsContainer = document.getElementById('lightboxDots');
+      if (!lb || !img) return;
+
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+        video.style.display = 'none';
+      }
+      img.style.display = 'block';
+      img.src = src;
+      resetLightboxTransform(false);
+      img.style.opacity = '1';
+      if (counter) counter.textContent = caption;
+      if (dotsContainer) dotsContainer.innerHTML = '';
+
+      lb.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      pushModalToHistory('photo-lightbox-single', (fromHistory) => {
+        lb.style.display = 'none';
+        resetLightboxTransform(false);
+        document.body.style.overflow = '';
+      });
+    }
+
+    function closePhotoLightbox(fromHistory = false) {
+      const lb = document.getElementById('photo-lightbox');
+      const video = document.getElementById('lightboxVideo');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+        video.style.display = 'none';
+      }
+      if (lb) {
+        lb.style.display = 'none';
+        resetLightboxTransform(false);
+      }
+      document.body.style.overflow = '';
+      if (!fromHistory) {
+        popModalFromHistory('photo-lightbox');
+        popModalFromHistory('photo-lightbox-single');
+      }
+    }
+
+    function resetLightboxTransform(animate = true) {
+      lbScale = 1;
+      lbTranslateX = 0;
+      lbTranslateY = 0;
+      applyLightboxTransform(animate);
+    }
+
+    function applyLightboxTransform(animate = true) {
+      const img = document.getElementById('lightboxImg');
+      if (!img) return;
+
+      img.style.transition = animate ? 'transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+      img.style.transform = `translate3d(${lbTranslateX}px, ${lbTranslateY}px, 0) scale(${lbScale})`;
+    }
+
+    function updateLightbox(slideDirection = 0) {
+      const img = document.getElementById('lightboxImg');
+      const video = document.getElementById('lightboxVideo');
+      const counter = document.getElementById('lightboxCounter');
+      const dotsContainer = document.getElementById('lightboxDots');
+      const currentSrc = gridPhotos[currentLightboxIdx] || '';
+      const isVideo = currentSrc.toLowerCase().endsWith('.mp4');
+
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      function applyMedia() {
+        if (isVideo) {
+          if (img) img.style.display = 'none';
+          if (video) {
+            video.style.display = 'block';
+            video.src = currentSrc;
+            video.play().catch(() => { });
+          }
+        } else {
+          if (video) {
+            video.style.display = 'none';
+          }
+          if (img) {
+            img.style.display = 'block';
+            img.src = currentSrc;
+            img.style.opacity = '1';
+          }
+        }
+        resetLightboxTransform(false);
+      }
+
+      if (slideDirection !== 0 && !isVideo && img) {
+        img.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease';
+        img.style.transform = `translate3d(${slideDirection * -50}px, 0, 0) scale(0.94)`;
+        img.style.opacity = '0';
+        setTimeout(() => {
+          applyMedia();
+          if (img && !isVideo) {
+            img.style.transform = `translate3d(${slideDirection * 50}px, 0, 0) scale(0.94)`;
+            img.style.opacity = '0';
+            img.offsetHeight;
+            img.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease';
+            img.style.transform = `translate3d(0, 0, 0) scale(1)`;
+            img.style.opacity = '1';
+          }
+        }, 160);
+      } else {
+        applyMedia();
+      }
+
+      if (counter) counter.textContent = `${currentLightboxIdx + 1} / ${gridPhotos.length}`;
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = gridPhotos.map((_, i) =>
+          `<div class="dot ${i === currentLightboxIdx ? 'active' : ''}" onclick="goToLightboxPhoto(${i})"></div>`
+        ).join('');
+      }
+    }
+
+    function nextLightboxPhoto() {
+      if (currentLightboxIdx < gridPhotos.length - 1) {
+        currentLightboxIdx++;
+        updateLightbox(1);
+      }
+    }
+
+    function prevLightboxPhoto() {
+      if (currentLightboxIdx > 0) {
+        currentLightboxIdx--;
+        updateLightbox(-1);
+      }
+    }
+
+    function goToLightboxPhoto(index) {
+      if (index !== currentLightboxIdx && index >= 0 && index < gridPhotos.length) {
+        const dir = index > currentLightboxIdx ? 1 : -1;
+        currentLightboxIdx = index;
+        updateLightbox(dir);
+      }
+    }
+
+    function zoomLightbox(delta) {
+      const newScale = Math.max(1, Math.min(4, lbScale + delta));
+      if (newScale === 1) {
+        resetLightboxTransform(true);
+      } else {
+        lbScale = newScale;
+        clampLightboxTranslate();
+        applyLightboxTransform(true);
+      }
+    }
+
+    function resetLightboxZoom() {
+      if (lbScale !== 1) {
+        resetLightboxTransform(true);
+      } else {
+        zoomLightbox(1.5);
+      }
+    }
+
+    function clampLightboxTranslate() {
+      const wrapper = document.getElementById('lightboxImgWrapper');
+      if (!wrapper) return;
+
+      const maxTransX = (wrapper.offsetWidth * (lbScale - 1)) / 2;
+      const maxTransY = (wrapper.offsetHeight * (lbScale - 1)) / 2;
+
+      lbTranslateX = Math.max(-maxTransX, Math.min(maxTransX, lbTranslateX));
+      lbTranslateY = Math.max(-maxTransY, Math.min(maxTransY, lbTranslateY));
+    }
+
+    // Touch & Pointer Gesture Controller for Lightbox
+    (function initLightboxGestures() {
+      document.addEventListener('DOMContentLoaded', () => {
+        const body = document.getElementById('lightboxBody');
+        const img = document.getElementById('lightboxImg');
+        if (!body || !img) return;
+
+        function getDistance(t1, t2) {
+          return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+        }
+
+        function onTouchStart(e) {
+          if (e.touches.length === 2) {
+            lbIsPinching = true;
+            lbIsDragging = false;
+            lbStartDist = getDistance(e.touches[0], e.touches[1]);
+            lbStartScale = lbScale;
+            img.style.transition = 'none';
+          } else if (e.touches.length === 1) {
+            lbIsTouching = true;
+            lbIsPinching = false;
+            lbIsDragging = true;
+            lbStartX = e.touches[0].clientX;
+            lbStartY = e.touches[0].clientY;
+            lbStartTransX = lbTranslateX;
+            lbStartTransY = lbTranslateY;
+            lbSwipeDeltaX = 0;
+            lbSwipeStartTime = Date.now();
+            img.style.transition = 'none';
+          }
+        }
+
+        function onTouchMove(e) {
+          if (lbIsPinching && e.touches.length === 2) {
+            if (e.cancelable) e.preventDefault();
+            const currentDist = getDistance(e.touches[0], e.touches[1]);
+            if (lbStartDist > 0) {
+              const factor = currentDist / lbStartDist;
+              lbScale = Math.max(1, Math.min(4, lbStartScale * factor));
+              clampLightboxTranslate();
+              applyLightboxTransform(false);
+            }
+          } else if (lbIsTouching && e.touches.length === 1) {
+            const curX = e.touches[0].clientX;
+            const curY = e.touches[0].clientY;
+            const deltaX = curX - lbStartX;
+            const deltaY = curY - lbStartY;
+            lbSwipeDeltaX = deltaX;
+
+            if (lbScale > 1.05) {
+              if (e.cancelable) e.preventDefault();
+              lbTranslateX = lbStartTransX + deltaX;
+              lbTranslateY = lbStartTransY + deltaY;
+              clampLightboxTranslate();
+              applyLightboxTransform(false);
+            } else {
+              if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (e.cancelable) e.preventDefault();
+                let effectiveDelta = deltaX;
+                if ((currentLightboxIdx === 0 && deltaX > 0) || (currentLightboxIdx === gridPhotos.length - 1 && deltaX < 0)) {
+                  effectiveDelta = deltaX * 0.25;
+                }
+                img.style.transform = `translate3d(${effectiveDelta}px, 0, 0) scale(1)`;
+              }
+            }
+          }
+        }
+
+        function onTouchEnd(e) {
+          if (lbIsPinching && e.touches.length < 2) {
+            lbIsPinching = false;
+            if (lbScale < 1.05) {
+              resetLightboxTransform(true);
+            } else {
+              clampLightboxTranslate();
+              applyLightboxTransform(true);
+            }
+          } else if (lbIsTouching) {
+            lbIsTouching = false;
+            lbIsDragging = false;
+
+            if (lbScale <= 1.05) {
+              const elapsed = Date.now() - lbSwipeStartTime;
+              const velocity = Math.abs(lbSwipeDeltaX) / (elapsed || 1);
+              const width = body.offsetWidth || 375;
+
+              if (lbSwipeDeltaX < 0 && (Math.abs(lbSwipeDeltaX) > width * 0.15 || (velocity > 0.3 && Math.abs(lbSwipeDeltaX) > 20))) {
+                nextLightboxPhoto();
+              } else if (lbSwipeDeltaX > 0 && (Math.abs(lbSwipeDeltaX) > width * 0.15 || (velocity > 0.3 && Math.abs(lbSwipeDeltaX) > 20))) {
+                prevLightboxPhoto();
+              } else {
+                resetLightboxTransform(true);
+              }
+            } else {
+              clampLightboxTranslate();
+              applyLightboxTransform(true);
+            }
+          }
+        }
+
+        body.addEventListener('touchstart', onTouchStart, { passive: false });
+        body.addEventListener('touchmove', onTouchMove, { passive: false });
+        body.addEventListener('touchend', onTouchEnd, { passive: true });
+        body.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+        body.addEventListener('click', (e) => {
+          if (e.target.closest('.lightbox-tool-btn') || e.target.closest('.lightbox-close')) return;
+          const now = Date.now();
+          if (now - lbLastTapTime < 320) {
+            if (lbScale > 1.05) {
+              resetLightboxTransform(true);
+            } else {
+              lbScale = 2.5;
+              applyLightboxTransform(true);
+            }
+            lbLastTapTime = 0;
+          } else {
+            lbLastTapTime = now;
+          }
+        });
+
+        let isMouseDown = false;
+        body.addEventListener('mousedown', (e) => {
+          if (e.target.closest('.lightbox-header')) return;
+          isMouseDown = true;
+          lbIsTouching = true;
+          lbStartX = e.clientX;
+          lbStartY = e.clientY;
+          lbStartTransX = lbTranslateX;
+          lbStartTransY = lbTranslateY;
+          lbSwipeDeltaX = 0;
+          lbSwipeStartTime = Date.now();
+          img.style.transition = 'none';
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (!isMouseDown) return;
+          const deltaX = e.clientX - lbStartX;
+          const deltaY = e.clientY - lbStartY;
+          lbSwipeDeltaX = deltaX;
+
+          if (lbScale > 1.05) {
+            lbTranslateX = lbStartTransX + deltaX;
+            lbTranslateY = lbStartTransY + deltaY;
+            clampLightboxTranslate();
+            applyLightboxTransform(false);
+          } else {
+            let effectiveDelta = deltaX;
+            if ((currentLightboxIdx === 0 && deltaX > 0) || (currentLightboxIdx === gridPhotos.length - 1 && deltaX < 0)) {
+              effectiveDelta = deltaX * 0.25;
+            }
+            img.style.transform = `translate3d(${effectiveDelta}px, 0, 0) scale(1)`;
+          }
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (!isMouseDown) return;
+          isMouseDown = false;
+          lbIsTouching = false;
+          if (lbScale <= 1.05) {
+            const width = body.offsetWidth || 375;
+            if (lbSwipeDeltaX < -width * 0.15 || lbSwipeDeltaX < -40) {
+              nextLightboxPhoto();
+            } else if (lbSwipeDeltaX > width * 0.15 || lbSwipeDeltaX > 40) {
+              prevLightboxPhoto();
+            } else {
+              resetLightboxTransform(true);
+            }
+          } else {
+            clampLightboxTranslate();
+            applyLightboxTransform(true);
+          }
+        });
+
+        let lbWheelLock = false;
+        body.addEventListener('wheel', (e) => {
+          e.preventDefault();
+          if (e.ctrlKey || Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            const delta = e.deltaY < 0 ? 0.25 : -0.25;
+            zoomLightbox(delta);
+          } else if (Math.abs(e.deltaX) > 15 && lbScale <= 1.05) {
+            if (lbWheelLock) return;
+            lbWheelLock = true;
+            if (e.deltaX > 15) nextLightboxPhoto();
+            else if (e.deltaX < -15) prevLightboxPhoto();
+            setTimeout(() => { lbWheelLock = false; }, 400);
+          }
+        }, { passive: false });
+      });
+    })();
+
+    /* ==================================================== */
+    /* SMART SCROLL TOP NAV AUTO HIDE & SHOW               */
+    /* ==================================================== */
+    (function initSmartTopNavScroll() {
+      let lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      let isNavHidden = false;
+      let ticking = false;
+      const topNavElement = document.querySelector('.top-nav');
+
+      function updateNavState() {
+        if (!topNavElement) {
+          ticking = false;
+          return;
+        }
+
+        const currentScrollY = Math.max(0, window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
+
+        // Always show near top (within 40px)
+        if (currentScrollY <= 40) {
+          if (isNavHidden) {
+            topNavElement.classList.remove('nav-hidden');
+            isNavHidden = false;
+          }
+          lastScrollY = currentScrollY;
+          ticking = false;
+          return;
+        }
+
+        const diff = currentScrollY - lastScrollY;
+
+        // Scrolling Down by at least 6px -> Hide Nav
+        if (diff > 6 && !isNavHidden) {
+          topNavElement.classList.add('nav-hidden');
+          isNavHidden = true;
+        }
+        // Scrolling Up by at least 6px -> Show Nav
+        else if (diff < -6 && isNavHidden) {
+          topNavElement.classList.remove('nav-hidden');
+          isNavHidden = false;
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateNavState);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateNavState);
+          ticking = true;
+        }
+      }, { passive: true });
+    })();
