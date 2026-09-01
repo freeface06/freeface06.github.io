@@ -132,11 +132,8 @@
 
     /* Top Nav Bar (Fixed Header & Larger Centered Logo + Hide/Show on Scroll) */
     .top-nav {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
       width: 100%;
       max-width: 100%;
       background: rgba(255, 255, 255, 0.97);
@@ -148,7 +145,7 @@
       padding: 8px 12px;
       height: 56px;
       min-height: 56px;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: none;
       z-index: 1000;
       transform: translateY(0);
       transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
@@ -253,7 +250,7 @@
       overflow-y: hidden;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: none;
       background: #ffffff;
     }
 
@@ -333,8 +330,8 @@
 
     /* Feed Posts */
     .feed-post {
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 0;
+      border-bottom: none;
+      margin-bottom: 12px;
       background: #ffffff;
     }
 
@@ -1651,8 +1648,8 @@
       display: flex;
       justify-content: center;
       margin-top: 18px;
-      padding-top: 20px;
-      border-top: 1px solid #e8e8e8;
+      padding-top: 16px;
+      border-top: none;
       width: 100%;
     }
 
@@ -1814,7 +1811,7 @@
     .countdown-container {
       margin-top: 22px;
       padding-top: 18px;
-      border-top: 1px solid var(--border-subtle);
+      border-top: none;
       text-align: center;
     }
 
@@ -1948,8 +1945,8 @@
     /* Venue Title & Contact Row */
     .loc-venue-header {
       margin-bottom: 14px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+      border-bottom: none;
     }
 
     .loc-venue-title-row {
@@ -2087,7 +2084,7 @@
       display: flex;
       background: transparent;
       border-radius: 0;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: none;
       padding: 0;
       margin: 18px 0 18px;
       gap: 0;
@@ -2398,8 +2395,8 @@
       font-weight: 800;
       color: #111111;
       margin-bottom: 12px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+      border-top: none;
     }
 
     .loc-nav-grid {
@@ -3024,7 +3021,7 @@
 
     .bank-tab-header {
       display: flex;
-      border-bottom: 1px solid var(--border);
+      border-bottom: none;
       margin-bottom: 14px;
       position: relative;
     }
@@ -3071,7 +3068,7 @@
       gap: 8px;
       background: transparent;
       border: none;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: none;
       padding: 10px 0 12px;
       border-radius: 0;
       margin-bottom: 8px;
