@@ -2982,8 +2982,8 @@ button {
   display: none;
   margin-top: 12px;
   padding: 16px 14px 18px;
-  background: #fafbfc;
-  border: 1px solid #eef0f3;
+  background: transparent;
+  border: 1px solid var(--border-gold);
   border-radius: 14px;
   animation: drawerSlideDown 0.35s var(--smooth-ease) forwards;
 }
@@ -3134,8 +3134,8 @@ button {
 }
 
 .rsvp-count-chip.active {
-  background: #0095f6;
-  border-color: #0095f6;
+  background: var(--title-color);
+  border-color: var(--title-color);
   color: #ffffff;
   font-weight: 700;
 }
@@ -3150,7 +3150,7 @@ button {
 /* Submit Button */
 .rsvp-submit-btn {
   width: 100%;
-  background: #1D1712;
+  background: var(--title-color);
   color: #ffffff;
   font-weight: 700;
   padding: 13px 14px;
@@ -3161,7 +3161,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 14px rgba(74, 40, 16, 0.18);
   margin-top: 6px;
   border: none;
   transition: transform 0.15s, background-color 0.2s;
@@ -3169,7 +3169,7 @@ button {
 
 .rsvp-submit-btn:active {
   transform: scale(0.97);
-  background: #333333;
+  background: #361c0b;
 }
 
 /* Polite Non-Attendance Card */
@@ -3177,8 +3177,8 @@ button {
   display: none;
   margin-top: 12px;
   padding: 18px 16px;
-  background: var(--surface-subtle);
-  border: 1px solid var(--border);
+  background: transparent;
+  border: 1px solid var(--border-gold);
   border-radius: 14px;
   text-align: center;
   animation: drawerSlideDown 0.35s var(--smooth-ease) forwards;
