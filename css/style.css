@@ -5401,7 +5401,14 @@ body.modal-open .ig-bottom-footer,
 }
 
 .large-map-sheet {
-  background: #ffffff;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(235, 195, 170, 0.38) 0px,
+    rgba(235, 195, 170, 0.38) 1.2px,
+    transparent 1.2px,
+    transparent 8px
+  );
   width: 100%;
   max-width: 100%;
   height: 90vh;
@@ -5500,9 +5507,16 @@ body.modal-open .ig-bottom-footer,
 
 /* Modal Footer Navigation Links */
 .large-map-footer {
-  background: #ffffff;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(235, 195, 170, 0.38) 0px,
+    rgba(235, 195, 170, 0.38) 1.2px,
+    transparent 1.2px,
+    transparent 8px
+  );
   padding: 13px 16px clamp(16px, 3.5vw, 22px);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid var(--border-gold);
   display: flex;
   flex-direction: column;
   gap: 10px;

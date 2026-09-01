@@ -1615,7 +1615,7 @@
       const mapEl = document.getElementById('largeInteractiveMap');
       if (!mapEl) return;
       mapEl.innerHTML = `
-        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#f8f9fa;">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:transparent;">
           <img src="images/story_location.jpg" alt="라비니움" style="width:100%;max-width:320px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:14px;object-fit:cover;">
           <div style="font-size:0.95rem;font-weight:700;color:#4A2810;margin-bottom:4px;">천호 라비니움 1층 리추얼홀</div>
           <div style="font-size:0.8rem;color:#7B6858;margin-bottom:12px;">서울특별시 송파구 천호대로 996 (풍납동 473-1)</div>
