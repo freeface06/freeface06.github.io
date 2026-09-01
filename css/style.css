@@ -1622,8 +1622,8 @@ button {
 }
 
 .quote-poem-block {
-  margin-bottom: 20px;
-  padding: 6px 0;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 .poem-lines {
@@ -1634,7 +1634,7 @@ button {
   color: var(--text);
   word-break: keep-all;
   letter-spacing: -0.01em;
-  margin: 0 0 10px 0;
+  margin: 0 0 6px 0;
 }
 
 .poem-author {
@@ -1648,9 +1648,9 @@ button {
 
 .caption-divider-vertical {
   width: 1px;
-  height: 24px;
+  height: 16px;
   background: var(--border-gold);
-  margin: 22px auto;
+  margin: 14px auto;
 }
 
 .invitation-intro-lines {
