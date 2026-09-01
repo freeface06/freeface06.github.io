@@ -3836,7 +3836,7 @@ body.modal-open {
 
 .sheet-header {
   padding: 6px 16px 10px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -4943,17 +4943,17 @@ body.modal-open {
 }
 
 .sheet-emoji-bar {
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border-subtle);
   margin-top: 0;
   padding: 8px 16px 4px;
-  background: var(--card-bg);
+  background: transparent;
   flex-shrink: 0;
 }
 
 .sheet-input-dock {
   padding: 6px 14px 14px;
   border-top: none;
-  background: var(--card-bg);
+  background: transparent;
   flex-shrink: 0;
 }
 
