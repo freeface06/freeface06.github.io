@@ -296,7 +296,7 @@
       try {
         naverMapInstance = new naver.maps.Map('interactiveMap', {
           center: new naver.maps.LatLng(lat, lng),
-          zoom: 16,
+          zoom: 17,
           minZoom: 10,
           maxZoom: 19,
           draggable: false,
@@ -1521,7 +1521,7 @@
       try {
         naverLargeMapInstance = new naver.maps.Map('largeInteractiveMap', {
           center: new naver.maps.LatLng(lat, lng),
-          zoom: 16,
+          zoom: 17,
           minZoom: 9,
           maxZoom: 19,
           draggable: true,
@@ -1605,7 +1605,7 @@
         if (naverLargeMapInstance) {
           naver.maps.Event.trigger(naverLargeMapInstance, 'resize');
           naverLargeMapInstance.setCenter(new naver.maps.LatLng(37.5384438, 127.1224221));
-          naverLargeMapInstance.setZoom(16);
+          naverLargeMapInstance.setZoom(17);
         }
       }, 150);
     }
@@ -1630,7 +1630,7 @@
     function resetLargeMapCenter() {
       if (naverLargeMapInstance) {
         const latLng = new naver.maps.LatLng(37.5384438, 127.1224221);
-        naverLargeMapInstance.morph(latLng, 16);
+        naverLargeMapInstance.morph(latLng, 17);
       }
     }
 
