@@ -2553,56 +2553,49 @@
       fill: rgba(255, 48, 64, 0.12);
     }
 
-    /* Wedding Information Zone (Seamless Feed Post Stream) */
-    .wedding-info-zone {
-      background: transparent;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .wedding-clean-card {
+    /* ==================================================== */
+    /* CLEAN WEDDING SECTION (STANDARD MOBILE WEDDING STYLE) */
+    /* ==================================================== */
+    .wedding-section {
       background: #ffffff;
-      border: none;
-      border-radius: 0;
-      padding: 0;
-      box-shadow: none;
-      margin-bottom: 0;
+      padding: 36px 16px 32px;
+      margin: 0;
+      position: relative;
     }
 
-    .clean-section-header {
+    .wedding-sec-header {
       text-align: center;
-      margin-bottom: 18px;
+      margin-bottom: 24px;
     }
 
-    .clean-section-badge {
+    .wedding-sec-sub {
       display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      color: var(--ig-blue);
-      background: rgba(0, 149, 246, 0.08);
-      padding: 3px 10px;
-      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #999999;
       margin-bottom: 6px;
       text-transform: uppercase;
     }
 
-    .clean-section-title {
-      font-size: clamp(1.02rem, 3.8vw, 1.15rem);
+    .wedding-sec-title {
+      font-size: clamp(1.18rem, 4.4vw, 1.32rem);
       font-weight: 800;
       color: #111111;
-      letter-spacing: -0.3px;
-      margin: 0 0 4px;
+      letter-spacing: -0.4px;
+      margin: 0 0 8px;
     }
 
-    .clean-section-desc {
-      font-size: 0.82rem;
-      color: #737373;
+    .wedding-sec-desc {
+      font-size: 0.86rem;
+      color: #666666;
       margin: 0;
-      line-height: 1.45;
+      line-height: 1.6;
       word-break: keep-all;
+    }
+
+    .wedding-sec-body {
+      width: 100%;
     }
 
     /* Wreath Decline Notice Pure Minimal Typography (카드 디자인 배제) */
