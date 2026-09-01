@@ -476,8 +476,8 @@
 
     function addWeddingToCalendar() {
       const title = '이호정 & 전다솔 결혼식';
-      const description = '이호정 & 전다솔의 결혼식에 초대합니다.\n일시: 2027년 6월 19일(토) 오후 3:30\n장소: 라비니움 1층 리추얼홀 (서울특별시 송파구 천호대로 996)';
-      const location = '서울특별시 송파구 천호대로 996 (라비니움 1층 리추얼홀)';
+      const description = '이호정 & 전다솔의 결혼식에 초대합니다.\n일시: 2027년 6월 19일(토) 오후 3:30\n장소: 라비니움 1층 리츄얼홀 (서울특별시 송파구 천호대로 996)';
+      const location = '서울특별시 송파구 천호대로 996 (라비니움 1층 리츄얼홀)';
       const startDate = '20270619T063000Z'; // 15:30 KST (UTC+9 -> 06:30Z)
       const endDate = '20270619T083000Z';   // 17:30 KST (UTC+9 -> 08:30Z)
 
@@ -1024,7 +1024,7 @@
       initKakaoSDK();
 
       const shareTitle = '이호정 & 전다솔 결혼합니다';
-      const shareDesc = '2027년 6월 19일 토요일 오후 3시 30분 라비니움 1층 리추얼홀';
+      const shareDesc = '2027년 6월 19일 토요일 오후 3시 30분 라비니움 1층 리츄얼홀';
       const shareUrl = window.location.href.split('#')[0];
       const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
       const shareImg = window.location.origin + basePath + 'images/main/1762868176689.jpg';
@@ -1617,7 +1617,7 @@
       mapEl.innerHTML = `
         <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:transparent;">
           <img src="images/story_location.jpg" alt="라비니움" style="width:100%;max-width:320px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:14px;object-fit:cover;">
-          <div style="font-size:0.95rem;font-weight:700;color:#4A2810;margin-bottom:4px;">천호 라비니움 1층 리추얼홀</div>
+          <div style="font-size:0.95rem;font-weight:700;color:#4A2810;margin-bottom:4px;">천호 라비니움 1층 리츄얼홀</div>
           <div style="font-size:0.8rem;color:#7B6858;margin-bottom:12px;">서울특별시 송파구 천호대로 996 (풍납동 473-1)</div>
           <div style="font-size:0.78rem;color:#6E2B18;font-weight:600;">하단 내비게이션 버튼을 누르시면 길찾기 앱으로 바로 연결됩니다.</div>
         </div>
