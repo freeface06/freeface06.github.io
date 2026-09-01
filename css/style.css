@@ -1627,23 +1627,23 @@ button {
 }
 
 .poem-lines {
-  font-family: 'Gaegu', cursive;
-  font-size: clamp(1.22rem, 3.8vw, 1.34rem);
-  font-weight: 700;
-  line-height: 1.95;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 0.96rem;
+  font-weight: 500;
+  line-height: 2.15;
   color: var(--text-main);
   word-break: keep-all;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin: 0 0 10px 0;
 }
 
 .poem-author {
   display: inline-block;
-  font-family: 'Gaegu', cursive;
-  font-size: clamp(1.02rem, 3.2vw, 1.12rem);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 0.82rem;
   color: #A3844C;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .caption-divider-vertical {
