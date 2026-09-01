@@ -2076,7 +2076,7 @@ button {
   position: absolute;
   bottom: 12px;
   right: 12px;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 6px 12px;
@@ -2084,7 +2084,7 @@ button {
   font-size: 0.74rem;
   font-weight: 700;
   color: var(--title-color);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(74, 40, 16, 0.15);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
   z-index: 10;
   display: flex;
@@ -2095,6 +2095,12 @@ button {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
+.map-expand-badge span {
+  color: var(--title-color);
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
 .map-expand-badge:hover,
 .map-expand-badge:active {
   transform: scale(1.03);
@@ -2103,7 +2109,7 @@ button {
 }
 
 .map-expand-badge svg {
-  color: #0095f6;
+  color: var(--title-color);
   flex-shrink: 0;
 }
 
@@ -2131,13 +2137,18 @@ button {
   font-size: 0.74rem;
   font-weight: 700;
   color: var(--title-color);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(74, 40, 16, 0.15);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   z-index: 10;
   display: flex;
   align-items: center;
   gap: 5px;
   pointer-events: none;
+}
+
+.map-tag-pill span {
+  color: var(--title-color);
+  font-weight: 700;
 }
 
 .map-tag-pill svg {
