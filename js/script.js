@@ -973,6 +973,11 @@
     /* INVITATION SHARE ENGINE (카카오톡 공유 & 링크 복사)     */
     /* ==================================================== */
     function shareKakaoTalk() {
+      if (window.location.protocol === 'file:') {
+        copyText(window.location.href, '로컬 파일 환경에서는 카카오톡 공유 대신 링크가 복사되었습니다.');
+        return;
+      }
+
       initKakaoSDK();
 
       const shareTitle = '이호정 & 전다솔 결혼합니다';
