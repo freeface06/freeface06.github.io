@@ -459,10 +459,30 @@
       flex: 0 0 100%; width: 100%; min-width: 100%; max-width: 100%; height: 100%;
       position: relative; cursor: pointer; user-select: none; overflow: hidden;
     }
-    .carousel-slide img {
+    .carousel-slide img,
+    .carousel-slide video,
+    .feed-video-element {
       width: 100%; height: 100%; object-fit: cover; pointer-events: none; display: block;
       -webkit-user-drag: none;
       transition: transform 0.4s var(--smooth-ease);
+      background: #000;
+    }
+    .video-media-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      pointer-events: none;
+      color: #ffffff;
     }
 
     /* Carousel Dots Pagination - Rock Solid & Fixed */
@@ -546,6 +566,14 @@
       -webkit-user-drag: none;
     }
     .lightbox-img:active { cursor: grabbing; }
+    .lightbox-video {
+      max-width: 100%; max-height: 84vh; object-fit: contain;
+      border-radius: 4px; display: none;
+      outline: none; background: #000000;
+    }
+    .ig-grid-cell video {
+      width: 100%; height: 100%; object-fit: cover; display: block; background: #000;
+    }
     .lightbox-dots {
       display: flex; justify-content: center; align-items: center; gap: 6px;
       padding: 12px 0 18px; z-index: 20;
@@ -3897,36 +3925,25 @@
       </div>
       <div class="post-header-info">
         <div class="post-user-row"><span class="post-username">우리가 함께한 순간들</span><svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
-        <div class="post-location-tag">웨딩 갤러리 · 사진 6장</div>
+        <div class="post-location-tag">웨딩 갤러리 · 특별한 순간</div>
       </div>
       <svg class="post-header-more tap-spring" viewBox="0 0 24 24" onclick="openGridGalleryModal()" title="전체보기"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     </div>
 
-    <!-- Instagram Multi-Photo Carousel 2 -->
+    <!-- Instagram Multi-Media Carousel 2 (Video & Photo) -->
     <div class="post-carousel-wrapper" id="galleryCarouselWrapper">
       <div class="post-carousel-track" id="galleryCarouselTrack">
+        <!-- Slide 1: Wedding Video -->
         <div class="carousel-slide" onclick="handleSlideClick(0, this, event)">
-          <img src="images/main/1762868176689.jpg" alt="Wedding Photo 1">
+          <video src="images/gallery/2026_08_19 13_15.mp4" autoplay muted loop playsinline preload="auto" class="feed-video-element"></video>
+          <div class="video-media-badge">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+          </div>
           <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </div>
+        <!-- Slide 2: Wedding Main Photo -->
         <div class="carousel-slide" onclick="handleSlideClick(1, this, event)">
-          <img src="images/gallery/gallery_1.jpg" alt="Wedding Photo 2">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="carousel-slide" onclick="handleSlideClick(2, this, event)">
-          <img src="images/gallery/gallery_2.jpg" alt="Wedding Photo 3">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="carousel-slide" onclick="handleSlideClick(3, this, event)">
-          <img src="images/gallery/gallery_3.jpg" alt="Wedding Photo 4">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="carousel-slide" onclick="handleSlideClick(4, this, event)">
-          <img src="images/gallery/gallery_4.jpg" alt="Wedding Photo 5">
-          <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="carousel-slide" onclick="handleSlideClick(5, this, event)">
-          <img src="images/gallery/wedding_hall.jpg" alt="Wedding Photo 6">
+          <img src="images/main/1762868176689.jpg" alt="Wedding Photo">
           <svg class="double-tap-heart" width="90" height="90" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </div>
       </div>
@@ -3935,10 +3952,6 @@
     <div class="carousel-dots" id="galleryCarouselDots">
       <div class="dot active" onclick="goToGallerySlide(0)"></div>
       <div class="dot" onclick="goToGallerySlide(1)"></div>
-      <div class="dot" onclick="goToGallerySlide(2)"></div>
-      <div class="dot" onclick="goToGallerySlide(3)"></div>
-      <div class="dot" onclick="goToGallerySlide(4)"></div>
-      <div class="dot" onclick="goToGallerySlide(5)"></div>
     </div>
 
     <!-- Action Bar with Counts (Post 4: Gallery) -->
@@ -4317,6 +4330,7 @@
     <div class="lightbox-body" id="lightboxBody">
       <div class="lightbox-img-wrapper" id="lightboxImgWrapper">
         <img id="lightboxImg" class="lightbox-img" src="images/main/1762868176689.jpg" alt="Fullscreen Photo">
+        <video id="lightboxVideo" class="lightbox-video" controls playsinline loop></video>
       </div>
     </div>
     <div class="lightbox-dots" id="lightboxDots"></div>
@@ -4655,7 +4669,7 @@
             </div>
             <div class="ig-stats-row">
               <div>
-                <div class="ig-stat-num">6</div>
+                <div class="ig-stat-num">4</div>
                 <div class="ig-stat-label">게시물</div>
               </div>
               <div>
@@ -4681,25 +4695,26 @@
           <span>웨딩 갤러리</span>
         </div>
 
-        <!-- 3. Instagram 3x3 Photo Grid -->
+        <!-- 3. Instagram Photo & Video Grid -->
         <div class="ig-photo-grid">
+          <!-- Cell 0: Video -->
           <div class="ig-grid-cell" onclick="selectGridPhoto(0)">
-            <img src="images/main/1762868176689.jpg" alt="Photo 1" loading="lazy">
+            <video src="images/gallery/2026_08_19 13_15.mp4" autoplay muted loop playsinline preload="metadata"></video>
+            <div class="ig-grid-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            </div>
           </div>
+          <!-- Cell 1: Main Photo -->
           <div class="ig-grid-cell" onclick="selectGridPhoto(1)">
-            <img src="images/gallery/gallery_1.jpg" alt="Photo 2" loading="lazy">
+            <img src="images/main/1762868176689.jpg" alt="Wedding Main Photo" loading="lazy">
           </div>
+          <!-- Cell 2: Groom Photo -->
           <div class="ig-grid-cell" onclick="selectGridPhoto(2)">
-            <img src="images/gallery/gallery_2.jpg" alt="Photo 3" loading="lazy">
+            <img src="images/groom/20251231_143053.jpg" alt="Groom Photo" loading="lazy">
           </div>
+          <!-- Cell 3: Bride Photo -->
           <div class="ig-grid-cell" onclick="selectGridPhoto(3)">
-            <img src="images/gallery/gallery_3.jpg" alt="Photo 4" loading="lazy">
-          </div>
-          <div class="ig-grid-cell" onclick="selectGridPhoto(4)">
-            <img src="images/gallery/gallery_4.jpg" alt="Photo 5" loading="lazy">
-          </div>
-          <div class="ig-grid-cell" onclick="selectGridPhoto(5)">
-            <img src="images/gallery/wedding_hall.jpg" alt="Photo 6" loading="lazy">
+            <img src="images/bride/1762868149316.jpg" alt="Bride Photo" loading="lazy">
           </div>
         </div>
 
@@ -6482,18 +6497,14 @@
     /* INSTAGRAM MULTI-PHOTO CAROUSEL CONTROLLER            */
     /* ==================================================== */
     const postPhotos = [
-      'images/main/1762868176689.jpg',
-      'images/gallery/gallery_1.jpg',
-      'images/gallery/gallery_2.jpg',
-      'images/gallery/gallery_3.jpg'
+      'images/gallery/2026_08_19 13_15.mp4',
+      'images/main/1762868176689.jpg'
     ];
     const gridPhotos = [
+      'images/gallery/2026_08_19 13_15.mp4',
       'images/main/1762868176689.jpg',
-      'images/gallery/gallery_1.jpg',
-      'images/gallery/gallery_2.jpg',
-      'images/gallery/gallery_3.jpg',
-      'images/gallery/gallery_4.jpg',
-      'images/gallery/wedding_hall.jpg'
+      'images/groom/20251231_143053.jpg',
+      'images/bride/1762868149316.jpg'
     ];
     let didSwipeSlide = false;
     const carouselInstances = {};
@@ -6726,10 +6737,17 @@
     function openSinglePhotoLightbox(src, caption = '약도') {
       const lb = document.getElementById('photo-lightbox');
       const img = document.getElementById('lightboxImg');
+      const video = document.getElementById('lightboxVideo');
       const counter = document.getElementById('lightboxCounter');
       const dotsContainer = document.getElementById('lightboxDots');
       if (!lb || !img) return;
 
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+        video.style.display = 'none';
+      }
+      img.style.display = 'block';
       img.src = src;
       resetLightboxTransform(false);
       img.style.opacity = '1';
@@ -6747,6 +6765,12 @@
 
     function closePhotoLightbox(fromHistory = false) {
       const lb = document.getElementById('photo-lightbox');
+      const video = document.getElementById('lightboxVideo');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+        video.style.display = 'none';
+      }
       if (lb) {
         lb.style.display = 'none';
         resetLightboxTransform(false);
@@ -6775,28 +6799,55 @@
 
     function updateLightbox(slideDirection = 0) {
       const img = document.getElementById('lightboxImg');
+      const video = document.getElementById('lightboxVideo');
       const counter = document.getElementById('lightboxCounter');
       const dotsContainer = document.getElementById('lightboxDots');
-      if (!img) return;
+      const currentSrc = gridPhotos[currentLightboxIdx] || '';
+      const isVideo = currentSrc.toLowerCase().endsWith('.mp4');
 
-      if (slideDirection !== 0) {
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      function applyMedia() {
+        if (isVideo) {
+          if (img) img.style.display = 'none';
+          if (video) {
+            video.style.display = 'block';
+            video.src = currentSrc;
+            video.play().catch(() => {});
+          }
+        } else {
+          if (video) {
+            video.style.display = 'none';
+          }
+          if (img) {
+            img.style.display = 'block';
+            img.src = currentSrc;
+            img.style.opacity = '1';
+          }
+        }
+        resetLightboxTransform(false);
+      }
+
+      if (slideDirection !== 0 && !isVideo && img) {
         img.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease';
         img.style.transform = `translate3d(${slideDirection * -50}px, 0, 0) scale(0.94)`;
         img.style.opacity = '0';
         setTimeout(() => {
-          img.src = gridPhotos[currentLightboxIdx];
-          resetLightboxTransform(false);
-          img.style.transform = `translate3d(${slideDirection * 50}px, 0, 0) scale(0.94)`;
-          img.style.opacity = '0';
-          img.offsetHeight;
-          img.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease';
-          img.style.transform = `translate3d(0, 0, 0) scale(1)`;
-          img.style.opacity = '1';
+          applyMedia();
+          if (img && !isVideo) {
+            img.style.transform = `translate3d(${slideDirection * 50}px, 0, 0) scale(0.94)`;
+            img.style.opacity = '0';
+            img.offsetHeight;
+            img.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease';
+            img.style.transform = `translate3d(0, 0, 0) scale(1)`;
+            img.style.opacity = '1';
+          }
         }, 160);
       } else {
-        img.src = gridPhotos[currentLightboxIdx];
-        resetLightboxTransform(false);
-        img.style.opacity = '1';
+        applyMedia();
       }
 
       if (counter) counter.textContent = `${currentLightboxIdx + 1} / ${gridPhotos.length}`;
