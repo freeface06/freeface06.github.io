@@ -449,11 +449,11 @@
       animation: bokehFloat1 6.5s ease-in-out infinite 3s;
     }
 
-    /* Fine Micro-Diamond Sparkle (미세하게 반짝이는 글리터) */
+    /* Ultra-Fine Micro-Diamond Stardust Sparkle (사진 전체에 은은하게 반짝이는 미세 글리터) */
     .fine-sparkle {
       position: absolute;
-      width: 12px;
-      height: 12px;
+      width: 8px;
+      height: 8px;
       pointer-events: none;
       mix-blend-mode: screen;
       transform: translate(-50%, -50%);
@@ -462,41 +462,52 @@
     .fine-sparkle::before {
       content: '';
       position: absolute;
-      inset: 4px;
+      inset: 2px;
       border-radius: 50%;
       background: #ffffff;
-      box-shadow: 0 0 6px 2px rgba(255, 245, 215, 0.95), 0 0 12px 3px rgba(255, 225, 150, 0.65);
+      box-shadow: 0 0 4px 1.5px rgba(255, 248, 220, 0.9), 0 0 8px 2px rgba(255, 225, 150, 0.45);
     }
     .fine-sparkle::after {
       content: '';
       position: absolute;
-      top: 0; left: 5px; right: 5px; bottom: 0;
-      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
-      transform: scaleY(1.5);
-      box-shadow: 0 0 8px rgba(255, 240, 200, 0.85);
+      top: -2px; left: 3px; right: 3px; bottom: -2px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9) 45%, rgba(255, 255, 255, 0.9) 55%, transparent);
+      transform: scaleY(1.4);
+      box-shadow: 0 0 5px rgba(255, 240, 200, 0.65);
     }
     .fine-sparkle .flare-h {
       position: absolute;
-      top: 5px; left: 0; right: 0; bottom: 5px;
-      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
-      transform: scaleX(1.5);
+      top: 3px; left: -2px; right: -2px; bottom: 3px;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9) 45%, rgba(255, 255, 255, 0.9) 55%, transparent);
+      transform: scaleX(1.4);
     }
 
     @keyframes microTwinkle {
       0%, 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-      20% { transform: translate(-50%, -50%) scale(0.35); opacity: 0.3; }
-      50% { transform: translate(-50%, -50%) scale(1); opacity: 0.95; }
-      75% { transform: translate(-50%, -50%) scale(0.55); opacity: 0.45; }
+      18% { transform: translate(-50%, -50%) scale(0.25); opacity: 0.2; }
+      50% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.85; }
+      78% { transform: translate(-50%, -50%) scale(0.35); opacity: 0.3; }
     }
 
-    .sp-1 { top: 22%; left: 28%; animation: microTwinkle 4.2s ease-in-out infinite 0.2s; }
-    .sp-2 { top: 38%; left: 74%; animation: microTwinkle 5.1s ease-in-out infinite 1.8s; }
-    .sp-3 { top: 15%; left: 65%; animation: microTwinkle 4.6s ease-in-out infinite 2.5s; }
-    .sp-4 { top: 48%; left: 20%; animation: microTwinkle 5.8s ease-in-out infinite 3.2s; }
-    .sp-5 { top: 29%; left: 48%; animation: microTwinkle 4.0s ease-in-out infinite 1.1s; }
-    .sp-6 { top: 58%; left: 62%; animation: microTwinkle 4.9s ease-in-out infinite 0.7s; }
-    .sp-7 { top: 16%; left: 82%; animation: microTwinkle 5.4s ease-in-out infinite 2.9s; }
-    .sp-8 { top: 34%; left: 16%; animation: microTwinkle 4.5s ease-in-out infinite 2.1s; }
+    /* 18 Evenly Distributed Sparkle Nodes across Entire Photo */
+    .sp-1  { top: 8%;  left: 25%; animation: microTwinkle 4.2s ease-in-out infinite 0.1s; }
+    .sp-2  { top: 12%; left: 78%; animation: microTwinkle 5.0s ease-in-out infinite 1.6s; }
+    .sp-3  { top: 18%; left: 50%; animation: microTwinkle 4.4s ease-in-out infinite 2.8s; }
+    .sp-4  { top: 6%;  left: 88%; animation: microTwinkle 5.6s ease-in-out infinite 3.5s; }
+    .sp-5  { top: 14%; left: 12%; animation: microTwinkle 4.8s ease-in-out infinite 0.9s; }
+    .sp-6  { top: 28%; left: 18%; animation: microTwinkle 4.5s ease-in-out infinite 2.1s; }
+    .sp-7  { top: 32%; left: 85%; animation: microTwinkle 5.2s ease-in-out infinite 0.4s; }
+    .sp-8  { top: 24%; left: 68%; animation: microTwinkle 4.1s ease-in-out infinite 3.1s; }
+    .sp-9  { top: 42%; left: 12%; animation: microTwinkle 5.5s ease-in-out infinite 1.4s; }
+    .sp-10 { top: 38%; left: 45%; animation: microTwinkle 4.3s ease-in-out infinite 2.5s; }
+    .sp-11 { top: 54%; left: 28%; animation: microTwinkle 5.7s ease-in-out infinite 0.7s; }
+    .sp-12 { top: 58%; left: 78%; animation: microTwinkle 4.6s ease-in-out infinite 3.9s; }
+    .sp-13 { top: 64%; left: 15%; animation: microTwinkle 5.1s ease-in-out infinite 1.9s; }
+    .sp-14 { top: 68%; left: 88%; animation: microTwinkle 4.7s ease-in-out infinite 0.3s; }
+    .sp-15 { top: 48%; left: 92%; animation: microTwinkle 5.3s ease-in-out infinite 2.6s; }
+    .sp-16 { top: 78%; left: 22%; animation: microTwinkle 4.9s ease-in-out infinite 1.2s; }
+    .sp-17 { top: 82%; left: 75%; animation: microTwinkle 5.4s ease-in-out infinite 3.3s; }
+    .sp-18 { top: 90%; left: 48%; animation: microTwinkle 4.5s ease-in-out infinite 0.5s; }
 
     @keyframes bokehFloat1 {
       0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.4; }
@@ -3570,6 +3581,16 @@
         <div class="fine-sparkle sp-6"><div class="flare-h"></div></div>
         <div class="fine-sparkle sp-7"><div class="flare-h"></div></div>
         <div class="fine-sparkle sp-8"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-9"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-10"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-11"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-12"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-13"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-14"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-15"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-16"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-17"><div class="flare-h"></div></div>
+        <div class="fine-sparkle sp-18"><div class="flare-h"></div></div>
       </div>
 
       <div class="wedding-hero-overlay-content">
