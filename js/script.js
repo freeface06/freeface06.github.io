@@ -2325,10 +2325,12 @@
       const track = wrapper.querySelector('.post-carousel-track');
       if (!track) return;
 
+      // Clean up previous instance if already initialized to prevent duplicate listeners
+      if (carouselInstances[id] && typeof carouselInstances[id].destroy === 'function') {
+        carouselInstances[id].destroy();
+      }
+
       const parentArticle = wrapper.closest('article') || wrapper.parentElement;
-      const dots = parentArticle.querySelectorAll('.carousel-dots .dot');
-      const slides = track.querySelectorAll('.carousel-slide');
-      const totalSlides = slides.length || 1;
 
       let currentIndex = 0;
       let startX = 0;
@@ -2339,17 +2341,28 @@
       let isHorizontalSwipe = false;
       let isVerticalScroll = false;
       let startTime = 0;
+      let isMouseDown = false;
+      let wheelLocked = false;
 
       function updateUI(animate = true) {
-        track.style.transition = animate ? 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+        const slides = track.querySelectorAll('.carousel-slide');
+        const maxSlides = slides.length || 1;
+        if (currentIndex >= maxSlides) currentIndex = maxSlides - 1;
+        if (currentIndex < 0) currentIndex = 0;
+
+        track.style.transition = animate ? 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
         track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        const dots = parentArticle.querySelectorAll('.carousel-dots .dot');
         dots.forEach((dot, idx) => {
           dot.classList.toggle('active', idx === currentIndex);
         });
       }
 
       function goTo(index) {
-        if (index >= 0 && index < totalSlides) {
+        const slides = track.querySelectorAll('.carousel-slide');
+        const maxSlides = slides.length || 1;
+        if (index >= 0 && index < maxSlides) {
           currentIndex = index;
           updateUI(true);
         }
@@ -2388,6 +2401,8 @@
           if (e.cancelable) e.preventDefault();
           didSwipeSlide = true;
           const width = wrapper.offsetWidth || 375;
+          const slides = track.querySelectorAll('.carousel-slide');
+          const totalSlides = slides.length || 1;
           let effectiveDelta = deltaX;
 
           if (currentIndex === 0 && deltaX > 0) {
@@ -2414,6 +2429,8 @@
           const timeTaken = Date.now() - startTime;
           const width = wrapper.offsetWidth || 375;
           const velocity = Math.abs(deltaX) / (timeTaken || 1);
+          const slides = track.querySelectorAll('.carousel-slide');
+          const totalSlides = slides.length || 1;
 
           if (deltaX < 0 && (Math.abs(deltaX) > width * 0.12 || (velocity > 0.25 && Math.abs(deltaX) > 15))) {
             currentIndex = Math.min(currentIndex + 1, totalSlides - 1);
@@ -2427,44 +2444,60 @@
         }
       }
 
-      // Wheel / Trackpad
-      let wheelLocked = false;
-      wrapper.addEventListener('wheel', (e) => {
+      function onWheel(e) {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 15) {
           if (e.cancelable) e.preventDefault();
           if (wheelLocked) return;
           wheelLocked = true;
+          const slides = track.querySelectorAll('.carousel-slide');
+          const totalSlides = slides.length || 1;
           if (e.deltaX > 15) {
             goTo(Math.min(currentIndex + 1, totalSlides - 1));
           } else if (e.deltaX < -15) {
             goTo(Math.max(currentIndex - 1, 0));
           }
-          setTimeout(() => { wheelLocked = false; }, 420);
+          setTimeout(() => { wheelLocked = false; }, 360);
         }
-      }, { passive: false });
+      }
+
+      function onMouseDown(e) {
+        if (e.target.closest('.media-audio-btn')) return;
+        isMouseDown = true;
+        onTouchStart(e);
+      }
+
+      function onMouseMove(e) {
+        if (!isMouseDown) return;
+        onTouchMove(e);
+      }
+
+      function onMouseUp() {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        onTouchEnd();
+      }
 
       wrapper.addEventListener('touchstart', onTouchStart, { passive: false });
       wrapper.addEventListener('touchmove', onTouchMove, { passive: false });
       wrapper.addEventListener('touchend', onTouchEnd, { passive: true });
       wrapper.addEventListener('touchcancel', onTouchEnd, { passive: true });
+      wrapper.addEventListener('wheel', onWheel, { passive: false });
+      wrapper.addEventListener('mousedown', onMouseDown);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
 
-      let isMouseDown = false;
-      wrapper.addEventListener('mousedown', (e) => {
-        if (e.target.closest('.media-audio-btn')) return;
-        isMouseDown = true;
-        onTouchStart(e);
-      });
-      window.addEventListener('mousemove', (e) => {
-        if (!isMouseDown) return;
-        onTouchMove(e);
-      });
-      window.addEventListener('mouseup', () => {
-        if (!isMouseDown) return;
-        isMouseDown = false;
-        onTouchEnd();
-      });
+      function destroy() {
+        wrapper.removeEventListener('touchstart', onTouchStart);
+        wrapper.removeEventListener('touchmove', onTouchMove);
+        wrapper.removeEventListener('touchend', onTouchEnd);
+        wrapper.removeEventListener('touchcancel', onTouchEnd);
+        wrapper.removeEventListener('wheel', onWheel);
+        wrapper.removeEventListener('mousedown', onMouseDown);
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      }
 
-      carouselInstances[id] = { goTo, updateUI };
+      carouselInstances[id] = { goTo, updateUI, destroy };
       updateUI(false);
     }
 
