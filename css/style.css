@@ -3859,7 +3859,7 @@ body.modal-open {
 }
 
 .tmi-sheet {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -3954,8 +3954,8 @@ body.modal-open {
 
 .tmi-profile-card {
   width: 100%;
-  background: #fafafa;
-  border: 1px solid #ebebeb;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 16px;
   display: flex;
@@ -3979,7 +3979,7 @@ body.modal-open {
   flex-shrink: 0;
   border: 1.5px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  background: #f0f0f0;
+  background: var(--surface);
 }
 
 .tmi-avatar-img {
@@ -4058,10 +4058,10 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 12px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--border);
 }
 
 .tmi-qa-item {
@@ -4088,8 +4088,8 @@ body.modal-open {
 }
 
 .tmi-fun-fact-box {
-  background: #fafafa;
-  border: 1px solid #eeeeee;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px;
   display: flex;
