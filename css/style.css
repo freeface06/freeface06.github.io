@@ -1810,7 +1810,7 @@ button {
   font-family: 'Pretendard', sans-serif;
   font-size: clamp(0.88rem, 3vw, 0.98rem);
   font-weight: 500;
-  color: #4a4540;
+  color: var(--text);
   letter-spacing: 0.5px;
 }
 
@@ -1851,7 +1851,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #383431;
+  color: var(--text);
   font-weight: 400;
   position: relative;
   transition: transform 0.2s ease;
@@ -1864,7 +1864,7 @@ button {
 
 /* Luxury Wedding Highlight (Champagne Halo + Gold Ring) */
 .cal-day.target {
-  color: #1a1816;
+  color: var(--title-color);
   font-weight: 600;
   z-index: 1;
 }
@@ -1901,7 +1901,7 @@ button {
   position: relative;
   z-index: 2;
   font-weight: 700;
-  color: #1a1816;
+  color: var(--title-color);
 }
 
 @keyframes calWeddingGlow {
@@ -1946,7 +1946,7 @@ button {
   font-family: 'Pretendard', sans-serif;
   font-size: 0.76rem;
   font-weight: 500;
-  color: #635c55;
+  color: var(--text-dim);
   letter-spacing: -0.2px;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -1956,7 +1956,7 @@ button {
 .cal-save-btn:active {
   background: rgba(197, 168, 128, 0.1);
   border-color: rgba(197, 168, 128, 0.85);
-  color: #1a1816;
+  color: var(--title-color);
 }
 
 /* 4. Editorial Real-Time Countdown Timer */
@@ -5207,7 +5207,7 @@ body.modal-open .ig-bottom-footer,
 
 .custom-modal-msg {
   font-size: 0.88rem;
-  color: #444444;
+  color: var(--text);
   line-height: 1.55;
   word-break: keep-all;
 }
