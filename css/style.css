@@ -132,8 +132,11 @@
 
     /* Top Nav Bar (Fixed Header & Larger Centered Logo + Hide/Show on Scroll) */
     .top-nav {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
       width: 100%;
       max-width: 100%;
       background: rgba(255, 255, 255, 0.97);
