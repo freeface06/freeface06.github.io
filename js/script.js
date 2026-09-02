@@ -1428,41 +1428,52 @@
     }
 
     /* ==================================================== */
-    /* MODAL TOUCH SCROLL BOUNDARY ISOLATION GUARD          */
-    /* 모달 내부 스크롤 시 브라우저 윈도우 스크롤러로의 제스처 누수 차단 */
+    /* BULLETPROOF MODAL TOUCH TRAPPING & 1PX INSET GUARD   */
+    /* 모달 내 스크롤 시 접혀있던 브라우저 주소창 슬라이드인 원천 차단 */
     /* ==================================================== */
     (function initTouchBoundaryGuards() {
       let touchStartY = 0;
+      let activeScrollable = null;
 
       document.addEventListener('touchstart', (e) => {
+        if (!isScrollLocked) return;
+
         if (e.touches.length === 1) {
           touchStartY = e.touches[0].clientY;
+          activeScrollable = e.target.closest(
+            '.comments-sheet-body, .tmi-sheet-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body, .rough-map-sheet-body, .large-map-modal-body, .sheet-comments-body, #story-viewer, #photo-lightbox'
+          );
+
+          // 1px Inset Trick: 맨 위(0)나 맨 아래에 닿아 있으면 1px 안쪽으로 살짝 이동시켜
+          // 브라우저가 주소창 슬라이드인 제스처를 인식하지 못하게 방어
+          if (activeScrollable) {
+            if (activeScrollable.scrollTop <= 0) {
+              activeScrollable.scrollTop = 1;
+            } else if (activeScrollable.scrollTop + activeScrollable.clientHeight >= activeScrollable.scrollHeight) {
+              activeScrollable.scrollTop = activeScrollable.scrollHeight - activeScrollable.clientHeight - 1;
+            }
+          }
         }
       }, { passive: true });
 
       document.addEventListener('touchmove', (e) => {
         if (!isScrollLocked) return;
 
-        // Find if touch is inside a scrollable modal container
-        const scrollable = e.target.closest(
-          '.comments-sheet-body, .tmi-sheet-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body, .rough-map-sheet-body, .large-map-modal-body, #story-viewer, #photo-lightbox'
-        );
-
-        if (!scrollable) {
-          // Touch is on overlay backdrop or static headers -> block completely to stop URL bar resize
+        // 모달 오버레이 바깥이나 헤더/버튼 등 고정 영역 터치는 100% 차단
+        if (!activeScrollable) {
           if (e.cancelable) {
             e.preventDefault();
           }
           return;
         }
 
-        // Touch is inside scrollable area -> check top/bottom boundaries
         const currentY = e.touches[0].clientY;
         const deltaY = currentY - touchStartY;
-        const isAtTop = scrollable.scrollTop <= 0;
-        const isAtBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
 
-        // If pulling down at the very top or pushing up at the very bottom -> prevent window scroll chaining
+        const isAtTop = activeScrollable.scrollTop <= 1;
+        const isAtBottom = activeScrollable.scrollTop + activeScrollable.clientHeight >= activeScrollable.scrollHeight - 1;
+
+        // 맨 위에서 아래로 당길 때(주소창 노출 트리거) 또는 맨 아래에서 위로 밀 때 -> 브라우저 윈도우 스크롤러 전파 100% 차단
         if ((isAtTop && deltaY > 0) || (isAtBottom && deltaY < 0)) {
           if (e.cancelable) {
             e.preventDefault();

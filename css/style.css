@@ -3789,8 +3789,11 @@ button {
 }
 
 /* Modal Sheet Styling Extensions */
+html.modal-open,
 body.modal-open {
   overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
 }
 
 .comments-modal-overlay {
