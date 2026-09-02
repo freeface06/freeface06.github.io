@@ -2330,7 +2330,34 @@
         playBGM();
       }
 
-      // Resume active feed video if gallery is currently in viewport and no modal is open
+      // 1. If Grid Gallery Modal is currently open, resume all grid videos
+      const gridModal = document.getElementById('grid-gallery-modal-overlay');
+      if (gridModal && gridModal.classList.contains('active')) {
+        playGridVideos();
+        return;
+      }
+
+      // 2. If Story Viewer is currently open, resume story video
+      const storyViewer = document.getElementById('story-viewer');
+      if (storyViewer && storyViewer.style.display === 'flex') {
+        const storyVid = document.getElementById('story-video');
+        if (storyVid && storyVid.style.display !== 'none') {
+          playMutedVideoSafely(storyVid, storyVid.src || storyVid.getAttribute('src'));
+        }
+        return;
+      }
+
+      // 3. If Photo Lightbox is currently open, resume lightbox video
+      const lightbox = document.getElementById('photo-lightbox');
+      if (lightbox && lightbox.style.display === 'flex') {
+        const lbVid = document.getElementById('lightboxVideo');
+        if (lbVid && lbVid.style.display !== 'none') {
+          playMutedVideoSafely(lbVid, lbVid.src || lbVid.getAttribute('src'));
+        }
+        return;
+      }
+
+      // 4. Resume active feed video if gallery is currently in viewport and no modal is open
       manageFeedVideos();
     }
 
@@ -2398,6 +2425,12 @@
       }, { capture: true, passive: true });
 
       // Window Blur / Focus
+      window.addEventListener('focus', () => {
+        if (!document.hidden && !document.webkitHidden) {
+          handlePageVisible();
+        }
+      }, { passive: true });
+
       window.addEventListener('blur', () => {
         if (document.hidden || document.webkitHidden) {
           handlePageHidden();
@@ -2418,7 +2451,15 @@
       const isPageVisible = !document.hidden && !document.webkitHidden;
       const isStoryOpen = document.getElementById('story-viewer') && document.getElementById('story-viewer').style.display === 'flex';
       const isLightboxOpen = document.getElementById('photo-lightbox') && document.getElementById('photo-lightbox').style.display === 'flex';
-      const isAnyModalOpen = (typeof modalHistoryStack !== 'undefined' && modalHistoryStack.length > 0) || isStoryOpen || isLightboxOpen;
+      const isGridOpen = document.getElementById('grid-gallery-modal-overlay') && document.getElementById('grid-gallery-modal-overlay').classList.contains('active');
+
+      // If Grid Modal is open and page is visible, keep grid videos playing
+      if (isPageVisible && isGridOpen) {
+        playGridVideos();
+        return;
+      }
+
+      const isAnyModalOpen = (typeof modalHistoryStack !== 'undefined' && modalHistoryStack.length > 0) || isStoryOpen || isLightboxOpen || isGridOpen;
 
       const wrapper = document.getElementById('galleryCarouselWrapper');
       if (!wrapper) return;
@@ -2441,10 +2482,7 @@
 
         if (shouldPlay && idx === currentIdx) {
           if (video.paused) {
-            const p = video.play();
-            if (p !== undefined) {
-              p.catch(() => { });
-            }
+            playMutedVideoSafely(video, video.src || video.getAttribute('src'));
           }
         } else {
           if (!video.paused) {
