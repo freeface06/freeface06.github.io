@@ -2617,9 +2617,64 @@
       renderDynamicGallery(galleryMediaList);
     }
 
+    /* Safe Cross-Browser Muted Video Autoplay Helper */
+    function playMutedVideoSafely(videoEl, src) {
+      if (!videoEl) return;
+      videoEl.setAttribute('muted', '');
+      videoEl.setAttribute('playsinline', '');
+      videoEl.setAttribute('webkit-playsinline', '');
+      videoEl.setAttribute('autoplay', '');
+      videoEl.muted = true;
+      videoEl.defaultMuted = true;
+      videoEl.playsInline = true;
+      videoEl.autoplay = true;
+
+      videoEl.oncanplay = null;
+      videoEl.onloadeddata = null;
+
+      if (src && videoEl.src !== src) {
+        videoEl.src = src;
+        videoEl.load();
+      }
+
+      const executePlay = () => {
+        const p = videoEl.play();
+        if (p !== undefined) {
+          p.catch(() => {
+            videoEl.muted = true;
+            videoEl.play().catch(() => { });
+          });
+        }
+      };
+
+      if (videoEl.readyState >= 2) {
+        executePlay();
+      } else {
+        videoEl.onloadeddata = () => {
+          videoEl.onloadeddata = null;
+          executePlay();
+        };
+        videoEl.oncanplay = () => {
+          videoEl.oncanplay = null;
+          executePlay();
+        };
+      }
+    }
+
     function openStoryViewer() {
       const sv = document.getElementById('story-viewer');
       if (!sv) return;
+
+      // Ensure progress bars are created for all stories
+      const progContainer = document.getElementById('story-progress-container');
+      if (progContainer) {
+        progContainer.innerHTML = stories.map((_, i) => `
+          <div class="story-progress-bar">
+            <div class="story-progress-fill" id="story-progress-${i + 1}"></div>
+          </div>
+        `).join('');
+      }
+
       sv.style.display = 'flex';
       currentStory = 0;
       updateStory();
@@ -2627,6 +2682,12 @@
       pushModalToHistory('story-viewer', (fromHistory) => {
         sv.style.display = 'none';
         clearTimeout(storyTimer);
+        const v = document.getElementById('story-video');
+        if (v) {
+          v.pause();
+          v.currentTime = 0;
+          v.onended = null;
+        }
         if (typeof manageFeedVideos === 'function') manageFeedVideos();
       });
     }
@@ -2637,6 +2698,7 @@
       if (videoEl) {
         videoEl.pause();
         videoEl.currentTime = 0;
+        videoEl.onended = null;
         videoEl.style.display = 'none';
       }
       if (sv) {
@@ -2671,17 +2733,21 @@
       if (videoEl) {
         videoEl.pause();
         videoEl.currentTime = 0;
+        videoEl.onended = null;
       }
+
+      let storyDuration = 3500;
 
       if (isVid) {
         if (imgEl) imgEl.style.display = 'none';
         if (videoEl) {
           videoEl.style.display = 'block';
-          videoEl.muted = true;
-          videoEl.defaultMuted = true;
-          videoEl.playsInline = true;
-          videoEl.src = encodedSrc;
-          videoEl.play().catch(() => { });
+          playMutedVideoSafely(videoEl, encodedSrc);
+
+          videoEl.onended = () => {
+            nextStory();
+          };
+          storyDuration = 5000;
         }
       } else {
         if (videoEl) videoEl.style.display = 'none';
@@ -2703,11 +2769,11 @@
       const currentFill = document.getElementById(`story-progress-${currentStory + 1}`);
       if (currentFill) {
         setTimeout(() => {
-          currentFill.style.transition = 'width 3.5s linear';
+          currentFill.style.transition = `width ${(storyDuration / 1000).toFixed(1)}s linear`;
           currentFill.style.width = '100%';
         }, 50);
       }
-      storyTimer = setTimeout(nextStory, 3500);
+      storyTimer = setTimeout(nextStory, storyDuration);
     }
     let didSwipeSlide = false;
     const carouselInstances = {};
@@ -3075,11 +3141,7 @@
           if (img) img.style.display = 'none';
           if (video) {
             video.style.display = 'block';
-            video.muted = true;
-            video.defaultMuted = true;
-            video.playsInline = true;
-            video.src = encodedSrc;
-            video.play().catch(() => { });
+            playMutedVideoSafely(video, encodedSrc);
           }
         } else {
           if (video) {
