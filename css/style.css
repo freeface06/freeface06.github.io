@@ -1138,21 +1138,7 @@ button {
 }
 
 .video-media-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-  pointer-events: none;
-  color: #ffffff;
+  display: none !important;
 }
 
 /* Carousel Dots Pagination - Rock Solid & Fluid */
@@ -1424,7 +1410,19 @@ button {
   box-shadow: 0 10px 36px rgba(0, 0, 0, 0.14);
   display: none;
   outline: none;
-  background: #000000;
+  background: transparent;
+  opacity: 1;
+  transition: opacity 0.22s ease;
+}
+
+video::-webkit-media-controls,
+video::-webkit-media-controls-enclosure,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
 }
 
 .lightbox-dots {
@@ -4797,13 +4795,7 @@ body.modal-open {
 }
 
 .ig-grid-badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  color: #ffffff;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
-  pointer-events: none;
-  z-index: 2;
+  display: none !important;
 }
 
 /* Rough Map Full Screen View */
