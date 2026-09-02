@@ -1373,8 +1373,10 @@
     function updateModalBodyState() {
       if (modalHistoryStack.length > 0) {
         document.body.classList.add('modal-open');
+        document.documentElement.classList.add('modal-open');
       } else {
         document.body.classList.remove('modal-open');
+        document.documentElement.classList.remove('modal-open');
       }
       if (typeof manageFeedVideos === 'function') {
         manageFeedVideos();
