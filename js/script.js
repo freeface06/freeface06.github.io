@@ -1623,6 +1623,91 @@
       closeTmiModal();
     }
 
+    /* ==================================================== */
+    /* HERO PHOTO WATER DROP RIPPLE INTERACTION             */
+    /* 메인 사진 터치/클릭 시 물방울 낙하 및 수면 파동 애니메이션 */
+    /* ==================================================== */
+    function handleHeroPhotoClick(e) {
+      const container = e.currentTarget || document.querySelector('.wedding-hero-photo');
+      if (!container) return;
+
+      const rect = container.getBoundingClientRect();
+      let clientX, clientY;
+
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+
+      if (typeof clientX !== 'number' || typeof clientY !== 'number') {
+        clientX = rect.left + rect.width / 2;
+        clientY = rect.top + rect.height / 2;
+      }
+
+      const x = Math.max(10, Math.min(rect.width - 10, clientX - rect.left));
+      const y = Math.max(10, Math.min(rect.height - 10, clientY - rect.top));
+
+      createWaterRippleEffect(container, x, y);
+    }
+
+    function createWaterRippleEffect(container, x, y) {
+      let rippleWrap = container.querySelector('.water-ripple-container');
+      if (!rippleWrap) {
+        rippleWrap = document.createElement('div');
+        rippleWrap.className = 'water-ripple-container';
+        container.appendChild(rippleWrap);
+      }
+
+      // 1. Water Droplet (위에서 똑 떨어짐)
+      const droplet = document.createElement('div');
+      droplet.className = 'water-droplet';
+      droplet.style.left = `${x}px`;
+      droplet.style.top = `${y}px`;
+      rippleWrap.appendChild(droplet);
+
+      // 2. Concentric Ripple Waves (물결 퍼짐 - 3겹)
+      setTimeout(() => {
+        for (let i = 1; i <= 3; i++) {
+          const wave = document.createElement('div');
+          wave.className = `water-ripple-wave wave-${i}`;
+          wave.style.left = `${x}px`;
+          wave.style.top = `${y}px`;
+          rippleWrap.appendChild(wave);
+        }
+
+        // 3. Splash Particles (미세 물방울 튀김 6개)
+        const angles = [0, 60, 120, 180, 240, 300];
+        angles.forEach(deg => {
+          const p = document.createElement('div');
+          p.className = 'water-splash-particle';
+          p.style.left = `${x}px`;
+          p.style.top = `${y}px`;
+          const dist = 18 + Math.random() * 22;
+          const rad = (deg + (Math.random() * 20 - 10)) * (Math.PI / 180);
+          const tx = Math.cos(rad) * dist;
+          const ty = Math.sin(rad) * dist - 8;
+          p.style.setProperty('--tx', `${tx}px`);
+          p.style.setProperty('--ty', `${ty}px`);
+          rippleWrap.appendChild(p);
+        });
+      }, 160);
+
+      // Clean up elements after animation finishes
+      setTimeout(() => {
+        if (droplet && droplet.parentNode) droplet.parentNode.removeChild(droplet);
+        const waves = rippleWrap.querySelectorAll('.water-ripple-wave, .water-splash-particle');
+        waves.forEach(w => {
+          if (w && w.parentNode) w.parentNode.removeChild(w);
+        });
+      }, 1300);
+    }
+
     /* Top Nav (+) Confetti Celebration Fireworks Engine */
     function handleTopPlusClick(btn, e) {
       if (btn) {
