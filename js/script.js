@@ -1687,10 +1687,17 @@
     }
 
     let heroClickSequence = 0;
+    let lastHeroTapTime = 0;
+    const MAX_ACTIVE_PARTICLES = 36;
 
     function createFlowerPetalBurst(container, x, y) {
+      const now = Date.now();
+      // Smart throttle: 55ms interval prevents spam freezing while keeping rapid tapping responsive
+      if (now - lastHeroTapTime < 55) return;
+      lastHeroTapTime = now;
+
       if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
-        try { navigator.vibrate(12); } catch (e) { }
+        try { navigator.vibrate(10); } catch (e) { }
       }
 
       let burstWrap = container.querySelector('.petal-burst-container');
@@ -1698,6 +1705,15 @@
         burstWrap = document.createElement('div');
         burstWrap.className = 'petal-burst-container';
         container.appendChild(burstWrap);
+      }
+
+      // Memory & Lag Guard: If too many active particles on screen, instantly prune oldest ones
+      const existingParticles = burstWrap.children;
+      if (existingParticles.length > 24) {
+        const pruneCount = existingParticles.length - 18;
+        for (let k = 0; k < pruneCount && burstWrap.firstChild; k++) {
+          burstWrap.removeChild(burstWrap.firstChild);
+        }
       }
 
       const mode = (heroClickSequence++) % 4;
@@ -1724,12 +1740,12 @@
         `;
         const rad = angle * (Math.PI / 180);
         const htx = Math.cos(rad) * dist;
-        const hty = Math.sin(rad) * dist - (30 + Math.random() * 35);
-        const hrot = (Math.random() * 60 - 30) + 'deg';
-        const hw = (16 + Math.random() * 8) + 'px';
+        const hty = Math.sin(rad) * dist - (25 + Math.random() * 25);
+        const hrot = (Math.random() * 50 - 25) + 'deg';
+        const hw = (15 + Math.random() * 6) + 'px';
 
-        heart.style.setProperty('--htx', `${htx}px`);
-        heart.style.setProperty('--hty', `${hty}px`);
+        heart.style.setProperty('--htx', `${htx.toFixed(1)}px`);
+        heart.style.setProperty('--hty', `${hty.toFixed(1)}px`);
         heart.style.setProperty('--hrot', hrot);
         heart.style.setProperty('--hw', hw);
         heart.style.setProperty('--hh', hw);
@@ -1749,11 +1765,11 @@
         `;
         const rad = angle * (Math.PI / 180);
         const stx = Math.cos(rad) * dist;
-        const sty = Math.sin(rad) * dist - (15 + Math.random() * 25);
-        const sw = (12 + Math.random() * 8) + 'px';
+        const sty = Math.sin(rad) * dist - (12 + Math.random() * 20);
+        const sw = (12 + Math.random() * 6) + 'px';
 
-        star.style.setProperty('--stx', `${stx}px`);
-        star.style.setProperty('--sty', `${sty}px`);
+        star.style.setProperty('--stx', `${stx.toFixed(1)}px`);
+        star.style.setProperty('--sty', `${sty.toFixed(1)}px`);
         star.style.setProperty('--sw', sw);
         star.style.setProperty('--sh', sw);
         return star;
@@ -1769,32 +1785,31 @@
 
         const rad = angle * (Math.PI / 180);
         const tx = Math.cos(rad) * dist;
-        const ty = Math.sin(rad) * dist - (25 + Math.random() * 40);
-        const rot = (Math.random() * 360 - 180) + 'deg';
-        const pw = (14 + Math.random() * 6) + 'px';
-        const ph = (18 + Math.random() * 8) + 'px';
+        const ty = Math.sin(rad) * dist - (20 + Math.random() * 30);
+        const rot = (Math.random() * 240 - 120) + 'deg';
+        const pw = (13 + Math.random() * 5) + 'px';
+        const ph = (17 + Math.random() * 6) + 'px';
 
-        petal.style.setProperty('--tx', `${tx}px`);
-        petal.style.setProperty('--ty', `${ty}px`);
+        petal.style.setProperty('--tx', `${tx.toFixed(1)}px`);
+        petal.style.setProperty('--ty', `${ty.toFixed(1)}px`);
         petal.style.setProperty('--rot', rot);
         petal.style.setProperty('--pw', pw);
         petal.style.setProperty('--ph', ph);
         return petal;
       };
 
-      // 4 Multi-Theme Variation Logic
-      const petalCount = mode === 0 ? 12 : (mode === 3 ? 14 : 7);
-      const heartCount = mode === 1 ? 8 : (mode === 3 ? 7 : 0);
-      const starCount = mode === 2 ? 14 : (mode === 3 ? 10 : 6);
-      const sparkleCount = 10;
+      // Optimized Particle Budget for 60FPS High Performance
+      const petalCount = mode === 0 ? 8 : (mode === 3 ? 7 : 4);
+      const heartCount = mode === 1 ? 5 : (mode === 3 ? 4 : 0);
+      const starCount = mode === 2 ? 6 : (mode === 3 ? 4 : 3);
 
       // 1. Add Petals
       for (let i = 0; i < petalCount; i++) {
         const pType = petalTypes[i % petalTypes.length];
-        const angle = (i * (360 / petalCount)) + (Math.random() * 30 - 15);
-        const dist = 50 + Math.random() * 80;
+        const angle = (i * (360 / petalCount)) + (Math.random() * 20 - 10);
+        const dist = 45 + Math.random() * 65;
         const p = createPetal(x, y, angle, dist, pType);
-        p.style.animationDelay = `${(i * 0.03).toFixed(2)}s`;
+        p.style.animationDelay = `${(i * 0.02).toFixed(2)}s`;
         burstWrap.appendChild(p);
         createdElements.push(p);
       }
@@ -1803,52 +1818,31 @@
       const heartColors = ['#ff4d6d', '#ff758f', '#e63946', '#ff85a1', '#d90429', '#f72585'];
       for (let h = 0; h < heartCount; h++) {
         const color = heartColors[h % heartColors.length];
-        const angle = (h * (360 / heartCount)) + (Math.random() * 25 - 12);
-        const dist = 40 + Math.random() * 65;
+        const angle = (h * (360 / heartCount)) + (Math.random() * 20 - 10);
+        const dist = 35 + Math.random() * 55;
         const ht = createHeart(x, y, angle, dist, color);
-        ht.style.animationDelay = `${(h * 0.04).toFixed(2)}s`;
+        ht.style.animationDelay = `${(h * 0.025).toFixed(2)}s`;
         burstWrap.appendChild(ht);
         createdElements.push(ht);
       }
 
       // 3. Add Diamond Twinkle Stars
       for (let s = 0; s < starCount; s++) {
-        const angle = (s * (360 / starCount)) + (Math.random() * 30 - 15);
-        const dist = 35 + Math.random() * 75;
+        const angle = (s * (360 / starCount)) + (Math.random() * 20 - 10);
+        const dist = 30 + Math.random() * 60;
         const starFill = s % 2 === 0 ? '#ffd700' : '#ffffff';
         const st = createStar(x, y, angle, dist, starFill);
-        st.style.animationDelay = `${(s * 0.03).toFixed(2)}s`;
+        st.style.animationDelay = `${(s * 0.02).toFixed(2)}s`;
         burstWrap.appendChild(st);
         createdElements.push(st);
       }
 
-      // 4. Add Gold Fairy Dust Sparkles
-      for (let j = 0; j < sparkleCount; j++) {
-        const sp = document.createElement('div');
-        sp.className = 'petal-sparkle';
-        sp.style.left = `${x}px`;
-        sp.style.top = `${y}px`;
-
-        const spAngle = (j * (360 / sparkleCount)) + (Math.random() * 40 - 20);
-        const spRad = spAngle * (Math.PI / 180);
-        const spDist = 30 + Math.random() * 70;
-        const stx = Math.cos(spRad) * spDist;
-        const sty = Math.sin(spRad) * spDist - (10 + Math.random() * 25);
-
-        sp.style.setProperty('--stx', `${stx}px`);
-        sp.style.setProperty('--sty', `${sty}px`);
-        sp.style.animationDelay = `${(j * 0.025).toFixed(2)}s`;
-
-        burstWrap.appendChild(sp);
-        createdElements.push(sp);
-      }
-
-      // Clean up elements after animation finishes
+      // Clean up elements quickly after 0.9s animation finishes
       setTimeout(() => {
         createdElements.forEach(el => {
           if (el && el.parentNode) el.parentNode.removeChild(el);
         });
-      }, 1600);
+      }, 920);
     }
 
     /* Top Nav (+) Confetti Celebration Fireworks Engine */

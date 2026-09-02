@@ -615,11 +615,12 @@ img[fetchpriority="high"],
   width: var(--pw, 16px);
   height: var(--ph, 22px);
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  transform: translate(-50%, -50%) scale(0);
+  transform: translate3d(-50%, -50%, 0) scale(0);
   pointer-events: none;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22));
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
   will-change: transform, opacity;
-  animation: petalFlutterFlight 1.4s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
+  contain: layout style;
+  animation: petalFlutterFlight 0.88s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
 }
 
 .flower-petal.petal-pink {
@@ -649,18 +650,18 @@ img[fetchpriority="high"],
 @keyframes petalFlutterFlight {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(0, 0) scale(0.2) rotate(0deg) rotateX(0deg) rotateY(0deg);
+    transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0) scale(0.2) rotate(0deg);
   }
-  15% {
+  18% {
     opacity: 1;
-    transform: translate(-50%, -50%) translate(calc(var(--tx) * 0.25), calc(var(--ty) * 0.25)) scale(1.2) rotate(calc(var(--rot) * 0.3)) rotateX(45deg);
+    transform: translate3d(-50%, -50%, 0) translate3d(calc(var(--tx) * 0.3), calc(var(--ty) * 0.3), 0) scale(1.15) rotate(calc(var(--rot) * 0.3));
   }
   70% {
     opacity: 0.95;
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(var(--tx), calc(var(--ty) + 35px)) scale(0.65) rotate(var(--rot)) rotateX(220deg) rotateY(160deg);
+    transform: translate3d(-50%, -50%, 0) translate3d(var(--tx), calc(var(--ty) + 25px), 0) scale(0.6) rotate(var(--rot));
   }
 }
 
@@ -669,11 +670,12 @@ img[fetchpriority="high"],
   position: absolute;
   width: var(--hw, 18px);
   height: var(--hh, 18px);
-  transform: translate(-50%, -50%) scale(0);
+  transform: translate3d(-50%, -50%, 0) scale(0);
   pointer-events: none;
-  filter: drop-shadow(0 3px 6px rgba(220, 20, 60, 0.35));
+  filter: drop-shadow(0 2px 5px rgba(220, 20, 60, 0.3));
   will-change: transform, opacity;
-  animation: heartFloatFlight 1.35s cubic-bezier(0.12, 0.9, 0.3, 1) forwards;
+  contain: layout style;
+  animation: heartFloatFlight 0.85s cubic-bezier(0.12, 0.9, 0.3, 1) forwards;
 }
 
 .wedding-heart-particle svg {
@@ -685,18 +687,18 @@ img[fetchpriority="high"],
 @keyframes heartFloatFlight {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(0, 0) scale(0.2) rotate(0deg);
+    transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0) scale(0.2) rotate(0deg);
   }
   20% {
     opacity: 1;
-    transform: translate(-50%, -50%) translate(calc(var(--htx) * 0.3), calc(var(--hty) * 0.3)) scale(1.25) rotate(calc(var(--hrot) * 0.4));
+    transform: translate3d(-50%, -50%, 0) translate3d(calc(var(--htx) * 0.35), calc(var(--hty) * 0.35), 0) scale(1.2) rotate(calc(var(--hrot) * 0.4));
   }
   75% {
     opacity: 0.9;
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(var(--htx), calc(var(--hty) - 25px)) scale(0.6) rotate(var(--hrot));
+    transform: translate3d(-50%, -50%, 0) translate3d(var(--htx), calc(var(--hty) - 20px), 0) scale(0.6) rotate(var(--hrot));
   }
 }
 
@@ -705,11 +707,12 @@ img[fetchpriority="high"],
   position: absolute;
   width: var(--sw, 14px);
   height: var(--sh, 14px);
-  transform: translate(-50%, -50%) scale(0);
+  transform: translate3d(-50%, -50%, 0) scale(0);
   pointer-events: none;
-  filter: drop-shadow(0 0 6px #ffd700);
+  filter: drop-shadow(0 0 5px #ffd700);
   will-change: transform, opacity;
-  animation: starTwinkleBurst 1.1s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
+  contain: layout style;
+  animation: starTwinkleBurst 0.82s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
 }
 
 .diamond-star svg {
@@ -721,18 +724,18 @@ img[fetchpriority="high"],
 @keyframes starTwinkleBurst {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(0, 0) scale(0.1) rotate(0deg);
+    transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0) scale(0.1) rotate(0deg);
   }
   25% {
     opacity: 1;
-    transform: translate(-50%, -50%) translate(calc(var(--stx) * 0.35), calc(var(--sty) * 0.35)) scale(1.3) rotate(90deg);
+    transform: translate3d(-50%, -50%, 0) translate3d(calc(var(--stx) * 0.4), calc(var(--sty) * 0.4), 0) scale(1.25) rotate(90deg);
   }
   70% {
     opacity: 0.9;
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(var(--stx), var(--sty)) scale(0.3) rotate(270deg);
+    transform: translate3d(-50%, -50%, 0) translate3d(var(--stx), var(--sty), 0) scale(0.3) rotate(220deg);
   }
 }
 
