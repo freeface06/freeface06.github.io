@@ -1652,7 +1652,17 @@
     /* HERO PHOTO FLOWER PETAL FLUTTER INTERACTION          */
     /* 메인 사진 터치/클릭 시 벚꽃/장미 꽃잎 플라워 샤워 효과   */
     /* ==================================================== */
+    document.addEventListener('dragstart', function(e) {
+      if (e.target && (e.target.nodeName === 'IMG' || e.target.closest && e.target.closest('.wedding-hero-photo'))) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
     function handleHeroPhotoClick(e) {
+      if (e && e.preventDefault && e.type === 'dragstart') {
+        e.preventDefault();
+        return;
+      }
       const container = e.currentTarget || document.querySelector('.wedding-hero-photo');
       if (!container) return;
 

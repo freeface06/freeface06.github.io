@@ -45,7 +45,7 @@
       window.addEventListener('orientationchange', function() { setTimeout(function() { setH(true); }, 150); });
     })();
   </script>
-  <link rel="stylesheet" href="css/style.css?v=20260902_1715">
+  <link rel="stylesheet" href="css/style.css?v=20260902_1725">
 </head>
 
 <body>
@@ -151,9 +151,9 @@
       </svg>
     </div>
 
-    <!-- Wedding Hero Single Photo with Water Ripple Interaction -->
-    <div class="wedding-hero-photo" onclick="handleHeroPhotoClick(event)">
-      <img src="images/main/1762868176689.jpg" alt="Wedding Main Photo" fetchpriority="high" decoding="async">
+    <!-- Wedding Hero Single Photo with Flower Petal Interaction -->
+    <div class="wedding-hero-photo" onclick="handleHeroPhotoClick(event)" ondragstart="return false;" oncontextmenu="return false;">
+      <img src="images/main/1762868176689.jpg" alt="Wedding Main Photo" fetchpriority="high" decoding="async" draggable="false" ondragstart="return false;">
 
       <!-- Cinematic Ambient Sunlight, Sunbeams & Micro-Sparkle Shimmer -->
       <div class="hero-sunlight-wrap">
@@ -1463,10 +1463,10 @@
     </div>
     <div class="story-header">
       <div class="post-header-avatar"><img src="images/main/1762868176689.jpg" alt="avatar"></div>
-      <div style="font-weight: 600; font-size: 0.88rem; color: #fff;">호정 & 다솔</div>
-      <div style="color:rgba(255,255,255,0.7); font-size:0.75rem;">· Wedding Story</div>
-      <div class="story-close" onclick="closeStoryViewer()">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+      <div class="story-header-author">호정 & 다솔</div>
+      <div class="story-header-sub">· Wedding Story</div>
+      <div class="story-close" onclick="closeStoryViewer()" aria-label="닫기" title="닫기">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
@@ -2139,7 +2139,7 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=20260902_1715"></script>
+  <script src="js/script.js?v=20260902_1725"></script>
 </body>
 
 </html>

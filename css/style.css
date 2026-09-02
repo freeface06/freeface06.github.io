@@ -106,6 +106,11 @@ svg,
   -webkit-touch-callout: none !important;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
   outline: none !important;
 }
 
@@ -452,6 +457,15 @@ button {
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #1a1a1a;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
 }
 
 .wedding-hero-photo img {
@@ -466,6 +480,15 @@ button {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform-origin: center center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
 }
 
 @keyframes heroKenBurns {
@@ -5310,18 +5333,24 @@ body.modal-open .ig-bottom-footer,
 /* Fullscreen Story Viewer Modal with Ken Burns Effect */
 #story-viewer {
   position: fixed;
-  top: -100px;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: -100px;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  bottom: 0;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100%;
+  height: 100dvh;
   box-sizing: border-box;
-  background: #000000;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
   z-index: 99999;
   display: none;
   flex-direction: column;
   animation: modalFadeIn 0.3s ease-out;
+  margin: 0;
 }
 
 @keyframes modalFadeIn {
@@ -5346,14 +5375,14 @@ body.modal-open .ig-bottom-footer,
 .story-progress-bar {
   flex: 1;
   height: 2.5px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(74, 40, 16, 0.18);
   border-radius: 2px;
   overflow: hidden;
 }
 
 .story-progress-fill {
   height: 100%;
-  background: #fff;
+  background: var(--title-color);
   width: 0%;
   border-radius: 2px;
 }
@@ -5363,13 +5392,29 @@ body.modal-open .ig-bottom-footer,
   align-items: center;
   padding: 6px 14px 10px;
   gap: 10px;
+  color: var(--title-color);
+}
+
+.story-header-author {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--title-color);
+}
+
+.story-header-sub {
+  color: var(--text-muted);
+  font-size: 0.78rem;
 }
 
 .story-close {
   margin-left: auto;
   cursor: pointer;
   padding: 4px;
+  color: var(--title-color);
   transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .story-close:active {
@@ -5383,12 +5428,18 @@ body.modal-open .ig-bottom-footer,
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .story-image {
   width: 100%;
   height: 100%;
+  max-width: 96vw;
+  max-height: 82vh;
   object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.14);
   animation: kenBurns 4s ease-out infinite alternate;
 }
 
@@ -5423,26 +5474,26 @@ body.modal-open .ig-bottom-footer,
 /* Custom Alert / Confirm Modal (Replaces Native alert/confirm) */
 .custom-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: -200px;
-  background: rgba(22, 15, 10, 0.55);
+  bottom: 0;
+  width: 100vw;
+  height: 100%;
+  height: 100dvh;
+  background: rgba(28, 16, 8, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 99999990;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  padding-top: 224px;
-  padding-bottom: 224px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.25s ease, visibility 0.25s ease;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
 }
 
 .custom-modal-overlay.show {
@@ -5456,13 +5507,13 @@ body.modal-open .ig-bottom-footer,
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
-  border: 1px solid var(--border-gold);
-  border-radius: 16px;
+  border: 1px solid rgba(214, 189, 138, 0.55);
+  border-radius: 20px;
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(197, 157, 79, 0.2);
-  transform: scale(0.9) translateY(10px);
+  box-shadow: 0 20px 60px rgba(74, 40, 16, 0.25);
+  transform: scale(0.92) translateY(8px);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -5476,54 +5527,55 @@ body.modal-open .ig-bottom-footer,
 }
 
 .custom-modal-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .custom-modal-icon.info {
-  background: rgba(0, 149, 246, 0.1);
-  color: #0095f6;
+  background: rgba(197, 157, 79, 0.15);
+  color: #C59D4F;
 }
 
 .custom-modal-icon.warn {
-  background: rgba(255, 59, 48, 0.1);
-  color: #ff3b30;
+  background: rgba(224, 86, 96, 0.15);
+  color: #e05660;
 }
 
 .custom-modal-icon.success {
-  background: rgba(3, 199, 90, 0.1);
-  color: #03C75A;
+  background: rgba(197, 157, 79, 0.15);
+  color: #C59D4F;
 }
 
 .custom-modal-title {
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--title-color);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   letter-spacing: -0.3px;
 }
 
 .custom-modal-msg {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text);
-  line-height: 1.55;
+  line-height: 1.6;
   word-break: keep-all;
 }
 
 .custom-modal-actions {
   display: flex;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .custom-modal-btn {
   flex: 1;
   padding: 15px 8px;
-  font-size: 0.94rem;
+  font-size: 0.95rem;
   font-weight: 600;
   border: none;
   background: transparent;
@@ -5533,21 +5585,21 @@ body.modal-open .ig-bottom-footer,
 }
 
 .custom-modal-btn:active {
-  background: #f0f0f0;
+  background: rgba(197, 157, 79, 0.1);
 }
 
 .custom-modal-btn.cancel {
-  color: #666666;
-  border-right: 1px solid #e5e5e5;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border-subtle);
 }
 
 .custom-modal-btn.ok {
-  color: #0095f6;
+  color: var(--title-color);
   font-weight: 700;
 }
 
 .custom-modal-btn.ok.danger {
-  color: #ff3b30;
+  color: #e05660;
 }
 
 /* Toast Notification */
