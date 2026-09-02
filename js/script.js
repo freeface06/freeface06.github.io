@@ -3116,10 +3116,19 @@
 
     function clampLightboxTranslate() {
       const wrapper = document.getElementById('lightboxImgWrapper');
-      if (!wrapper) return;
+      const media = getActiveLightboxMedia();
+      if (!wrapper || !media) return;
 
-      const maxTransX = Math.max(0, (wrapper.offsetWidth * (lbScale - 1)) / 2);
-      const maxTransY = Math.max(0, (wrapper.offsetHeight * (lbScale - 1)) / 2);
+      const wrapW = wrapper.clientWidth || window.innerWidth;
+      const wrapH = wrapper.clientHeight || window.innerHeight;
+      const mediaW = media.offsetWidth || wrapW;
+      const mediaH = media.offsetHeight || wrapH;
+
+      const scaledW = mediaW * lbScale;
+      const scaledH = mediaH * lbScale;
+
+      const maxTransX = scaledW > wrapW ? (scaledW - wrapW) / 2 : 0;
+      const maxTransY = scaledH > wrapH ? (scaledH - wrapH) / 2 : 0;
 
       lbTranslateX = Math.max(-maxTransX, Math.min(maxTransX, lbTranslateX));
       lbTranslateY = Math.max(-maxTransY, Math.min(maxTransY, lbTranslateY));
@@ -3138,14 +3147,19 @@
 
         let lbFocalX = 0;
         let lbFocalY = 0;
+        let lbLastGestureEndTime = 0;
+        let lbGestureMoved = false;
 
         function onTouchStart(e) {
           const media = getActiveLightboxMedia();
           if (!media) return;
 
+          lbGestureMoved = false;
+
           if (e.touches.length === 2) {
             lbIsPinching = true;
             lbIsDragging = false;
+            lbIsTouching = false;
             lbStartDist = getDistance(e.touches[0], e.touches[1]);
             lbStartScale = lbScale;
             lbStartTransX = lbTranslateX;
@@ -3176,26 +3190,35 @@
 
           if (lbIsPinching && e.touches.length === 2) {
             if (e.cancelable) e.preventDefault();
+            lbGestureMoved = true;
             const currentDist = getDistance(e.touches[0], e.touches[1]);
             if (lbStartDist > 0) {
               const factor = currentDist / lbStartDist;
               const newScale = Math.max(1, Math.min(4.5, lbStartScale * factor));
               const scaleRatio = newScale / lbStartScale;
 
-              // Focal point preserving translation formula
-              lbTranslateX = lbStartTransX * scaleRatio + lbFocalX * (1 - scaleRatio);
-              lbTranslateY = lbStartTransY * scaleRatio + lbFocalY * (1 - scaleRatio);
+              const rect = wrapper.getBoundingClientRect();
+              const curFocalX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left - rect.width / 2;
+              const curFocalY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top - rect.height / 2;
+
+              // Focal point preserving translation formula with active center shift
+              lbTranslateX = lbStartTransX * scaleRatio + lbFocalX * (1 - scaleRatio) + (curFocalX - lbFocalX);
+              lbTranslateY = lbStartTransY * scaleRatio + lbFocalY * (1 - scaleRatio) + (curFocalY - lbFocalY);
               lbScale = newScale;
 
               clampLightboxTranslate();
               applyLightboxTransform(false);
             }
-          } else if (lbIsTouching && e.touches.length === 1) {
+          } else if (lbIsTouching && e.touches.length === 1 && !lbIsPinching) {
             const curX = e.touches[0].clientX;
             const curY = e.touches[0].clientY;
             const deltaX = curX - lbStartX;
             const deltaY = curY - lbStartY;
             lbSwipeDeltaX = deltaX;
+
+            if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+              lbGestureMoved = true;
+            }
 
             if (lbScale > 1.05) {
               if (e.cancelable) e.preventDefault();
@@ -3217,15 +3240,35 @@
         }
 
         function onTouchEnd(e) {
-          if (lbIsPinching && e.touches.length < 2) {
+          lbLastGestureEndTime = Date.now();
+
+          // Handover: when 1 finger remains after pinching
+          if (lbIsPinching && e.touches.length === 1) {
             lbIsPinching = false;
+            lbIsTouching = true;
+            lbIsDragging = true;
+            lbStartX = e.touches[0].clientX;
+            lbStartY = e.touches[0].clientY;
+            lbStartTransX = lbTranslateX;
+            lbStartTransY = lbTranslateY;
+            lbSwipeDeltaX = 0;
+            return;
+          }
+
+          if (lbIsPinching && e.touches.length === 0) {
+            lbIsPinching = false;
+            lbIsTouching = false;
+            lbIsDragging = false;
             if (lbScale < 1.05) {
               resetLightboxTransform(true);
             } else {
               clampLightboxTranslate();
               applyLightboxTransform(true);
             }
-          } else if (lbIsTouching) {
+            return;
+          }
+
+          if (lbIsTouching && e.touches.length === 0) {
             lbIsTouching = false;
             lbIsDragging = false;
 
@@ -3253,16 +3296,17 @@
         body.addEventListener('touchend', onTouchEnd, { passive: true });
         body.addEventListener('touchcancel', onTouchEnd, { passive: true });
 
-        // Double Tap to Focal Zoom
+        // Double Tap to Focal Zoom (Protected against gesture misfire)
         body.addEventListener('click', (e) => {
           if (e.target.closest('.sheet-back-btn') || e.target.closest('.lightbox-header')) return;
+          if (Date.now() - lbLastGestureEndTime < 350 && lbGestureMoved) return;
+
           const now = Date.now();
           if (now - lbLastTapTime < 320) {
             const media = getActiveLightboxMedia();
             if (lbScale > 1.05) {
               resetLightboxTransform(true);
             } else {
-              // Zoom in focused on tap coordinates
               const rect = wrapper.getBoundingClientRect();
               const tapX = e.clientX - rect.left - rect.width / 2;
               const tapY = e.clientY - rect.top - rect.height / 2;
