@@ -4097,7 +4097,7 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   height: 100%;
   height: 100dvh;
   border-radius: 0;
@@ -4112,6 +4112,7 @@ body.modal-open {
 
 @media (min-width: 900px) {
   .comments-sheet {
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.4);
     border-right: 1px solid rgba(214, 189, 138, 0.4);
     box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
@@ -4226,7 +4227,7 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   height: 100%;
   height: 100dvh;
   border-radius: 0;
@@ -4241,6 +4242,7 @@ body.modal-open {
 
 @media (min-width: 900px) {
   .tmi-sheet {
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.4);
     border-right: 1px solid rgba(214, 189, 138, 0.4);
     box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
@@ -4549,7 +4551,7 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   height: 100%;
   height: 100dvh;
   border-radius: 0;
@@ -4564,6 +4566,7 @@ body.modal-open {
 
 @media (min-width: 900px) {
   .activity-sheet {
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.4);
     border-right: 1px solid rgba(214, 189, 138, 0.4);
     box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
@@ -4740,7 +4743,7 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   height: 100%;
   height: 100dvh;
   border-radius: 0;
@@ -4755,6 +4758,7 @@ body.modal-open {
 
 @media (min-width: 900px) {
   .grid-gallery-sheet {
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.4);
     border-right: 1px solid rgba(214, 189, 138, 0.4);
     box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
@@ -4967,7 +4971,7 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   height: 100%;
   height: 100dvh;
   border-radius: 0;
@@ -4982,6 +4986,7 @@ body.modal-open {
 
 @media (min-width: 900px) {
   .rough-map-sheet {
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.4);
     border-right: 1px solid rgba(214, 189, 138, 0.4);
     box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
@@ -5110,7 +5115,7 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   height: 100%;
   height: 100dvh;
   border-radius: 0;
@@ -5125,6 +5130,7 @@ body.modal-open {
 
 @media (min-width: 900px) {
   .profile-sheet {
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.4);
     border-right: 1px solid rgba(214, 189, 138, 0.4);
     box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
@@ -5475,6 +5481,19 @@ body.modal-open .ig-bottom-footer,
   margin: 0;
 }
 
+@media (min-width: 900px) {
+  #story-viewer {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    border-left: 1px solid rgba(214, 189, 138, 0.4);
+    border-right: 1px solid rgba(214, 189, 138, 0.4);
+    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
+  }
+}
+
 @keyframes modalFadeIn {
   0% {
     opacity: 0;
@@ -5792,7 +5811,7 @@ body.modal-open .ig-bottom-footer,
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   height: 100%;
   height: 100dvh;
   border-radius: 0;
@@ -5807,6 +5826,7 @@ body.modal-open .ig-bottom-footer,
 
 @media (min-width: 900px) {
   .large-map-sheet {
+    max-width: 500px;
     border-left: 1px solid rgba(214, 189, 138, 0.4);
     border-right: 1px solid rgba(214, 189, 138, 0.4);
     box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
