@@ -1,4 +1,20 @@
 /* ==================================================== */
+    /* INITIAL VIEWPORT HEIGHT LOCK (--app-height)          */
+    /* 주소창/하단바 변경에 따른 height 재계산 깜빡임 방지   */
+    /* ==================================================== */
+    (function initAppHeightLock() {
+      function updateAppHeight() {
+        const h = window.innerHeight || document.documentElement.clientHeight || 800;
+        document.documentElement.style.setProperty('--app-height', `${h}px`);
+        document.documentElement.style.setProperty('--vh', `${h * 0.01}px`);
+      }
+      updateAppHeight();
+      window.addEventListener('orientationchange', () => {
+        setTimeout(updateAppHeight, 150);
+      });
+    })();
+
+    /* ==================================================== */
     /* KAKAO JAVASCRIPT SDK & SHARE CONFIGURATION          */
     /* ==================================================== */
     const KAKAO_JAVASCRIPT_KEY = '4ebb148f84b8b983a0a27ceaf5f6c60b';

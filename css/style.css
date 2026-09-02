@@ -3829,8 +3829,8 @@ body.modal-open {
   position: relative;
   width: 100%;
   max-width: 100%;
-  max-height: 84vh;
-  height: 80vh;
+  height: calc(var(--app-height, 100vh) * 0.80);
+  max-height: calc(var(--app-height, 100vh) * 0.84);
   border-radius: 20px 20px 0 0;
   display: flex;
   flex-direction: column;
@@ -3956,8 +3956,8 @@ body.modal-open {
   position: relative;
   width: 100%;
   max-width: 100%;
-  max-height: 88vh;
-  height: 85vh;
+  height: calc(var(--app-height, 100vh) * 0.85);
+  max-height: calc(var(--app-height, 100vh) * 0.88);
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
@@ -4290,8 +4290,8 @@ body.modal-open {
   position: relative;
   width: 100%;
   max-width: 100%;
-  max-height: 85vh;
-  height: 80vh;
+  height: calc(var(--app-height, 100vh) * 0.80);
+  max-height: calc(var(--app-height, 100vh) * 0.85);
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
@@ -4326,10 +4326,6 @@ body.modal-open {
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
   }
-}
-
-.activity-modal-overlay.active .activity-sheet {
-  transform: translate3d(0, 0, 0);
 }
 
 .activity-sheet-body {
@@ -4496,8 +4492,8 @@ body.modal-open {
   position: relative;
   width: 100%;
   max-width: 100%;
-  max-height: 88vh;
-  height: 85vh;
+  height: calc(var(--app-height, 100vh) * 0.85);
+  max-height: calc(var(--app-height, 100vh) * 0.88);
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
@@ -4893,8 +4889,8 @@ body.modal-open {
   position: relative;
   width: 100%;
   max-width: 100%;
-  max-height: 88vh;
-  height: 85vh;
+  height: calc(var(--app-height, 100vh) * 0.85);
+  max-height: calc(var(--app-height, 100vh) * 0.88);
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
@@ -5553,8 +5549,8 @@ body.modal-open .ig-bottom-footer,
   position: relative;
   width: 100%;
   max-width: 100%;
-  height: 90vh;
-  max-height: 92vh;
+  height: calc(var(--app-height, 100vh) * 0.88);
+  max-height: calc(var(--app-height, 100vh) * 0.90);
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;

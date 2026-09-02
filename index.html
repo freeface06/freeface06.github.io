@@ -26,7 +26,14 @@
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=lstn6qo079"></script>
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
   <link rel="preload" as="image" href="images/bg_hanji.png">
-  <link rel="stylesheet" href="css/style.css?v=20260902_1350">
+  <script>
+    (function() {
+      var h = window.innerHeight || document.documentElement.clientHeight || 800;
+      document.documentElement.style.setProperty('--app-height', h + 'px');
+      document.documentElement.style.setProperty('--vh', (h * 0.01) + 'px');
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css?v=20260902_1355">
 </head>
 
 <body>
@@ -2125,7 +2132,7 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=20260902_1350"></script>
+  <script src="js/script.js?v=20260902_1355"></script>
 </body>
 
 </html>
