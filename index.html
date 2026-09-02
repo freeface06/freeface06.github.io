@@ -45,7 +45,7 @@
       window.addEventListener('orientationchange', function() { setTimeout(function() { setH(true); }, 150); });
     })();
   </script>
-  <link rel="stylesheet" href="css/style.css?v=20260902_1630">
+  <link rel="stylesheet" href="css/style.css?v=20260902_1635">
 </head>
 
 <body>
@@ -1483,13 +1483,13 @@
 
   <div id="photo-lightbox">
     <div class="lightbox-header">
-      <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
-      <button class="lightbox-close" onclick="closePhotoLightbox()" aria-label="닫기" title="닫기">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
+      <button class="sheet-back-btn" onclick="closePhotoLightbox()" aria-label="뒤로가기" title="뒤로가기">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
+      <div class="lightbox-counter" id="lightboxCounter">1 / 15</div>
+      <div class="sheet-header-spacer"></div>
     </div>
     <div class="lightbox-body" id="lightboxBody">
       <div class="lightbox-img-wrapper" id="lightboxImgWrapper">
@@ -2139,7 +2139,7 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=20260902_1630"></script>
+  <script src="js/script.js?v=20260902_1635"></script>
 </body>
 
 </html>
