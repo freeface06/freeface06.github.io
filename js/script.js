@@ -1084,16 +1084,17 @@
     }
 
     /* Native Easy Remittance (간편송금) Handlers: Instant Copy & Direct Safe App Launch */
-    function sendKakaoPay(bank, accountNo) {
+    function sendKakaoPay(bank, accountNo, recipientName) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
       const isAndroid = /Android/i.test(navigator.userAgent);
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       const isMobile = isAndroid || isIOS;
+      const targetLabel = recipientName ? `${recipientName} 님 계좌번호` : `계좌번호(${bank} ${accountNo})`;
 
-      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
+      copyText(cleanAccount, `${targetLabel}가 복사되었습니다! 카카오페이로 연결합니다.`);
 
       if (!isMobile) {
-        showToastMsg(`계좌번호(${bank} ${accountNo})가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
+        showToastMsg(`${targetLabel}가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
         return;
       }
 
@@ -1106,17 +1107,18 @@
       }
     }
 
-    function sendToss(bank, accountNo) {
+    function sendToss(bank, accountNo, recipientName) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
       const bankName = bank.replace('은행', '').trim();
       const isAndroid = /Android/i.test(navigator.userAgent);
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       const isMobile = isAndroid || isIOS;
+      const targetLabel = recipientName ? `${recipientName} 님 계좌번호` : `계좌번호(${bank} ${accountNo})`;
 
-      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
+      copyText(cleanAccount, `${targetLabel}가 복사되었습니다! 토스로 연결합니다.`);
 
       if (!isMobile) {
-        showToastMsg(`계좌번호(${bank} ${accountNo})가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
+        showToastMsg(`${targetLabel}가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
         return;
       }
 
@@ -1129,16 +1131,17 @@
       }
     }
 
-    function sendKakaoBank(bank, accountNo) {
+    function sendKakaoBank(bank, accountNo, recipientName) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
       const isAndroid = /Android/i.test(navigator.userAgent);
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       const isMobile = isAndroid || isIOS;
+      const targetLabel = recipientName ? `${recipientName} 님 계좌번호` : `계좌번호(${bank} ${accountNo})`;
 
-      copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
+      copyText(cleanAccount, `${targetLabel}가 복사되었습니다! 카카오뱅크로 연결합니다.`);
 
       if (!isMobile) {
-        showToastMsg(`계좌번호(${bank} ${accountNo})가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
+        showToastMsg(`${targetLabel}가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
         return;
       }
 

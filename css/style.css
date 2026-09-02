@@ -2978,11 +2978,32 @@ video::-webkit-media-controls-volume-slider,
   background: transparent;
 }
 
+.remit-nav-heading {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-top: 14px;
+  margin-bottom: 8px;
+  text-align: center;
+  letter-spacing: -0.2px;
+}
+
 .remit-nav-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(6px, 2vw, 12px);
-  margin-top: 10px;
+  margin-top: 6px;
+}
+
+.remit-guide-tip {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 2px;
+  letter-spacing: -0.3px;
+  line-height: 1.4;
+  opacity: 0.85;
 }
 
 .app-icon-wrap {
@@ -3006,10 +3027,11 @@ video::-webkit-media-controls-volume-slider,
 }
 
 .loc-app-btn .app-name {
-  font-size: clamp(0.7rem, 2.2vw, 0.78rem);
+  font-size: clamp(0.68rem, 2.1vw, 0.78rem);
   font-weight: 700;
   color: var(--title-color);
   letter-spacing: -0.3px;
+  white-space: nowrap;
 }
 
 /* Timetable Feed Post Content */
