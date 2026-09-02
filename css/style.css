@@ -538,21 +538,22 @@ button {
 }
 
 .hero-names {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: clamp(1.45rem, 5.2vw, 1.75rem);
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.55rem, 5.4vw, 1.85rem);
+  letter-spacing: 0.06em;
   color: #ffffff;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
-  line-height: 1.25;
+  line-height: 1.35;
   margin: 2px 0 4px;
 }
 
 .hero-amp {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.06em;
   color: #ffffff;
 }
 
@@ -5957,10 +5958,11 @@ body.modal-open .ig-bottom-footer,
 }
 
 .footer-names-signature {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: 1.16rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.32rem;
+  letter-spacing: 0.06em;
   color: var(--title-color);
   margin-bottom: 4px;
 }
