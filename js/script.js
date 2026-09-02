@@ -118,6 +118,7 @@
       initKakaoSDK();
       initAutoBGM();
       updateCountdownTimer();
+      setupMapTouchGuard();
       tryInitMap();
       renderComments();
       fetchCommentsFromGoogleSheet();
@@ -329,7 +330,7 @@
         });
 
         naver.maps.Event.addListener(marker, 'click', () => openLargeMapModal());
-        naver.maps.Event.addListener(naverMapInstance, 'click', () => openLargeMapModal());
+        // Do not attach unconditional click on naverMapInstance to prevent scroll gesture accidental triggering
 
         // Check if Naver Maps injected an authentication error banner
         setTimeout(() => {
@@ -340,42 +341,106 @@
       } catch (err) {
         showFallbackMap();
       }
+
+      setupMapTouchGuard();
     }
 
-    /* Universal Safe App Launcher Helper */
+    /* Smart Touch Gesture Guard (Prevents accidental map popup opening during scroll) */
+    function setupMapTouchGuard() {
+      const mapWrapper = document.getElementById('mapFrameWrapper');
+      if (!mapWrapper || mapWrapper.dataset.touchGuardInit) return;
+      mapWrapper.dataset.touchGuardInit = 'true';
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartTime = 0;
+      let isScrollDragging = false;
+
+      mapWrapper.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          touchStartTime = Date.now();
+          isScrollDragging = false;
+        }
+      }, { passive: true });
+
+      mapWrapper.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          const dx = Math.abs(e.touches[0].clientX - touchStartX);
+          const dy = Math.abs(e.touches[0].clientY - touchStartY);
+          if (dx > 8 || dy > 8) {
+            isScrollDragging = true;
+          }
+        }
+      }, { passive: true });
+
+      mapWrapper.addEventListener('touchend', (e) => {
+        const elapsed = Date.now() - touchStartTime;
+        // If user was scrolling, dragging or held down for too long, completely ignore
+        if (isScrollDragging || elapsed > 350) {
+          return;
+        }
+        // If it was a quick, intentional tap directly on the map area
+        if (!e.target.closest('.map-expand-badge')) {
+          openLargeMapModal();
+        }
+      }, { passive: true });
+    }
+
+    /* Universal Safe App Launcher Helper (Optimized for Mobile Chrome & WebKit) */
     function openUrlOrScheme(url) {
       if (!url) return;
-      const a = document.createElement('a');
-      a.href = url;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => {
-        if (a && a.parentNode) a.parentNode.removeChild(a);
-      }, 500);
+      try {
+        window.location.href = url;
+      } catch (e) {
+        console.log('[AppLauncher] window.location.href fallback:', e);
+        const a = document.createElement('a');
+        a.href = url;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          if (a && a.parentNode) a.parentNode.removeChild(a);
+        }, 300);
+      }
     }
 
     /* Enterprise Native App Deep Link & Safe Web Fallback Engine */
-    function openAppWithFallback(appScheme, webFallbackUrl) {
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    function openAppWithFallback(appScheme, webFallbackUrl, androidIntentUrl) {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isMobile = isAndroid || isIOS;
+
+      // 1. Desktop PC Browser: Open Web Fallback directly in a new tab
       if (!isMobile) {
-        if (webFallbackUrl) window.open(webFallbackUrl, '_blank');
+        if (webFallbackUrl) window.open(webFallbackUrl, '_blank', 'noopener,noreferrer');
         return;
       }
 
+      // 2. Android Chrome / Mobile Browsers: Use Standard Android Intent with built-in S.browser_fallback_url
+      if (isAndroid) {
+        const targetUrl = androidIntentUrl || appScheme;
+        window.location.href = targetUrl;
+        return;
+      }
+
+      // 3. iOS Safari / iOS Chrome: Try Custom URL Scheme with Visibility Guard Web Fallback
       const start = Date.now();
       let hasMovedAway = false;
       const onVisibilityChange = () => {
-        if (document.hidden) hasMovedAway = true;
+        if (document.hidden || document.webkitHidden) hasMovedAway = true;
       };
       document.addEventListener('visibilitychange', onVisibilityChange, { once: true });
+      window.addEventListener('pagehide', onVisibilityChange, { once: true });
 
-      openUrlOrScheme(appScheme);
+      window.location.href = appScheme;
 
       if (webFallbackUrl) {
         setTimeout(() => {
           document.removeEventListener('visibilitychange', onVisibilityChange);
-          if (!hasMovedAway && (Date.now() - start) < 2500) {
+          window.removeEventListener('pagehide', onVisibilityChange);
+          if (!hasMovedAway && (Date.now() - start) < 2600) {
             window.location.href = webFallbackUrl;
           }
         }, 1800);
@@ -392,38 +457,33 @@
       const lat = '37.5384438';
       const lng = '127.1224221';
 
+      const naverWebUrl = `https://map.naver.com/p/search/${encodedName}`;
+      const kakaoWebUrl = `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`;
+
       // Desktop PC: Direct Web Browser Navigation in New Tab
       if (!isMobile) {
         if (app === 'naver' || app === 'tmap') {
-          window.open(`https://map.naver.com/p/search/${encodedName}`, '_blank');
+          window.open(naverWebUrl, '_blank', 'noopener,noreferrer');
         } else if (app === 'kakao') {
-          window.open(`https://map.kakao.com/link/to/${encodedName},${lat},${lng}`, '_blank');
+          window.open(kakaoWebUrl, '_blank', 'noopener,noreferrer');
         }
         return;
       }
 
       if (app === 'naver') {
-        const naverWebUrl = `https://map.naver.com/p/search/${encodedName}`;
-        if (isAndroid) {
-          openAppWithFallback(`intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`, naverWebUrl);
-        } else {
-          openAppWithFallback(`nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding.invitation`, naverWebUrl);
-        }
+        const androidIntent = `intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;S.browser_fallback_url=${encodeURIComponent(naverWebUrl)};end`;
+        const iosScheme = `nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding`;
+        openAppWithFallback(iosScheme, naverWebUrl, androidIntent);
       } else if (app === 'tmap') {
-        const tmapWebUrl = `https://map.naver.com/p/search/${encodedName}`;
         const tmapParams = `goalname=${encodedName}&goalx=${lng}&goaly=${lat}&rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}&name=${encodedName}`;
-        if (isAndroid) {
-          openAppWithFallback(`intent://route?${tmapParams}#Intent;scheme=tmap;package=com.skt.tmap.ku;end`, tmapWebUrl);
-        } else {
-          openAppWithFallback(`tmap://route?${tmapParams}`, tmapWebUrl);
-        }
+        const androidIntent = `intent://route?${tmapParams}#Intent;scheme=tmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.skt.tmap.ku;S.browser_fallback_url=${encodeURIComponent(naverWebUrl)};end`;
+        const iosScheme = `tmap://route?${tmapParams}`;
+        openAppWithFallback(iosScheme, naverWebUrl, androidIntent);
       } else if (app === 'kakao') {
-        const kakaoWebUrl = `https://map.kakao.com/link/to/${encodedName},${lat},${lng}`;
-        if (isAndroid) {
-          openAppWithFallback(`intent://route?ep=${lat},${lng}&by=car#Intent;scheme=kakaomap;package=net.daum.android.map;end`, kakaoWebUrl);
-        } else {
-          openAppWithFallback(`kakaomap://route?ep=${lat},${lng}&by=car`, kakaoWebUrl);
-        }
+        // KakaoNavi (com.locnall.KimGiSa) / KakaoMap fallback
+        const androidIntent = `intent://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}#Intent;scheme=kakaonavi;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.locnall.KimGiSa;S.browser_fallback_url=${encodeURIComponent(kakaoWebUrl)};end`;
+        const iosScheme = `kakaonavi://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}`;
+        openAppWithFallback(iosScheme, kakaoWebUrl, androidIntent);
       }
     }
 
@@ -965,50 +1025,68 @@
     /* Native Easy Remittance (간편송금) Handlers: Instant Copy & Direct App Launch */
     function sendKakaoPay(bank, accountNo) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isMobile = isAndroid || isIOS;
+
       copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
 
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isMobile) {
+        showToastMsg(`계좌번호(${bank} ${accountNo})가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
+        return;
+      }
 
-      if (isMobile) {
-        if (isAndroid) {
-          openUrlOrScheme('intent://kakaopay/money/to/bank#Intent;scheme=kakaotalk;package=com.kakao.talk;end');
-        } else {
-          openUrlOrScheme('kakaotalk://kakaopay/money/to/bank');
-        }
+      const webFallback = 'https://www.kakaopay.com';
+      if (isAndroid) {
+        const androidIntent = `intent://kakaopay/money/to/bank#Intent;scheme=kakaotalk;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.kakao.talk;S.browser_fallback_url=${encodeURIComponent(webFallback)};end`;
+        openUrlOrScheme(androidIntent);
+      } else {
+        openAppWithFallback('kakaotalk://kakaopay/money/to/bank', webFallback);
       }
     }
 
     function sendToss(bank, accountNo) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
       const bankName = bank.replace('은행', '').trim();
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isMobile = isAndroid || isIOS;
+
       copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
 
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isMobile) {
+        showToastMsg(`계좌번호(${bank} ${accountNo})가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
+        return;
+      }
 
-      if (isMobile) {
-        if (isAndroid) {
-          openUrlOrScheme(`intent://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}#Intent;scheme=supertoss;package=viva.republica.toss;end`);
-        } else {
-          openUrlOrScheme(`supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`);
-        }
+      const webFallback = 'https://toss.im';
+      if (isAndroid) {
+        const androidIntent = `intent://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}#Intent;scheme=supertoss;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=viva.republica.toss;S.browser_fallback_url=${encodeURIComponent(webFallback)};end`;
+        openUrlOrScheme(androidIntent);
+      } else {
+        openAppWithFallback(`supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`, webFallback);
       }
     }
 
     function sendKakaoBank(bank, accountNo) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isMobile = isAndroid || isIOS;
+
       copyText(cleanAccount, `계좌번호(${bank} ${accountNo})가 복사되었습니다!`);
 
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isMobile) {
+        showToastMsg(`계좌번호(${bank} ${accountNo})가 복사되었습니다. PC에서는 인터넷 뱅킹을 이용해 주세요.`);
+        return;
+      }
 
-      if (isMobile) {
-        if (isAndroid) {
-          openUrlOrScheme('intent://#Intent;scheme=kakaobank;package=com.kakaobank.channel;end');
-        } else {
-          openUrlOrScheme('kakaobank://');
-        }
+      const webFallback = 'https://www.kakaobank.com';
+      if (isAndroid) {
+        const androidIntent = `intent://open#Intent;scheme=kakaobank;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.kakaobank.channel;S.browser_fallback_url=${encodeURIComponent(webFallback)};end`;
+        openUrlOrScheme(androidIntent);
+      } else {
+        openAppWithFallback('kakaobank://', webFallback);
       }
     }
 
@@ -1298,6 +1376,9 @@
       } else {
         document.body.classList.remove('modal-open');
       }
+      if (typeof manageFeedVideos === 'function') {
+        manageFeedVideos();
+      }
     }
 
     // Touchmove preventer on modal backdrop and non-scrollable areas
@@ -1310,12 +1391,17 @@
       }
     }, { passive: false });
 
+    /* ==================================================== */
+    /* UNIVERSAL BULLETPROOF MODAL HISTORY ROUTER           */
+    /* ==================================================== */
+    let isPoppingProgrammatically = false;
+
     function pushModalToHistory(id, closeCallback) {
       if (modalHistoryStack.length > 0 && modalHistoryStack[modalHistoryStack.length - 1].id === id) {
         return;
       }
       modalHistoryStack.push({ id, close: closeCallback });
-      history.pushState({ modalId: id, timestamp: Date.now() }, '');
+      history.pushState({ modalId: id, stackDepth: modalHistoryStack.length }, '');
       updateModalBodyState();
     }
 
@@ -1323,21 +1409,30 @@
       const idx = modalHistoryStack.findIndex(m => m.id === id);
       if (idx !== -1) {
         modalHistoryStack.splice(idx, 1);
-        if (!isHistoryNavigating) {
-          history.back();
-        }
+        isPoppingProgrammatically = true;
+        history.back();
+        setTimeout(() => {
+          isPoppingProgrammatically = false;
+          updateModalBodyState();
+        }, 120);
       }
       updateModalBodyState();
     }
 
     window.addEventListener('popstate', () => {
+      // If this popstate was caused by closeModal() -> history.back(), suppress duplicate actions
+      if (isPoppingProgrammatically) {
+        isPoppingProgrammatically = false;
+        updateModalBodyState();
+        return;
+      }
+
+      // User triggered Hardware/Browser/Swipe Back Button
       if (modalHistoryStack.length > 0) {
-        isHistoryNavigating = true;
-        const item = modalHistoryStack.pop();
-        if (item && typeof item.close === 'function') {
-          item.close(true);
+        const topModal = modalHistoryStack.pop();
+        if (topModal && typeof topModal.close === 'function') {
+          topModal.close(true); // Close with fromHistory=true so it won't call history.back()
         }
-        isHistoryNavigating = false;
       }
       updateModalBodyState();
     });
@@ -1372,10 +1467,10 @@
       }
     }
 
-    /* TMI Behind Profile Bottom Sheet Handlers (Distributed 3 Types) */
+    /* TMI Behind Profile Bottom Sheet Handlers (Integrated Profile & Story) */
     let currentTmiType = 'couple';
 
-    function openTmiModal(type = 'couple') {
+    function openTmiModal(type = 'couple', focusMember = null) {
       currentTmiType = type;
       const overlay = document.getElementById('tmi-modal-overlay');
       const titleEl = document.getElementById('tmi-modal-title');
@@ -1395,7 +1490,19 @@
 
       if (overlay) {
         overlay.classList.add('active');
-        pushModalToHistory(`tmi-modal-${type}`, (fromHistory) => {
+        if (focusMember === 'groom') {
+          setTimeout(() => {
+            const groomCard = document.getElementById('tmi-card-groom');
+            if (groomCard) groomCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        } else if (focusMember === 'bride') {
+          setTimeout(() => {
+            const brideCard = document.getElementById('tmi-card-bride');
+            if (brideCard) brideCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        }
+
+        pushModalToHistory('tmi-modal', (fromHistory) => {
           overlay.classList.remove('active');
         });
       }
@@ -1407,7 +1514,7 @@
         overlay.classList.remove('active');
       }
       if (!fromHistory) {
-        popModalFromHistory(`tmi-modal-${currentTmiType}`);
+        popModalFromHistory('tmi-modal');
       }
     }
 
@@ -1415,6 +1522,19 @@
       if (e.target.id === 'tmi-modal-overlay') {
         closeTmiModal();
       }
+    }
+
+    /* Groom & Bride Profile Modal Legacy Wrapper -> Integrated with TMI Modal */
+    function openProfileModal(focusType = 'all') {
+      openTmiModal('couple', focusType === 'all' ? null : focusType);
+    }
+
+    function closeProfileModal(fromHistory = false) {
+      closeTmiModal(fromHistory);
+    }
+
+    function handleProfileOverlayClick(e) {
+      closeTmiModal();
     }
 
     /* Top Nav (+) Confetti Celebration Fireworks Engine */
@@ -1496,44 +1616,6 @@
       setTimeout(() => {
         openPhotoLightbox(index);
       }, 150);
-    }
-
-    /* Groom & Bride Profile Modal Handlers */
-    function openProfileModal(focusType = 'all') {
-      const overlay = document.getElementById('groom-bride-profile-modal-overlay');
-      if (overlay) {
-        overlay.classList.add('active');
-        if (focusType === 'groom') {
-          setTimeout(() => {
-            const groomCard = document.getElementById('profile-card-groom');
-            if (groomCard) groomCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 80);
-        } else if (focusType === 'bride') {
-          setTimeout(() => {
-            const brideCard = document.getElementById('profile-card-bride');
-            if (brideCard) brideCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 80);
-        }
-        pushModalToHistory('profile-modal', (fromHistory) => {
-          overlay.classList.remove('active');
-        });
-      }
-    }
-
-    function closeProfileModal(fromHistory = false) {
-      const overlay = document.getElementById('groom-bride-profile-modal-overlay');
-      if (overlay) {
-        overlay.classList.remove('active');
-      }
-      if (!fromHistory) {
-        popModalFromHistory('profile-modal');
-      }
-    }
-
-    function handleProfileOverlayClick(e) {
-      if (e.target.id === 'groom-bride-profile-modal-overlay') {
-        closeProfileModal();
-      }
     }
 
     /* Rough Map Modal Handlers */
@@ -1985,6 +2067,7 @@
       }
 
       // Also pause any active videos (e.g. story viewer, reels, gallery videos)
+      // Pause all active videos immediately when page/app goes into background
       document.querySelectorAll('video').forEach(vid => {
         try {
           if (!vid.paused) vid.pause();
@@ -1997,6 +2080,9 @@
         wasPlayingBeforeHide = false;
         playBGM();
       }
+
+      // Resume active feed video if gallery is currently in viewport and no modal is open
+      manageFeedVideos();
     }
 
     function initAutoBGM() {
@@ -2075,6 +2161,80 @@
     }
 
     /* ==================================================== */
+    /* SMART FEED & MODAL VIDEO PLAYBACK CONTROLLER        */
+    /* ==================================================== */
+    let isGalleryInViewport = false;
+
+    function manageFeedVideos() {
+      const isPageVisible = !document.hidden && !document.webkitHidden;
+      const isStoryOpen = document.getElementById('story-viewer') && document.getElementById('story-viewer').style.display === 'flex';
+      const isLightboxOpen = document.getElementById('photo-lightbox') && document.getElementById('photo-lightbox').style.display === 'flex';
+      const isAnyModalOpen = (typeof modalHistoryStack !== 'undefined' && modalHistoryStack.length > 0) || isStoryOpen || isLightboxOpen;
+
+      const wrapper = document.getElementById('galleryCarouselWrapper');
+      if (!wrapper) return;
+
+      const slides = wrapper.querySelectorAll('.carousel-slide');
+      let currentIdx = 0;
+      if (carouselInstances['galleryCarouselWrapper'] && typeof carouselInstances['galleryCarouselWrapper'].getCurrentIndex === 'function') {
+        currentIdx = carouselInstances['galleryCarouselWrapper'].getCurrentIndex();
+      }
+
+      const shouldPlay = isPageVisible && !isAnyModalOpen && isGalleryInViewport;
+
+      slides.forEach((slide, idx) => {
+        const video = slide.querySelector('video');
+        if (!video) return;
+
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+
+        if (shouldPlay && idx === currentIdx) {
+          if (video.paused) {
+            const p = video.play();
+            if (p !== undefined) {
+              p.catch(() => { });
+            }
+          }
+        } else {
+          if (!video.paused) {
+            video.pause();
+          }
+        }
+      });
+    }
+
+    function initGalleryVideoObserver() {
+      const target = document.getElementById('post-gallery') || document.getElementById('galleryCarouselWrapper');
+      if (!target) return;
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isGalleryInViewport = entry.isIntersecting && entry.intersectionRatio >= 0.15;
+            manageFeedVideos();
+          });
+        }, {
+          threshold: [0, 0.15, 0.5, 1.0]
+        });
+        observer.observe(target);
+      } else {
+        const checkViewport = () => {
+          const rect = target.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.15;
+          if (isGalleryInViewport !== inView) {
+            isGalleryInViewport = inView;
+            manageFeedVideos();
+          }
+        };
+        window.addEventListener('scroll', checkViewport, { passive: true });
+        window.addEventListener('resize', checkViewport, { passive: true });
+        checkViewport();
+      }
+    }
+
+    /* ==================================================== */
     /* DYNAMIC GALLERY & STORY AUTO-SCAN ENGINE             */
     /* ==================================================== */
     let galleryMediaList = [
@@ -2128,7 +2288,7 @@
           if (isVid) {
             return `
               <div class="carousel-slide" onclick="handleSlideClick(${idx}, this, event)">
-                <video src="${encodedSrc}" autoplay muted loop playsinline preload="auto" class="feed-video-element"></video>
+                <video src="${encodedSrc}" muted loop playsinline preload="metadata" class="feed-video-element"></video>
                 <div class="video-media-badge">
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                 </div>
@@ -2169,7 +2329,7 @@
           if (isVid) {
             return `
               <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
-                <video src="${encodedSrc}" autoplay muted loop playsinline preload="metadata"></video>
+                <video src="${encodedSrc}" muted loop playsinline preload="metadata"></video>
                 <div class="ig-grid-badge">
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                 </div>
@@ -2192,6 +2352,8 @@
           `<div class="story-progress-bar"><div class="story-progress-fill" id="story-progress-${idx + 1}"></div></div>`
         ).join('');
       }
+
+      manageFeedVideos();
     }
 
     async function autoScanGalleryFolder() {
@@ -2234,10 +2396,12 @@
       document.body.style.overflow = 'hidden';
       currentStory = 0;
       updateStory();
+      if (typeof manageFeedVideos === 'function') manageFeedVideos();
       pushModalToHistory('story-viewer', (fromHistory) => {
         sv.style.display = 'none';
         clearTimeout(storyTimer);
         document.body.style.overflow = '';
+        if (typeof manageFeedVideos === 'function') manageFeedVideos();
       });
     }
 
@@ -2254,6 +2418,7 @@
       }
       clearTimeout(storyTimer);
       document.body.style.overflow = '';
+      if (typeof manageFeedVideos === 'function') manageFeedVideos();
       if (!fromHistory) {
         popModalFromHistory('story-viewer');
       }
@@ -2287,6 +2452,9 @@
         if (imgEl) imgEl.style.display = 'none';
         if (videoEl) {
           videoEl.style.display = 'block';
+          videoEl.muted = true;
+          videoEl.defaultMuted = true;
+          videoEl.playsInline = true;
           videoEl.src = encodedSrc;
           videoEl.play().catch(() => { });
         }
@@ -2357,6 +2525,10 @@
         dots.forEach((dot, idx) => {
           dot.classList.toggle('active', idx === currentIndex);
         });
+
+        if (typeof manageFeedVideos === 'function') {
+          manageFeedVideos();
+        }
       }
 
       function goTo(index) {
@@ -2507,7 +2679,7 @@
         window.removeEventListener('mouseup', onMouseUp);
       }
 
-      carouselInstances[id] = { goTo, updateUI, destroy };
+      carouselInstances[id] = { goTo, updateUI, destroy, getCurrentIndex: () => currentIndex };
       updateUI(false);
     }
 
@@ -2529,6 +2701,7 @@
       });
       autoScanGalleryFolder();
       initFloatingBGMObserver();
+      initGalleryVideoObserver();
     });
 
     /* Handle Click vs Double Tap on Photos */
@@ -2582,10 +2755,12 @@
       if (!lb) return;
       lb.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+      if (typeof manageFeedVideos === 'function') manageFeedVideos();
       pushModalToHistory('photo-lightbox', (fromHistory) => {
         lb.style.display = 'none';
         resetLightboxTransform(false);
         document.body.style.overflow = '';
+        if (typeof manageFeedVideos === 'function') manageFeedVideos();
       });
     }
 
@@ -2611,10 +2786,12 @@
 
       lb.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      pushModalToHistory('photo-lightbox-single', (fromHistory) => {
+      if (typeof manageFeedVideos === 'function') manageFeedVideos();
+      pushModalToHistory('photo-lightbox', (fromHistory) => {
         lb.style.display = 'none';
         resetLightboxTransform(false);
         document.body.style.overflow = '';
+        if (typeof manageFeedVideos === 'function') manageFeedVideos();
       });
     }
 
@@ -2631,9 +2808,9 @@
         resetLightboxTransform(false);
       }
       document.body.style.overflow = '';
+      if (typeof manageFeedVideos === 'function') manageFeedVideos();
       if (!fromHistory) {
         popModalFromHistory('photo-lightbox');
-        popModalFromHistory('photo-lightbox-single');
       }
     }
 
@@ -2671,6 +2848,9 @@
           if (img) img.style.display = 'none';
           if (video) {
             video.style.display = 'block';
+            video.muted = true;
+            video.defaultMuted = true;
+            video.playsInline = true;
             video.src = encodedSrc;
             video.play().catch(() => { });
           }

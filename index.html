@@ -68,14 +68,14 @@
       <span class="story-label">우리 스토리</span>
     </div>
     <!-- Story 2: Hojeong (Groom) -->
-    <div class="story-bubble" onclick="openProfileModal('groom')" title="신랑 이호정 프로필">
+    <div class="story-bubble" onclick="openTmiModal('couple', 'groom')" title="신랑 이호정 프로필">
       <div class="story-avatar-wrap">
         <img src="images/groom/20251231_143053.jpg" alt="hojeong">
       </div>
       <span class="story-label">신랑 이호정</span>
     </div>
     <!-- Story 3: Dasol (Bride) -->
-    <div class="story-bubble" onclick="openProfileModal('bride')" title="신부 전다솔 프로필">
+    <div class="story-bubble" onclick="openTmiModal('couple', 'bride')" title="신부 전다솔 프로필">
       <div class="story-avatar-wrap">
         <img src="images/bride/1762868149316.jpg" alt="dasol">
       </div>
@@ -198,7 +198,7 @@
 
       <div class="wedding-hero-overlay-content">
         <div class="hero-eyebrow">WEDDING INVITATION</div>
-        <div class="hero-names">HOJEONG <span class="hero-amp">&amp;</span> DASOL</div>
+        <div class="hero-names">HOJEONG &amp; DASOL</div>
         <div class="hero-date-row">
           <span>2027. 06. 19 SAT</span>
           <span class="hero-date-dot">·</span>
@@ -449,7 +449,7 @@
 
     <div class="post-caption-wrap" style="padding-top: 12px; padding-bottom: 20px;">
       <div class="post-caption-text">
-        우리의 특별한 날까지 남은 시간, 따뜻한 축복으로 함께해 주세요.
+        우리의 특별한 날까지 남은 시간,<br>따뜻한 축복으로 함께해 주세요.
       </div>
       <div class="post-date-tag">2027년 6월 19일 토요일 오후 3시 30분 · 라비니움 1층 리츄얼홀</div>
     </div>
@@ -477,9 +477,9 @@
     </div>
 
     <!-- 1. Full-width Edge-to-Edge Map (Instagram Media Style) -->
-    <div class="map-frame-wrapper" id="mapFrameWrapper" onclick="openLargeMapModal()" role="button" tabindex="0" aria-label="지도 크게보기">
+    <div class="map-frame-wrapper" id="mapFrameWrapper" aria-label="지도">
       <div id="interactiveMap"></div>
-      <div class="map-expand-badge" title="지도 크게보기">
+      <button type="button" class="map-expand-badge tap-spring" onclick="openLargeMapModal(); event.stopPropagation();" title="지도 크게보기" aria-label="지도 크게보기">
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"
           stroke-linecap="round" stroke-linejoin="round">
           <polyline points="15 3 21 3 21 9"></polyline>
@@ -488,7 +488,7 @@
           <line x1="3" y1="21" x2="10" y2="14"></line>
         </svg>
         <span>지도 크게보기</span>
-      </div>
+      </button>
     </div>
 
     <div class="loc-body-content">
@@ -777,7 +777,7 @@
 
     <div class="post-caption-wrap" style="padding-top: 8px; padding-bottom: 20px;">
       <div class="post-caption-text">
-        천호역 10번 출구 바로 앞에 위치해 대중교통 이용이 매우 편리합니다. 본관 및 공영주차장 주차가 지원되며 셔틀버스가 상시 운행됩니다. 귀한 걸음 해주시는 모든 분들께 감사드립니다.
+        천호역 10번 출구 바로 앞에 위치해 대중교통 이용이 매우 편리합니다. 본관 및 공영주차장 주차가 지원되며 셔틀버스가 상시 운행됩니다.<br>귀한 걸음 해주시는 모든 분들께 감사드립니다.
       </div>
     </div>
   </article>
@@ -808,7 +808,7 @@
       <div class="post-carousel-track" id="galleryCarouselTrack">
         <!-- 0. Video 1 -->
         <div class="carousel-slide" onclick="handleSlideClick(0, this, event)">
-          <video src="images/gallery/01_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="metadata"
+          <video src="images/gallery/01_2026_03_30%2013_49.mp4" muted loop playsinline preload="metadata"
             class="feed-video-element"></video>
           <div class="video-media-badge">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -854,7 +854,7 @@
         </div>
         <!-- 5. Video 2 -->
         <div class="carousel-slide" onclick="handleSlideClick(5, this, event)">
-          <video src="images/gallery/06_2026_08_19%2013_15.mp4" autoplay muted loop playsinline preload="none"
+          <video src="images/gallery/06_2026_08_19%2013_15.mp4" muted loop playsinline preload="none"
             class="feed-video-element"></video>
           <div class="video-media-badge">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -876,7 +876,7 @@
         </div>
         <!-- 7. Video 3 -->
         <div class="carousel-slide" onclick="handleSlideClick(7, this, event)">
-          <video src="images/gallery/08_2026_03_30%2013_49.mp4" autoplay muted loop playsinline preload="none"
+          <video src="images/gallery/08_2026_03_30%2013_49.mp4" muted loop playsinline preload="none"
             class="feed-video-element"></video>
           <div class="video-media-badge">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -1397,7 +1397,7 @@
       </svg>
     </div>
     <!-- 5. Profile Avatar Icon -> 신랑 & 신부 프로필 바텀시트 -->
-    <div class="footer-nav-item" onclick="openProfileModal()" title="신랑 & 신부 프로필">
+    <div class="footer-nav-item" onclick="openTmiModal('couple')" title="신랑 & 신부 프로필">
       <img src="images/main/1762868176689.jpg" class="footer-avatar-icon" alt="profile">
     </div>
   </nav>
@@ -1524,7 +1524,7 @@
         <!-- 1. Post 1: Couple Profiles (신랑 & 신부 프로필) -->
         <div id="tmi-section-couple" class="tmi-section-group">
           <!-- Groom Profile Card -->
-          <div class="tmi-profile-card">
+          <div class="tmi-profile-card" id="tmi-card-groom">
             <div class="tmi-profile-header">
               <div class="tmi-avatar-wrap">
                 <img src="images/groom/20251231_143053.jpg" alt="신랑 이호정" class="tmi-avatar-img groom">
@@ -1575,7 +1575,7 @@
           </div>
 
           <!-- Bride Profile Card -->
-          <div class="tmi-profile-card">
+          <div class="tmi-profile-card" id="tmi-card-bride">
             <div class="tmi-profile-header">
               <div class="tmi-avatar-wrap">
                 <img src="images/bride/1762868149316.jpg" alt="신부 전다솔" class="tmi-avatar-img bride">
@@ -1754,8 +1754,9 @@
             </div>
           </div>
         </div>
-
-        <button class="tmi-close-btn-bottom tap-spring" onclick="closeTmiModal()">확인했어요</button>
+      </div>
+      <div class="sheet-footer">
+        <button class="sheet-confirm-btn tap-spring" onclick="closeTmiModal()">확인했어요</button>
       </div>
     </div>
   </div>
@@ -1779,8 +1780,8 @@
           <div class="activity-section-title">오늘 (Today)</div>
           <div class="activity-list">
             <div class="activity-row">
-              <div class="activity-icon-badge red">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <div class="activity-icon-badge rose">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <path
                     d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
@@ -1792,7 +1793,7 @@
             </div>
             <div class="activity-row">
               <div class="activity-icon-badge gold">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 6v6l4 2" />
                 </svg>
@@ -1810,8 +1811,8 @@
           <div class="activity-section-title">이번 주 (This Week)</div>
           <div class="activity-list">
             <div class="activity-row">
-              <div class="activity-icon-badge blue">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <div class="activity-icon-badge charcoal">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                 </svg>
               </div>
@@ -1821,8 +1822,8 @@
               </div>
             </div>
             <div class="activity-row">
-              <div class="activity-icon-badge green">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <div class="activity-icon-badge sage">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
@@ -1840,8 +1841,8 @@
           <div class="activity-section-title">이전 활동 (Earlier)</div>
           <div class="activity-list">
             <div class="activity-row">
-              <div class="activity-icon-badge purple">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <div class="activity-icon-badge gold">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="3" width="18" height="18" rx="2" />
                   <circle cx="8.5" cy="8.5" r="1.5" />
                   <polyline points="21 15 16 10 5 21" />
@@ -1853,8 +1854,8 @@
               </div>
             </div>
             <div class="activity-row">
-              <div class="activity-icon-badge dark">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <div class="activity-icon-badge charcoal">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M9 18V5l12-2v13" />
                   <circle cx="6" cy="18" r="3" />
                   <circle cx="18" cy="16" r="3" />
@@ -1867,8 +1868,9 @@
             </div>
           </div>
         </div>
-
-        <button class="tmi-close-btn-bottom tap-spring" onclick="closeActivityModal()">확인 완료</button>
+      </div>
+      <div class="sheet-footer">
+        <button class="sheet-confirm-btn tap-spring" onclick="closeActivityModal()">확인 완료</button>
       </div>
     </div>
   </div>
@@ -2022,89 +2024,9 @@
             <img src="images/gallery/15_1762868177891.jpg" alt="Wedding Photo 12" loading="lazy">
           </div>
         </div>
-
-        <button class="tmi-close-btn-bottom tap-spring" onclick="closeGridGalleryModal()">확인 완료</button>
       </div>
-    </div>
-  </div>
-
-  <!-- Groom & Bride Profile Bottom Sheet Modal -->
-  <div id="groom-bride-profile-modal-overlay" class="profile-modal-overlay" onclick="handleProfileOverlayClick(event)">
-    <div class="profile-sheet">
-      <div class="sheet-handle-bar"></div>
-      <div class="sheet-header">
-        <div class="sheet-title">신랑 & 신부 프로필</div>
-        <button class="sheet-close-btn" onclick="closeProfileModal()" aria-label="닫기">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-      <div class="profile-sheet-body">
-        <!-- Groom Profile Card -->
-        <div class="profile-detail-card" id="profile-card-groom">
-          <div class="profile-detail-photo-wrap" style="aspect-ratio: 3 / 4; min-height: 280px;">
-            <img src="images/groom/20251231_143053.jpg" alt="신랑 이호정" class="profile-detail-img" style="object-position: center 45%;">
-            <div class="profile-role-tag groom">GROOM · 신랑</div>
-          </div>
-          <div class="profile-detail-info">
-            <div class="profile-detail-name-row">
-              <span class="profile-detail-name">이호정</span>
-              <span class="profile-detail-mbti">ENFJ</span>
-            </div>
-            <div class="profile-detail-relation">이훈경 · 구경란의 아들</div>
-            <p class="profile-detail-quote">"소중한 사람들과 함께 맞이하는 최고의 날, 찾아주셔서 진심으로 감사합니다!"</p>
-            <div class="profile-detail-actions">
-              <a href="tel:01012345678" class="profile-action-btn tel tap-spring">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path
-                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                전화하기
-              </a>
-              <a href="sms:01012345678" class="profile-action-btn sms tap-spring">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                문자보내기
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bride Profile Card -->
-        <div class="profile-detail-card" id="profile-card-bride">
-          <div class="profile-detail-photo-wrap" style="aspect-ratio: 3 / 4; min-height: 280px;">
-            <img src="images/bride/1762868149316.jpg" alt="신부 전다솔" class="profile-detail-img" style="object-position: center 40%;">
-            <div class="profile-role-tag bride">BRIDE · 신부</div>
-          </div>
-          <div class="profile-detail-info">
-            <div class="profile-detail-name-row">
-              <span class="profile-detail-name">전다솔</span>
-              <span class="profile-detail-mbti">INFJ</span>
-            </div>
-            <div class="profile-detail-relation">전봉희 · 이현숙의 딸</div>
-            <p class="profile-detail-quote">"따뜻한 격려와 축복으로 저희의 첫걸음을 빛내주세요. 예쁘게 잘 살겠습니다!"</p>
-            <div class="profile-detail-actions">
-              <a href="tel:01087654321" class="profile-action-btn tel tap-spring">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path
-                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                전화하기
-              </a>
-              <a href="sms:01087654321" class="profile-action-btn sms tap-spring">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                문자보내기
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <button class="tmi-close-btn-bottom tap-spring" onclick="closeProfileModal()">확인 완료</button>
+      <div class="sheet-footer">
+        <button class="sheet-confirm-btn tap-spring" onclick="closeGridGalleryModal()">확인 완료</button>
       </div>
     </div>
   </div>

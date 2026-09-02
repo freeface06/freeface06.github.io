@@ -540,22 +540,20 @@ button {
 .hero-names {
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
   font-size: clamp(1.45rem, 5.2vw, 1.75rem);
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   color: #ffffff;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
   line-height: 1.25;
-  margin: 1px 0;
+  margin: 2px 0 4px;
 }
 
 .hero-amp {
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-style: italic;
-  font-size: 1.08em;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
-  margin: 0 6px;
-  vertical-align: -1px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #ffffff;
 }
 
 .hero-date-row {
@@ -2124,7 +2122,7 @@ button {
   position: absolute;
   bottom: 12px;
   right: 12px;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(250, 247, 242, 0.94);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 6px 12px;
@@ -2132,8 +2130,8 @@ button {
   font-size: 0.74rem;
   font-weight: 700;
   color: var(--title-color);
-  border: 1px solid rgba(74, 40, 16, 0.15);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(212, 192, 158, 0.6);
+  box-shadow: 0 2px 10px rgba(74, 40, 16, 0.12);
   z-index: 10;
   display: flex;
   align-items: center;
@@ -2152,8 +2150,9 @@ button {
 .map-expand-badge:hover,
 .map-expand-badge:active {
   transform: scale(1.03);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(74, 40, 16, 0.2);
+  background: #FAF7F2;
+  border-color: var(--gold-primary);
 }
 
 .map-expand-badge svg {
@@ -3793,23 +3792,27 @@ body.modal-open {
 
 .comments-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  inset: -120px 0;
+  height: calc(100vh + 240px);
+  height: calc(100dvh + 240px);
+  background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 2000;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding-bottom: 120px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
+  transition: opacity 0.32s var(--smooth-ease), visibility 0.32s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .comments-modal-overlay.active {
@@ -3823,18 +3826,38 @@ body.modal-open {
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
+  position: relative;
   width: 100%;
   max-width: 100%;
   max-height: 84vh;
+  max-height: 84dvh;
   height: 80vh;
+  height: 80dvh;
   border-radius: 20px 20px 0 0;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25);
   overscroll-behavior: contain;
+}
+
+.comments-sheet::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  pointer-events: none;
+  z-index: 20;
 }
 
 @media (min-width: 900px) {
@@ -3846,7 +3869,7 @@ body.modal-open {
 }
 
 .comments-modal-overlay.active .comments-sheet {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .sheet-handle-bar {
@@ -3900,23 +3923,27 @@ body.modal-open {
 /* TMI Behind Profile Modal Sheet */
 .tmi-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.65);
+  inset: -120px 0;
+  height: calc(100vh + 240px);
+  height: calc(100dvh + 240px);
+  background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 2100;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding-bottom: 120px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
+  transition: opacity 0.32s var(--smooth-ease), visibility 0.32s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .tmi-modal-overlay.active {
@@ -3930,18 +3957,38 @@ body.modal-open {
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
+  position: relative;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
+  max-height: 88dvh;
   height: 85vh;
+  height: 85dvh;
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
   overscroll-behavior: contain;
+}
+
+.tmi-sheet::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  pointer-events: none;
+  z-index: 20;
 }
 
 @media (min-width: 900px) {
@@ -3953,7 +4000,7 @@ body.modal-open {
 }
 
 .tmi-modal-overlay.active .tmi-sheet {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .tmi-sheet-body {
@@ -4176,6 +4223,24 @@ body.modal-open {
   gap: 6px;
 }
 
+/* Universal Bottom Sheet Fixed Footer */
+.sheet-footer {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px));
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-confirm-btn,
 .tmi-close-btn-bottom {
   width: 100%;
   padding: 13px;
@@ -4187,11 +4252,10 @@ body.modal-open {
   border-radius: 14px;
   cursor: pointer;
   text-align: center;
-  margin-top: 4px;
-  flex-shrink: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
+.sheet-confirm-btn:active,
 .tmi-close-btn-bottom:active {
   opacity: 0.85;
   transform: scale(0.98);
@@ -4200,23 +4264,27 @@ body.modal-open {
 /* Instagram Activity / Notification Modal Sheet */
 .activity-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.65);
+  inset: -120px 0;
+  height: calc(100vh + 240px);
+  height: calc(100dvh + 240px);
+  background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 2100;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding-bottom: 120px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
+  transition: opacity 0.32s var(--smooth-ease), visibility 0.32s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .activity-modal-overlay.active {
@@ -4230,18 +4298,38 @@ body.modal-open {
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
+  position: relative;
   width: 100%;
   max-width: 100%;
   max-height: 85vh;
+  max-height: 85dvh;
   height: 80vh;
+  height: 80dvh;
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
   overscroll-behavior: contain;
+}
+
+.activity-sheet::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  pointer-events: none;
+  z-index: 20;
 }
 
 @media (min-width: 900px) {
@@ -4253,87 +4341,97 @@ body.modal-open {
 }
 
 .activity-modal-overlay.active .activity-sheet {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .activity-sheet-body {
   flex: 1;
   overflow-y: auto;
-  padding: 14px 18px 26px;
+  padding: 10px 18px 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   touch-action: pan-y;
 }
 
 .activity-section-title {
-  font-size: 0.84rem;
-  font-weight: 800;
-  color: #737373;
-  letter-spacing: -0.2px;
-  margin-bottom: 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #8c8273;
+  letter-spacing: 0.4px;
+  margin-top: 10px;
+  margin-bottom: 2px;
   padding-left: 2px;
+  text-transform: uppercase;
 }
 
 .activity-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .activity-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: #fafafa;
-  border: 1px solid #f0f0f0;
-  transition: background 0.15s;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: transparent;
+  transition: opacity 0.15s;
+}
+
+.activity-row:last-child {
+  border-bottom: none;
+}
+
+.activity-row:active {
+  opacity: 0.75;
 }
 
 .activity-icon-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: #ffffff;
-}
-
-.activity-icon-badge.red {
-  background: linear-gradient(135deg, #ff3040, #ff6b81);
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--title-color);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .activity-icon-badge.gold {
-  background: linear-gradient(135deg, #f09433, #e6683c);
+  background: rgba(197, 157, 79, 0.12);
+  color: #9E7D3B;
+  border-color: rgba(197, 157, 79, 0.25);
 }
 
-.activity-icon-badge.blue {
-  background: linear-gradient(135deg, #0095f6, #00c6ff);
+.activity-icon-badge.rose {
+  background: rgba(220, 100, 100, 0.09);
+  color: #b84c4c;
+  border-color: rgba(220, 100, 100, 0.2);
 }
 
-.activity-icon-badge.green {
-  background: linear-gradient(135deg, #03C75A, #28e070);
+.activity-icon-badge.charcoal {
+  background: rgba(30, 30, 30, 0.06);
+  color: #2a2a2a;
+  border-color: rgba(0, 0, 0, 0.08);
 }
 
-.activity-icon-badge.purple {
-  background: linear-gradient(135deg, #833ab4, #bc1888);
-}
-
-.activity-icon-badge.dark {
-  background: linear-gradient(135deg, #111111, #333333);
+.activity-icon-badge.sage {
+  background: rgba(85, 130, 100, 0.1);
+  color: #4a7558;
+  border-color: rgba(85, 130, 100, 0.22);
 }
 
 .activity-text-wrap {
   flex: 1;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   color: var(--text);
-  line-height: 1.42;
+  line-height: 1.48;
   word-break: keep-all;
 }
 
@@ -4344,8 +4442,9 @@ body.modal-open {
 
 .activity-time-tag {
   font-size: 0.72rem;
-  color: #8e8e8e;
-  margin-top: 2px;
+  color: var(--text-dim);
+  margin-top: 3px;
+  font-weight: 500;
 }
 
 /* Top Nav Plus Button Burst Animation */
@@ -4374,23 +4473,27 @@ body.modal-open {
 /* Instagram Profile 3x3 Grid Gallery Modal */
 .grid-gallery-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.65);
+  inset: -120px 0;
+  height: calc(100vh + 240px);
+  height: calc(100dvh + 240px);
+  background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 2100;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding-bottom: 120px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
+  transition: opacity 0.32s var(--smooth-ease), visibility 0.32s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .grid-gallery-modal-overlay.active {
@@ -4404,18 +4507,38 @@ body.modal-open {
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
+  position: relative;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
+  max-height: 88dvh;
   height: 85vh;
+  height: 85dvh;
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
   overscroll-behavior: contain;
+}
+
+.grid-gallery-sheet::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  pointer-events: none;
+  z-index: 20;
 }
 
 @media (min-width: 900px) {
@@ -4427,7 +4550,7 @@ body.modal-open {
 }
 
 .grid-gallery-modal-overlay.active .grid-gallery-sheet {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .grid-gallery-sheet-body {
@@ -5235,12 +5358,14 @@ body.modal-open .ig-bottom-footer,
   padding: 24px;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
 .custom-modal-overlay.show {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .custom-modal-box {
@@ -5373,23 +5498,27 @@ body.modal-open .ig-bottom-footer,
 /* ==================================================== */
 .large-map-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.68);
+  inset: -120px 0;
+  height: calc(100vh + 240px);
+  height: calc(100dvh + 240px);
+  background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: 2150;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding-bottom: 120px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
+  transition: opacity 0.32s var(--smooth-ease), visibility 0.32s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .large-map-modal-overlay.active {
@@ -5403,19 +5532,38 @@ body.modal-open .ig-bottom-footer,
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
+  position: relative;
   width: 100%;
   max-width: 100%;
   height: 90vh;
+  height: 90dvh;
   max-height: 92vh;
+  max-height: 92dvh;
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
+  transform: translate3d(0, 100%, 0);
   transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.32);
   overscroll-behavior: contain;
-  overflow: hidden;
+}
+
+.large-map-sheet::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  pointer-events: none;
+  z-index: 20;
 }
 
 @media (min-width: 900px) {
@@ -5424,11 +5572,12 @@ body.modal-open .ig-bottom-footer,
     border-left: 1px solid rgba(0, 0, 0, 0.08);
     border-right: 1px solid rgba(0, 0, 0, 0.08);
     height: 85vh;
+    height: 85dvh;
   }
 }
 
 .large-map-modal-overlay.active .large-map-sheet {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .large-map-sheet-header {
@@ -5475,9 +5624,9 @@ body.modal-open .ig-bottom-footer,
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(250, 247, 242, 0.94);
+  border: 1px solid rgba(212, 192, 158, 0.5);
+  box-shadow: 0 3px 12px rgba(74, 40, 16, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5490,13 +5639,14 @@ body.modal-open .ig-bottom-footer,
 }
 
 .large-map-control-btn:hover {
-  background: #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  background: #FAF7F2;
+  border-color: var(--gold-primary);
+  box-shadow: 0 4px 14px rgba(74, 40, 16, 0.18);
 }
 
 .large-map-control-btn:active {
   transform: scale(0.92);
-  background: #f0f0f0;
+  background: #EDE3D4;
 }
 
 /* Modal Footer Navigation Links */
@@ -5533,7 +5683,7 @@ body.modal-open .ig-bottom-footer,
 .large-map-pin-icon {
   width: 18px;
   height: 18px;
-  color: #ff334b;
+  color: #B84C4C;
   flex-shrink: 0;
 }
 
@@ -5575,9 +5725,9 @@ body.modal-open .ig-bottom-footer,
   gap: 6px;
   padding: 9px 4px;
   border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  background: var(--card-bg);
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 1px 4px rgba(197, 157, 79, 0.08);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
@@ -5611,14 +5761,15 @@ body.modal-open .ig-bottom-footer,
 }
 
 .large-map-nav-btn:hover {
-  background: #fafbfc;
+  background: var(--surface-subtle);
+  border-color: var(--gold-primary);
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 10px rgba(197, 157, 79, 0.15);
 }
 
 .large-map-nav-btn:active {
   transform: scale(0.96);
-  background: #f0f2f5;
+  background: var(--surface);
   box-shadow: none;
 }
 
@@ -5639,15 +5790,15 @@ body.modal-open .ig-bottom-footer,
 /* SECTION: SHARE & CLOSING FOOTER BRANDING             */
 /* ==================================================== */
 #share-sec.wedding-section {
-  padding-bottom: 84px;
+  padding-bottom: 20px;
 }
 
 .share-btn-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 4px;
-  margin-bottom: 28px;
+  margin-top: 6px;
+  margin-bottom: 8px;
 }
 
 .share-dock-btn {
@@ -5724,9 +5875,9 @@ body.modal-open .ig-bottom-footer,
 /* Elegant Closing Footer Signature (Body 최하단) */
 .wedding-footer-branding {
   text-align: center;
-  padding: 36px 16px calc(30px + constant(safe-area-inset-bottom));
-  padding: 36px 16px calc(30px + env(safe-area-inset-bottom, 0px));
-  border-top: none;
+  padding: 32px 16px calc(84px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5737,10 +5888,10 @@ body.modal-open .ig-bottom-footer,
 
 .footer-names-signature {
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: 1.18rem;
+  font-size: 1.16rem;
   font-weight: 600;
   letter-spacing: 0.22em;
-  color: var(--text-main);
+  color: var(--title-color);
   margin-bottom: 4px;
 }
 
@@ -5749,23 +5900,22 @@ body.modal-open .ig-bottom-footer,
   font-weight: 600;
   color: #A3844C;
   letter-spacing: 0.1em;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .footer-blessing-text {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: var(--text-dim);
   line-height: 1.55;
-  margin: 0 0 38px;
+  margin: 0 0 16px;
   word-break: keep-all;
   max-width: 320px;
 }
 
 .footer-copyright-line {
-  font-size: 0.66rem;
+  font-size: 0.65rem;
   font-weight: 500;
   color: var(--text-light);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-top: 6px;
 }
