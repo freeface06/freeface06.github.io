@@ -421,7 +421,7 @@
       // 2. Android Chrome / Mobile Browsers: Use Standard Android Intent with built-in S.browser_fallback_url
       if (isAndroid) {
         const targetUrl = androidIntentUrl || appScheme;
-        window.location.href = targetUrl;
+        openUrlOrScheme(targetUrl);
         return;
       }
 
@@ -434,14 +434,14 @@
       document.addEventListener('visibilitychange', onVisibilityChange, { once: true });
       window.addEventListener('pagehide', onVisibilityChange, { once: true });
 
-      window.location.href = appScheme;
+      openUrlOrScheme(appScheme);
 
       if (webFallbackUrl) {
         setTimeout(() => {
           document.removeEventListener('visibilitychange', onVisibilityChange);
           window.removeEventListener('pagehide', onVisibilityChange);
           if (!hasMovedAway && (Date.now() - start) < 2600) {
-            window.location.href = webFallbackUrl;
+            openUrlOrScheme(webFallbackUrl);
           }
         }, 1800);
       }
@@ -480,9 +480,9 @@
         const iosScheme = `tmap://route?${tmapParams}`;
         openAppWithFallback(iosScheme, naverWebUrl, androidIntent);
       } else if (app === 'kakao') {
-        // KakaoNavi (com.locnall.KimGiSa) / KakaoMap fallback
-        const androidIntent = `intent://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}#Intent;scheme=kakaonavi;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.locnall.KimGiSa;S.browser_fallback_url=${encodeURIComponent(kakaoWebUrl)};end`;
-        const iosScheme = `kakaonavi://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}`;
+        // KakaoNavi (com.locnall.KimGiSa) & KakaoMap route fail-safe
+        const androidIntent = `intent://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}&key=${KAKAO_JAVASCRIPT_KEY}#Intent;scheme=kakaonavi;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.locnall.KimGiSa;S.browser_fallback_url=${encodeURIComponent(kakaoWebUrl)};end`;
+        const iosScheme = `kakaonavi://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}&key=${KAKAO_JAVASCRIPT_KEY}`;
         openAppWithFallback(iosScheme, kakaoWebUrl, androidIntent);
       }
     }
