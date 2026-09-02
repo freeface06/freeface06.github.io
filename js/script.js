@@ -1369,25 +1369,79 @@
     /* ==================================================== */
     const modalHistoryStack = [];
     let isHistoryNavigating = false;
+    let savedScrollY = 0;
+    let isScrollLocked = false;
+
+    function lockBodyScroll() {
+      if (isScrollLocked) return;
+      savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${savedScrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+
+      isScrollLocked = true;
+    }
+
+    function unlockBodyScroll() {
+      if (!isScrollLocked) return;
+
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+
+      window.scrollTo(0, savedScrollY);
+      isScrollLocked = false;
+    }
 
     function updateModalBodyState() {
       if (modalHistoryStack.length > 0) {
         document.body.classList.add('modal-open');
         document.documentElement.classList.add('modal-open');
+        lockBodyScroll();
       } else {
         document.body.classList.remove('modal-open');
         document.documentElement.classList.remove('modal-open');
+        unlockBodyScroll();
       }
       if (typeof manageFeedVideos === 'function') {
         manageFeedVideos();
       }
     }
 
-    // Touchmove preventer on modal backdrop and non-scrollable areas
+    // Smart Boundary Touchmove Guard for KakaoTalk & Mobile Browser Toolbars
+    let touchStartY = 0;
+    document.addEventListener('touchstart', function (e) {
+      if (modalHistoryStack.length > 0 && e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
     document.addEventListener('touchmove', function (e) {
-      if (modalHistoryStack.length > 0) {
-        const scrollable = e.target.closest('.tmi-sheet-body, .sheet-comments-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body, .large-map-sheet, #largeInteractiveMap, .large-map-modal-body');
+      if (modalHistoryStack.length > 0 && e.touches.length === 1) {
+        const scrollable = e.target.closest('.tmi-sheet-body, .sheet-comments-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body, .rough-map-sheet-body, .large-map-modal-body');
         if (!scrollable) {
+          e.preventDefault();
+          return;
+        }
+
+        const currentY = e.touches[0].clientY;
+        const deltaY = currentY - touchStartY;
+        const isScrollingDownContent = deltaY > 0; // dragging down -> scrolling to top
+        const isScrollingUpContent = deltaY < 0;   // dragging up -> scrolling to bottom
+
+        const isAtTop = scrollable.scrollTop <= 0;
+        const isAtBottom = (scrollable.scrollTop + scrollable.clientHeight) >= (scrollable.scrollHeight - 1);
+
+        if ((isAtTop && isScrollingDownContent) || (isAtBottom && isScrollingUpContent)) {
           e.preventDefault();
         }
       }
