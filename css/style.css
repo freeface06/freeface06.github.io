@@ -5247,10 +5247,13 @@ body.modal-open .ig-bottom-footer,
 /* Fullscreen Story Viewer Modal with Ken Burns Effect */
 #story-viewer {
   position: fixed;
-  top: 0;
+  top: -100px;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: -100px;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  box-sizing: border-box;
   background: #000000;
   z-index: 99999;
   display: none;
