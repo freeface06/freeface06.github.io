@@ -1413,24 +1413,12 @@
       const hasModals = modalHistoryStack.length > 0;
       
       if (hasModals && !isScrollLocked) {
-        lockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${lockedScrollY}px`;
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.overflow = 'hidden';
+        document.documentElement.classList.add('modal-open');
         document.body.classList.add('modal-open');
         isScrollLocked = true;
       } else if (!hasModals && isScrollLocked) {
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
+        document.documentElement.classList.remove('modal-open');
         document.body.classList.remove('modal-open');
-        window.scrollTo({ top: lockedScrollY, behavior: 'instant' });
         isScrollLocked = false;
       }
 
@@ -1532,10 +1520,8 @@
       const overlay = document.getElementById('comments-modal-overlay');
       if (overlay) {
         overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
         pushModalToHistory('comments-sheet', (fromHistory) => {
           overlay.classList.remove('active');
-          document.body.style.overflow = '';
         });
       }
     }
@@ -1545,7 +1531,6 @@
       if (overlay) {
         overlay.classList.remove('active');
       }
-      document.body.style.overflow = '';
       if (!fromHistory) {
         popModalFromHistory('comments-sheet');
       }
@@ -1801,11 +1786,9 @@
       if (!overlay) return;
 
       overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
 
       pushModalToHistory('large-map-modal', (fromHistory) => {
         overlay.classList.remove('active');
-        document.body.style.overflow = '';
       });
 
       if (!naverLargeMapInstance) {
@@ -1830,7 +1813,6 @@
       if (overlay) {
         overlay.classList.remove('active');
       }
-      document.body.style.overflow = '';
       if (!fromHistory) {
         popModalFromHistory('large-map-modal');
       }
@@ -2483,14 +2465,12 @@
       const sv = document.getElementById('story-viewer');
       if (!sv) return;
       sv.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
       currentStory = 0;
       updateStory();
       if (typeof manageFeedVideos === 'function') manageFeedVideos();
       pushModalToHistory('story-viewer', (fromHistory) => {
         sv.style.display = 'none';
         clearTimeout(storyTimer);
-        document.body.style.overflow = '';
         if (typeof manageFeedVideos === 'function') manageFeedVideos();
       });
     }
@@ -2507,7 +2487,6 @@
         sv.style.display = 'none';
       }
       clearTimeout(storyTimer);
-      document.body.style.overflow = '';
       if (typeof manageFeedVideos === 'function') manageFeedVideos();
       if (!fromHistory) {
         popModalFromHistory('story-viewer');
@@ -2844,12 +2823,10 @@
       const lb = document.getElementById('photo-lightbox');
       if (!lb) return;
       lb.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
       if (typeof manageFeedVideos === 'function') manageFeedVideos();
       pushModalToHistory('photo-lightbox', (fromHistory) => {
         lb.style.display = 'none';
         resetLightboxTransform(false);
-        document.body.style.overflow = '';
         if (typeof manageFeedVideos === 'function') manageFeedVideos();
       });
     }
@@ -2875,12 +2852,10 @@
       if (dotsContainer) dotsContainer.innerHTML = '';
 
       lb.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
       if (typeof manageFeedVideos === 'function') manageFeedVideos();
       pushModalToHistory('photo-lightbox', (fromHistory) => {
         lb.style.display = 'none';
         resetLightboxTransform(false);
-        document.body.style.overflow = '';
         if (typeof manageFeedVideos === 'function') manageFeedVideos();
       });
     }
@@ -2897,7 +2872,6 @@
         lb.style.display = 'none';
         resetLightboxTransform(false);
       }
-      document.body.style.overflow = '';
       if (typeof manageFeedVideos === 'function') manageFeedVideos();
       if (!fromHistory) {
         popModalFromHistory('photo-lightbox');
