@@ -14,3 +14,9 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+# Temp scratch & QA artifacts
+scratch/
+KakaoTalk_*.mp4
+*.tmp
+
