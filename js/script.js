@@ -2770,20 +2770,41 @@
       renderDynamicGallery(galleryMediaList);
     }
 
-    /* Safe Cross-Browser Muted Video Autoplay Helper */
+    /* Safe Cross-Browser Muted Video Autoplay Helper - Zero Ghost Play Icon Gate */
     function playMutedVideoSafely(videoEl, src) {
       if (!videoEl) return;
       videoEl.setAttribute('muted', '');
       videoEl.setAttribute('playsinline', '');
       videoEl.setAttribute('webkit-playsinline', '');
       videoEl.setAttribute('autoplay', '');
+      videoEl.setAttribute('disablePictureInPicture', '');
+      videoEl.setAttribute('controlsList', 'nodownload nofullscreen noremoteplayback');
+      videoEl.removeAttribute('controls');
+      videoEl.controls = false;
       videoEl.muted = true;
       videoEl.defaultMuted = true;
       videoEl.playsInline = true;
       videoEl.autoplay = true;
 
-      videoEl.oncanplay = null;
-      videoEl.onloadeddata = null;
+      // Suppress 0.1s native play icon ghost: Keep opacity 0 until active frame is decoding
+      const isAlreadyPlaying = !videoEl.paused && videoEl.currentTime > 0;
+      if (!isAlreadyPlaying) {
+        videoEl.style.opacity = '0';
+        videoEl.style.transition = 'opacity 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      }
+
+      const revealVideo = () => {
+        videoEl.style.opacity = '1';
+        videoEl.classList.add('loaded');
+      };
+
+      videoEl.onplaying = revealVideo;
+      videoEl.ontimeupdate = () => {
+        if (videoEl.currentTime > 0) {
+          revealVideo();
+          videoEl.ontimeupdate = null;
+        }
+      };
 
       if (src && videoEl.src !== src) {
         videoEl.src = src;
@@ -2793,15 +2814,20 @@
       const executePlay = () => {
         const p = videoEl.play();
         if (p !== undefined) {
-          p.catch(() => {
+          p.then(() => {
+            if (videoEl.currentTime > 0 || videoEl.readyState >= 3) {
+              revealVideo();
+            }
+          }).catch(() => {
             videoEl.muted = true;
-            videoEl.play().catch(() => { });
+            videoEl.play().then(revealVideo).catch(() => { });
           });
         }
       };
 
-      if (videoEl.readyState >= 2) {
+      if (videoEl.readyState >= 3) {
         executePlay();
+        revealVideo();
       } else {
         videoEl.onloadeddata = () => {
           videoEl.onloadeddata = null;
