@@ -2918,9 +2918,25 @@
       let storyDuration = 3500;
 
       if (isVid) {
-        if (imgEl) imgEl.style.display = 'none';
         if (videoEl) {
           videoEl.style.display = 'block';
+          videoEl.style.opacity = '0';
+          videoEl.style.position = 'absolute';
+          videoEl.style.inset = '0';
+
+          const onVideoActive = () => {
+            videoEl.style.opacity = '1';
+            if (imgEl) imgEl.style.display = 'none';
+          };
+
+          videoEl.onplaying = onVideoActive;
+          videoEl.ontimeupdate = () => {
+            if (videoEl.currentTime > 0) {
+              onVideoActive();
+              videoEl.ontimeupdate = null;
+            }
+          };
+
           playMutedVideoSafely(videoEl, encodedSrc);
 
           videoEl.onended = () => {
@@ -2929,10 +2945,14 @@
           storyDuration = 5000;
         }
       } else {
-        if (videoEl) videoEl.style.display = 'none';
+        if (videoEl) {
+          videoEl.style.display = 'none';
+          videoEl.style.opacity = '0';
+        }
         if (imgEl) {
           imgEl.style.display = 'block';
           imgEl.src = encodedSrc;
+          imgEl.style.opacity = '1';
         }
       }
 
@@ -3317,14 +3337,31 @@
 
       function applyMedia() {
         if (isVideo) {
-          if (img) img.style.display = 'none';
           if (video) {
             video.style.display = 'block';
+            video.style.opacity = '0';
+            video.style.position = 'absolute';
+
+            const onLightboxVidActive = () => {
+              video.style.opacity = '1';
+              video.style.position = 'relative';
+              if (img) img.style.display = 'none';
+            };
+
+            video.onplaying = onLightboxVidActive;
+            video.ontimeupdate = () => {
+              if (video.currentTime > 0) {
+                onLightboxVidActive();
+                video.ontimeupdate = null;
+              }
+            };
+
             playMutedVideoSafely(video, encodedSrc);
           }
         } else {
           if (video) {
             video.style.display = 'none';
+            video.style.opacity = '0';
           }
           if (img) {
             img.style.display = 'block';
