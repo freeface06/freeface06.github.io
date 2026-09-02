@@ -3812,6 +3812,7 @@ body.modal-open {
   transition: opacity 0.32s var(--smooth-ease), visibility 0.32s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  isolation: isolate;
 }
 
 .comments-modal-overlay.active {
@@ -3915,6 +3916,7 @@ body.modal-open {
   transition: opacity 0.32s var(--smooth-ease), visibility 0.32s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  isolation: isolate;
 }
 
 .tmi-modal-overlay.active {

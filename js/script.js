@@ -1402,20 +1402,86 @@
 
     /* ==================================================== */
     /* UNIFIED MODAL & VIEWER BROWSER BACK NAVIGATION       */
+    /* & BULLETPROOF SCROLL/TOUCH ISOLATION                 */
     /* ==================================================== */
     const modalHistoryStack = [];
     let isHistoryNavigating = false;
+    let lockedScrollY = 0;
+    let isScrollLocked = false;
 
     function updateModalBodyState() {
-      if (modalHistoryStack.length > 0) {
+      const hasModals = modalHistoryStack.length > 0;
+      
+      if (hasModals && !isScrollLocked) {
+        lockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${lockedScrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
         document.body.classList.add('modal-open');
-      } else {
+        isScrollLocked = true;
+      } else if (!hasModals && isScrollLocked) {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
         document.body.classList.remove('modal-open');
+        window.scrollTo({ top: lockedScrollY, behavior: 'instant' });
+        isScrollLocked = false;
       }
+
       if (typeof manageFeedVideos === 'function') {
         manageFeedVideos();
       }
     }
+
+    /* ==================================================== */
+    /* MODAL TOUCH SCROLL BOUNDARY ISOLATION GUARD          */
+    /* 모달 내부 스크롤 시 브라우저 윈도우 스크롤러로의 제스처 누수 차단 */
+    /* ==================================================== */
+    (function initTouchBoundaryGuards() {
+      let touchStartY = 0;
+
+      document.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          touchStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      document.addEventListener('touchmove', (e) => {
+        if (!isScrollLocked) return;
+
+        // Find if touch is inside a scrollable modal container
+        const scrollable = e.target.closest(
+          '.comments-sheet-body, .tmi-sheet-body, .activity-sheet-body, .grid-gallery-sheet-body, .profile-sheet-body, .rough-map-sheet-body, .large-map-modal-body, #story-viewer, #photo-lightbox'
+        );
+
+        if (!scrollable) {
+          // Touch is on overlay backdrop or static headers -> block completely to stop URL bar resize
+          if (e.cancelable) {
+            e.preventDefault();
+          }
+          return;
+        }
+
+        // Touch is inside scrollable area -> check top/bottom boundaries
+        const currentY = e.touches[0].clientY;
+        const deltaY = currentY - touchStartY;
+        const isAtTop = scrollable.scrollTop <= 0;
+        const isAtBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
+
+        // If pulling down at the very top or pushing up at the very bottom -> prevent window scroll chaining
+        if ((isAtTop && deltaY > 0) || (isAtBottom && deltaY < 0)) {
+          if (e.cancelable) {
+            e.preventDefault();
+          }
+        }
+      }, { passive: false });
+    })();
 
     /* ==================================================== */
     /* UNIVERSAL BULLETPROOF MODAL HISTORY ROUTER           */
@@ -1446,18 +1512,16 @@
     }
 
     window.addEventListener('popstate', () => {
-      // If this popstate was caused by closeModal() -> history.back(), suppress duplicate actions
       if (isPoppingProgrammatically) {
         isPoppingProgrammatically = false;
         updateModalBodyState();
         return;
       }
 
-      // User triggered Hardware/Browser/Swipe Back Button
       if (modalHistoryStack.length > 0) {
         const topModal = modalHistoryStack.pop();
         if (topModal && typeof topModal.close === 'function') {
-          topModal.close(true); // Close with fromHistory=true so it won't call history.back()
+          topModal.close(true);
         }
       }
       updateModalBodyState();
