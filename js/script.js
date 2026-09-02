@@ -442,7 +442,7 @@
       }
     }
 
-    /* Enterprise Native App Deep Link & Safe Web Fallback Engine */
+    /* Enterprise Native App Deep Link & Safe Web Fallback Engine (iOS Safari Zero-Alert Protected) */
     function openAppWithFallback(appScheme, webFallbackUrl, androidIntentUrl) {
       const isAndroid = /Android/i.test(navigator.userAgent);
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -461,7 +461,17 @@
         return;
       }
 
-      // 3. iOS Safari / iOS Chrome: Try Custom URL Scheme with Visibility Guard Web Fallback
+      // 3. iOS Safari / WebKit: Safe Routing (Universal Link or Hidden Iframe Isolation)
+      if (isIOS) {
+        if (webFallbackUrl && (webFallbackUrl.startsWith('https://map.naver.com') || webFallbackUrl.startsWith('https://map.kakao.com') || webFallbackUrl.startsWith('https://toss.im'))) {
+          window.location.href = webFallbackUrl;
+          return;
+        }
+        openSchemeSafelyViaIframe(appScheme, webFallbackUrl);
+      }
+    }
+
+    function openSchemeSafelyViaIframe(scheme, fallbackUrl) {
       const start = Date.now();
       let hasMovedAway = false;
       const onVisibilityChange = () => {
@@ -470,17 +480,22 @@
       document.addEventListener('visibilitychange', onVisibilityChange, { once: true });
       window.addEventListener('pagehide', onVisibilityChange, { once: true });
 
-      openUrlOrScheme(appScheme);
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.style.width = '0px';
+      iframe.style.height = '0px';
+      iframe.src = scheme;
+      document.body.appendChild(iframe);
 
-      if (webFallbackUrl) {
-        setTimeout(() => {
-          document.removeEventListener('visibilitychange', onVisibilityChange);
-          window.removeEventListener('pagehide', onVisibilityChange);
-          if (!hasMovedAway && (Date.now() - start) < 2600) {
-            openUrlOrScheme(webFallbackUrl);
-          }
-        }, 1800);
-      }
+      setTimeout(() => {
+        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+        window.removeEventListener('pagehide', onVisibilityChange);
+
+        if (!hasMovedAway && fallbackUrl && (Date.now() - start) < 2600) {
+          window.location.href = fallbackUrl;
+        }
+      }, 1200);
     }
 
     function launchNavigationApp(app) {
@@ -506,20 +521,30 @@
         return;
       }
 
+      // iOS Safari / WebKit: Universal Links (앱 설치 시 앱 자동실행, 미설치 시 사파리 에러 없이 즉시 웹 지도 열림)
+      if (isIOS) {
+        if (app === 'naver') {
+          window.location.href = naverWebUrl;
+        } else if (app === 'kakao') {
+          window.location.href = kakaoWebUrl;
+        } else if (app === 'tmap') {
+          const iosScheme = `tmap://route?goalname=${encodedName}&goalx=${lng}&goaly=${lat}&name=${encodedName}`;
+          openSchemeSafelyViaIframe(iosScheme, naverWebUrl);
+        }
+        return;
+      }
+
+      // Android Chrome / Mobile: Standard Intent
       if (app === 'naver') {
         const androidIntent = `intent://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;S.browser_fallback_url=${encodeURIComponent(naverWebUrl)};end`;
-        const iosScheme = `nmap://route/car?dlat=${lat}&dlng=${lng}&dname=${encodedName}&appname=wedding`;
-        openAppWithFallback(iosScheme, naverWebUrl, androidIntent);
+        openUrlOrScheme(androidIntent);
       } else if (app === 'tmap') {
         const tmapParams = `goalname=${encodedName}&goalx=${lng}&goaly=${lat}&rGoName=${encodedName}&rGoX=${lng}&rGoY=${lat}&name=${encodedName}`;
         const androidIntent = `intent://route?${tmapParams}#Intent;scheme=tmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.skt.tmap.ku;S.browser_fallback_url=${encodeURIComponent(naverWebUrl)};end`;
-        const iosScheme = `tmap://route?${tmapParams}`;
-        openAppWithFallback(iosScheme, naverWebUrl, androidIntent);
+        openUrlOrScheme(androidIntent);
       } else if (app === 'kakao') {
-        // KakaoNavi (com.locnall.KimGiSa) & KakaoMap route fail-safe
         const androidIntent = `intent://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}&key=${KAKAO_JAVASCRIPT_KEY}#Intent;scheme=kakaonavi;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.locnall.KimGiSa;S.browser_fallback_url=${encodeURIComponent(kakaoWebUrl)};end`;
-        const iosScheme = `kakaonavi://navigate?name=${encodedName}&coord_type=wgs84&x=${lng}&y=${lat}&key=${KAKAO_JAVASCRIPT_KEY}`;
-        openAppWithFallback(iosScheme, kakaoWebUrl, androidIntent);
+        openUrlOrScheme(androidIntent);
       }
     }
 
@@ -1058,7 +1083,7 @@
       document.body.removeChild(ta);
     }
 
-    /* Native Easy Remittance (간편송금) Handlers: Instant Copy & Direct App Launch */
+    /* Native Easy Remittance (간편송금) Handlers: Instant Copy & Direct Safe App Launch */
     function sendKakaoPay(bank, accountNo) {
       const cleanAccount = accountNo.replace(/[^0-9]/g, '');
       const isAndroid = /Android/i.test(navigator.userAgent);
@@ -1076,8 +1101,8 @@
       if (isAndroid) {
         const androidIntent = `intent://kakaopay/money/to/bank#Intent;scheme=kakaotalk;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.kakao.talk;S.browser_fallback_url=${encodeURIComponent(webFallback)};end`;
         openUrlOrScheme(androidIntent);
-      } else {
-        openAppWithFallback('kakaotalk://kakaopay/money/to/bank', webFallback);
+      } else if (isIOS) {
+        openSchemeSafelyViaIframe('kakaotalk://kakaopay/money/to/bank', null);
       }
     }
 
@@ -1099,8 +1124,8 @@
       if (isAndroid) {
         const androidIntent = `intent://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}#Intent;scheme=supertoss;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=viva.republica.toss;S.browser_fallback_url=${encodeURIComponent(webFallback)};end`;
         openUrlOrScheme(androidIntent);
-      } else {
-        openAppWithFallback(`supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`, webFallback);
+      } else if (isIOS) {
+        openSchemeSafelyViaIframe(`supertoss://send?bank=${encodeURIComponent(bankName)}&accountNo=${cleanAccount}`, null);
       }
     }
 
@@ -1121,8 +1146,8 @@
       if (isAndroid) {
         const androidIntent = `intent://open#Intent;scheme=kakaobank;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.kakaobank.channel;S.browser_fallback_url=${encodeURIComponent(webFallback)};end`;
         openUrlOrScheme(androidIntent);
-      } else {
-        openAppWithFallback('kakaobank://', webFallback);
+      } else if (isIOS) {
+        openSchemeSafelyViaIframe('kakaobank://', null);
       }
     }
 
