@@ -3795,17 +3795,16 @@ body.modal-open {
 
 .comments-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: -100px;
   left: 0;
   right: 0;
-  bottom: -200px;
-  background: rgba(22, 15, 10, 0.62);
+  bottom: -100px;
+  background: rgba(22, 15, 10, 0.65);
   z-index: 2000;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 200px;
-  padding-top: 200px;
+  align-items: center;
+  padding: 24px 16px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -3828,47 +3827,24 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 100%;
+  max-width: 440px;
   height: calc(var(--app-height, 100vh) * 0.80);
-  max-height: calc(var(--app-height, 100vh) * 0.84);
-  border-radius: 20px 20px 0 0;
+  max-height: calc(var(--app-height, 100vh) * 0.82);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 157, 79, 0.22);
+  overflow: hidden;
   overscroll-behavior: contain;
 }
 
 .comments-modal-overlay.active .comments-sheet {
-  transform: translateY(0);
-}
-
-.comments-sheet::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background-color: var(--bg);
-  background-image: url('../images/bg_hanji.png');
-  background-repeat: repeat;
-  background-size: 416px auto;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@media (min-width: 900px) {
-  .comments-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-  }
-}
-
-.comments-modal-overlay.active .comments-sheet {
-  transform: translate3d(0, 0, 0);
+  transform: scale(1);
+  opacity: 1;
 }
 
 .sheet-handle-bar {
@@ -3922,17 +3898,16 @@ body.modal-open {
 /* TMI Behind Profile Modal Sheet */
 .tmi-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: -100px;
   left: 0;
   right: 0;
-  bottom: -200px;
-  background: rgba(22, 15, 10, 0.62);
+  bottom: -100px;
+  background: rgba(22, 15, 10, 0.65);
   z-index: 2100;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 200px;
-  padding-top: 200px;
+  align-items: center;
+  padding: 24px 16px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -3955,43 +3930,24 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 100%;
-  height: calc(var(--app-height, 100vh) * 0.85);
-  max-height: calc(var(--app-height, 100vh) * 0.88);
-  border-radius: 24px 24px 0 0;
+  max-width: 440px;
+  height: calc(var(--app-height, 100vh) * 0.82);
+  max-height: calc(var(--app-height, 100vh) * 0.85);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 157, 79, 0.22);
+  overflow: hidden;
   overscroll-behavior: contain;
 }
 
-.tmi-sheet::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background-color: var(--bg);
-  background-image: url('../images/bg_hanji.png');
-  background-repeat: repeat;
-  background-size: 416px auto;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@media (min-width: 900px) {
-  .tmi-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-  }
-}
-
 .tmi-modal-overlay.active .tmi-sheet {
-  transform: translateY(0);
+  transform: scale(1);
+  opacity: 1;
 }
 
 .tmi-sheet-body {
@@ -4256,17 +4212,16 @@ body.modal-open {
 /* Instagram Activity / Notification Modal Sheet */
 .activity-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: -100px;
   left: 0;
   right: 0;
-  bottom: -200px;
-  background: rgba(22, 15, 10, 0.62);
+  bottom: -100px;
+  background: rgba(22, 15, 10, 0.65);
   z-index: 2100;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 200px;
-  padding-top: 200px;
+  align-items: center;
+  padding: 24px 16px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -4289,43 +4244,24 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 100%;
+  max-width: 440px;
   height: calc(var(--app-height, 100vh) * 0.80);
-  max-height: calc(var(--app-height, 100vh) * 0.85);
-  border-radius: 24px 24px 0 0;
+  max-height: calc(var(--app-height, 100vh) * 0.82);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 157, 79, 0.22);
+  overflow: hidden;
   overscroll-behavior: contain;
 }
 
 .activity-modal-overlay.active .activity-sheet {
-  transform: translateY(0);
-}
-
-.activity-sheet::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background-color: var(--bg);
-  background-image: url('../images/bg_hanji.png');
-  background-repeat: repeat;
-  background-size: 416px auto;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@media (min-width: 900px) {
-  .activity-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-  }
+  transform: scale(1);
+  opacity: 1;
 }
 
 .activity-sheet-body {
@@ -4458,17 +4394,16 @@ body.modal-open {
 /* Instagram Profile 3x3 Grid Gallery Modal */
 .grid-gallery-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: -100px;
   left: 0;
   right: 0;
-  bottom: -200px;
-  background: rgba(22, 15, 10, 0.62);
+  bottom: -100px;
+  background: rgba(22, 15, 10, 0.65);
   z-index: 2100;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 200px;
-  padding-top: 200px;
+  align-items: center;
+  padding: 24px 16px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -4491,43 +4426,24 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 100%;
-  height: calc(var(--app-height, 100vh) * 0.85);
-  max-height: calc(var(--app-height, 100vh) * 0.88);
-  border-radius: 24px 24px 0 0;
+  max-width: 440px;
+  height: calc(var(--app-height, 100vh) * 0.82);
+  max-height: calc(var(--app-height, 100vh) * 0.85);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 157, 79, 0.22);
+  overflow: hidden;
   overscroll-behavior: contain;
 }
 
-.grid-gallery-sheet::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background-color: var(--bg);
-  background-image: url('../images/bg_hanji.png');
-  background-repeat: repeat;
-  background-size: 416px auto;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@media (min-width: 900px) {
-  .grid-gallery-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-  }
-}
-
 .grid-gallery-modal-overlay.active .grid-gallery-sheet {
-  transform: translateY(0);
+  transform: scale(1);
+  opacity: 1;
 }
 
 .grid-gallery-sheet-body {
@@ -4699,20 +4615,19 @@ body.modal-open {
   z-index: 2;
 }
 
-/* Rough Map Bottom Sheet Modal */
+/* Rough Map Center Modal */
 .rough-map-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: -100px;
   left: 0;
   right: 0;
-  bottom: -200px;
+  bottom: -100px;
   background: rgba(22, 15, 10, 0.65);
   z-index: 2100;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 200px;
-  padding-top: 200px;
+  align-items: center;
+  padding: 24px 16px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -4735,42 +4650,23 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 100%;
-  max-height: 88vh;
-  border-radius: 24px 24px 0 0;
+  max-width: 440px;
+  max-height: calc(var(--app-height, 100vh) * 0.85);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 157, 79, 0.22);
+  overflow: hidden;
   overscroll-behavior: contain;
 }
 
-.rough-map-sheet::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background-color: var(--bg);
-  background-image: url('../images/bg_hanji.png');
-  background-repeat: repeat;
-  background-size: 416px auto;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@media (min-width: 900px) {
-  .rough-map-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-  }
-}
-
 .rough-map-modal-overlay.active .rough-map-sheet {
-  transform: translateY(0);
+  transform: scale(1);
+  opacity: 1;
 }
 
 .rough-map-sheet-body {
@@ -4852,20 +4748,19 @@ body.modal-open {
   transform: scale(0.98);
 }
 
-/* Groom & Bride Profile Bottom Sheet Modal */
+/* Groom & Bride Profile Center Modal */
 .profile-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: -100px;
   left: 0;
   right: 0;
-  bottom: -200px;
+  bottom: -100px;
   background: rgba(22, 15, 10, 0.65);
   z-index: 2100;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 200px;
-  padding-top: 200px;
+  align-items: center;
+  padding: 24px 16px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -4888,43 +4783,24 @@ body.modal-open {
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 100%;
-  height: calc(var(--app-height, 100vh) * 0.85);
-  max-height: calc(var(--app-height, 100vh) * 0.88);
-  border-radius: 24px 24px 0 0;
+  max-width: 440px;
+  height: calc(var(--app-height, 100vh) * 0.82);
+  max-height: calc(var(--app-height, 100vh) * 0.85);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 157, 79, 0.22);
+  overflow: hidden;
   overscroll-behavior: contain;
 }
 
-.profile-sheet::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background-color: var(--bg);
-  background-image: url('../images/bg_hanji.png');
-  background-repeat: repeat;
-  background-size: 416px auto;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@media (min-width: 900px) {
-  .profile-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-  }
-}
-
 .profile-modal-overlay.active .profile-sheet {
-  transform: translateY(0);
+  transform: scale(1);
+  opacity: 1;
 }
 
 .profile-sheet-body {
@@ -5518,17 +5394,16 @@ body.modal-open .ig-bottom-footer,
 /* ==================================================== */
 .large-map-modal-overlay {
   position: fixed;
-  top: -200px;
+  top: -100px;
   left: 0;
   right: 0;
-  bottom: -200px;
-  background: rgba(22, 15, 10, 0.62);
+  bottom: -100px;
+  background: rgba(22, 15, 10, 0.65);
   z-index: 2150;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 200px;
-  padding-top: 200px;
+  align-items: center;
+  padding: 24px 16px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -5551,44 +5426,24 @@ body.modal-open .ig-bottom-footer,
   background-size: 416px auto;
   position: relative;
   width: 100%;
-  max-width: 100%;
-  height: calc(var(--app-height, 100vh) * 0.88);
-  max-height: calc(var(--app-height, 100vh) * 0.90);
-  border-radius: 24px 24px 0 0;
+  max-width: 460px;
+  height: calc(var(--app-height, 100vh) * 0.85);
+  max-height: calc(var(--app-height, 100vh) * 0.88);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.32);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 157, 79, 0.22);
+  overflow: hidden;
   overscroll-behavior: contain;
 }
 
-.large-map-sheet::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background-color: var(--bg);
-  background-image: url('../images/bg_hanji.png');
-  background-repeat: repeat;
-  background-size: 416px auto;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@media (min-width: 900px) {
-  .large-map-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-    height: 85vh;
-  }
-}
-
 .large-map-modal-overlay.active .large-map-sheet {
-  transform: translateY(0);
+  transform: scale(1);
+  opacity: 1;
 }
 
 .large-map-sheet-header {

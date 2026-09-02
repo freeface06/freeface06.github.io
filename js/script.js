@@ -57,12 +57,16 @@
     const GOOGLE_SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby6DENoj4doh7phAp0UpNcB7YQE5JSZmdS1zGfLj0fT9PhNnx-xXzic1j6_QI5JQnY/exec';
     const COMMENTS_CACHE_KEY = 'wedding_comments_cache_v2';
 
+    function isSafeArray(val) {
+      return val && (typeof Array !== 'undefined' && Array.isArray ? Array.isArray(val) : Object.prototype.toString.call(val) === '[object Array]');
+    }
+
     function getInitialCommentsData() {
       try {
         const cached = localStorage.getItem(COMMENTS_CACHE_KEY);
         if (cached) {
           const parsed = JSON.parse(cached);
-          if (Array.isArray(parsed) && parsed.length > 0) {
+          if (isSafeArray(parsed) && parsed.length > 0) {
             return parsed;
           }
         }
@@ -104,7 +108,7 @@
         .then(res => res.json())
         .then(json => {
           isCommentsLoading = false;
-          if (json && json.status === 'success' && Array.isArray(json.comments)) {
+          if (json && json.status === 'success' && isSafeArray(json.comments)) {
             const sheetComments = json.comments.map(c => ({
               id: c.id || Date.now() + Math.random(),
               uname: c.uname || '하객',
@@ -2385,7 +2389,7 @@
         const res = await fetch(repoUrl, { headers: { 'Accept': 'application/vnd.github.v3+json' } });
         if (res.ok) {
           const files = await res.json();
-          if (Array.isArray(files) && files.length > 0) {
+          if (isSafeArray(files) && files.length > 0) {
             const validMediaFiles = files
               .filter(f => f.type === 'file')
               .map(f => `images/gallery/${f.name}`)
