@@ -1179,10 +1179,13 @@ button {
 /* Fullscreen Photo Lightbox Modal (Swipe + Zoom & Pan) */
 #photo-lightbox {
   position: fixed;
-  top: 0;
+  top: -200px;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: -200px;
+  padding-top: 200px;
+  padding-bottom: 200px;
+  box-sizing: border-box;
   background: rgba(0, 0, 0, 0.96);
   z-index: 999999;
   display: none;
@@ -1194,6 +1197,9 @@ button {
   -webkit-user-select: none;
   touch-action: none;
   animation: modalFadeIn 0.25s ease-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .lightbox-header {
@@ -3792,9 +3798,10 @@ body.modal-open {
 
 .comments-modal-overlay {
   position: fixed;
-  inset: -120px 0;
-  height: calc(100vh + 240px);
-  height: calc(100dvh + 240px);
+  top: -200px;
+  left: 0;
+  right: 0;
+  bottom: -200px;
   background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -3802,7 +3809,8 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 120px;
+  padding-bottom: 200px;
+  padding-top: 200px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -3923,9 +3931,10 @@ body.modal-open {
 /* TMI Behind Profile Modal Sheet */
 .tmi-modal-overlay {
   position: fixed;
-  inset: -120px 0;
-  height: calc(100vh + 240px);
-  height: calc(100dvh + 240px);
+  top: -200px;
+  left: 0;
+  right: 0;
+  bottom: -200px;
   background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -3933,7 +3942,8 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 120px;
+  padding-bottom: 200px;
+  padding-top: 200px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -4264,9 +4274,10 @@ body.modal-open {
 /* Instagram Activity / Notification Modal Sheet */
 .activity-modal-overlay {
   position: fixed;
-  inset: -120px 0;
-  height: calc(100vh + 240px);
-  height: calc(100dvh + 240px);
+  top: -200px;
+  left: 0;
+  right: 0;
+  bottom: -200px;
   background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -4274,7 +4285,8 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 120px;
+  padding-bottom: 200px;
+  padding-top: 200px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -4473,9 +4485,10 @@ body.modal-open {
 /* Instagram Profile 3x3 Grid Gallery Modal */
 .grid-gallery-modal-overlay {
   position: fixed;
-  inset: -120px 0;
-  height: calc(100vh + 240px);
-  height: calc(100dvh + 240px);
+  top: -200px;
+  left: 0;
+  right: 0;
+  bottom: -200px;
   background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -4483,7 +4496,8 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 120px;
+  padding-bottom: 200px;
+  padding-top: 200px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -4724,10 +4738,10 @@ body.modal-open {
 /* Rough Map Bottom Sheet Modal */
 .rough-map-modal-overlay {
   position: fixed;
-  top: 0;
+  top: -200px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -200px;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -4735,12 +4749,18 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding-bottom: 200px;
+  padding-top: 200px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .rough-map-modal-overlay.active {
@@ -4754,6 +4774,7 @@ body.modal-open {
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
+  position: relative;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4763,8 +4784,25 @@ body.modal-open {
   transform: translateY(100%);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
   overscroll-behavior: contain;
+}
+
+.rough-map-sheet::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  pointer-events: none;
+  z-index: 20;
 }
 
 @media (min-width: 900px) {
@@ -4860,10 +4898,10 @@ body.modal-open {
 /* Groom & Bride Profile Bottom Sheet Modal */
 .profile-modal-overlay {
   position: fixed;
-  top: 0;
+  top: -200px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -200px;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -4871,12 +4909,18 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding-bottom: 200px;
+  padding-top: 200px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.35s var(--smooth-ease), visibility 0.35s ease;
   overscroll-behavior: contain;
   touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .profile-modal-overlay.active {
@@ -4890,6 +4934,7 @@ body.modal-open {
   background-image: url('../images/bg_hanji.png');
   background-repeat: repeat;
   background-size: 416px auto;
+  position: relative;
   width: 100%;
   max-width: 100%;
   max-height: 88vh;
@@ -4900,8 +4945,25 @@ body.modal-open {
   transform: translateY(100%);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
   overscroll-behavior: contain;
+}
+
+.profile-sheet::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  pointer-events: none;
+  z-index: 20;
 }
 
 @media (min-width: 900px) {
@@ -5344,10 +5406,10 @@ body.modal-open .ig-bottom-footer,
 /* Custom Alert / Confirm Modal (Replaces Native alert/confirm) */
 .custom-modal-overlay {
   position: fixed;
-  top: 0;
+  top: -200px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -200px;
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -5356,10 +5418,16 @@ body.modal-open .ig-bottom-footer,
   align-items: center;
   justify-content: center;
   padding: 24px;
+  padding-top: 224px;
+  padding-bottom: 224px;
+  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.25s ease, visibility 0.25s ease;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .custom-modal-overlay.show {
@@ -5498,9 +5566,10 @@ body.modal-open .ig-bottom-footer,
 /* ==================================================== */
 .large-map-modal-overlay {
   position: fixed;
-  inset: -120px 0;
-  height: calc(100vh + 240px);
-  height: calc(100dvh + 240px);
+  top: -200px;
+  left: 0;
+  right: 0;
+  bottom: -200px;
   background: rgba(26, 18, 14, 0.55);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -5508,7 +5577,8 @@ body.modal-open .ig-bottom-footer,
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 120px;
+  padding-bottom: 200px;
+  padding-top: 200px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
