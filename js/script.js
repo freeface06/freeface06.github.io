@@ -3222,7 +3222,7 @@
       const lb = document.getElementById('photo-lightbox');
       const img = document.getElementById('lightboxImg');
       const video = document.getElementById('lightboxVideo');
-      const counter = document.getElementById('lightboxCounter');
+      const titleEl = document.getElementById('lightboxTitle') || document.getElementById('lightboxCounter');
       const dotsContainer = document.getElementById('lightboxDots');
       if (!lb || !img) return;
 
@@ -3235,7 +3235,7 @@
       img.src = src;
       resetLightboxTransform(false);
       img.style.opacity = '1';
-      if (counter) counter.textContent = caption;
+      if (titleEl) titleEl.textContent = caption;
       if (dotsContainer) dotsContainer.innerHTML = '';
 
       lb.style.display = 'flex';
@@ -3290,7 +3290,7 @@
     function updateLightbox(slideDirection = 0) {
       const img = document.getElementById('lightboxImg');
       const video = document.getElementById('lightboxVideo');
-      const counter = document.getElementById('lightboxCounter');
+      const titleEl = document.getElementById('lightboxTitle') || document.getElementById('lightboxCounter');
       const dotsContainer = document.getElementById('lightboxDots');
       const currentSrc = gridPhotos[currentLightboxIdx] || '';
       const isVideo = isVideoMedia(currentSrc);
@@ -3346,7 +3346,7 @@
         applyMedia();
       }
 
-      if (counter) counter.textContent = `${currentLightboxIdx + 1} / ${gridPhotos.length}`;
+      if (titleEl) titleEl.textContent = '웨딩 갤러리';
 
       if (dotsContainer) {
         dotsContainer.innerHTML = gridPhotos.map((_, i) =>
