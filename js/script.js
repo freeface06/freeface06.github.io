@@ -1649,8 +1649,8 @@
     }
 
     /* ==================================================== */
-    /* HERO PHOTO WATER DROP RIPPLE INTERACTION             */
-    /* 메인 사진 터치/클릭 시 물방울 낙하 및 수면 파동 애니메이션 */
+    /* HERO PHOTO FLOWER PETAL FLUTTER INTERACTION          */
+    /* 메인 사진 터치/클릭 시 벚꽃/장미 꽃잎 플라워 샤워 효과   */
     /* ==================================================== */
     function handleHeroPhotoClick(e) {
       const container = e.currentTarget || document.querySelector('.wedding-hero-photo');
@@ -1678,59 +1678,84 @@
       const x = Math.max(10, Math.min(rect.width - 10, clientX - rect.left));
       const y = Math.max(10, Math.min(rect.height - 10, clientY - rect.top));
 
-      createWaterRippleEffect(container, x, y);
+      createFlowerPetalBurst(container, x, y);
     }
 
-    function createWaterRippleEffect(container, x, y) {
-      let rippleWrap = container.querySelector('.water-ripple-container');
-      if (!rippleWrap) {
-        rippleWrap = document.createElement('div');
-        rippleWrap.className = 'water-ripple-container';
-        container.appendChild(rippleWrap);
+    function createFlowerPetalBurst(container, x, y) {
+      let burstWrap = container.querySelector('.petal-burst-container');
+      if (!burstWrap) {
+        burstWrap = document.createElement('div');
+        burstWrap.className = 'petal-burst-container';
+        container.appendChild(burstWrap);
       }
 
-      // 1. Water Droplet (위에서 똑 떨어짐)
-      const droplet = document.createElement('div');
-      droplet.className = 'water-droplet';
-      droplet.style.left = `${x}px`;
-      droplet.style.top = `${y}px`;
-      rippleWrap.appendChild(droplet);
+      // 1. Soft Bloom Halo Ring (은은한 샴페인 빛 링)
+      const ring = document.createElement('div');
+      ring.className = 'petal-bloom-ring';
+      ring.style.left = `${x}px`;
+      ring.style.top = `${y}px`;
+      burstWrap.appendChild(ring);
 
-      // 2. Concentric Ripple Waves (물결 퍼짐 - 3겹)
-      setTimeout(() => {
-        for (let i = 1; i <= 3; i++) {
-          const wave = document.createElement('div');
-          wave.className = `water-ripple-wave wave-${i}`;
-          wave.style.left = `${x}px`;
-          wave.style.top = `${y}px`;
-          rippleWrap.appendChild(wave);
-        }
+      // 2. Flower Petals (6~8장의 벚꽃/장미/화이트/골드 꽃잎)
+      const petalTypes = ['petal-pink', 'petal-rose', 'petal-white', 'petal-gold'];
+      const petalCount = 7;
+      const createdElements = [ring];
 
-        // 3. Splash Particles (미세 물방울 튀김 6개)
-        const angles = [0, 60, 120, 180, 240, 300];
-        angles.forEach(deg => {
-          const p = document.createElement('div');
-          p.className = 'water-splash-particle';
-          p.style.left = `${x}px`;
-          p.style.top = `${y}px`;
-          const dist = 18 + Math.random() * 22;
-          const rad = (deg + (Math.random() * 20 - 10)) * (Math.PI / 180);
-          const tx = Math.cos(rad) * dist;
-          const ty = Math.sin(rad) * dist - 8;
-          p.style.setProperty('--tx', `${tx}px`);
-          p.style.setProperty('--ty', `${ty}px`);
-          rippleWrap.appendChild(p);
-        });
-      }, 160);
+      for (let i = 0; i < petalCount; i++) {
+        const petal = document.createElement('div');
+        const pType = petalTypes[i % petalTypes.length];
+        petal.className = `flower-petal ${pType}`;
+        petal.style.left = `${x}px`;
+        petal.style.top = `${y}px`;
+
+        const baseAngle = (i * (360 / petalCount)) + (Math.random() * 30 - 15);
+        const rad = baseAngle * (Math.PI / 180);
+        const distance = 45 + Math.random() * 65;
+        const tx = Math.cos(rad) * distance;
+        const ty = Math.sin(rad) * distance - (20 + Math.random() * 30);
+        const rot = (Math.random() * 360 - 180) + 'deg';
+        const pw = (14 + Math.random() * 6) + 'px';
+        const ph = (18 + Math.random() * 8) + 'px';
+
+        petal.style.setProperty('--tx', `${tx}px`);
+        petal.style.setProperty('--ty', `${ty}px`);
+        petal.style.setProperty('--rot', rot);
+        petal.style.setProperty('--pw', pw);
+        petal.style.setProperty('--ph', ph);
+        petal.style.animationDelay = `${(i * 0.04).toFixed(2)}s`;
+
+        burstWrap.appendChild(petal);
+        createdElements.push(petal);
+      }
+
+      // 3. Golden Stardust Sparkles (8개의 반짝이는 금빛 페어리 더스트)
+      const sparkleCount = 8;
+      for (let j = 0; j < sparkleCount; j++) {
+        const sp = document.createElement('div');
+        sp.className = 'petal-sparkle';
+        sp.style.left = `${x}px`;
+        sp.style.top = `${y}px`;
+
+        const spAngle = (j * (360 / sparkleCount)) + (Math.random() * 40 - 20);
+        const spRad = spAngle * (Math.PI / 180);
+        const spDist = 25 + Math.random() * 55;
+        const stx = Math.cos(spRad) * spDist;
+        const sty = Math.sin(spRad) * spDist - (10 + Math.random() * 20);
+
+        sp.style.setProperty('--stx', `${stx}px`);
+        sp.style.setProperty('--sty', `${sty}px`);
+        sp.style.animationDelay = `${(j * 0.03).toFixed(2)}s`;
+
+        burstWrap.appendChild(sp);
+        createdElements.push(sp);
+      }
 
       // Clean up elements after animation finishes
       setTimeout(() => {
-        if (droplet && droplet.parentNode) droplet.parentNode.removeChild(droplet);
-        const waves = rippleWrap.querySelectorAll('.water-ripple-wave, .water-splash-particle');
-        waves.forEach(w => {
-          if (w && w.parentNode) w.parentNode.removeChild(w);
+        createdElements.forEach(el => {
+          if (el && el.parentNode) el.parentNode.removeChild(el);
         });
-      }, 1300);
+      }, 1600);
     }
 
     /* Top Nav (+) Confetti Celebration Fireworks Engine */
