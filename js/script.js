@@ -1820,8 +1820,10 @@
       const overlay = document.getElementById('grid-gallery-modal-overlay');
       if (overlay) {
         overlay.classList.add('active');
+        playGridVideos();
         pushModalToHistory('grid-gallery-modal', (fromHistory) => {
           overlay.classList.remove('active');
+          pauseGridVideos();
         });
       }
     }
@@ -1830,10 +1832,29 @@
       const overlay = document.getElementById('grid-gallery-modal-overlay');
       if (overlay) {
         overlay.classList.remove('active');
+        pauseGridVideos();
       }
       if (!fromHistory) {
         popModalFromHistory('grid-gallery-modal');
       }
+    }
+
+    function playGridVideos() {
+      const grid = document.querySelector('.ig-photo-grid');
+      if (!grid) return;
+      const vids = grid.querySelectorAll('video');
+      vids.forEach(v => {
+        playMutedVideoSafely(v, v.src || v.getAttribute('src'));
+      });
+    }
+
+    function pauseGridVideos() {
+      const grid = document.querySelector('.ig-photo-grid');
+      if (!grid) return;
+      const vids = grid.querySelectorAll('video');
+      vids.forEach(v => {
+        v.pause();
+      });
     }
 
     function handleGridGalleryOverlayClick(e) {
@@ -1846,7 +1867,7 @@
       closeGridGalleryModal();
       setTimeout(() => {
         openPhotoLightbox(index);
-      }, 150);
+      }, 100);
     }
 
     /* Rough Map Modal Handlers */
@@ -2557,7 +2578,7 @@
           if (isVid) {
             return `
               <div class="ig-grid-cell" onclick="selectGridPhoto(${idx})">
-                <video src="${encodedSrc}" muted loop playsinline preload="metadata"></video>
+                <video src="${encodedSrc}" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
                 <div class="ig-grid-badge">
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                 </div>
