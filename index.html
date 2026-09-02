@@ -45,7 +45,7 @@
       window.addEventListener('orientationchange', function() { setTimeout(function() { setH(true); }, 150); });
     })();
   </script>
-  <link rel="stylesheet" href="css/style.css?v=20260902_1625">
+  <link rel="stylesheet" href="css/style.css?v=20260902_1630">
 </head>
 
 <body>
@@ -1500,18 +1500,17 @@
     <div class="lightbox-dots" id="lightboxDots"></div>
   </div>
 
-  <!-- Instagram Comments Full Bottom Sheet Modal (댓글 전체보기 바텀시트 - Image 2 Style) -->
+  <!-- Instagram Comments Full Screen View (댓글 전체보기) -->
   <div id="comments-modal-overlay" class="comments-modal-overlay" onclick="handleCommentsOverlayClick(event)">
     <div class="comments-sheet">
-      <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <div class="sheet-title">축하 메시지</div>
-        <button class="sheet-close-btn" onclick="closeCommentsSheet()" aria-label="닫기">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
+        <button class="sheet-back-btn" onclick="closeCommentsSheet()" aria-label="뒤로가기">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
+        <div class="sheet-title">축하 메시지</div>
+        <div class="sheet-header-spacer"></div>
       </div>
       <div id="sheet-comments-body" class="sheet-comments-body">
         <!-- Rendered dynamically by JS -->
@@ -1531,18 +1530,17 @@
     </div>
   </div>
 
-  <!-- Instagram TMI Behind Story Bottom Sheet Modal -->
+  <!-- Instagram TMI Behind Story Full Screen View -->
   <div id="tmi-modal-overlay" class="tmi-modal-overlay" onclick="handleTmiOverlayClick(event)">
     <div class="tmi-sheet">
-      <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <div class="sheet-title" id="tmi-modal-title">신랑 & 신부 프로필</div>
-        <button class="sheet-close-btn" onclick="closeTmiModal()" aria-label="닫기">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
+        <button class="sheet-back-btn" onclick="closeTmiModal()" aria-label="뒤로가기">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
+        <div class="sheet-title" id="tmi-modal-title">신랑 & 신부 프로필</div>
+        <div class="sheet-header-spacer"></div>
       </div>
       <div class="tmi-sheet-body">
         <!-- 1. Post 1: Couple Profiles (신랑 & 신부 프로필) -->
@@ -1785,18 +1783,17 @@
     </div>
   </div>
 
-  <!-- Instagram Activity / Notification Bottom Sheet Modal -->
+  <!-- Instagram Activity / Notification Full Screen View -->
   <div id="activity-modal-overlay" class="activity-modal-overlay" onclick="handleActivityOverlayClick(event)">
     <div class="activity-sheet">
-      <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <div class="sheet-title">활동 알림</div>
-        <button class="sheet-close-btn" onclick="closeActivityModal()" aria-label="닫기">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
+        <button class="sheet-back-btn" onclick="closeActivityModal()" aria-label="뒤로가기">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
+        <div class="sheet-title">활동 알림</div>
+        <div class="sheet-header-spacer"></div>
       </div>
       <div class="activity-sheet-body">
         <!-- Section 1: 오늘 -->
@@ -1899,12 +1896,16 @@
     </div>
   </div>
 
-  <!-- Instagram 3x3 Grid Wedding Gallery Bottom Sheet Modal -->
+  <!-- Instagram 3x3 Grid Wedding Gallery Full Screen View -->
   <div id="grid-gallery-modal-overlay" class="grid-gallery-modal-overlay"
     onclick="handleGridGalleryOverlayClick(event)">
     <div class="grid-gallery-sheet">
-      <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
+        <button class="sheet-back-btn" onclick="closeGridGalleryModal()" aria-label="뒤로가기">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
         <div class="sheet-title" style="display:flex; align-items:center; justify-content:center; gap:4px;">
           <span>이호정 · 전다솔</span>
           <svg class="verified-icon" viewBox="0 0 24 24" style="width:15px; height:15px;">
@@ -1912,12 +1913,7 @@
               d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
           </svg>
         </div>
-        <button class="sheet-close-btn" onclick="closeGridGalleryModal()" aria-label="닫기">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+        <div class="sheet-header-spacer"></div>
       </div>
       <div class="grid-gallery-sheet-body">
         <!-- 1. Mini Profile Bar -->
@@ -2055,18 +2051,17 @@
     </div>
   </div>
 
-  <!-- Large Interactive Map Modal (지도 크게보기 팝업) -->
+  <!-- Large Interactive Map Modal (지도 크게보기 전체화면 뷰) -->
   <div id="large-map-modal-overlay" class="large-map-modal-overlay" onclick="handleLargeMapOverlayClick(event)">
     <div class="large-map-sheet">
-      <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <div class="sheet-title">라비니움 (천호역 10번 출구)</div>
-        <button class="sheet-close-btn" onclick="closeLargeMapModal()" aria-label="닫기">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
+        <button class="sheet-back-btn" onclick="closeLargeMapModal()" aria-label="뒤로가기">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
+        <div class="sheet-title">라비니움 (천호역 10번 출구)</div>
+        <div class="sheet-header-spacer"></div>
       </div>
       <div class="large-map-modal-body">
         <div id="largeInteractiveMap" class="large-interactive-map"></div>
@@ -2144,7 +2139,7 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=20260902_1625"></script>
+  <script src="js/script.js?v=20260902_1630"></script>
 </body>
 
 </html>

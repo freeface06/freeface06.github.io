@@ -3859,39 +3859,22 @@ body.modal-open {
   opacity: 1;
 }
 
-.sheet-handle-bar {
-  width: 36px;
-  height: 4px;
-  background: #dbdbdb;
-  border-radius: 2px;
-  margin: 10px auto 4px;
-  flex-shrink: 0;
-}
-
 .sheet-header {
-  padding: 6px 16px 10px;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 14px 12px;
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
+  background-color: var(--bg);
+  background-image: url('../images/bg_hanji.png');
+  background-repeat: repeat;
+  background-size: 416px auto;
+  position: relative;
+  z-index: 10;
 }
 
-.sheet-title {
-  font-size: 0.96rem;
-  font-weight: 700;
-  color: var(--title-color);
-  text-align: center;
-  flex: 1;
-  margin-left: 24px;
-}
-
-.sheet-title span {
-  color: var(--title-color);
-  font-weight: 700;
-}
-
-.sheet-close-btn {
+.sheet-back-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -3901,10 +3884,44 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: background-color 0.15s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.sheet-close-btn svg {
+.sheet-back-btn:active {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: scale(0.92);
+}
+
+.sheet-back-btn svg {
   stroke: var(--title-color);
+}
+
+.sheet-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--title-color);
+  text-align: center;
+  flex: 1;
+  margin: 0;
+}
+
+.sheet-title span {
+  color: var(--title-color);
+  font-weight: 700;
+}
+
+.sheet-header-spacer {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.sheet-close-btn {
+  display: none;
 }
 
 /* TMI Behind Profile Modal Sheet */
