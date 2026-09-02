@@ -1,18 +1,34 @@
 /* ==================================================== */
-    /* INITIAL VIEWPORT HEIGHT LOCK (--app-height)          */
-    /* 주소창/하단바 변경에 따른 height 재계산 깜빡임 방지   */
-    /* ==================================================== */
-    (function initAppHeightLock() {
-      function updateAppHeight() {
-        const h = window.innerHeight || document.documentElement.clientHeight || 800;
-        document.documentElement.style.setProperty('--app-height', `${h}px`);
-        document.documentElement.style.setProperty('--vh', `${h * 0.01}px`);
-      }
-      updateAppHeight();
-      window.addEventListener('orientationchange', () => {
-        setTimeout(updateAppHeight, 150);
-      });
-    })();
+/* SMART VIEWPORT HEIGHT LOCK FOR FOLDABLE & ROTATION   */
+/* 스크롤 시 주소창 미세변동은 무시 + 폴드/회전/분할창은 즉시 감지 */
+/* ==================================================== */
+(function initSmartAppHeightLock() {
+  let lastW = window.innerWidth;
+  let lastH = window.innerHeight;
+
+  function updateAppHeight(force = false) {
+    const curW = window.innerWidth;
+    const curH = window.innerHeight;
+
+    // 가로폭 변화(폴드 펴기/접기, 회전) 또는 대폭 높이 변화(160px 초과) 시에만 재계산
+    if (force || Math.abs(curW - lastW) > 5 || Math.abs(curH - lastH) > 160) {
+      document.documentElement.style.setProperty('--app-height', `${curH}px`);
+      document.documentElement.style.setProperty('--vh', `${curH * 0.01}px`);
+      lastW = curW;
+      lastH = curH;
+    }
+  }
+
+  updateAppHeight(true);
+
+  window.addEventListener('resize', () => {
+    updateAppHeight(false);
+  });
+
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => updateAppHeight(true), 150);
+  });
+})();
 
     /* ==================================================== */
     /* KAKAO JAVASCRIPT SDK & SHARE CONFIGURATION          */

@@ -28,12 +28,24 @@
   <link rel="preload" as="image" href="images/bg_hanji.png">
   <script>
     (function() {
-      var h = window.innerHeight || document.documentElement.clientHeight || 800;
-      document.documentElement.style.setProperty('--app-height', h + 'px');
-      document.documentElement.style.setProperty('--vh', (h * 0.01) + 'px');
+      var lastW = window.innerWidth;
+      var lastH = window.innerHeight;
+      function setH(force) {
+        var curW = window.innerWidth;
+        var curH = window.innerHeight;
+        if (force || Math.abs(curW - lastW) > 5 || Math.abs(curH - lastH) > 160) {
+          document.documentElement.style.setProperty('--app-height', curH + 'px');
+          document.documentElement.style.setProperty('--vh', (curH * 0.01) + 'px');
+          lastW = curW;
+          lastH = curH;
+        }
+      }
+      setH(true);
+      window.addEventListener('resize', function() { setH(false); });
+      window.addEventListener('orientationchange', function() { setTimeout(function() { setH(true); }, 150); });
     })();
   </script>
-  <link rel="stylesheet" href="css/style.css?v=20260902_1355">
+  <link rel="stylesheet" href="css/style.css?v=20260902_1358">
 </head>
 
 <body>
@@ -2132,7 +2144,7 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=20260902_1355"></script>
+  <script src="js/script.js?v=20260902_1358"></script>
 </body>
 
 </html>
