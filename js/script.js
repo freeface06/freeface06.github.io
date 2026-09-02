@@ -1635,11 +1635,6 @@
       }
     }
 
-    /* Groom & Bride Profile Modal Legacy Wrapper -> Integrated with TMI Modal */
-    function openProfileModal(focusType = 'all') {
-      openTmiModal('couple', focusType === 'all' ? null : focusType);
-    }
-
     function closeProfileModal(fromHistory = false) {
       closeTmiModal(fromHistory);
     }
@@ -1691,7 +1686,13 @@
       createFlowerPetalBurst(container, x, y);
     }
 
+    let heroClickSequence = 0;
+
     function createFlowerPetalBurst(container, x, y) {
+      if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+        try { navigator.vibrate(12); } catch (e) { }
+      }
+
       let burstWrap = container.querySelector('.petal-burst-container');
       if (!burstWrap) {
         burstWrap = document.createElement('div');
@@ -1699,30 +1700,76 @@
         container.appendChild(burstWrap);
       }
 
-      // 1. Soft Bloom Halo Ring (은은한 샴페인 빛 링)
+      const mode = (heroClickSequence++) % 4;
+      const createdElements = [];
+
+      // 1. Soft Bloom Halo Ring
       const ring = document.createElement('div');
       ring.className = 'petal-bloom-ring';
       ring.style.left = `${x}px`;
       ring.style.top = `${y}px`;
       burstWrap.appendChild(ring);
+      createdElements.push(ring);
 
-      // 2. Flower Petals (6~8장의 벚꽃/장미/화이트/골드 꽃잎)
-      const petalTypes = ['petal-pink', 'petal-rose', 'petal-white', 'petal-gold'];
-      const petalCount = 7;
-      const createdElements = [ring];
+      // Helper for SVG 3D Hearts
+      const createHeart = (hx, hy, angle, dist, color) => {
+        const heart = document.createElement('div');
+        heart.className = 'wedding-heart-particle';
+        heart.style.left = `${hx}px`;
+        heart.style.top = `${hy}px`;
+        heart.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="${color}">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        `;
+        const rad = angle * (Math.PI / 180);
+        const htx = Math.cos(rad) * dist;
+        const hty = Math.sin(rad) * dist - (30 + Math.random() * 35);
+        const hrot = (Math.random() * 60 - 30) + 'deg';
+        const hw = (16 + Math.random() * 8) + 'px';
 
-      for (let i = 0; i < petalCount; i++) {
+        heart.style.setProperty('--htx', `${htx}px`);
+        heart.style.setProperty('--hty', `${hty}px`);
+        heart.style.setProperty('--hrot', hrot);
+        heart.style.setProperty('--hw', hw);
+        heart.style.setProperty('--hh', hw);
+        return heart;
+      };
+
+      // Helper for 4-Point Diamond Stars
+      const createStar = (sx, sy, angle, dist, fill = '#ffd700') => {
+        const star = document.createElement('div');
+        star.className = 'diamond-star';
+        star.style.left = `${sx}px`;
+        star.style.top = `${sy}px`;
+        star.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="${fill}">
+            <path d="M12 0L14.8 9.2L24 12L14.8 14.8L12 24L9.2 14.8L0 12L9.2 9.2Z"/>
+          </svg>
+        `;
+        const rad = angle * (Math.PI / 180);
+        const stx = Math.cos(rad) * dist;
+        const sty = Math.sin(rad) * dist - (15 + Math.random() * 25);
+        const sw = (12 + Math.random() * 8) + 'px';
+
+        star.style.setProperty('--stx', `${stx}px`);
+        star.style.setProperty('--sty', `${sty}px`);
+        star.style.setProperty('--sw', sw);
+        star.style.setProperty('--sh', sw);
+        return star;
+      };
+
+      // Helper for Petals
+      const petalTypes = ['petal-pink', 'petal-rose', 'petal-coral', 'petal-lavender', 'petal-white', 'petal-gold'];
+      const createPetal = (px, py, angle, dist, pType) => {
         const petal = document.createElement('div');
-        const pType = petalTypes[i % petalTypes.length];
         petal.className = `flower-petal ${pType}`;
-        petal.style.left = `${x}px`;
-        petal.style.top = `${y}px`;
+        petal.style.left = `${px}px`;
+        petal.style.top = `${py}px`;
 
-        const baseAngle = (i * (360 / petalCount)) + (Math.random() * 30 - 15);
-        const rad = baseAngle * (Math.PI / 180);
-        const distance = 45 + Math.random() * 65;
-        const tx = Math.cos(rad) * distance;
-        const ty = Math.sin(rad) * distance - (20 + Math.random() * 30);
+        const rad = angle * (Math.PI / 180);
+        const tx = Math.cos(rad) * dist;
+        const ty = Math.sin(rad) * dist - (25 + Math.random() * 40);
         const rot = (Math.random() * 360 - 180) + 'deg';
         const pw = (14 + Math.random() * 6) + 'px';
         const ph = (18 + Math.random() * 8) + 'px';
@@ -1732,14 +1779,50 @@
         petal.style.setProperty('--rot', rot);
         petal.style.setProperty('--pw', pw);
         petal.style.setProperty('--ph', ph);
-        petal.style.animationDelay = `${(i * 0.04).toFixed(2)}s`;
+        return petal;
+      };
 
-        burstWrap.appendChild(petal);
-        createdElements.push(petal);
+      // 4 Multi-Theme Variation Logic
+      const petalCount = mode === 0 ? 12 : (mode === 3 ? 14 : 7);
+      const heartCount = mode === 1 ? 8 : (mode === 3 ? 7 : 0);
+      const starCount = mode === 2 ? 14 : (mode === 3 ? 10 : 6);
+      const sparkleCount = 10;
+
+      // 1. Add Petals
+      for (let i = 0; i < petalCount; i++) {
+        const pType = petalTypes[i % petalTypes.length];
+        const angle = (i * (360 / petalCount)) + (Math.random() * 30 - 15);
+        const dist = 50 + Math.random() * 80;
+        const p = createPetal(x, y, angle, dist, pType);
+        p.style.animationDelay = `${(i * 0.03).toFixed(2)}s`;
+        burstWrap.appendChild(p);
+        createdElements.push(p);
       }
 
-      // 3. Golden Stardust Sparkles (8개의 반짝이는 금빛 페어리 더스트)
-      const sparkleCount = 8;
+      // 2. Add 3D Hearts
+      const heartColors = ['#ff4d6d', '#ff758f', '#e63946', '#ff85a1', '#d90429', '#f72585'];
+      for (let h = 0; h < heartCount; h++) {
+        const color = heartColors[h % heartColors.length];
+        const angle = (h * (360 / heartCount)) + (Math.random() * 25 - 12);
+        const dist = 40 + Math.random() * 65;
+        const ht = createHeart(x, y, angle, dist, color);
+        ht.style.animationDelay = `${(h * 0.04).toFixed(2)}s`;
+        burstWrap.appendChild(ht);
+        createdElements.push(ht);
+      }
+
+      // 3. Add Diamond Twinkle Stars
+      for (let s = 0; s < starCount; s++) {
+        const angle = (s * (360 / starCount)) + (Math.random() * 30 - 15);
+        const dist = 35 + Math.random() * 75;
+        const starFill = s % 2 === 0 ? '#ffd700' : '#ffffff';
+        const st = createStar(x, y, angle, dist, starFill);
+        st.style.animationDelay = `${(s * 0.03).toFixed(2)}s`;
+        burstWrap.appendChild(st);
+        createdElements.push(st);
+      }
+
+      // 4. Add Gold Fairy Dust Sparkles
       for (let j = 0; j < sparkleCount; j++) {
         const sp = document.createElement('div');
         sp.className = 'petal-sparkle';
@@ -1748,13 +1831,13 @@
 
         const spAngle = (j * (360 / sparkleCount)) + (Math.random() * 40 - 20);
         const spRad = spAngle * (Math.PI / 180);
-        const spDist = 25 + Math.random() * 55;
+        const spDist = 30 + Math.random() * 70;
         const stx = Math.cos(spRad) * spDist;
-        const sty = Math.sin(spRad) * spDist - (10 + Math.random() * 20);
+        const sty = Math.sin(spRad) * spDist - (10 + Math.random() * 25);
 
         sp.style.setProperty('--stx', `${stx}px`);
         sp.style.setProperty('--sty', `${sty}px`);
-        sp.style.animationDelay = `${(j * 0.03).toFixed(2)}s`;
+        sp.style.animationDelay = `${(j * 0.025).toFixed(2)}s`;
 
         burstWrap.appendChild(sp);
         createdElements.push(sp);

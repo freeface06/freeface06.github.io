@@ -630,6 +630,14 @@ img[fetchpriority="high"],
   background: radial-gradient(circle at 40% 30%, #fff5ee 0%, #ffc0cb 45%, #e88d9e 100%);
 }
 
+.flower-petal.petal-coral {
+  background: radial-gradient(circle at 40% 30%, #fff0f5 0%, #ff9e99 45%, #ff5e7e 100%);
+}
+
+.flower-petal.petal-lavender {
+  background: radial-gradient(circle at 40% 30%, #fdf5ff 0%, #e8c5f8 45%, #c084fc 100%);
+}
+
 .flower-petal.petal-white {
   background: radial-gradient(circle at 40% 30%, #ffffff 0%, #fff8dc 50%, #f7d8a5 100%);
 }
@@ -645,14 +653,86 @@ img[fetchpriority="high"],
   }
   15% {
     opacity: 1;
-    transform: translate(-50%, -50%) translate(calc(var(--tx) * 0.25), calc(var(--ty) * 0.25)) scale(1.15) rotate(calc(var(--rot) * 0.3)) rotateX(45deg);
+    transform: translate(-50%, -50%) translate(calc(var(--tx) * 0.25), calc(var(--ty) * 0.25)) scale(1.2) rotate(calc(var(--rot) * 0.3)) rotateX(45deg);
+  }
+  70% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--tx), calc(var(--ty) + 35px)) scale(0.65) rotate(var(--rot)) rotateX(220deg) rotateY(160deg);
+  }
+}
+
+/* 3D Wedding Heart Particle */
+.wedding-heart-particle {
+  position: absolute;
+  width: var(--hw, 18px);
+  height: var(--hh, 18px);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 6px rgba(220, 20, 60, 0.35));
+  will-change: transform, opacity;
+  animation: heartFloatFlight 1.35s cubic-bezier(0.12, 0.9, 0.3, 1) forwards;
+}
+
+.wedding-heart-particle svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes heartFloatFlight {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(0, 0) scale(0.2) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(calc(var(--htx) * 0.3), calc(var(--hty) * 0.3)) scale(1.25) rotate(calc(var(--hrot) * 0.4));
+  }
+  75% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--htx), calc(var(--hty) - 25px)) scale(0.6) rotate(var(--hrot));
+  }
+}
+
+/* 4-Point Diamond Twinkle Star */
+.diamond-star {
+  position: absolute;
+  width: var(--sw, 14px);
+  height: var(--sh, 14px);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px #ffd700);
+  will-change: transform, opacity;
+  animation: starTwinkleBurst 1.1s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
+}
+
+.diamond-star svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes starTwinkleBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(0, 0) scale(0.1) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(calc(var(--stx) * 0.35), calc(var(--sty) * 0.35)) scale(1.3) rotate(90deg);
   }
   70% {
     opacity: 0.9;
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(var(--tx), calc(var(--ty) + 25px)) scale(0.7) rotate(var(--rot)) rotateX(180deg) rotateY(120deg);
+    transform: translate(-50%, -50%) translate(var(--stx), var(--sty)) scale(0.3) rotate(270deg);
   }
 }
 
@@ -665,13 +745,13 @@ img[fetchpriority="high"],
   box-shadow: 0 0 10px #ffe4b5, 0 0 4px #ffffff;
   pointer-events: none;
   opacity: 0;
-  animation: sparkleGlitter 0.9s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+  animation: sparkleGlitter 0.95s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
 }
 
 @keyframes sparkleGlitter {
   0% {
     opacity: 1;
-    transform: translate(-50%, -50%) translate(0, 0) scale(1.4);
+    transform: translate(-50%, -50%) translate(0, 0) scale(1.5);
   }
   60% {
     opacity: 0.85;
