@@ -4107,16 +4107,7 @@ body.modal-open {
   border: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .comments-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
+  margin: 0;
 }
 
 .comments-modal-overlay.active .comments-sheet {
@@ -4237,16 +4228,7 @@ body.modal-open {
   border: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .tmi-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
+  margin: 0;
 }
 
 .tmi-modal-overlay.active .tmi-sheet {
@@ -4318,6 +4300,15 @@ body.modal-open {
   flex-direction: column;
   gap: 16px;
   width: 100%;
+}
+
+@media (min-width: 600px) {
+  .tmi-section-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    align-items: start;
+  }
 }
 
 .tmi-profile-card {
@@ -4561,16 +4552,7 @@ body.modal-open {
   border: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .activity-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
+  margin: 0;
 }
 
 .activity-modal-overlay.active .activity-sheet {
@@ -4753,16 +4735,7 @@ body.modal-open {
   border: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .grid-gallery-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
+  margin: 0;
 }
 
 .grid-gallery-modal-overlay.active .grid-gallery-sheet {
@@ -4981,16 +4954,7 @@ body.modal-open {
   border: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .rough-map-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
+  margin: 0;
 }
 
 .rough-map-modal-overlay.active .rough-map-sheet {
@@ -5125,16 +5089,7 @@ body.modal-open {
   border: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .profile-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
+  margin: 0;
 }
 
 .profile-modal-overlay.active .profile-sheet {
@@ -5481,18 +5436,7 @@ body.modal-open .ig-bottom-footer,
   margin: 0;
 }
 
-@media (min-width: 900px) {
-  #story-viewer {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
-}
+
 
 @keyframes modalFadeIn {
   0% {
@@ -5821,16 +5765,7 @@ body.modal-open .ig-bottom-footer,
   border: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .large-map-sheet {
-    max-width: 500px;
-    border-left: 1px solid rgba(214, 189, 138, 0.4);
-    border-right: 1px solid rgba(214, 189, 138, 0.4);
-    box-shadow: 0 0 50px rgba(160, 130, 80, 0.2);
-  }
+  margin: 0;
 }
 
 .large-map-modal-overlay.active .large-map-sheet {
