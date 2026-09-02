@@ -3650,3 +3650,62 @@
         }
       }, { passive: true });
     })();
+
+    /* ==================================================== */
+    /* GLOBAL NATURAL MEDIA SMOOTH LOADING ENGINE           */
+    /* ==================================================== */
+    (function initGlobalSmoothMediaLoading() {
+      const handleImageLoad = (img) => {
+        if (!img) return;
+        if (img.complete && img.naturalWidth > 0) {
+          img.classList.add('loaded');
+        } else {
+          img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+          img.addEventListener('error', () => img.classList.add('loaded'), { once: true });
+        }
+      };
+
+      const handleVideoLoad = (video) => {
+        if (!video) return;
+        if (video.readyState >= 2) {
+          video.classList.add('loaded');
+        } else {
+          video.addEventListener('loadeddata', () => video.classList.add('loaded'), { once: true });
+          video.addEventListener('canplay', () => video.classList.add('loaded'), { once: true });
+          video.addEventListener('error', () => video.classList.add('loaded'), { once: true });
+        }
+      };
+
+      // 1. Initial scan on DOM ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.querySelectorAll('img').forEach(handleImageLoad);
+          document.querySelectorAll('video').forEach(handleVideoLoad);
+        });
+      } else {
+        document.querySelectorAll('img').forEach(handleImageLoad);
+        document.querySelectorAll('video').forEach(handleVideoLoad);
+      }
+
+      // 2. Continuous dynamic DOM observer for newly inserted media
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach(mut => {
+            mut.addedNodes.forEach(node => {
+              if (node.nodeType === 1) {
+                if (node.nodeName === 'IMG') handleImageLoad(node);
+                else if (node.nodeName === 'VIDEO') handleVideoLoad(node);
+                else {
+                  if (node.querySelectorAll) {
+                    node.querySelectorAll('img').forEach(handleImageLoad);
+                    node.querySelectorAll('video').forEach(handleVideoLoad);
+                  }
+                }
+              }
+            });
+          });
+        });
+
+        observer.observe(document.documentElement || document.body, { childList: true, subtree: true });
+      }
+    })();

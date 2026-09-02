@@ -128,6 +128,40 @@ button {
 }
 
 /* ==================================================== */
+/* GLOBAL NATURAL MEDIA SMOOTH LOADING TRANSITION       */
+/* 모든 사진 및 동영상 로딩 시 부드러운 페이드인 트랜지션   */
+/* ==================================================== */
+img,
+video {
+  transition: opacity 0.38s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.38s ease;
+}
+
+img[loading="lazy"]:not(.loaded),
+.carousel-slide img:not(.loaded),
+.carousel-slide video:not(.loaded),
+.ig-grid-cell img:not(.loaded),
+.ig-grid-cell video:not(.loaded),
+.lightbox-img:not(.loaded),
+.lightbox-video:not(.loaded),
+.story-image:not(.loaded) {
+  opacity: 0;
+  filter: blur(4px);
+}
+
+img.loaded,
+video.loaded {
+  opacity: 1 !important;
+  filter: blur(0px) !important;
+}
+
+/* Fallback for already loaded or priority hero images */
+img[fetchpriority="high"],
+.wedding-hero-photo img {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* ==================================================== */
 /* LUXURY SCROLL REVEAL & MICRO-ANIMATION ENGINE        */
 /* ==================================================== */
 .reveal {
