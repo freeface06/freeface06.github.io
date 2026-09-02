@@ -2324,41 +2324,53 @@
       });
     }
 
-    function handlePageVisible() {
-      if (wasPlayingBeforeHide && !userMutedExplicitly) {
-        wasPlayingBeforeHide = false;
-        playBGM();
+    /* Master Cross-Platform Video Auto-Resume Controller */
+    function resumeAllActiveVideos() {
+      if (document.hidden || document.webkitHidden) return;
+
+      // 1. 스토리 뷰어 (Story Viewer) 활성화 상태인 경우
+      const storyViewer = document.getElementById('story-viewer');
+      if (storyViewer && (storyViewer.style.display === 'flex' || window.getComputedStyle(storyViewer).display === 'flex')) {
+        const storyVid = document.getElementById('story-video');
+        if (storyVid && (storyVid.style.display !== 'none' || window.getComputedStyle(storyVid).display !== 'none')) {
+          playMutedVideoSafely(storyVid, storyVid.src || storyVid.getAttribute('src'));
+        }
+        return;
       }
 
-      // 1. If Grid Gallery Modal is currently open, resume all grid videos
+      // 2. 사진/영상 상세보기 라이트박스 (Photo Lightbox) 활성화 상태인 경우
+      const lightbox = document.getElementById('photo-lightbox');
+      if (lightbox && (lightbox.style.display === 'flex' || window.getComputedStyle(lightbox).display === 'flex')) {
+        const lbVid = document.getElementById('lightboxVideo');
+        if (lbVid && (lbVid.style.display !== 'none' || window.getComputedStyle(lbVid).display !== 'none')) {
+          playMutedVideoSafely(lbVid, lbVid.src || lbVid.getAttribute('src'));
+        }
+        return;
+      }
+
+      // 3. 전체 사진 그리드 모달 (Grid Gallery Modal) 활성화 상태인 경우
       const gridModal = document.getElementById('grid-gallery-modal-overlay');
       if (gridModal && gridModal.classList.contains('active')) {
         playGridVideos();
         return;
       }
 
-      // 2. If Story Viewer is currently open, resume story video
-      const storyViewer = document.getElementById('story-viewer');
-      if (storyViewer && storyViewer.style.display === 'flex') {
-        const storyVid = document.getElementById('story-video');
-        if (storyVid && storyVid.style.display !== 'none') {
-          playMutedVideoSafely(storyVid, storyVid.src || storyVid.getAttribute('src'));
-        }
-        return;
-      }
-
-      // 3. If Photo Lightbox is currently open, resume lightbox video
-      const lightbox = document.getElementById('photo-lightbox');
-      if (lightbox && lightbox.style.display === 'flex') {
-        const lbVid = document.getElementById('lightboxVideo');
-        if (lbVid && lbVid.style.display !== 'none') {
-          playMutedVideoSafely(lbVid, lbVid.src || lbVid.getAttribute('src'));
-        }
-        return;
-      }
-
-      // 4. Resume active feed video if gallery is currently in viewport and no modal is open
+      // 4. 메인 페이지 갤러리 피드 (Main Feed Carousel)
       manageFeedVideos();
+    }
+
+    function handlePageVisible() {
+      if (wasPlayingBeforeHide && !userMutedExplicitly) {
+        wasPlayingBeforeHide = false;
+        playBGM();
+      }
+
+      // Resume all active video media immediately
+      resumeAllActiveVideos();
+
+      // Mobile Safari / WebKit Background Handover Double-check
+      setTimeout(resumeAllActiveVideos, 120);
+      setTimeout(resumeAllActiveVideos, 350);
     }
 
     function initAutoBGM() {
@@ -2395,8 +2407,11 @@
         window.addEventListener(evt, onFirstGesture, { capture: true, passive: true });
       });
 
-      // 3. Multi-layer Lifecycle & Visibility Audio Guard (Background / Tab Switch / Minimize / App Exit / Abnormal Suspend)
-      // Standard Page Visibility API
+      // User gesture auto-resume backup for videos
+      document.addEventListener('touchstart', resumeAllActiveVideos, { passive: true });
+      document.addEventListener('click', resumeAllActiveVideos, { passive: true });
+
+      // 3. Multi-layer Lifecycle & Visibility Audio/Video Guard (Background / Tab Switch / Minimize / App Exit)
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
           handlePageHidden();
@@ -2405,7 +2420,6 @@
         }
       }, { capture: true, passive: true });
 
-      // WebKit prefix for older in-app browsers (KakaoTalk / Naver / Instagram WebView)
       document.addEventListener('webkitvisibilitychange', () => {
         if (document.webkitHidden) {
           handlePageHidden();
@@ -2414,7 +2428,6 @@
         }
       }, { capture: true, passive: true });
 
-      // Mobile Page Lifecycle API (pagehide, freeze, resume, pageshow)
       window.addEventListener('pagehide', handlePageHidden, { capture: true, passive: true });
       document.addEventListener('freeze', handlePageHidden, { capture: true, passive: true });
       document.addEventListener('resume', handlePageVisible, { capture: true, passive: true });
@@ -2424,7 +2437,6 @@
         }
       }, { capture: true, passive: true });
 
-      // Window Blur / Focus
       window.addEventListener('focus', () => {
         if (!document.hidden && !document.webkitHidden) {
           handlePageVisible();
@@ -2437,7 +2449,6 @@
         }
       }, { passive: true });
 
-      // Unload & BeforeUnload (Window close / Tab destroy)
       window.addEventListener('beforeunload', handlePageHidden, { passive: true });
       window.addEventListener('unload', handlePageHidden, { passive: true });
     }
